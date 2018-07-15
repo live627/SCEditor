@@ -625,6 +625,7 @@ export default function SCEditor(original, userOptions) {
 			'selectionchange' :
 			'keyup focus blur contextmenu mouseup touchend click';
 
+		dom.on(window, 'beforeunload', base.updateOriginal);
 		dom.on(globalDoc, 'click', handleDocumentClick);
 
 		if (form) {
@@ -1374,6 +1375,7 @@ export default function SCEditor(original, userOptions) {
 			dom.remove(dropdown);
 		}
 
+		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
 
 		// TODO: make off support null nodes?
