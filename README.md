@@ -12,6 +12,10 @@ A lightweight WYSIWYG BBCode and XHTML editor.
 For more information visit [sceditor.com](http://www.sceditor.com/)
 
 
+## Changes
+
+Img alt text support [(#749)](https://github.com/samclarke/SCEditor/pull/749)
+
 ## Usage
 
 Include the SCEditor JavaScript:
