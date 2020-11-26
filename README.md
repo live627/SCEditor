@@ -14,7 +14,10 @@ For more information visit [sceditor.com](http://www.sceditor.com/)
 
 ## Changes
 
-Img alt text support [(#749)](https://github.com/samclarke/SCEditor/pull/749)
+Img alt text support ([#749](https://github.com/samclarke/SCEditor/pull/749))
+Fix plugins initialization problems  ([#686](https://github.com/samclarke/SCEditor/pull/686))
+Youtube enhancements ([#687](https://github.com/samclarke/SCEditor/pull/687))
+Video plugin ([#694](https://github.com/samclarke/SCEditor/pull/694))
 
 ## Usage
 
