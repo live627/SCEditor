@@ -39,6 +39,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
+    "lint": "eslint **/*.js",
     "test": "grunt test",
     "build": "grunt build",
     "dev": "node ./tests/dev-server.js"

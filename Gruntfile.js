@@ -382,7 +382,7 @@ module.exports = (grunt) => {
 		'clean:build',
 		'copy:build',
 		'rollup:build',
-	//	'uglify:build',
+		//	'uglify:build',
 		'less:build',
 		'postcss:build'
 	]);
