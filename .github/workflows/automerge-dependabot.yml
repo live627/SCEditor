@@ -11,7 +11,7 @@ jobs:
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Node.js CI
+          checkName: build
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: merge
