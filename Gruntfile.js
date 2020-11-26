@@ -172,6 +172,9 @@ module.exports = (grunt) => {
 					],
 					'./minified/sceditor.min.js': [
 						'./src/sceditor.js'
+					],
+					'./minified/formats/bbcode.min.js': [
+						'./src/formats/bbcode.js'
 					]
 				}
 			},
@@ -379,7 +382,7 @@ module.exports = (grunt) => {
 		'clean:build',
 		'copy:build',
 		'rollup:build',
-		'uglify:build',
+	//	'uglify:build',
 		'less:build',
 		'postcss:build'
 	]);
