@@ -53,7 +53,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-qunit": "^4.0.0",
-    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-uglify": "^5.0.0",
     "grunt-dev-update": "^2.3.0",
     "grunt-eslint": "^20.1.0",
     "grunt-githooks": "^0.6.0",
