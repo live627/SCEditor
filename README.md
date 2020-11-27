@@ -14,8 +14,10 @@ For more information visit [sceditor.com](http://www.sceditor.com/)
 
 ## Changes
 
-Img alt text support ([#749](https://github.com/samclarke/SCEditor/pull/749))
+ - Img alt text support ([#749](https://github.com/samclarke/SCEditor/pull/749))
+ - Youtube enhancements ([#687](https://github.com/samclarke/SCEditor/pull/687))
  - Fix going back in the browser causes content to be lost ([#701](https://github.com/samclarke/SCEditor/pull/701))
+ - Add gulp task for generating the sprite
 
 ## Usage
 
