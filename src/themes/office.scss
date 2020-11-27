@@ -8,7 +8,7 @@
  * Licensed under the Creative Commons CC-BY license (http://creativecommons.org/licenses/by/3.0/)
  */
 
-@import "office-toolbar.less";
+@import "office-toolbar.scss";
 
 .sceditor-container {
 	background: rgb(163,194,234);
@@ -22,6 +22,6 @@
 	background: #fff;
 	margin: 7px 40px;
 	padding: 20px;
-	width: ~"calc(100% - 120px) !important";
+	width: unquote("calc(100% - 120px) !important");
 	box-shadow:	1px 1px 5px #293a52;
 }
