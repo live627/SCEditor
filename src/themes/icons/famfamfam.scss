@@ -1,8 +1,8 @@
 // Where to find the famfamfam icon images
-@famfamfam-image-location: "famfamfam.png";
+$famfamfam-image-location: "famfamfam.png";
 
 div.sceditor-grip, .sceditor-button div {
-	background-image: url("@{famfamfam-image-location}");
+	background-image: url("#{$famfamfam-image-location}");
 	background-repeat: no-repeat;
 	width: 16px;
 	height: 16px;
