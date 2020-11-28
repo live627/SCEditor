@@ -7,33 +7,15 @@
 
 @mixin gradient($color: #F5F5F5, $start: #EEE, $stop: #FFF){
   background: $color;
-  background: -webkit-gradient(linear,
-                               left bottom,
-                               left top,
-                               color-stop(0, $start),
-                               color-stop(1, $stop));
-  background: -ms-linear-gradient(bottom,
-                                  $start,
-                                  $stop);
-  background: -moz-linear-gradient(center bottom,
+  background: linear-gradient(center bottom,
                                    $start 0%,
                                    $stop 100%);
-  filter: e(%("progid:DXImageTransform.Microsoft@include gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",$stop,$start));
 }
 @mixin bw-gradient($color: #F5F5F5, $start: 0, $stop: 255){
   background: $color;
-  background: -webkit-gradient(linear,
-                               left bottom,
-                               left top,
-                               color-stop(0, rgb($start,$start,$start)),
-                               color-stop(1, rgb($stop,$stop,$stop)));
-  background: -ms-linear-gradient(bottom,
-                                  rgb($start,$start,$start) 0%,
-                                  rgb($stop,$stop,$stop) 100%);
-  background: -moz-linear-gradient(center bottom,
+  background: linear-gradient(center bottom,
                                    rgb($start,$start,$start) 0%,
                                    rgb($stop,$stop,$stop) 100%);
-  filter: e(%("progid:DXImageTransform.Microsoft@include gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",rgb($stop,$stop,$stop),rgb($start,$start,$start)));
 }
 @mixin bordered($top-color: #EEE, $right-color: #EEE, $bottom-color: #EEE, $left-color: #EEE){
   border-top: solid 1px $top-color;
@@ -58,8 +40,6 @@
 @mixin opacity($opacity: 0.5){
   opacity: $opacity;
   $opperc: $opacity * 100;
-  -ms-filter: #{"progid:DXImageTransform.Microsoft.Alpha(opacity=${opperc})"};
-  filter: #{"alpha(opacity=${opperc})"};
 }
 @mixin transition-duration($duration: 0.2s){
   transition-duration: $duration;
