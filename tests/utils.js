@@ -1,17 +1,15 @@
-import * as utils from 'src/lib/utils.js';
+import test from 'ava';
+import * as utils from '../src/lib/utils.js';
 
-QUnit.module('lib/utils');
+test('isEmptyObject()', function (assert) {
+	assert.true(utils.isEmptyObject({}));
+	assert.true(utils.isEmptyObject([]));
 
-
-QUnit.test('isEmptyObject()', function (assert) {
-	assert.ok(utils.isEmptyObject({}));
-	assert.ok(utils.isEmptyObject([]));
-
-	assert.notOk(utils.isEmptyObject({ a: 'a' }));
-	assert.notOk(utils.isEmptyObject([1]));
+	assert.false(utils.isEmptyObject({ a: 'a' }));
+	assert.false(utils.isEmptyObject([1]));
 });
 
-QUnit.test('extend()', function (assert) {
+test('extend()', function (assert) {
 	var target = {};
 	var child = {};
 	var childOverriden = {};
@@ -30,9 +28,9 @@ QUnit.test('extend()', function (assert) {
 		prop: 'a'
 	});
 
-	assert.strictEqual(result, target);
-	assert.strictEqual(result.key, child);
-	assert.strictEqual(result.array, childArray);
+	assert.true(result === target);
+	assert.true(result.key === child);
+	assert.true(result.array === childArray);
 
 	assert.deepEqual(result, {
 		key: child,
@@ -42,7 +40,7 @@ QUnit.test('extend()', function (assert) {
 	});
 });
 
-QUnit.test('extend() - Deep', function (assert) {
+test('extend() - Deep', function (assert) {
 	var target = {};
 	var child = {};
 
@@ -64,8 +62,8 @@ QUnit.test('extend() - Deep', function (assert) {
 		prop: 'a'
 	});
 
-	assert.strictEqual(result, target);
-	assert.notStrictEqual(result.child, child);
+	assert.true(result === target);
+	assert.false(result.child === child);
 
 	assert.deepEqual(result, {
 		child: {},
@@ -79,21 +77,21 @@ QUnit.test('extend() - Deep', function (assert) {
 	});
 });
 
-QUnit.test('arrayRemove()', function (assert) {
+test('arrayRemove()', function (assert) {
 	var array = [1, 2, 3, 3, 4, 5];
 
 	utils.arrayRemove(array, 1);
-	assert.equal(array.length, 5);
+	assert.is(array.length, 5);
 
 	utils.arrayRemove(array, 1);
-	assert.equal(array.length, 5);
+	assert.is(array.length, 5);
 
 	utils.arrayRemove(array, 3);
-	assert.equal(array.length, 4);
-	assert.equal(array.indexOf(3), 1);
+	assert.is(array.length, 4);
+	assert.is(array.indexOf(3), 1);
 });
 
-QUnit.test('each() - Array', function (assert) {
+test('each() - Array', function (assert) {
 	var count = 0;
 	var validValues = ['idx0', 'idx1', 'idx4', 'idx5'];
 	var validKeys = [0, 1, 2, 3, 4];
@@ -101,14 +99,14 @@ QUnit.test('each() - Array', function (assert) {
 
 	utils.each(array, function (index, value) {
 		count++;
-		assert.strictEqual(value, validValues.shift());
-		assert.strictEqual(index, validKeys.shift());
+		assert.true(value === validValues.shift());
+		assert.true(index === validKeys.shift());
 	});
 
-	assert.equal(count, 4);
+	assert.is(count, 4);
 });
 
-QUnit.test('each() - Object', function (assert) {
+test('each() - Object', function (assert) {
 	var count = 0;
 	var validValues = ['idx0', 'idx1', 'idx4', 'idx5'];
 	var validKeys = ['0', '1', '4', '5'];
@@ -121,14 +119,14 @@ QUnit.test('each() - Object', function (assert) {
 
 	utils.each(object, function (key, value) {
 		count++;
-		assert.strictEqual(key, validKeys.shift());
-		assert.strictEqual(value, validValues.shift());
+		assert.true(key === validKeys.shift());
+		assert.true(value === validValues.shift());
 	});
 
-	assert.equal(count, 4);
+	assert.is(count, 4);
 });
 
-QUnit.test('each() - Array like', function (assert) {
+test('each() - Array like', function (assert) {
 	var count = 0;
 	var validValues = ['idx0', 'idx1', undefined, undefined, 'idx4'];
 	var validKeys = [0, 1, 2, 3, 4];
@@ -142,10 +140,9 @@ QUnit.test('each() - Array like', function (assert) {
 
 	utils.each(arrayLike, function (index, value) {
 		count++;
-		assert.strictEqual(value, validValues.shift());
-		assert.strictEqual(index, validKeys.shift());
+		assert.true(value === validValues.shift());
+		assert.true(index === validKeys.shift());
 	});
 
-
-	assert.equal(count, 5);
+	assert.is(count, 5);
 });
