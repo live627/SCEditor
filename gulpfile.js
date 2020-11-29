@@ -76,13 +76,6 @@ let
 		return gulp.src(['dist/*', '!dist/sceditor.zip'])
 			.pipe(zip('sceditor.zip'))
 			.pipe(gulp.dest('dist'));
-	},
-	coverage = () => {
-		return gulp.src(['src/**/*.js'])
-		// Covering files
-			.pipe(istanbul())
-		// Force `require` to return covered files
-			.pipe(istanbul.hookRequire());
 	};
 
 export default gulp.series(javascript, m, sprite, copy, css, z);
