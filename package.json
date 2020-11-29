@@ -40,8 +40,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "lint": "eslint",
-    "test": "c8 --reporter=html --reporter=text ava",
+    "lint": "eslint --color",
+    "test": "c8 --reporter=html --reporter=text ava --color",
     "build": "gulp"
   },
   "devDependencies": {
