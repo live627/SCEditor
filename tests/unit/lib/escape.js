@@ -16,7 +16,6 @@ test('regex() - Emoticons', function (assert) {
 	);
 });
 
-
 test('entities()', function (assert) {
 	assert.true(escape.entities(null) === null);
 	assert.true(escape.entities('') === '');
@@ -48,18 +47,6 @@ test('entities() - IE XSS', function (assert) {
 
   const url = "http://dummy.com/";
 global.window = {location: new URL(url)};
-
-//~ Object.defineProperty(window, 'location', {
-  //~ value: {
-    //~ href: url,
-    //~ protocol: 'http',
-    //~ host: 'dummy.com',
-    //~ pathname: '',
-  //~ }
-//~ });
-  Object.defineProperty(window, "location", {
-    value: new URL(url)
-  } );
 
 test('uriScheme() - No schmes', function (assert) {
 	var urls = [
