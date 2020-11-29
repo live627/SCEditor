@@ -91,6 +91,5 @@ export {
 	uglify as m,
 	sprite,
 	css,
-	zip  as z,
-	test
+	zip as z
 };
