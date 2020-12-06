@@ -55,6 +55,7 @@
     "browserify": "^17.0.0",
     "c8": "^7.3.5",
     "eslint": "^7.14.0",
+    "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-copy": "^4.0.1",
     "gulp-cssmin": "^0.2.0",
@@ -69,7 +70,7 @@
     "jsdom": "16.4.0",
     "jsdom-global": "3.0.2",
     "postcss-clean": "^1.1.0",
-    "rollup": "^2.33.3",
+    "rollup": "^2.34.2",
     "sinon": "^9.2.1"
   },
   "dependencies": {}
