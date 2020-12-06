@@ -658,8 +658,8 @@ export function parseHTML(html, context) {
  * @since 1.4.4
  */
 export function hasStyling(node) {
-	return node && (!is(node, 'p,div') || node.className ||
-		attr(node, 'style') || !utils.isEmptyObject(data(node)));
+	return node && (!is(node, 'p,div') || !!node.className ||
+		!!attr(node, 'style') || !utils.isEmptyObject(data(node)));
 }
 
 /**
