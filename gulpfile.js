@@ -26,6 +26,7 @@ let
 		}).then(bundle => {
 			return bundle.write({
 				file: './dist/sceditor.js',
+				name: 'sceditor',
 				format: 'iife'
 			});
 		});
