@@ -11,7 +11,7 @@ if (!String.format) {
 }
 import gulp from 'gulp';
 import rename from 'gulp-rename';
-import uglify from 'gulp-uglify';
+import uglify from 'uglify-js';
 import sass   from 'gulp-sass';
 import  CleanCSS   from 'clean-css';
 import  map from 'vinyl-map';
@@ -32,7 +32,11 @@ let
 	},
 	m = () => {
 		return gulp.src('./dist/sceditor.js')
-			.pipe(uglify())
+			.pipe(map(buff => {
+				var result = uglify.minify(buff.toString());
+				if (result.error) throw result.error;
+				return result.code;
+			}))
 			.pipe(rename({ suffix: '.min' }))
 			.pipe(gulp.dest('./dist'));
 	},
