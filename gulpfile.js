@@ -13,7 +13,8 @@ import gulp from 'gulp';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 import sass   from 'gulp-sass';
-import  cssmin   from 'gulp-cssmin';
+import  CleanCSS   from 'clean-css';
+import  map from 'vinyl-map';
 import  spritesmith   from 'gulp.spritesmith';
 import {rollup} from 'rollup';
 import  zip   from 'gulp-zip';
@@ -68,7 +69,7 @@ let
 		return gulp.src('src/themes/*.scss')
 			.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
 			.pipe(gulp.dest('dist'))
-			.pipe(cssmin())
+			.pipe(map((buff, filename) => new CleanCSS().minify(buff.toString()).styles))
 			.pipe(rename({suffix: '.min'}))
 			.pipe(gulp.dest('dist'));
 	},
