@@ -1,4 +1,4 @@
-﻿import * as dom from './dom.js';
+import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
@@ -686,10 +686,11 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	initToolBar = function () {
-		var	group,
+		var
+			group,
 			commands = base.commands,
 			exclude  = (options.toolbarExclude || '').split(','),
-				rows   = options.toolbar.split('||');
+			rows   = options.toolbar.split('||');
 
 		toolbar = dom.createElement('div', {
 			className: 'sceditor-toolbar',
@@ -701,7 +702,7 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		utils.each(rows, function (_, rowItems) {
-			row = createElement('div', {
+			var row = dom.createElement('div', {
 				className: 'sceditor-row'
 			});
 
@@ -782,13 +783,13 @@ export default function SCEditor(original, userOptions) {
 
 				// Exclude empty groups
 				if (group.firstChild) {
-					appendChild(row, group);
+					dom.appendChild(row, group);
 				}
 			});
 
 			// Exclude empty rows
 			if (row.firstChild) {
-				appendChild(toolbar, row);
+				dom.appendChild(toolbar, row);
 			}
 		});
 
