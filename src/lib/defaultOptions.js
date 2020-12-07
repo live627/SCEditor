@@ -313,11 +313,11 @@ export default {
 	id: null,
 
 	/**
-	 * Comma separated list of plugins
+	 * Array of plugins
 	 *
-	 * @type {string}
+	 * @type {string[]}
 	 */
-	plugins: 'video',
+	plugins: [],
 
 	/**
 	 * z-index to set the editor container to. Needed for jQuery UI dialog.
@@ -374,5 +374,5 @@ export default {
 	 *
 	 * @type {Object}
 	 */
-	dropDownCss: { }
+	dropDownCss: {}
 };

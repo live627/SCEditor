@@ -1,4 +1,4 @@
-import * as dom from './dom.js';
+﻿import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
@@ -459,12 +459,9 @@ export default function SCEditor(original, userOptions) {
 	};
 
 	initPlugins = function () {
-		var plugins   = options.plugins;
-
-		plugins       = plugins ? plugins.toString().split(',') : [];
 		pluginManager = new PluginManager(base);
 
-		plugins.forEach(function (plugin) {
+		options.plugins.forEach(function (plugin) {
 			pluginManager.register(plugin.trim());
 		});
 	};
