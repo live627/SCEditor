@@ -5,11 +5,11 @@
 
 		<title>SCEditor Demo</title>
 
-		<link rel="stylesheet" href="../minified/themes/default.min.css" id="theme-style" />
-		  
-		<script src="../minified/sceditor.min.js"></script>
-		<script src="../minified/icons/monocons.js"></script>
-		<script src="../minified/formats/bbcode.min.js"></script>
+		<link rel="stylesheet" href="../dist/default.min.css" id="theme-style" />
+
+		<script src="../dist/sceditor.js"></script>
+		<script src="../sruc/icons/monocons.js"></script>
+		<script src="../src/formats/bbcode.js"></script>
 		<script src="../src/plugins/autoyoutube.js"></script>
 
 		<style>
@@ -69,21 +69,17 @@ If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be
 				</select>
 			</div>
 
-
 		<script>
-			var textarea = document.getElementById('example');
-			sceditor.create(textarea, {
+			sceditor.create(document.getElementById('example'), {
 				format: 'bbcode',
 				plugins: 'autoyoutube',
 				icons: 'monocons',
-				style: '../minified/themes/content/default.min.css'
+				style: '../dist/default.min.css',
+				resizeEnabled: true
 			});
 
-
-			var themeInput = document.getElementById('theme');
-			themeInput.onchange = function() {
-				var theme = '../minified/themes/' + themeInput.value + '.min.css';
-
+			document.getElementById('theme').onchange = function() {
+				var theme = '../dist/' + this.value + '.css';
 				document.getElementById('theme-style').href = theme;
 			};
 		</script>
