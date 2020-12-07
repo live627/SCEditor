@@ -19,6 +19,7 @@ For more information visit [sceditor.com](http://www.sceditor.com/)
  - Fix going back in the browser causes content to be lost ([#701](https://github.com/samclarke/SCEditor/pull/701))
  - Add gulp task for generating the sprite
  - Linebreak in toolbar ([#731](https://github.com/samclarke/SCEditor/pull/731))
+ - Proper plugin ([#733](https://github.com/samclarke/SCEditor/issues/733))
 
 ## Usage
 

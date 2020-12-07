@@ -37,8 +37,9 @@
     "ecosystem:jquery"
   ],
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=12"
   },
+  "main": "lib/src/sceditor.js",
   "scripts": {
     "lint": "eslint '**/*.js' --color",
     "test": "c8 --reporter=html --reporter=text ava --color",
