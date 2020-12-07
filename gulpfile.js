@@ -21,7 +21,7 @@ import  zip   from 'gulp-zip';
 
 let
 	javascript = () => {
-		return rollup.rollup({
+		return rollup({
 			input: './src/sceditor.js'
 		}).then(bundle => {
 			return bundle.write({
