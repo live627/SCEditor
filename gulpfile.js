@@ -73,7 +73,7 @@ let
 		return gulp.src('src/themes/*.scss')
 			.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
 			.pipe(gulp.dest('dist'))
-			.pipe(map((buff, filename) => new CleanCSS().minify(buff.toString()).styles))
+			.pipe(map(buff => new CleanCSS().minify(buff.toString()).styles))
 			.pipe(rename({suffix: '.min'}))
 			.pipe(gulp.dest('dist'));
 	},
