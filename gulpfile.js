@@ -48,7 +48,7 @@ let
 				cssName: 'famfamfam.sass',
 				cssTemplate: function (data) {
 					var spriteObj = [
-						`div.sceditor-grip, .sceditor-button div,
+						`div.sceditor-grip, .sceditor-button div
 	background-image: url("famfamfam.png")
 	background-repeat: no-repeat
 	width: 16px
@@ -57,7 +57,7 @@ let
 					data.sprites.forEach(function (sprite) {
 						spriteObj.push(
 							String.format(`.sceditor-button-{0} div
-	background-position: {1} {2}'`,
+	background-position: {1} {2}`,
 							sprite.name,
 							sprite.px.offset_x, sprite.px.offset_y));
 					});
