@@ -41,7 +41,7 @@
   },
   "main": "lib/src/sceditor.js",
   "scripts": {
-    "lint": "eslint **/*.js --color --fix",
+    "lint": "eslint '**/*.js' --color",
     "test": "c8 --reporter=html --reporter=text ava --color",
     "build": "gulp"
   },
