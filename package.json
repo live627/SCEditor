@@ -41,7 +41,7 @@
   },
   "main": "lib/src/sceditor.js",
   "scripts": {
-    "lint": "eslint '**/*.js' --color",
+    "lint": "eslint **/*.js --color --fix",
     "test": "c8 --reporter=html --reporter=text ava --color",
     "build": "gulp"
   },
@@ -64,7 +64,6 @@
     "gulp-sass": "^4.1.0",
     "gulp-tap": "^2.0.0",
     "gulp-zip": "^5.0.2",
-    "gulp.spritesmith": "^6.11.0",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jsdom": "16.4.0",
@@ -72,6 +71,7 @@
     "postcss-clean": "^1.1.0",
     "rollup": "^2.34.2",
     "sinon": "^9.2.1",
+    "spritesmith": "^3.4.0",
     "uglify-js": "^3.12.1",
     "vinyl-map": "^1.0.2"
   },

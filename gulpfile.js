@@ -9,13 +9,16 @@ if (!String.format) {
 		});
 	};
 }
+import fs from 'fs';
+import path from 'path';
+
 import gulp from 'gulp';
 import rename from 'gulp-rename';
 import uglify from 'uglify-js';
 import sass   from 'gulp-sass';
 import  CleanCSS   from 'clean-css';
 import  map from 'vinyl-map';
-import  spritesmith   from 'gulp.spritesmith';
+import  Spritesmith from 'spritesmith';
 import {rollup} from 'rollup';
 import  zip   from 'gulp-zip';
 
@@ -35,38 +38,45 @@ let
 		return gulp.src('./dist/sceditor.js')
 			.pipe(map(buff => {
 				var result = uglify.minify(buff.toString());
-				if (result.error) throw result.error;
+				if (result.error) {
+					throw result.error;
+				}
 				return result.code;
 			}))
 			.pipe(rename({ suffix: '.min' }))
 			.pipe(gulp.dest('./dist'));
 	},
+	sprites = fs.readdirSync('src/themes/icons/src/famfamfam')
+		.filter(x => path.extname(x).toLowerCase() === '.png'),
 	sprite = () => {
-		var spriteData = gulp.src('src/themes/icons/src/famfamfam/*.png')
-			.pipe(spritesmith({
-				imgName: 'famfamfam.png',
-				cssName: 'famfamfam.sass',
-				cssTemplate: function (data) {
-					var spriteObj = [
-						`div.sceditor-grip, .sceditor-button div,
+		sprites.sort();
+		Spritesmith.run({
+			src: sprites.map(x => `src/themes/icons/src/famfamfam/${x}`)
+		}, (err, result) => {
+			if (err) {
+				throw err;
+			}
+
+			var spriteObj = [
+				`div.sceditor-grip, .sceditor-button div
 	background-image: url("famfamfam.png")
 	background-repeat: no-repeat
 	width: 16px
 	height: 16px`
-					];
-					data.sprites.forEach(function (sprite) {
-						spriteObj.push(
-							String.format(`.sceditor-button-{0} div
-	background-position: {1} {2}'`,
-							sprite.name,
-							sprite.px.offset_x, sprite.px.offset_y));
-					});
-					return spriteObj.join('\n');
-				}
-			}));
-		return spriteData.pipe(gulp.dest('src/themes/icons/'));
-	},
-	copy = () => {
+			];
+			// eslint-disable-next-line max-len
+			for (const [filename, sprite] of Object.entries(result.coordinates)) {
+				spriteObj.push(
+					String.format(`.sceditor-button-{0} div
+	background-position: {1}px {2}px`,
+					path.parse(filename).name,
+					-sprite.x, -sprite.y));
+			}
+			// eslint-disable-next-line max-len
+			fs.writeFileSync('src/themes/icons/famfamfam.sass', spriteObj.join('\n'));
+			fs.writeFileSync('src/themes/icons/famfamfam.png', result.image);
+		});
+
 		return gulp.src('src/themes/icons/famfamfam.png')
 			.pipe(gulp.dest('dist'));
 	},
@@ -84,7 +94,7 @@ let
 			.pipe(gulp.dest('dist'));
 	};
 
-export default gulp.series(javascript, m, sprite, copy, css, z);
+export default gulp.series(javascript, m, sprite, css, z);
 export {
 	javascript,
 	uglify as m,
