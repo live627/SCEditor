@@ -4,75 +4,76 @@
     A set of useful LESS mixins
     More info at: http://lesselements.com
   ---------------------------------------------------*/
-
-@mixin gradient($color: #F5F5F5, $start: #EEE, $stop: #FFF){
-  background: $color;
-  background: linear-gradient(center bottom,
-                                   $start 0%,
-                                   $stop 100%);
+@mixin gradient($color: #F5F5F5, $start: #EEE, $stop: #FFF) {
+	background: $color;
+	background: linear-gradient(center bottom,
+	$start 0%,
+	$stop 100%);
 }
-@mixin bw-gradient($color: #F5F5F5, $start: 0, $stop: 255){
-  background: $color;
-  background: linear-gradient(center bottom,
-                                   rgb($start,$start,$start) 0%,
-                                   rgb($stop,$stop,$stop) 100%);
+@mixin bw-gradient($color: #F5F5F5, $start: 0, $stop: 255) {
+	background: $color;
+	background: linear-gradient(center bottom,
+	rgb($start, $start, $start) 0%,
+	rgb($stop, $stop, $stop) 100%);
 }
-@mixin bordered($top-color: #EEE, $right-color: #EEE, $bottom-color: #EEE, $left-color: #EEE){
-  border-top: solid 1px $top-color;
-  border-left: solid 1px $left-color;
-  border-right: solid 1px $right-color;
-  border-bottom: solid 1px $bottom-color;
+@mixin bordered($top-color: #EEE, $right-color: #EEE, $bottom-color: #EEE, $left-color: #EEE) {
+	border-bottom: solid 1px $bottom-color;
+	border-left: solid 1px $left-color;
+	border-right: solid 1px $right-color;
+	border-top: solid 1px $top-color;
 }
-@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1){
-  box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {
+	box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
 }
-@mixin rounded($radius: 2px){
-  border-radius: $radius;
-  background-clip: padding-box;
+@mixin rounded($radius: 2px) {
+	background-clip: padding-box;
+	border-radius: $radius;
 }
-@mixin border-radius($topright: 0, $bottomright: 0, $bottomleft: 0, $topleft: 0){
-  border-top-right-radius: $topright;
-  border-bottom-right-radius: $bottomright;
-  border-bottom-left-radius: $bottomleft;
-  border-top-left-radius: $topleft;
-  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+@mixin border-radius($topright: 0, $bottomright: 0, $bottomleft: 0, $topleft: 0) {
+	background-clip: padding;
+	background-clip: padding-box;
+	background-clip: padding-box;
+	border-bottom-left-radius: $bottomleft;
+	border-bottom-right-radius: $bottomright;
+	border-top-left-radius: $topleft;
+	border-top-right-radius: $topright;
 }
-@mixin opacity($opacity: 0.5){
-  opacity: $opacity;
-  $opperc: $opacity * 100;
+@mixin opacity($opacity: 0.5) {
+	$opperc: $opacity * 100;
+	opacity: $opacity;
 }
-@mixin transition-duration($duration: 0.2s){
-  transition-duration: $duration;
+@mixin transition-duration($duration: 0.2s) {
+	transition-duration: $duration;
 }
-@mixin rotation($deg:5deg){
-  transform: rotate($deg);
+@mixin rotation($deg:5deg) {
+	transform: rotate($deg);
 }
-@mixin scale($ratio:1.5){
-  transform:scale($ratio);
+@mixin scale($ratio:1.5) {
+	transform: scale($ratio);
 }
-@mixin transition($duration:0.2s, $ease:ease-out){
-  transition: all $duration $ease;
+@mixin transition($duration:0.2s, $ease:ease-out) {
+	transition: all $duration $ease;
 }
-@mixin inner-shadow($horizontal:0, $vertical:1px, $blur:2px, $alpha: 0.4){
-  box-shadow: inset $horizontal $vertical $blur rgba(0, 0, 0, $alpha);
+@mixin inner-shadow($horizontal:0, $vertical:1px, $blur:2px, $alpha: 0.4) {
+	box-shadow: inset $horizontal $vertical $blur rgba(0, 0, 0, $alpha);
 }
-@mixin box-shadow($arguments){
-  box-shadow: $arguments;
+@mixin box-shadow($arguments) {
+	box-shadow: $arguments;
 }
-@mixin box-sizing($sizing: border-box){
-  box-sizing: $sizing;
+@mixin box-sizing($sizing: border-box) {
+	box-sizing: $sizing;
 }
-@mixin user-select($argument: none){
-  user-select: $argument;
+@mixin user-select($argument: none) {
+	user-select: $argument;
 }
-@mixin columns($colwidth: 250px, $colcount: 0, $colgap: 50px, $columnRuleColor: #EEE, $columnRuleStyle: solid, $columnRuleWidth: 1px){
-  column-width: $colwidth;
-  column-count: $colcount;
-  column-gap: $colgap;
-  column-rule-color: $columnRuleColor;
-  column-rule-style: $columnRuleStyle;
-  column-rule-width: $columnRuleWidth;
+@mixin columns($colwidth: 250px, $colcount: 0, $colgap: 50px, $columnRuleColor: #EEE, $columnRuleStyle: solid, $columnRuleWidth: 1px) {
+	column-count: $colcount;
+	column-gap: $colgap;
+	column-rule-color: $columnRuleColor;
+	column-rule-style: $columnRuleStyle;
+	column-rule-width: $columnRuleWidth;
+	column-width: $colwidth;
 }
-@mixin translate($x:0, $y:0){
-  transform: translate($x, $y);
+@mixin translate($x:0, $y:0) {
+	transform: translate($x, $y);
 }
