@@ -42,6 +42,7 @@
   "main": "lib/src/sceditor.js",
   "scripts": {
     "lint": "eslint **/*.js --color --fix",
+    "stylelint": "stylelint '**/*.scss'",
     "test": "c8 --reporter=html --reporter=text ava --color",
     "build": "gulp"
   },
@@ -72,6 +73,8 @@
     "rollup": "^2.34.2",
     "sinon": "^9.2.1",
     "spritesmith": "^3.4.0",
+    "stylelint": "^13.8.0",
+    "stylelint-config-sass-guidelines": "^7.1.0",
     "uglify-js": "^3.12.1",
     "vinyl-map": "^1.0.2"
   },

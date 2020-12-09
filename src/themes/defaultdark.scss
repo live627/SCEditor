@@ -8,24 +8,30 @@
  * SCEditor is licensed under the MIT license:
  *	http://www.opensource.org/licenses/mit-license.php
  */
- @import "icons/famfamfam.sass";
- @import "inc/defaultbase.scss";
- 
- div.sceditor-toolbar {
+@import 'icons/famfamfam.sass';
+@import 'inc/defaultbase.scss';
+
+.sceditor-toolbar {
 	background: #5d5d5d;
 }
-div.sceditor-group {
+
+.sceditor-group {
 	background: #303030;
 	border-bottom: 1px solid #000;
 }
-.sceditor-button:hover,
-.sceditor-button:active,
-.sceditor-button.active {
-	background: #6b6b6b;
-}
-.sceditor-button svg {
-    fill: #fff;
-}
-.sceditor-button.disabled svg {
-	fill: #777;
+
+.sceditor-button {
+	&:hover,
+	&:active,
+	.active {
+		background: #6b6b6b;
+	}
+
+	svg {
+		fill: #fff;
+	}
+
+	.disabled svg {
+		fill: #777;
+	}
 }

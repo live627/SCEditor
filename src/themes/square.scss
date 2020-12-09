@@ -12,78 +12,87 @@
  * Icons by Mark James (http://www.famfamfam.com/lab/icons/silk/)
  * Licensed under the Creative Commons CC-BY license (http://creativecommons.org/licenses/by/3.0/)
  */
-
-@import "default.scss";
+@import 'default.scss';
 
 .sceditor-container {
-	border: 1px solid #d6d6d6;
 	@include rounded(0);
-}
+	border: 1px solid #d6d6d6;
 
-	.sceditor-container textarea {
-		font-family: Consolas, "Bitstream Vera Sans Mono", "Andale Mono", Monaco, "DejaVu Sans Mono", "Lucida Console", monospace;
+	textarea {
 		background: #2e3436;
 		color: #fff;
+		font-family: Consolas, 'Bitstream Vera Sans Mono', 'Andale Mono', Monaco, 'DejaVu Sans Mono', 'Lucida Console', monospace;
 		margin: 0;
 		padding: 5px;
 	}
+}
 
-	div.sceditor-toolbar, div.sceditor-group {
-		background: #f2f2f2;
-		background: linear-gradient(to bottom, #f2f2f2 0%,#dddddd 89%);
+.sceditor-toolbar,
+.sceditor-group {
+	background: #f2f2f2;
+	background: linear-gradient(to bottom, #f2f2f2 0%, #ddd 89%);
+}
+
+.sceditor-toolbar {
+	background-size: 100% 32px;
+	border-bottom: 1px solid #bbb;
+	padding: 0;
+}
+
+.sceditor-group {
+	@include rounded(0);
+	border: 0;
+	border-left: 1px solid #eaeaea;
+	border-right: 1px solid #ccc;
+	margin: 0;
+	padding: 2px 4px;
+
+	&:last-child { border-right: 0; }
+
+	&:first-child { border-left: 0; }
+}
+
+.sceditor-button {
+	@include rounded(0);
+	height: 16px;
+	margin: 1px;
+	padding: 5px;
+
+	div,
+	svg {
+		margin: 0;
 	}
 
-	div.sceditor-toolbar {
-		padding: 0;
-		border-bottom: 1px solid #bbb;
-		background-size: 100% 32px;
+	.active,
+	:hover,
+	:active,
+	.active:hover {
+		box-shadow: none;
+		margin: 0;
 	}
-		div.sceditor-group {
-			margin: 0;
-			padding: 2px 4px;
-			border: 0;
-			border-right: 1px solid #ccc;
-			border-left: 1px solid #eaeaea;
-			@include rounded(0);
-		}
-		div.sceditor-group:last-child { border-right: 0; }
-		div.sceditor-group:first-child { border-left: 0; }
-		.sceditor-button {
-			height: 16px;
-			padding: 5px;
-			margin: 1px;
 
-			@include rounded(0);
-		}
-		.sceditor-button div,
-		.sceditor-button svg {
-			margin: 0;
-		}
-		.sceditor-button.active,
-		.sceditor-button:hover,
-		.sceditor-button:active,
-		.sceditor-button.active:hover {
-			margin: 0;
-			box-shadow: none;
-		}
+	.active {
+		background: #f4f4f4;
+		border: 1px solid #ccc;
+	}
 
-		.sceditor-button.active {
-			background: #f4f4f4;
-			border: 1px solid #ccc;
-		}
-		.sceditor-button:hover {
-			background: #fefefe;
-			border: 1px solid #ddd;
-		}
-		.sceditor-button.disabled:hover {
-			margin: 1px;
-			border: 0;
-		}
-		.sceditor-button:active {
-			background: #eee;
-			border: 1px solid #ccc;
-		}
-		.sceditor-button.active:hover {
-			background: #f8f8f8;
-			border: 1px solid #ddd;
-		}
+	:hover {
+		background: #fefefe;
+		border: 1px solid #ddd;
+	}
+
+	.disabled:hover {
+		border: 0;
+		margin: 1px;
+	}
+
+	:active {
+		background: #eee;
+		border: 1px solid #ccc;
+	}
+
+	.active:hover {
+		background: #f8f8f8;
+		border: 1px solid #ddd;
+	}
+}
