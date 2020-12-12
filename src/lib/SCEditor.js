@@ -1384,7 +1384,6 @@ export default function SCEditor(original, userOptions) {
 		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
 
-		// TODO: make off support null nodes?
 		var form = original.form;
 		if (form) {
 			dom.off(form, 'reset', handleFormReset);
