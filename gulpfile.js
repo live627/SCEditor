@@ -19,21 +19,9 @@ import sass   from 'gulp-sass';
 import  CleanCSS   from 'clean-css';
 import  map from 'vinyl-map';
 import  Spritesmith from 'spritesmith';
-import {rollup} from 'rollup';
 import  zip   from 'gulp-zip';
 
 let
-	javascript = () => {
-		return rollup({
-			input: './src/sceditor.js'
-		}).then(bundle => {
-			return bundle.write({
-				file: './dist/sceditor.js',
-				name: 'sceditor',
-				format: 'iife'
-			});
-		});
-	},
 	m = () => {
 		return gulp.src('./dist/sceditor.js')
 			.pipe(map(buff => {
@@ -94,9 +82,8 @@ let
 			.pipe(gulp.dest('dist'));
 	};
 
-export default gulp.series(javascript, m, sprite, css, z);
+export default gulp.series(m, sprite, css, z);
 export {
-	javascript,
 	uglify as m,
 	sprite,
 	css,

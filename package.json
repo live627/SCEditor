@@ -44,6 +44,7 @@
     "lint": "eslint **/*.js --color --fix",
     "stylelint": "stylelint '**/*.scss'",
     "test": "c8 --reporter=html --reporter=text ava --color",
+    "rollup": "rollup -c",
     "build": "gulp"
   },
   "devDependencies": {
