@@ -1,4 +1,4 @@
-﻿import * as dom from './dom.js';
+import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
@@ -397,7 +397,6 @@ export default function SCEditor(original, userOptions) {
 		});
 
 		dom.insertBefore(editorContainer, original);
-		dom.css(editorContainer, 'z-index', options.zIndex);
 
 		// Add IE version to the container to allow IE specific CSS
 		// fixes without using CSS hacks or conditional comments
