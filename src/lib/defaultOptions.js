@@ -36,10 +36,13 @@ export default {
 	/**
 	 * Comma separated list of fonts for the font selector
 	 *
-	 * @type {string}
+	 * @type {string[]}
 	 */
-	fonts: 'Arial,Arial Black,Comic Sans MS,Courier New,Georgia,Impact,' +
-		'Sans-serif,Serif,Times New Roman,Trebuchet MS,Verdana',
+	fonts: [
+		'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+		'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',
+		'Tahoma', 'Times New Roman', 'Verdana'
+	],
 
 	/**
 	 * Colors should be an array of objects where keys are the color
