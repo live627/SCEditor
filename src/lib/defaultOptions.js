@@ -7,16 +7,25 @@ import { attr } from './dom.js';
 export default {
 	/** @lends jQuery.sceditor.defaultOptions */
 	/**
-	 * Toolbar buttons order and groups. Should be comma separated and
-	 * have a bar | to separate groups
+	 * Toolbar buttons order and groups.
 	 *
-	 * @type {string}
+	 * @type {string[][][]}
 	 */
-	toolbar: 'bold,italic,underline,strike,subscript,superscript|' +
-		'left,center,right,justify|font,size,color,removeformat|' +
-		'cut,copy,pastetext|bulletlist,orderedlist,indent,outdent|' +
-		'table|code,quote|horizontalrule,image,email,link,unlink|' +
-		'emoticon,youtube,date,time|ltr,rtl|print,maximize,source',
+	toolbar: [
+		[
+			['bold','italic','underline','strike','subscript','superscript'],
+			['left','center','right','justify'],
+			['font','size','color','removeformat'],
+			['cut','copy','pastetext'],
+			['bulletlist','orderedlist','indent','outdent'],
+			['table'],
+			['code','quote'],
+			['horizontalrule','image','email','link','unlink'],
+			['emoticon','youtube','date','time'],
+			['ltr','rtl'],
+			['print','maximize','source']
+		]
+	],
 
 	/**
 	 * Comma separated list of commands to excludes from the toolbar
