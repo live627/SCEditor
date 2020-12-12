@@ -6,17 +6,6 @@ export default function (editorContainer) {
 			root.innerHTML = '';
 			root.appendChild(content);
 		},
-		click = function (e) {
-			if (e.button == 1) {
-				hide();
-			}
-		},
-		show = function (target) {
-			reposition(target);
-			root.classList.add('show');
-			document.addEventListener('click', click);
-			document.addEventListener('keydown', esc);
-		},
 		reposition = function (target) {
 			var
 				tgtWidth = target.offsetWidth / 2,
@@ -40,15 +29,26 @@ export default function (editorContainer) {
 			root.style.top = posTop + 'px';
 			root.className = cls.join(' ');
 		},
+		show = function (target) {
+			reposition(target);
+			root.classList.add('show');
+		},
 		hide = function () {
 			root.classList.remove('show');
-			document.removeEventListener('click', click);
-			document.removeEventListener('keydown', esc);
 		},
-		esc = function (e) {
-			if (e.keyCode == 27) {
+		click = function (e) {
+			if (e.button === 1) {
 				hide();
 			}
+		},
+		esc = function (e) {
+			if (e.keyCode === 27) {
+				hide();
+			}
+		},
+		destroy = function () {
+			document.removeEventListener('click', click);
+			document.removeEventListener('keydown', esc);
 		};
 	editorContainer.appendChild(root);
 	root.addEventListener('click', function (e) {
@@ -56,9 +56,12 @@ export default function (editorContainer) {
 		e.stopPropagation();
 	});
 	root.id = 'tooltip';
+	document.addEventListener('click', click);
+	document.addEventListener('keydown', esc);
 
 	// Expose methods
 	this.show = show;
 	this.hide = hide;
 	this.content = content;
+	this.destroy = destroy;
 };

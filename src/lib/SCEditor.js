@@ -1,4 +1,4 @@
-import * as dom from './dom.js';
+﻿import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
@@ -1376,10 +1376,12 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		pluginManager.destroy();
+		dropdown.destroy();
 
 		rangeHelper   = null;
 		lastRange     = null;
 		pluginManager = null;
+		dropdown      = null;
 
 		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
