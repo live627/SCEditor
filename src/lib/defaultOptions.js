@@ -28,13 +28,6 @@ export default {
 	],
 
 	/**
-	 * Comma separated list of commands to excludes from the toolbar
-	 *
-	 * @type {string}
-	 */
-	toolbarExclude: null,
-
-	/**
 	 * Stylesheet to include in the WYSIWYG editor. This is what will style
 	 * the WYSIWYG elements
 	 *

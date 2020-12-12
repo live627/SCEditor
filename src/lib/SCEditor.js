@@ -1,4 +1,4 @@
-import * as dom from './dom.js';
+﻿import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
@@ -679,8 +679,7 @@ export default function SCEditor(original, userOptions) {
 	initToolBar = function () {
 		var
 			group,
-			commands = base.commands,
-			exclude  = (options.toolbarExclude || '').split(',');
+			commands = base.commands;
 
 		toolbar = dom.createElement('div', {
 			className: 'sceditor-toolbar',
@@ -705,9 +704,9 @@ export default function SCEditor(original, userOptions) {
 					var	button, shortcut,
 						command  = commands[commandName];
 
-					// The commandName must be a valid command and not excluded
-					if (!command || exclude.indexOf(commandName) > -1) {
-						return;
+					// The commandName must be valid
+					if (!command) {
+						continue;
 					}
 
 					shortcut = command.shortcut;
