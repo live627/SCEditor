@@ -164,7 +164,7 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			editor.opts.fonts.split(',').forEach(function (font) {
+			editor.opts.fonts.forEach(function (font) {
 				dom.appendChild(content, _tmpl('fontOpt', {
 					font: font
 				}, true));
