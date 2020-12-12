@@ -687,8 +687,7 @@ export default function SCEditor(original, userOptions) {
 		var
 			group,
 			commands = base.commands,
-			exclude  = (options.toolbarExclude || '').split(','),
-			rows   = options.toolbar.split('||');
+			exclude  = (options.toolbarExclude || '').split(',');
 
 		toolbar = dom.createElement('div', {
 			className: 'sceditor-toolbar',
@@ -699,17 +698,17 @@ export default function SCEditor(original, userOptions) {
 			icons = new SCEditor.icons[options.icons]();
 		}
 
-		utils.each(rows, function (_, rowItems) {
+		utils.each(options.toolbar, function (_, rowItems) {
 			var row = dom.createElement('div', {
 				className: 'sceditor-row'
 			});
 
-			utils.each(rowItems.split('|'), function (_, menuItems) {
+			utils.each(rowItems, function (_, menuItems) {
 				group = dom.createElement('div', {
 					className: 'sceditor-group'
 				});
 
-				utils.each(menuItems.split(','), function (_, commandName) {
+				utils.each(menuItems, function (_, commandName) {
 					var	button, shortcut,
 						command  = commands[commandName];
 
