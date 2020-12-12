@@ -42,21 +42,99 @@ export default {
 		'Sans-serif,Serif,Times New Roman,Trebuchet MS,Verdana',
 
 	/**
-	 * Colors should be comma separated and have a bar | to signal a new
-	 * column.
+	 * Colors should be an array of objects where keys are the color
+	 * (as recognised by CSS) and values are the friendly names
+	 * that show in the tooltips.
 	 *
-	 * If null the colors will be auto generated.
+	 * Each object in the array represents a column of color swatches.
 	 *
-	 * @type {string}
+	 * Names geenerated from http://chir.ag/projects/name-that-color/
+	 *
+	 * @type {Object[]}
 	 */
-	colors: '#000000,#44B8FF,#1E92F7,#0074D9,#005DC2,#00369B,#b3d5f4|' +
-			'#444444,#C3FFFF,#9DF9FF,#7FDBFF,#68C4E8,#419DC1,#d9f4ff|' +
-			'#666666,#72FF84,#4CEA5E,#2ECC40,#17B529,#008E02,#c0f0c6|' +
-			'#888888,#FFFF44,#FFFA1E,#FFDC00,#E8C500,#C19E00,#fff5b3|' +
-			'#aaaaaa,#FFC95F,#FFA339,#FF851B,#E86E04,#C14700,#ffdbbb|' +
-			'#cccccc,#FF857A,#FF5F54,#FF4136,#E82A1F,#C10300,#ffc6c3|' +
-			'#eeeeee,#FF56FF,#FF30DC,#F012BE,#D900A7,#B20080,#fbb8ec|' +
-			'#ffffff,#F551FF,#CF2BE7,#B10DC9,#9A00B2,#9A00B2,#e8b6ef',
+	colors:
+[
+	{
+		'#630000': 'Rosewood',
+		'#9C0000': 'Sangria',
+		'#CE0000': 'Guardsman Red',
+		'#E76363': 'Mandy',
+		'#E79C9C': 'Tonys Pink',
+		'#F7C6CE': 'Azalea',
+		'#FF0000': 'Red',
+		'#000000': 'Black'
+	},
+	{
+		'#7B3900': 'Cinnamon',
+		'#B56308': 'Mai Tai',
+		'#E79439': 'Fire Bush',
+		'#F7AD6B': 'Rajah',
+		'#FFC69C': 'Peach Orange',
+		'#FFE7CE': 'Karry',
+		'#FF9C00': 'Orange Peel',
+		'#424242': 'Tundora'
+	},
+	{
+		'#846300': 'Olive',
+		'#BD9400': 'Buddha Gold',
+		'#EFC631': 'Golden Dream',
+		'#FFD663': 'Dandelion',
+		'#FFE79C': 'Cream Brulee',
+		'#FFEFC6': 'Egg White',
+		'#FFFF00': 'Yellow',
+		'#636363': 'Dove Gray'
+	},
+	{
+		'#295218': 'Parsley',
+		'#397B21': 'Forest Green',
+		'#6BA54A': 'Chelsea Cucumber',
+		'#94BD7B': 'Olivine',
+		'#B5D6A5': 'Sprout',
+		'#D6EFD6': 'Zanah',
+		'#00FF00': 'Green',
+		'#9C9C94': 'Star Dust'
+	},
+	{
+		'#083139': 'Tiber',
+		'#104A5A': 'Eden',
+		'#4A7B8C': 'Smalt Blue',
+		'#73A5AD': 'Gulf Stream',
+		'#A5C6CE': 'Casper',
+		'#CEDEE7': 'Botticelli',
+		'#00FFFF': 'Cyan',
+		'#CEC6CE': 'Pale Slate'
+	},
+	{
+		'#003163': 'Midnight Blue',
+		'#085294': 'Venice Blue',
+		'#3984C6': 'Boston Blue',
+		'#6BADDE': 'Viking',
+		'#9CC6EF': 'Perano',
+		'#CEE7F7': 'Tropical Blue',
+		'#0000FF': 'Blue',
+		'#EFEFEF': 'Gallery'
+	},
+	{
+		'#21104A': 'Valentino',
+		'#311873': 'Meteorite',
+		'#634AA5': 'Butterfly Bush',
+		'#8C7BC6': 'Blue Marguerite',
+		'#B5A5D6': 'Cold Purple',
+		'#D6D6E7': 'Mischka',
+		'#9C00FF': 'Electric Violet',
+		'#F7F7F7': 'Alabaster'
+	},
+	{
+		'#4A1031': 'Loulou',
+		'#731842': 'Claret',
+		'#A54A7B': 'Cadillac',
+		'#C67BA5': 'Puce',
+		'#D6A5BD': 'Careys Pink',
+		'#E7D6DE': 'Twilight',
+		'#FF00FF': 'Magenta',
+		'#FFFFFF': 'White'
+	}
+],
 
 	/**
 	 * The locale to use.

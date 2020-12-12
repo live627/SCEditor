@@ -209,18 +209,19 @@ var defaultCmds = {
 				cmd     = defaultCmds.color;
 
 			if (!cmd._htmlCache) {
-				editor.opts.colors.split('|').forEach(function (column) {
+				for (const column of editor.opts.colors) {
 					html += '<div class="sceditor-color-column">';
 
-					column.split(',').forEach(function (color) {
+					for (const [color, name] of Object.entries(column)) {
 						html +=
 							'<a href="#" class="sceditor-color-option"' +
 							' style="background-color: ' + color + '"' +
-							' data-color="' + color + '"></a>';
-					});
+							' data-color="' + color + '"' +
+							' title="' + name + '"></a>';
+					}
 
 					html += '</div>';
-				});
+				}
 
 				cmd._htmlCache = html;
 			}
