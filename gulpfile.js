@@ -19,7 +19,6 @@ import sass   from 'gulp-sass';
 import  CleanCSS   from 'clean-css';
 import  map from 'vinyl-map';
 import  Spritesmith from 'spritesmith';
-import {rollup} from 'rollup';
 import  zip   from 'gulp-zip';
 
 let
