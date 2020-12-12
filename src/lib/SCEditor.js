@@ -1,9 +1,10 @@
-﻿import * as dom from './dom.js';
+import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
 import PluginManager from './PluginManager.js';
 import RangeHelper from './RangeHelper.js';
+import Dropdown from './dropdown.js';
 import _tmpl from './templates.js';
 import * as escape from './escape.js';
 import * as browser from './browser.js';
@@ -436,6 +437,7 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		updateActiveButtons();
+		dropdown = new Dropdown(editorContainer);
 
 		var loaded = function () {
 			dom.off(globalWin, 'load', loaded);
@@ -1379,10 +1381,6 @@ export default function SCEditor(original, userOptions) {
 		lastRange     = null;
 		pluginManager = null;
 
-		if (dropdown) {
-			dom.remove(dropdown);
-		}
-
 		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
 
@@ -1427,6 +1425,11 @@ export default function SCEditor(original, userOptions) {
 		// Will re-focus the editor. This is needed for IE
 		// as it has special logic to save/restore the selection
 		base.closeDropDown(true);
+
+		dropdown.content(content);
+		dropdown.show(menuItem);
+
+		return;
 
 		// Only close the dropdown if it was already open
 		if (dropdown && dom.hasClass(dropdown, dropDownClass)) {
@@ -1613,10 +1616,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.closeDropDown = function (focus) {
-		if (dropdown) {
-			dom.remove(dropdown);
-			dropdown = null;
-		}
+		dropdown.hide();
 
 		if (focus === true) {
 			base.focus();
