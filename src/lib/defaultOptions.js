@@ -31,7 +31,7 @@ export default {
 	 *
 	 * @type {string}
 	 */
-	style: 'jquery.sceditor.default.css',
+	style: 'sceditor.default.css',
 
 	/**
 	 * Comma separated list of fonts for the font selector
