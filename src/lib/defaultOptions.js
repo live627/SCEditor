@@ -398,13 +398,6 @@ export default {
 	plugins: [],
 
 	/**
-	 * z-index to set the editor container to. Needed for jQuery UI dialog.
-	 *
-	 * @type {?number}
-	 */
-	zIndex: null,
-
-	/**
 	 * If to trim the BBCode. Removes any spaces at the start and end of the
 	 * BBCode string.
 	 *

@@ -397,7 +397,6 @@ export default function SCEditor(original, userOptions) {
 		});
 
 		dom.insertBefore(editorContainer, original);
-		dom.css(editorContainer, 'z-index', options.zIndex);
 
 		base.dropdown = new Dropdown(editorContainer);
 
