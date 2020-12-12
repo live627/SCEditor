@@ -53,88 +53,88 @@ export default {
 	 * @type {Object[]}
 	 */
 	colors:
-[
-	{
-		'#630000': 'Rosewood',
-		'#9C0000': 'Sangria',
-		'#CE0000': 'Guardsman Red',
-		'#E76363': 'Mandy',
-		'#E79C9C': 'Tonys Pink',
-		'#F7C6CE': 'Azalea',
-		'#FF0000': 'Red',
-		'#000000': 'Black'
-	},
-	{
-		'#7B3900': 'Cinnamon',
-		'#B56308': 'Mai Tai',
-		'#E79439': 'Fire Bush',
-		'#F7AD6B': 'Rajah',
-		'#FFC69C': 'Peach Orange',
-		'#FFE7CE': 'Karry',
-		'#FF9C00': 'Orange Peel',
-		'#424242': 'Tundora'
-	},
-	{
-		'#846300': 'Olive',
-		'#BD9400': 'Buddha Gold',
-		'#EFC631': 'Golden Dream',
-		'#FFD663': 'Dandelion',
-		'#FFE79C': 'Cream Brulee',
-		'#FFEFC6': 'Egg White',
-		'#FFFF00': 'Yellow',
-		'#636363': 'Dove Gray'
-	},
-	{
-		'#295218': 'Parsley',
-		'#397B21': 'Forest Green',
-		'#6BA54A': 'Chelsea Cucumber',
-		'#94BD7B': 'Olivine',
-		'#B5D6A5': 'Sprout',
-		'#D6EFD6': 'Zanah',
-		'#00FF00': 'Green',
-		'#9C9C94': 'Star Dust'
-	},
-	{
-		'#083139': 'Tiber',
-		'#104A5A': 'Eden',
-		'#4A7B8C': 'Smalt Blue',
-		'#73A5AD': 'Gulf Stream',
-		'#A5C6CE': 'Casper',
-		'#CEDEE7': 'Botticelli',
-		'#00FFFF': 'Cyan',
-		'#CEC6CE': 'Pale Slate'
-	},
-	{
-		'#003163': 'Midnight Blue',
-		'#085294': 'Venice Blue',
-		'#3984C6': 'Boston Blue',
-		'#6BADDE': 'Viking',
-		'#9CC6EF': 'Perano',
-		'#CEE7F7': 'Tropical Blue',
-		'#0000FF': 'Blue',
-		'#EFEFEF': 'Gallery'
-	},
-	{
-		'#21104A': 'Valentino',
-		'#311873': 'Meteorite',
-		'#634AA5': 'Butterfly Bush',
-		'#8C7BC6': 'Blue Marguerite',
-		'#B5A5D6': 'Cold Purple',
-		'#D6D6E7': 'Mischka',
-		'#9C00FF': 'Electric Violet',
-		'#F7F7F7': 'Alabaster'
-	},
-	{
-		'#4A1031': 'Loulou',
-		'#731842': 'Claret',
-		'#A54A7B': 'Cadillac',
-		'#C67BA5': 'Puce',
-		'#D6A5BD': 'Careys Pink',
-		'#E7D6DE': 'Twilight',
-		'#FF00FF': 'Magenta',
-		'#FFFFFF': 'White'
-	}
-],
+	[
+		{
+			'#630000': 'Rosewood',
+			'#9C0000': 'Sangria',
+			'#CE0000': 'Guardsman Red',
+			'#E76363': 'Mandy',
+			'#E79C9C': 'Tonys Pink',
+			'#F7C6CE': 'Azalea',
+			'#FF0000': 'Red',
+			'#000000': 'Black'
+		},
+		{
+			'#7B3900': 'Cinnamon',
+			'#B56308': 'Mai Tai',
+			'#E79439': 'Fire Bush',
+			'#F7AD6B': 'Rajah',
+			'#FFC69C': 'Peach Orange',
+			'#FFE7CE': 'Karry',
+			'#FF9C00': 'Orange Peel',
+			'#424242': 'Tundora'
+		},
+		{
+			'#846300': 'Olive',
+			'#BD9400': 'Buddha Gold',
+			'#EFC631': 'Golden Dream',
+			'#FFD663': 'Dandelion',
+			'#FFE79C': 'Cream Brulee',
+			'#FFEFC6': 'Egg White',
+			'#FFFF00': 'Yellow',
+			'#636363': 'Dove Gray'
+		},
+		{
+			'#295218': 'Parsley',
+			'#397B21': 'Forest Green',
+			'#6BA54A': 'Chelsea Cucumber',
+			'#94BD7B': 'Olivine',
+			'#B5D6A5': 'Sprout',
+			'#D6EFD6': 'Zanah',
+			'#00FF00': 'Green',
+			'#9C9C94': 'Star Dust'
+		},
+		{
+			'#083139': 'Tiber',
+			'#104A5A': 'Eden',
+			'#4A7B8C': 'Smalt Blue',
+			'#73A5AD': 'Gulf Stream',
+			'#A5C6CE': 'Casper',
+			'#CEDEE7': 'Botticelli',
+			'#00FFFF': 'Cyan',
+			'#CEC6CE': 'Pale Slate'
+		},
+		{
+			'#003163': 'Midnight Blue',
+			'#085294': 'Venice Blue',
+			'#3984C6': 'Boston Blue',
+			'#6BADDE': 'Viking',
+			'#9CC6EF': 'Perano',
+			'#CEE7F7': 'Tropical Blue',
+			'#0000FF': 'Blue',
+			'#EFEFEF': 'Gallery'
+		},
+		{
+			'#21104A': 'Valentino',
+			'#311873': 'Meteorite',
+			'#634AA5': 'Butterfly Bush',
+			'#8C7BC6': 'Blue Marguerite',
+			'#B5A5D6': 'Cold Purple',
+			'#D6D6E7': 'Mischka',
+			'#9C00FF': 'Electric Violet',
+			'#F7F7F7': 'Alabaster'
+		},
+		{
+			'#4A1031': 'Loulou',
+			'#731842': 'Claret',
+			'#A54A7B': 'Cadillac',
+			'#C67BA5': 'Puce',
+			'#D6A5BD': 'Careys Pink',
+			'#E7D6DE': 'Twilight',
+			'#FF00FF': 'Magenta',
+			'#FFFFFF': 'White'
+		}
+	],
 
 	/**
 	 * The locale to use.
