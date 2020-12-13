@@ -1,14 +1,5 @@
-if (!String.format) {
-	String.format = function (format) {
-		var args = Array.prototype.slice.call(arguments, 1);
-		return format.replace(/{(\d+)}/g, function (match, number) {
-			return typeof args[number] !== 'undefined'
-				? args[number]
-				: match
-			;
-		});
-	};
-}
+import {format} from './src/lib/utils.js';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -55,7 +46,7 @@ let
 			// eslint-disable-next-line max-len
 			for (const [filename, sprite] of Object.entries(result.coordinates)) {
 				spriteObj.push(
-					String.format(`.sceditor-button-{0} div
+					format(`.sceditor-button-{0} div
 	background-position: {1}px {2}px`,
 					path.parse(filename).name,
 					-sprite.x, -sprite.y));
