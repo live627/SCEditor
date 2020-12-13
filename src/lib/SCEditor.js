@@ -2101,39 +2101,8 @@ export default function SCEditor(original, userOptions) {
 	 * @name inSourceMode
 	 * @memberOf SCEditor.prototype
 	 */
-	base.inSourceMode = function () {
+	base.isInSourceMode = function () {
 		return dom.hasClass(editorContainer, 'sourceMode');
-	};
-
-	/**
-	 * Gets if the editor is in sourceMode
-	 *
-	 * @return boolean
-	 * @function
-	 * @name sourceMode
-	 * @memberOf SCEditor.prototype
-	 */
-	/**
-	 * Sets if the editor is in sourceMode
-	 *
-	 * @param {boolean} enable
-	 * @return {this}
-	 * @function
-	 * @name sourceMode^2
-	 * @memberOf SCEditor.prototype
-	 */
-	base.sourceMode = function (enable) {
-		var inSourceMode = base.inSourceMode();
-
-		if (typeof enable !== 'boolean') {
-			return inSourceMode;
-		}
-
-		if ((inSourceMode && !enable) || (!inSourceMode && enable)) {
-			base.toggleSourceMode();
-		}
-
-		return base;
 	};
 
 	/**
