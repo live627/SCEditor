@@ -128,7 +128,7 @@
 			return false;
 		};
 
-		base.signalReady = function () {
+		window.addEventListener('load', () => {
 			var rawValue = editor.val(null, false);
 
 			// Store the initial value as the last value
@@ -139,7 +139,7 @@
 				'sourceMode': this.sourceMode(),
 				'value': rawValue
 			});
-		};
+		});
 
 		/**
 		 * Handle the valueChanged signal.
@@ -149,7 +149,7 @@
 		 * of the source editor (BBCode or HTML depending on plugins).
 		 * @return {void}
 		 */
-		base.signalValuechangedEvent = function (e) {
+		editor.bind('valuechanged', e => {
 			var rawValue = e.detail.rawValue;
 
 			if (undoLimit > 0 && undoStates.length > undoLimit) {
@@ -182,6 +182,6 @@
 
 			charChangedCount = 0;
 			previousValue = rawValue;
-		};
+		});
 	};
 }(sceditor));

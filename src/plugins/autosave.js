@@ -56,7 +56,7 @@
 			gc();
 		};
 
-		base.signalReady = function () {
+		window.addEventListener('load', () => {
 			// Add submit event listener to clear autosave
 			var parent = editor.getContentAreaContainer();
 			while (parent) {
@@ -89,16 +89,16 @@
 				value: editor.val(null, false),
 				time: Date.now()
 			});
-		};
+		});
 
-		base.signalValuechangedEvent = function (e) {
+		editor.bind('valuechanged', e => {
 			saveHandler({
 				caret: this.sourceEditorCaret(),
 				sourceMode: this.sourceMode(),
 				value: e.detail.rawValue,
 				time: Date.now()
 			});
-		};
+		});
 	};
 
 	sceditor.plugins.autosave.clear = clear;
