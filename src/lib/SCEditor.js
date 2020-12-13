@@ -1825,39 +1825,9 @@ export default function SCEditor(original, userOptions) {
 	 * @name val
 	 * @memberOf SCEditor.prototype
 	 */
-	/**
-	 * Sets the value of the editor.
-	 *
-	 * If filter set true the val will be passed through the filter
-	 * function. If using the BBCode plugin it will pass the val to
-	 * the BBCode filter to convert any BBCode into HTML.
-	 *
-	 * @param {string} val
-	 * @param {boolean} [filter=true]
-	 * @return {this}
-	 * @since 1.3.5
-	 * @function
-	 * @name val^2
-	 * @memberOf SCEditor.prototype
-	 */
-	base.val = function (val, filter) {
-		if (!utils.isString(val)) {
-			return base.inSourceMode() ?
-				base.getSourceEditorValue(false) :
-				base.getWysiwygEditorValue(filter);
-		}
-
-		if (!base.inSourceMode()) {
-			if (filter !== false && 'toHtml' in format) {
-				val = format.toHtml(val);
-			}
-
-			base.setWysiwygEditorValue(val);
-		} else {
-			base.setSourceEditorValue(val);
-		}
-
-		return base;
+	base.getValue = () => base.isInSourceMode() ?
+			sourceEditor.value :
+			getWysiwygEditorValue(filter);
 	};
 
 	/**
