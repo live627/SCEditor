@@ -71,14 +71,12 @@
 			return;
 		}
 
-		var base = this;
 		var	opts;
 		var editor;
 		var handleFile;
 		var container;
 		var cover;
 		var placeholderId = 0;
-
 
 		function hideCover() {
 			cover.style.display = 'none';
@@ -174,13 +172,14 @@
 			e.preventDefault();
 		}
 
-		base.signalReady = function () {
+		base.init = function () {
 			editor = this;
 			opts = editor.opts.dragdrop || {};
 			handleFile = opts.handleFile;
-
 			container = editor.getContentAreaContainer().parentNode;
+		};
 
+		window.addEventListener('load', () => {
 			cover = container.appendChild(sceditor.dom.parseHTML(
 				'<div class="sceditor-dnd-cover" style="display: none">' +
 					'<p>' + editor._('Drop files here') + '</p>' +
@@ -194,9 +193,9 @@
 
 			editor.getBody().addEventListener('dragover', handleDragOver);
 			editor.getBody().addEventListener('drop', hideCover);
-		};
+		});
 
-		base.signalPasteHtml = function (paste) {
+		editor.bind('pastehtml', function (paste) {
 			if (!('handlePaste' in opts) || opts.handlePaste) {
 				var div = document.createElement('div');
 				div.innerHTML = paste.val;
@@ -217,6 +216,6 @@
 
 				paste.val = div.innerHTML;
 			}
-		};
+		});
 	};
 })(sceditor);

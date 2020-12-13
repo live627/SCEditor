@@ -69,7 +69,7 @@
 	};
 
 	sceditor.plugins.autoyoutube = function () {
-		this.signalPasteRaw = function (data) {
+		this.bind('pasteraw', function (data) {
 			// TODO: Make this tag configurable.
 			// Skip code tags
 			if (dom.closest(this.currentNode(), 'code')) {
@@ -89,6 +89,6 @@
 
 				data.html = html.innerHTML;
 			}
-		};
+		});
 	};
 })(document, sceditor);

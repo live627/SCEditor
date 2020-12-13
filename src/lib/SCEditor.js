@@ -317,6 +317,7 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	var icons;
+	var lastVal;
 
 	/**
 	 * Private functions
@@ -343,6 +344,7 @@ export default function SCEditor(original, userOptions) {
 		handleMouseDown,
 		handleComposition,
 		handleEvent,
+		handleManualEvent,
 		handleDocumentClick,
 		updateToolBar,
 		updateActiveButtons,
@@ -447,11 +449,6 @@ export default function SCEditor(original, userOptions) {
 
 			autoExpand();
 			appendNewLine();
-			// TODO: use editor doc and window?
-			pluginManager.call('ready');
-			if ('onReady' in format) {
-				format.onReady.call(base);
-			}
 		};
 		dom.on(globalWin, 'load', loaded);
 		if (globalDoc.readyState === 'complete') {
@@ -1570,7 +1567,7 @@ export default function SCEditor(original, userOptions) {
 	handlePasteData = function (data) {
 		var pasteArea = dom.createElement('div', {}, wysiwygDocument);
 
-		pluginManager.call('pasteRaw', data);
+		handleManualEvent('pasteraw', data);
 		dom.trigger(editorContainer, 'pasteraw', data);
 
 		if (data.html) {
@@ -1591,7 +1588,7 @@ export default function SCEditor(original, userOptions) {
 				.fragmentToSource(paste.val, wysiwygDocument, currentNode);
 		}
 
-		pluginManager.call('paste', paste);
+		handleManualEvent('paste', paste);
 		dom.trigger(editorContainer, 'paste', paste);
 
 		if ('fragmentToHtml' in format) {
@@ -1599,7 +1596,7 @@ export default function SCEditor(original, userOptions) {
 				.fragmentToHtml(paste.val, currentNode);
 		}
 
-		pluginManager.call('pasteHtml', paste);
+		handleManualEvent('pastehtml', paste);
 
 		base.wysiwygEditorInsertHtml(paste.val, null, true);
 	};
@@ -2563,18 +2560,19 @@ export default function SCEditor(original, userOptions) {
 	 * @return void
 	 */
 	handleEvent = function (e) {
-		if (pluginManager) {
-			// Send event to all plugins
-			pluginManager.call(e.type + 'Event', e, base);
-		}
+		handleManualEvent(e.type, e);
+	};
 
-		// convert the event into a custom event to send
-		var name = (e.target === sourceEditor ? 'scesrc' : 'scewys') + e.type;
-
-		if (eventHandlers[name]) {
-			eventHandlers[name].forEach(function (fn) {
+	/**
+	 * Passes events on to any handlers
+	 * @private
+	 * @return void
+	 */
+	handleManualEvent = (type, e) => {
+		if (eventHandlers[type]) {
+			for (var fn of eventHandlers[type]) {
 				fn.call(base, e);
-			});
+			}
 		}
 	};
 
@@ -2597,49 +2595,22 @@ export default function SCEditor(original, userOptions) {
 	 * * selectionchanged
 	 * * valuechanged
 	 *
-	 *
-	 * The events param should be a string containing the event(s)
-	 * to bind this handler to. If multiple, they should be separated
-	 * by spaces.
-	 *
-	 * @param  {string} events
+	 * @param  {string[]} events
 	 * @param  {Function} handler
-	 * @param  {boolean} excludeWysiwyg If to exclude adding this handler
-	 *                                  to the WYSIWYG editor
-	 * @param  {boolean} excludeSource  if to exclude adding this handler
-	 *                                  to the source editor
 	 * @return {this}
 	 * @function
 	 * @name bind
 	 * @memberOf SCEditor.prototype
 	 * @since 1.4.1
 	 */
-	base.bind = function (events, handler, excludeWysiwyg, excludeSource) {
-		events = events.split(' ');
-
-		var i  = events.length;
-		while (i--) {
+	base.bind = function (events, handler) {
+		for (var event of events) {
 			if (utils.isFunction(handler)) {
-				var wysEvent = 'scewys' + events[i];
-				var srcEvent = 'scesrc' + events[i];
-				// Use custom events to allow passing the instance as the
-				// 2nd argument.
-				// Also allows unbinding without unbinding the editors own
-				// event handlers.
-				if (!excludeWysiwyg) {
-					eventHandlers[wysEvent] = eventHandlers[wysEvent] || [];
-					eventHandlers[wysEvent].push(handler);
+				if (!eventHandlers[event]) {
+					// eslint-disable-next-line no-undef
+					eventHandlers[event] = new Set();
 				}
-
-				if (!excludeSource) {
-					eventHandlers[srcEvent] = eventHandlers[srcEvent] || [];
-					eventHandlers[srcEvent].push(handler);
-				}
-
-				// Start sending value changed events
-				if (events[i] === 'valuechanged') {
-					triggerValueChanged.hasHandler = true;
-				}
+				eventHandlers[event].add(handler);
 			}
 		}
 
@@ -2649,12 +2620,8 @@ export default function SCEditor(original, userOptions) {
 	/**
 	 * Unbinds an event that was bound using bind().
 	 *
-	 * @param  {string} events
+	 * @param  {string[]} events
 	 * @param  {Function} handler
-	 * @param  {boolean} excludeWysiwyg If to exclude unbinding this
-	 *                                  handler from the WYSIWYG editor
-	 * @param  {boolean} excludeSource  if to exclude unbinding this
-	 *                                  handler from the source editor
 	 * @return {this}
 	 * @function
 	 * @name unbind
@@ -2662,21 +2629,10 @@ export default function SCEditor(original, userOptions) {
 	 * @since 1.4.1
 	 * @see bind
 	 */
-	base.unbind = function (events, handler, excludeWysiwyg, excludeSource) {
-		events = events.split(' ');
-
-		var i  = events.length;
-		while (i--) {
+	base.unbind = function (events, handler) {
+		for (var event of events) {
 			if (utils.isFunction(handler)) {
-				if (!excludeWysiwyg) {
-					utils.arrayRemove(
-						eventHandlers['scewys' + events[i]] || [], handler);
-				}
-
-				if (!excludeSource) {
-					utils.arrayRemove(
-						eventHandlers['scesrc' + events[i]] || [], handler);
-				}
+				eventHandlers[event].delete(handler);
 			}
 		}
 
@@ -2692,24 +2648,8 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 * @since 1.3.6
 	 */
-	/**
-	 * Adds a handler to the editors blur event
-	 *
-	 * @param  {Function} handler
-	 * @param  {boolean} excludeWysiwyg If to exclude adding this handler
-	 *                                  to the WYSIWYG editor
-	 * @param  {boolean} excludeSource  if to exclude adding this handler
-	 *                                  to the source editor
-	 * @return {this}
-	 * @function
-	 * @name blur^2
-	 * @memberOf SCEditor.prototype
-	 * @since 1.4.1
-	 */
-	base.blur = function (handler, excludeWysiwyg, excludeSource) {
-		if (utils.isFunction(handler)) {
-			base.bind('blur', handler, excludeWysiwyg, excludeSource);
-		} else if (!base.sourceMode()) {
+	base.blur = function () {
+		if (!base.sourceMode()) {
 			wysiwygBody.blur();
 		} else {
 			sourceEditor.blur();
@@ -2726,24 +2666,8 @@ export default function SCEditor(original, userOptions) {
 	 * @name focus
 	 * @memberOf SCEditor.prototype
 	 */
-	/**
-	 * Adds an event handler to the focus event
-	 *
-	 * @param  {Function} handler
-	 * @param  {boolean} excludeWysiwyg If to exclude adding this handler
-	 *                                  to the WYSIWYG editor
-	 * @param  {boolean} excludeSource  if to exclude adding this handler
-	 *                                  to the source editor
-	 * @return {this}
-	 * @function
-	 * @name focus^2
-	 * @memberOf SCEditor.prototype
-	 * @since 1.4.1
-	 */
-	base.focus = function (handler, excludeWysiwyg, excludeSource) {
-		if (utils.isFunction(handler)) {
-			base.bind('focus', handler, excludeWysiwyg, excludeSource);
-		} else if (!base.inSourceMode()) {
+	base.focus = function () {
+		if (!base.inSourceMode()) {
 			// Already has focus so do nothing
 			if (dom.find(wysiwygDocument, ':focus').length) {
 				return;
@@ -2806,8 +2730,8 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 * @since 1.4.1
 	 */
-	base.keyDown = function (handler, excludeWysiwyg, excludeSource) {
-		return base.bind('keydown', handler, excludeWysiwyg, excludeSource);
+	base.keyDown = function (handler) {
+		return base.bind('keydown', handler);
 	};
 
 	/**
@@ -2824,9 +2748,9 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 * @since 1.4.1
 	 */
-	base.keyPress = function (handler, excludeWysiwyg, excludeSource) {
+	base.keyPress = function (handler) {
 		return base
-			.bind('keypress', handler, excludeWysiwyg, excludeSource);
+			.bind('keypress', handler);
 	};
 
 	/**
@@ -2843,8 +2767,8 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 * @since 1.4.1
 	 */
-	base.keyUp = function (handler, excludeWysiwyg, excludeSource) {
-		return base.bind('keyup', handler, excludeWysiwyg, excludeSource);
+	base.keyUp = function (handler) {
+		return base.bind('keyup', handler);
 	};
 
 	/**
@@ -2901,9 +2825,9 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 * @since 1.4.5
 	 */
-	base.valueChanged = function (handler, excludeWysiwyg, excludeSource) {
+	base.valueChanged = function (handler) {
 		return base
-			.bind('valuechanged', handler, excludeWysiwyg, excludeSource);
+			.bind('valuechanged', handler);
 	};
 
 	/**
@@ -3336,9 +3260,7 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	triggerValueChanged = function (saveRange) {
-		if (!pluginManager ||
-			(!pluginManager.hasHandler('valuechangedEvent') &&
-				!triggerValueChanged.hasHandler)) {
+		if (!eventHandlers.valuechanged) {
 			return;
 		}
 
@@ -3368,8 +3290,8 @@ export default function SCEditor(original, userOptions) {
 		currentHtml = sourceMode ? sourceEditor.value : wysiwygBody.innerHTML;
 
 		// Only trigger if something has actually changed.
-		if (currentHtml !== triggerValueChanged.lastVal) {
-			triggerValueChanged.lastVal = currentHtml;
+		if (currentHtml !== lastVal) {
+			lastVal = currentHtml;
 
 			dom.trigger(editorContainer, 'valuechanged', {
 				rawValue: sourceMode ? base.val() : currentHtml
