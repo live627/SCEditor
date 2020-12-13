@@ -146,3 +146,13 @@ test('each() - Array like', function (assert) {
 
 	assert.is(count, 5);
 });
+
+test('format()', assert => {
+	assert.is(utils.format('str'), 'str');
+	assert.is(utils.format('str { 0 }'), 'str { 0 }');
+	assert.is(utils.format('str {0}'), 'str {0}');
+	assert.is(utils.format('str { 0 }', 'hi'), 'str { 0 }');
+	assert.is(utils.format('str {0}', 'hi'), 'str hi');
+	assert.is(utils.format('str {0} {1}', 'hi', 'lo'), 'str hi lo');
+	assert.is(utils.format('str {0} {1}', 4.5,  5), 'str 4.5 5');
+});

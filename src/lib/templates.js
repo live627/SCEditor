@@ -1,6 +1,4 @@
 import * as dom from './dom.js';
-import * as escape from './escape.js';
-
 
 /**
  * HTML templates used by the editor and default commands
@@ -107,11 +105,10 @@ var _templates = {
 export default function (name, params, createHtml) {
 	var template = _templates[name];
 
-	Object.keys(params).forEach(function (name) {
-		template = template.replace(
-			new RegExp(escape.regex('{' + name + '}'), 'g'), params[name]
-		);
-	});
+	template = template.replace(
+		/{\s*?([a-zA-Z0-9\-_\.]+)\s*?}/g,
+		(str, name) => params[name]
+	);
 
 	if (createHtml) {
 		template = dom.parseHTML(template);

@@ -119,3 +119,18 @@ export function each(obj, fn) {
 		});
 	}
 }
+
+/**
+ * Replaces any {0}, {1}, {2}, ect. with the params provided.
+ *
+ * @param {string} str
+ * @param {...String} args
+ * @return {string}
+ * @function
+ */
+export var format = (format, ...args) => format.replace(
+	/\{(\d+)\}/g,
+	(match, number) => !isUndefined(args[number])
+		? args[number]
+		: match
+);

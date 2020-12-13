@@ -1,4 +1,4 @@
-﻿import * as dom from './dom.js';
+import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
 import defaultCommands from './defaultCommands.js';
@@ -2445,20 +2445,7 @@ export default function SCEditor(original, userOptions) {
 	 * @name _
 	 * @memberOf SCEditor.prototype
 	 */
-	base._ = function () {
-		var	undef,
-			args = arguments;
-
-		if (locale && locale[args[0]]) {
-			args[0] = locale[args[0]];
-		}
-
-		return args[0].replace(/\{(\d+)\}/g, function (str, p1) {
-			return args[p1 - 0 + 1] !== undef ?
-				args[p1 - 0 + 1] :
-				'{' + p1 + '}';
-		});
-	};
+	base._ = (str, ...args) => utils.format(locale[str] || str, ...args);
 
 	/**
 	 * Passes events on to any handlers
