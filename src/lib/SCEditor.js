@@ -388,11 +388,7 @@ export default function SCEditor(original, userOptions) {
 	 */
 	init = function () {
 		original._sceditor = base;
-
-		// Load locale
-		if (options.locale && options.locale !== 'en') {
-			initLocale();
-		}
+		initLocale();
 
 		editorContainer = dom.createElement('div', {
 			className: 'sceditor-container'
@@ -472,7 +468,7 @@ export default function SCEditor(original, userOptions) {
 	initLocale = function () {
 		var lang;
 
-		locale = SCEditor.locale[options.locale];
+		locale = SCEditor.locale[options.locale] || {};
 
 		if (!locale) {
 			lang   = options.locale.split('-');
@@ -565,7 +561,7 @@ export default function SCEditor(original, userOptions) {
 
 		// load any textarea value into the editor
 		dom.hide(original);
-		base.val(original.value);
+		base.insert(original.value);
 
 		var placeholder = options.placeholder ||
 			dom.attr(original, 'placeholder');
@@ -643,7 +639,7 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		dom.on(wysiwygBody, 'blur', function () {
-			if (!base.val()) {
+			if (!base.insert()) {
 				dom.addClass(wysiwygBody, 'placeholder');
 			}
 		});
@@ -710,7 +706,7 @@ export default function SCEditor(original, userOptions) {
 
 					// The commandName must be valid
 					if (!command) {
-						continue;
+						return;
 					}
 
 					shortcut = command.shortcut;
@@ -962,7 +958,7 @@ export default function SCEditor(original, userOptions) {
 			return;
 		}
 
-		if (base.sourceMode()) {
+		if (base.isInSourceMode()) {
 			txtPos = focusEnd ? sourceEditor.value.length : 0;
 
 			sourceEditor.setSelectionRange(txtPos, txtPos);
@@ -1090,7 +1086,7 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	updateToolBar = function (disable) {
-		var mode = base.inSourceMode() ? '_sceTxtMode' : '_sceWysiwygMode';
+		var mode = base.isInSourceMode() ? '_sceTxtMode' : '_sceWysiwygMode';
 
 		utils.each(toolbarButtons, function (_, button) {
 			dom.toggleClass(button, 'disabled', disable || !button[mode]);
@@ -1711,7 +1707,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.insertText = function (text, endText) {
-		if (base.inSourceMode()) {
+		if (base.isInSourceMode()) {
 			base.sourceEditorInsertText(text, endText);
 		} else {
 			base.wysiwygEditorInsertText(text, endText);
@@ -1827,36 +1823,14 @@ export default function SCEditor(original, userOptions) {
 	 */
 	base.getValue = () => base.isInSourceMode() ?
 			sourceEditor.value :
-			getWysiwygEditorValue(filter);
-	};
+			base.getWysiwygEditorValue(filter);
 
 	/**
 	 * Inserts HTML/BBCode into the editor
 	 *
 	 * If end is supplied any selected text will be placed between
 	 * start and end. If there is no selected text start and end
-	 * will be concatenate together.
-	 *
-	 * If the filter param is set to true, the HTML/BBCode will be
-	 * passed through any plugin filters. If using the BBCode plugin
-	 * this will convert any BBCode into HTML.
-	 *
-	 * @param {string} start
-	 * @param {string} [end=null]
-	 * @param {boolean} [filter=true]
-	 * @param {boolean} [convertEmoticons=true] If to convert emoticons
-	 * @return {this}
-	 * @since 1.3.5
-	 * @function
-	 * @name insert
-	 * @memberOf SCEditor.prototype
-	 */
-	/**
-	 * Inserts HTML/BBCode into the editor
-	 *
-	 * If end is supplied any selected text will be placed between
-	 * start and end. If there is no selected text start and end
-	 * will be concatenate together.
+	 * will be concatenated together.
 	 *
 	 * If the filter param is set to true, the HTML/BBCode will be
 	 * passed through any plugin filters. If using the BBCode plugin
@@ -1880,7 +1854,7 @@ export default function SCEditor(original, userOptions) {
 	base.insert = function (
 		start, end, filter, convertEmoticons, allowMixed
 	) {
-		if (base.inSourceMode()) {
+		if (base.isInSourceMode()) {
 			base.sourceEditorInsertText(start, end);
 			return base;
 		}
@@ -1985,6 +1959,7 @@ export default function SCEditor(original, userOptions) {
 	 * HTML so it will return HTML. If filter is set to false it will
 	 * just return the contents of the source editor (BBCode).
 	 *
+	 * @private
 	 * @param {boolean} [filter=true]
 	 * @return {string}
 	 * @function
@@ -2048,7 +2023,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.updateOriginal = function () {
-		original.value = base.val();
+		original.value = base.insert();
 	};
 
 	/**
@@ -2068,7 +2043,7 @@ export default function SCEditor(original, userOptions) {
 	 *
 	 * @return {boolean}
 	 * @function
-	 * @name inSourceMode
+	 * @name isInSourceMode
 	 * @memberOf SCEditor.prototype
 	 */
 	base.isInSourceMode = function () {
@@ -2084,7 +2059,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.toggleSourceMode = function () {
-		var isInSourceMode = base.inSourceMode();
+		var isInSourceMode = base.isInSourceMode();
 
 		// don't allow switching to WYSIWYG if doesn't support it
 		if (!browser.isWysiwygSupported && isInSourceMode) {
@@ -2135,7 +2110,7 @@ export default function SCEditor(original, userOptions) {
 	 */
 	handleCommand = function (caller, cmd) {
 		// check if in text mode and handle text commands
-		if (base.inSourceMode()) {
+		if (base.isInSourceMode()) {
 			if (cmd.txtExec) {
 				if (Array.isArray(cmd.txtExec)) {
 					base.sourceEditorInsertText.apply(base, cmd.txtExec);
@@ -2325,7 +2300,7 @@ export default function SCEditor(original, userOptions) {
 		var firstBlock, parent;
 		var activeClass = 'active';
 		var doc         = wysiwygDocument;
-		var isSource    = base.sourceMode();
+		var isSource    = base.isInSourceMode();
 
 		if (base.readOnly()) {
 			utils.each(dom.find(toolbar, activeClass), function (_, menuItem) {
@@ -2467,7 +2442,7 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	handleFormReset = function () {
-		base.val(original.value);
+		base.insert(original.value);
 	};
 
 	/**
@@ -2588,7 +2563,7 @@ export default function SCEditor(original, userOptions) {
 	 * @since 1.3.6
 	 */
 	base.blur = function () {
-		if (!base.sourceMode()) {
+		if (!base.isInSourceMode()) {
 			wysiwygBody.blur();
 		} else {
 			sourceEditor.blur();
@@ -2606,7 +2581,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.focus = function () {
-		if (!base.inSourceMode()) {
+		if (!base.isInSourceMode()) {
 			// Already has focus so do nothing
 			if (dom.find(wysiwygDocument, ':focus').length) {
 				return;
@@ -2764,7 +2739,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 * @since 1.4.5
 	 */
-	base.valueChanged = function (handler) {
+	base.insertueChanged = function (handler) {
 		return base
 			.bind('valuechanged', handler);
 	};
@@ -2852,7 +2827,7 @@ export default function SCEditor(original, userOptions) {
 		if (enable) {
 			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
 
-			if (!base.sourceMode()) {
+			if (!base.isInSourceMode()) {
 				rangeHelper.saveRange();
 
 				replaceEmoticons();
@@ -3204,7 +3179,7 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		var	currentHtml,
-			sourceMode   = base.sourceMode(),
+			sourceMode   = base.isInSourceMode(),
 			hasSelection = !sourceMode && rangeHelper.hasSelection();
 
 		// Composition end isn't guaranteed to fire but must have
@@ -3233,7 +3208,7 @@ export default function SCEditor(original, userOptions) {
 			lastVal = currentHtml;
 
 			dom.trigger(editorContainer, 'valuechanged', {
-				rawValue: sourceMode ? base.val() : currentHtml
+				rawValue: sourceMode ? base.insert() : currentHtml
 			});
 		}
 
