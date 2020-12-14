@@ -1,6 +1,23 @@
 import test from 'ava';
 import * as utils from '../src/lib/utils.js';
 
+test('isDigit()', function (assert) {
+	assert.false(utils.isDigit('abcd'));
+	assert.false(utils.isDigit('123a'));
+	assert.true(utils.isDigit('1'));
+	assert.true(utils.isDigit('1234567890'));   // true
+	assert.false(utils.isDigit('-23'));
+	assert.true(utils.isDigit(1234));
+	assert.false(utils.isDigit('123.4'));
+	assert.false(utils.isDigit(''));
+	assert.false(utils.isDigit(undefined));
+	assert.false(utils.isDigit(null));
+	assert.true(utils.isDigit('123'));
+	assert.false(utils.isDigit('-123'));
+	assert.true(utils.isDigit(123));
+	assert.false(utils.isDigit(-123));
+});
+
 test('isEmptyObject()', function (assert) {
 	assert.true(utils.isEmptyObject({}));
 	assert.true(utils.isEmptyObject([]));
