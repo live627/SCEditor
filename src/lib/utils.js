@@ -30,6 +30,10 @@ export var isFunction = isTypeof.bind(null, 'function');
  */
 export var isNumber = isTypeof.bind(null, 'number');
 
+/**
+ * @type {function(*): boolean}
+ */
+export var isDigit = x => /^\d+$/.test(x);
 
 /**
  * Returns true if an object has no keys
