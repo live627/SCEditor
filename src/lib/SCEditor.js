@@ -414,7 +414,7 @@ export default function SCEditor(original, userOptions) {
 		base.commands = utils
 			.extend(true, {}, (userOptions.commands || defaultCommands));
 
-		var FormatCtor = SCEditor.formats[options.format];
+		var FormatCtor = window[options.format];
 		format = FormatCtor ? new FormatCtor() : {};
 		if ('init' in format) {
 			format.init.call(base);
