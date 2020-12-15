@@ -3,13 +3,12 @@ import {
 	isInline, traverse, removeWhiteSpace
 } from '../lib/dom.js';
 import { each, extend } from '../lib/utils.js';
+import { entities as escapeEntities } from '../lib/escape.js';
 import { ie as IE_VER } from '../lib/browser.js';
 import bbcodeHandlers from './bbcode.formats.js';
 import bbcodeDefaults from './bbcode.defaults.js';
 import bbcodeCommands from './bbcode.commands.js';
 import QuoteType from './bbcode.quotetype.js';
-
-var escapeEntities  = sceditor.escapeEntities;
 
 // In IE < 11 a BR at the end of a block level element
 // causes a line break. In all other browsers it's collapsed.
