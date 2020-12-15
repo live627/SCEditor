@@ -1,9 +1,7 @@
 import { css, attr, is, getStyle as style } from '../lib/dom.js';
 import { isDigit } from '../lib/utils.js';
+import { entities as escapeEntities, uriScheme } from '../lib/escape.js';
 import QuoteType from './bbcode.quotetype.js';
-
-var escapeEntities  = sceditor.escapeEntities;
-var escapeUriScheme = sceditor.escapeUriScheme;
 
 var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
 
@@ -417,7 +415,7 @@ var formats = {
 			}
 
 			// eslint-disable-next-line max-len
-			return `<img${attribs.join(' ')} src="${escapeUriScheme(content)}" />`;
+			return `<img${attribs.join(' ')} src="${uriScheme(content)}" />`;
 		}
 	},
 	// END_COMMAND
@@ -447,7 +445,7 @@ var formats = {
 			attrs.defaultattr =
 					escapeEntities(attrs.defaultattr, true) || content;
 
-			return '<a href="' + escapeUriScheme(attrs.defaultattr) + '">' +
+			return '<a href="' + uriScheme(attrs.defaultattr) + '">' +
 					content + '</a>';
 		}
 	},
