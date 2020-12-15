@@ -14,5 +14,13 @@ export default [
 			name: 'bbcode',
 			format: 'iife'
 		}
+	},
+	{
+		input: './src/formats/xhtml.js',
+		output: {
+			file: './dist/xhtml.js',
+			name: 'xhtml',
+			format: 'iife'
+		}
 	}
 ];
