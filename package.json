@@ -42,6 +42,7 @@
   "main": "lib/src/sceditor.js",
   "scripts": {
     "rollup": "rollup -c",
+    "lint": "eslint '**/*.js' --color",
     "stylelint": "stylelint '**/*.scss'",
     "test": "c8 --reporter=html --reporter=text ava --color",
     "rollup": "rollup -c",
