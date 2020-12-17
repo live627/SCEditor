@@ -194,3 +194,14 @@ test('toHex()', assert => {
 	assert.is(utils.toHex('90000000'), '55d4a80');
 	assert.is(utils.toHex('str'), '0');
 });
+
+test('normaliseColour()', assert => {
+	assert.is(utils.normaliseColour('#000'), '#000000');
+	assert.is(utils.normaliseColour('rgb(0,0,0)'), '#000000');
+	assert.is(utils.normaliseColour('#03f'), '#0033ff');
+	assert.is(utils.normaliseColour('rgb(0, 51, 255)'), '#0033ff');
+	assert.is(utils.normaliseColour('rgb(77, 147, 188)'), '#4d93bc');
+	assert.is(utils.normaliseColour('rgb(255, 0, 0)'), '#ff0000');
+	assert.is(utils.normaliseColour('#8a5'), '#88aa55');
+	assert.is(utils.normaliseColour('red'), 'red');
+});
