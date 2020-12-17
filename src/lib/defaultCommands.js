@@ -46,6 +46,15 @@ function fixFirefoxListBug(editor) {
 	}
 }
 
+var createDropDown = function (editor, menuItem, name, content) {
+	editor.dropdown.content(content);
+	editor.dropdown.show(menuItem);
+
+	var first = document.querySelector('#tooltip input,textarea');
+	if (first) {
+		first.focus();
+	}
+};
 
 /**
  * Map of all the commands for SCEditor
@@ -150,7 +159,8 @@ var defaultCmds = {
 
 			dom.on(content, 'click', 'a', function (e) {
 				callback(dom.data(this, 'font'));
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
@@ -160,7 +170,7 @@ var defaultCmds = {
 				}, true));
 			});
 
-			editor.createDropDown(caller, 'font-picker', content);
+			createDropDown(editor, caller, 'font-picker', content);
 		},
 		exec: function (caller) {
 			var editor = this;
@@ -179,7 +189,8 @@ var defaultCmds = {
 
 			dom.on(content, 'click', 'a', function (e) {
 				callback(dom.data(this, 'size'));
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
@@ -189,7 +200,7 @@ var defaultCmds = {
 				}, true));
 			}
 
-			editor.createDropDown(caller, 'fontsize-picker', content);
+			createDropDown(editor, caller, 'fontsize-picker', content);
 		},
 		exec: function (caller) {
 			var editor = this;
@@ -230,11 +241,12 @@ var defaultCmds = {
 
 			dom.on(content, 'click', 'a', function (e) {
 				callback(dom.data(this, 'color'));
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
-			editor.createDropDown(caller, 'color-picker', content);
+			createDropDown(editor, caller, 'color-picker', content);
 		},
 		exec: function (caller) {
 			var editor = this;
@@ -298,11 +310,12 @@ var defaultCmds = {
 					editor.wysiwygEditorInsertText(val);
 				}
 
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
-			editor.createDropDown(caller, 'pastetext', content);
+			createDropDown(editor, caller, 'pastetext', content);
 		},
 		tooltip: 'Paste Text'
 	},
@@ -422,12 +435,13 @@ var defaultCmds = {
 					html += '</table>';
 
 					editor.wysiwygEditorInsertHtml(html);
-					editor.closeDropDown(true);
+					editor.dropdown.hide();
+					editor.focus();
 					e.preventDefault();
 				}
 			});
 
-			editor.createDropDown(caller, 'inserttable', content);
+			createDropDown(editor, caller, 'inserttable', content);
 		},
 		tooltip: 'Insert a table'
 	},
@@ -480,11 +494,12 @@ var defaultCmds = {
 					);
 				}
 
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
-			editor.createDropDown(caller, 'insertimage', content);
+			createDropDown(editor, caller, 'insertimage', content);
 		},
 		exec: function (caller) {
 			var	editor  = this;
@@ -536,11 +551,12 @@ var defaultCmds = {
 					cb(email, dom.find(content, '#des')[0].value);
 				}
 
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
-			editor.createDropDown(caller, 'insertemail', content);
+			createDropDown(editor, caller, 'insertemail', content);
 		},
 		exec: function (caller) {
 			var	editor  = this;
@@ -586,7 +602,8 @@ var defaultCmds = {
 					cb(linkInput.value, dom.find(content, '#des')[0].value);
 				}
 
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			}
 
@@ -598,7 +615,7 @@ var defaultCmds = {
 				}
 			}, dom.EVENT_CAPTURE);
 
-			editor.createDropDown(caller, 'insertlink', content);
+			createDropDown(editor, caller, 'insertlink', content);
 		},
 		exec: function (caller) {
 			var editor = this;
@@ -699,7 +716,9 @@ var defaultCmds = {
 
 				dom.on(content, 'click', 'img', function (e) {
 					editor.insert(startSpace + dom.attr(this, 'alt') + endSpace,
-						null, false).closeDropDown(true);
+						null, false);
+					editor.dropdown.hide();
+					editor.focus();
 
 					e.preventDefault();
 				});
@@ -726,7 +745,7 @@ var defaultCmds = {
 						document.createTextNode(editor._('More')));
 
 					dom.on(moreLink, 'click', function (e) {
-						editor.createDropDown(
+						createDropDown(editor,
 							caller, 'more-emoticons', createContent(true)
 						);
 
@@ -739,7 +758,7 @@ var defaultCmds = {
 				return content;
 			};
 
-			editor.createDropDown(caller, 'emoticons', createContent(false));
+			createDropDown(editor, caller, 'emoticons', createContent(false));
 		},
 		txtExec: function (caller) {
 			defaultCmds.emoticon.exec.call(this, caller);
@@ -776,11 +795,12 @@ var defaultCmds = {
 					callback(idMatch[1], time);
 				}
 
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
 
-			editor.createDropDown(caller, 'insertlink', content);
+			createDropDown(editor, caller, 'insertlink', content);
 		},
 		exec: function (btn) {
 			var editor = this;

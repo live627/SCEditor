@@ -1,6 +1,7 @@
 export default function (editorContainer) {
 	var
 		root = document.createElement('div'),
+		isOpegn = false,
 
 		content = function (content) {
 			root.innerHTML = '';
@@ -32,12 +33,16 @@ export default function (editorContainer) {
 		show = function (target) {
 			reposition(target);
 			root.classList.add('show');
+			setTimeout(function () {
+				isOpegn = true;
+			},50);
 		},
 		hide = function () {
 			root.classList.remove('show');
+			isOpegn = false;
 		},
 		click = function (e) {
-			if (e.button === 1) {
+			if (isOpegn && !e.target.closest('#tooltip')) {
 				hide();
 			}
 		},
@@ -53,8 +58,9 @@ export default function (editorContainer) {
 	editorContainer.appendChild(root);
 	root.addEventListener('click', function (e) {
 		// stop clicks within the dropdown from being handled
-		e.stopPropagation();
-	});
+		//e.stopPropagation();
+		console.log(e.currentTarget.id || e.currentTarget.tagName);
+	},true);
 	root.id = 'tooltip';
 	document.addEventListener('click', click);
 	document.addEventListener('keydown', esc);

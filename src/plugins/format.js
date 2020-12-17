@@ -107,7 +107,8 @@
 				link.className = 'sceditor-option';
 				link.textContent = val.name || val;
 				link.addEventListener('click', function (e) {
-					editor.closeDropDown(true);
+					editor.dropdown.hide();
+					editor.focus();
 
 					if (val.exec) {
 						val.exec(editor);
@@ -121,7 +122,8 @@
 				content.appendChild(link);
 			});
 
-			editor.createDropDown(caller, 'format', content);
+			editor.dropdown.content(content);
+			editor.dropdown.show(caller);
 		};
 	};
 })(sceditor);

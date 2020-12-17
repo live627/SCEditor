@@ -396,6 +396,8 @@ export default function SCEditor(original, userOptions) {
 
 		dom.insertBefore(editorContainer, original);
 
+		base.dropdown = new Dropdown(editorContainer);
+
 		// Add IE version to the container to allow IE specific CSS
 		// fixes without using CSS hacks or conditional comments
 		if (IE_VER) {
@@ -434,7 +436,6 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		updateActiveButtons();
-		dropdown = new Dropdown(editorContainer);
 
 		var loaded = function () {
 			dom.off(globalWin, 'load', loaded);
@@ -738,7 +739,6 @@ export default function SCEditor(original, userOptions) {
 					});
 					// Prevent editor losing focus when button clicked
 					dom.on(button, 'mousedown', function (e) {
-						base.closeDropDown();
 						e.preventDefault();
 					});
 
@@ -1366,12 +1366,12 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		pluginManager.destroy();
-		dropdown.destroy();
+		base.dropdown.destroy();
 
 		rangeHelper   = null;
 		lastRange     = null;
 		pluginManager = null;
-		dropdown      = null;
+		base.dropdown = null;
 
 		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
@@ -1392,85 +1392,6 @@ export default function SCEditor(original, userOptions) {
 		original.required = isRequired;
 	};
 
-
-	/**
-	 * Creates a menu item drop down
-	 *
-	 * @param  {HTMLElement} menuItem The button to align the dropdown with
-	 * @param  {string} name          Used for styling the dropdown, will be
-	 *                                a class sceditor-name
-	 * @param  {HTMLElement} content  The HTML content of the dropdown
-	 * @param  {boolean} ieFix           If to add the unselectable attribute
-	 *                                to all the contents elements. Stops
-	 *                                IE from deselecting the text in the
-	 *                                editor
-	 * @function
-	 * @name createDropDown
-	 * @memberOf SCEditor.prototype
-	 */
-	base.createDropDown = function (menuItem, name, content, ieFix) {
-		// first click for create second click for close
-		var	dropDownCss,
-			dropDownClass = 'sceditor-' + name;
-
-		// Will re-focus the editor. This is needed for IE
-		// as it has special logic to save/restore the selection
-		base.closeDropDown(true);
-
-		dropdown.content(content);
-		dropdown.show(menuItem);
-
-		return;
-
-		// Only close the dropdown if it was already open
-		if (dropdown && dom.hasClass(dropdown, dropDownClass)) {
-			return;
-		}
-
-		// IE needs unselectable attr to stop it from
-		// unselecting the text in the editor.
-		// SCEditor can cope if IE does unselect the
-		// text it's just not nice.
-		if (ieFix !== false) {
-			utils.each(dom.find(content, ':not(input):not(textarea)'),
-				function (_, node) {
-					if (node.nodeType === dom.ELEMENT_NODE) {
-						dom.attr(node, 'unselectable', 'on');
-					}
-				});
-		}
-
-		dropDownCss = utils.extend({
-			top: menuItem.offsetTop,
-			left: menuItem.offsetLeft,
-			marginTop: menuItem.clientHeight
-		}, options.dropDownCss);
-
-		dropdown = dom.createElement('div', {
-			className: 'sceditor-dropdown ' + dropDownClass
-		});
-
-		dom.css(dropdown, dropDownCss);
-		dom.appendChild(dropdown, content);
-		dom.appendChild(editorContainer, dropdown);
-		dom.on(dropdown, 'click focusin', function (e) {
-			// stop clicks within the dropdown from being handled
-			e.stopPropagation();
-		});
-
-		// If try to focus the first input immediately IE will
-		// place the cursor at the start of the editor instead
-		// of focusing on the input.
-		setTimeout(function () {
-			if (dropdown) {
-				var first = dom.find(dropdown, 'input,textarea')[0];
-				if (first) {
-					first.focus();
-				}
-			}
-		});
-	};
-
 	/**
 	 * Handles any document click and closes the dropdown if open
 	 * @private
@@ -1479,8 +1400,6 @@ export default function SCEditor(original, userOptions) {
 		// ignore right clicks
 		if (e.which !== 3 && dropdown && !e.defaultPrevented) {
 			autoUpdate();
-
-			base.closeDropDown();
 		}
 	};
 
@@ -1596,24 +1515,6 @@ export default function SCEditor(original, userOptions) {
 
 		base.wysiwygEditorInsertHtml(paste.val, null, true);
 	};
-
-	/**
-	 * Closes any currently open drop down
-	 *
-	 * @param {boolean} [focus=false] If to focus the editor
-	 *                             after closing the drop down
-	 * @function
-	 * @name closeDropDown
-	 * @memberOf SCEditor.prototype
-	 */
-	base.closeDropDown = function (focus) {
-		dropdown.hide();
-
-		if (focus === true) {
-			base.focus();
-		}
-	};
-
 
 	/**
 	 * Inserts HTML into WYSIWYG editor.
@@ -2369,8 +2270,6 @@ export default function SCEditor(original, userOptions) {
 			return;
 		}
 
-		base.closeDropDown();
-
 		// 13 = enter key
 		if (e.which === 13) {
 			var LIST_TAGS = 'li,ul,ol';
@@ -2463,7 +2362,6 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	handleMouseDown = function () {
-		base.closeDropDown();
 		lastRange = null;
 	};
 
