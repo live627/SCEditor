@@ -218,7 +218,7 @@ var formats = {
 
 			return '[size=' + size + ']' + content + '[/size]';
 		},
-		html: '<font size="{defaultattr}">{!0}</font>'
+		html: '<font size="{defaultattr}">{0}</font>'
 	},
 	// END_COMMAND
 

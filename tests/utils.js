@@ -171,5 +171,14 @@ test('format()', assert => {
 	assert.is(utils.format('str { 0 }', 'hi'), 'str { 0 }');
 	assert.is(utils.format('str {0}', 'hi'), 'str hi');
 	assert.is(utils.format('str {0} {1}', 'hi', 'lo'), 'str hi lo');
-	assert.is(utils.format('str {0} {1}', 4.5,  5), 'str 4.5 5');
+	assert.is(utils.format('str {0} {1}', 4.5, 5), 'str 4.5 5');
+});
+
+test('replaceVars()', assert => {
+	assert.is(utils.replaceVars('str'), 'str');
+	assert.is(utils.replaceVars('str', {}), 'str');
+	assert.is(utils.replaceVars('str { var0 }', {var0: 'hi'}), 'str hi');
+	assert.is(utils.replaceVars('str {var0}', {var1: 'hi'}), 'str {var0}');
+	assert.is(utils.replaceVars('str {var0} {var1}', {var0: 'hi',  var1:'lo'}), 'str hi lo');
+	assert.is(utils.replaceVars('str {var0} {var1}', {var0: 4.5, var1: 5}), 'str 4.5 5');
 });

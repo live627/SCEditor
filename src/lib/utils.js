@@ -138,3 +138,22 @@ export var format = (format, ...args) => format.replace(
 		? args[number]
 		: match
 );
+
+/**
+ * Formats a string replacing {name} with the values of
+ * vars.name properties.
+ *
+ * If there is no property for the specified {name} then
+ * it will be left intact.
+ *
+ * @param  {string} format
+ * @param  {Object} vars
+ * @return {string}
+ * @function
+ */
+export var replaceVars = (format, vars) => format.replace(
+	/{\s*?([a-zA-Z0-9\-_\.]+)\s*?}/g,
+	(match, name) => !isUndefined(vars[name])
+		? vars[name]
+		: match
+);
