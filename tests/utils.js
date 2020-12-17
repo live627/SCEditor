@@ -182,3 +182,15 @@ test('replaceVars()', assert => {
 	assert.is(utils.replaceVars('str {var0} {var1}', {var0: 'hi',  var1:'lo'}), 'str hi lo');
 	assert.is(utils.replaceVars('str {var0} {var1}', {var0: 4.5, var1: 5}), 'str 4.5 5');
 });
+
+test('toHex()', assert => {
+	assert.is(utils.toHex('-1'), 'ffffffff');
+	assert.is(utils.toHex('0'), '0');
+	assert.is(utils.toHex('2'), '2');
+	assert.is(utils.toHex('20'), '14');
+	assert.is(utils.toHex('200'), 'c8');
+	assert.is(utils.toHex('201'), 'c9');
+	assert.is(utils.toHex('145000'), '23668');
+	assert.is(utils.toHex('90000000'), '55d4a80');
+	assert.is(utils.toHex('str'), '0');
+});

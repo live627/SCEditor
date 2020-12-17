@@ -1,30 +1,9 @@
 import { css, attr, is, getStyle as style } from '../lib/dom.js';
-import { isDigit } from '../lib/utils.js';
+import { isDigit, toHex } from '../lib/utils.js';
 import { entities as escapeEntities, uriScheme } from '../lib/escape.js';
 import QuoteType from './bbcode.quotetype.js';
 
 var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
-
-/**
- * Converts a number 0-255 to hex.
- *
- * Will return 00 if number is not a valid number.
- *
- * @param  {any} number
- * @return {string}
- * @private
- */
-function toHex(number) {
-	number = parseInt(number, 10);
-
-	if (isNaN(number)) {
-		return '00';
-	}
-
-	number = Math.max(0, Math.min(number, 255)).toString(16);
-
-	return number.length < 2 ? '0' + number : number;
-}
 
 /**
  * Normalises a CSS colour to hex #xxxxxx format
@@ -42,9 +21,9 @@ function _normaliseColour(colorStr) {
 	if ((match =
 		colorStr.match(/rgb\((\d{1,3}),\s*?(\d{1,3}),\s*?(\d{1,3})\)/i))) {
 		return '#' +
-			toHex(match[1]) +
-			toHex(match[2]) +
-			toHex(match[3]);
+			toHex(match[1]).padStart(2, '0') +
+			toHex(match[2]).padStart(2, '0') +
+			toHex(match[3]).padStart(2, '0');
 	}
 
 	// expand shorthand
