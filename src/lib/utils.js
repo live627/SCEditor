@@ -167,4 +167,27 @@ export var replaceVars = (format, vars) => format.replace(
  * @return {string}
  * @function
  */
+//eslint-disable-next-line no-bitwise
 export const toHex = d => (d >>> 0).toString(16);
+
+/**
+ * Normalises a CSS colour to hex #xxxxxx format
+ *
+ * @param  {string} colorStr
+ * @return {string}
+ * @private
+ */
+export var normaliseColour = x => x.replace(
+	/#[0-f]{3}/i,
+	(match) =>  '#' +
+			match.charAt(1).repeat(2) +
+			match.charAt(2).repeat(2) +
+			match.charAt(3).repeat(2)
+).replace(
+	/rgb\((\d{1,3}),\s*?(\d{1,3}),\s*?(\d{1,3})\)/i,
+	//eslint-disable-next-line no-bitwise
+	(match, r, g, b) => '#' + (r << 16 | g << 8 | b)
+		.toString(16)
+		.padStart(6, '0')
+);
+
