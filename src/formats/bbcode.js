@@ -2,7 +2,7 @@ import {
 	css, attr, is, hasStyling, getStyle,
 	isInline, traverse, removeWhiteSpace
 } from '../lib/dom.js';
-import { each, extend, replaceVars,
+import { each, extend, isFunction, replaceVars,
 	format as formatString } from '../lib/utils.js';
 import { entities as escapeEntities } from '../lib/escape.js';
 import { ie as IE_VER } from '../lib/browser.js';
@@ -66,10 +66,6 @@ function removeFirstLastDiv(html) {
 	}
 
 	return output.innerHTML;
-}
-
-function isFunction(fn) {
-	return typeof fn === 'function';
 }
 
 /**
