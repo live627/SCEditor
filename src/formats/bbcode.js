@@ -2,7 +2,8 @@ import {
 	css, attr, is, hasStyling, getStyle,
 	isInline, traverse, removeWhiteSpace
 } from '../lib/dom.js';
-import { each, extend, replaceVars } from '../lib/utils.js';
+import { each, extend, replaceVars,
+	format as formatString } from '../lib/utils.js';
 import { entities as escapeEntities } from '../lib/escape.js';
 import { ie as IE_VER } from '../lib/browser.js';
 import bbcodeHandlers from './bbcode.formats.js';
@@ -80,26 +81,6 @@ function isFunction(fn) {
 function _stripQuotes(str) {
 	return str ?
 		str.replace(/\\(.)/g, '$1').replace(/^(["'])(.*?)\1$/, '$2') : str;
-}
-
-/**
- * Formats a string replacing {0}, {1}, {2}, ect. with
- * the params provided
- *
- * @param {string} str The string to format
- * @param {...string} arg The strings to replace
- * @return {string}
- * @since v1.4.0
- */
-function _formatString(str) {
-	var	undef;
-	var args = arguments;
-
-	return str.replace(/\{(\d+)\}/g, function (_, matchNum) {
-		return args[matchNum - 0 + 1] !== undef ?
-			args[matchNum - 0 + 1] :
-			'{' + matchNum + '}';
-	});
 }
 
 var TOKEN_OPEN = 'open';
@@ -1361,7 +1342,7 @@ function bbcodeFormat() {
 					if (isFunction(format)) {
 						content = format.call(base, element, content);
 					} else {
-						content = _formatString(format, content);
+						content = formatString(format, content);
 					}
 				}
 			});
@@ -1483,7 +1464,7 @@ function bbcodeFormat() {
 				if (isFunction(format)) {
 					content = format.call(base, element, content);
 				} else {
-					content = _formatString(format, content);
+					content = formatString(format, content);
 				}
 			});
 		}
