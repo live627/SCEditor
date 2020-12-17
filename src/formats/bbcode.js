@@ -2,7 +2,7 @@ import {
 	css, attr, is, hasStyling, getStyle,
 	isInline, traverse, removeWhiteSpace
 } from '../lib/dom.js';
-import { each, extend } from '../lib/utils.js';
+import { each, extend, replaceVars } from '../lib/utils.js';
 import { entities as escapeEntities } from '../lib/escape.js';
 import { ie as IE_VER } from '../lib/browser.js';
 import bbcodeHandlers from './bbcode.formats.js';
@@ -15,40 +15,6 @@ import QuoteType from './bbcode.quotetype.js';
 var IE_BR_FIX = IE_VER && IE_VER < 11;
 
 var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
-
-/**
- * Formats a string replacing {name} with the values of
- * obj.name properties.
- *
- * If there is no property for the specified {name} then
- * it will be left intact.
- *
- * @param  {string} str
- * @param  {Object} obj
- * @return {string}
- * @since 2.0.0
- */
-function formatBBCodeString(str, obj) {
-	return str.replace(/\{([^}]+)\}/g, function (match, group) {
-		var	undef,
-			escape = true;
-
-		if (group.charAt(0) === '!') {
-			escape = false;
-			group = group.substring(1);
-		}
-
-		if (group === '0') {
-			escape = false;
-		}
-
-		if (obj[group] === undef) {
-			return match;
-		}
-
-		return escape ? escapeEntities(obj[group], true) : obj[group];
-	});
-}
 
 /**
  * Removes the first and last divs from the HTML.
@@ -1029,7 +995,7 @@ function BBCodeParser(options) {
 
 					if (!isFunction(bbcode.html)) {
 						token.attrs['0'] = content;
-						html = formatBBCodeString(
+						html = replaceVars(
 							bbcode.html,
 							token.attrs
 						);
