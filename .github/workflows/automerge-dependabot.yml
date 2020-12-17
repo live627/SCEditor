@@ -31,3 +31,7 @@ jobs:
               pull_number: context.payload.pull_request.number,
               merge_method: 'squash'
             })
+
+      - name: Do something with a failing build
+        if: steps.wait-for-build.outputs.conclusion == 'failure'
+        run: exit 1
