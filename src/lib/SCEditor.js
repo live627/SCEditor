@@ -382,8 +382,6 @@ export default function SCEditor(original, userOptions) {
 	// Don't deep extend emoticons (fixes #565)
 	base.opts.emoticons = userOptions.emoticons || defaultOptions.emoticons;
 
-	base.dropdown = new Dropdown(editorContainer);
-
 	/**
 	 * Creates the editor iframe and textarea
 	 * @private
@@ -397,6 +395,8 @@ export default function SCEditor(original, userOptions) {
 		});
 
 		dom.insertBefore(editorContainer, original);
+
+		base.dropdown = new Dropdown(editorContainer);
 
 		// Add IE version to the container to allow IE specific CSS
 		// fixes without using CSS hacks or conditional comments
