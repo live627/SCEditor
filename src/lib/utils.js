@@ -157,3 +157,14 @@ export var replaceVars = (format, vars) => format.replace(
 		? vars[name]
 		: match
 );
+
+/**
+ * Converts a number 0-255 to hex.
+ *
+ * Will return 0 if number is not a valid number.
+ *
+ * @param  {any} d
+ * @return {string}
+ * @function
+ */
+export const toHex = d => (d >>> 0).toString(16);
