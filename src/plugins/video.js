@@ -194,11 +194,13 @@
 					processFacebook(editor, val);
 				}
 
-				editor.closeDropDown(true);
+				editor.dropdown.hide();
+				editor.focus();
 				e.preventDefault();
 			});
-
-			editor.createDropDown(caller, 'insertlink', content);
+			editor.dropdown.content(content);
+			editor.dropdown.show(caller);
+			input.focus();
 		};
 	};
 })(sceditor);
