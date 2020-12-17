@@ -1,41 +1,9 @@
 import { css, attr, is, getStyle as style } from '../lib/dom.js';
-import { isDigit, toHex } from '../lib/utils.js';
+import { isDigit, normaliseColour } from '../lib/utils.js';
 import { entities as escapeEntities, uriScheme } from '../lib/escape.js';
 import QuoteType from './bbcode.quotetype.js';
 
 var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
-
-/**
- * Normalises a CSS colour to hex #xxxxxx format
- *
- * @param  {string} colorStr
- * @return {string}
- * @private
- */
-function _normaliseColour(colorStr) {
-	var match;
-
-	colorStr = colorStr || '#000';
-
-	// rgb(n,n,n);
-	if ((match =
-		colorStr.match(/rgb\((\d{1,3}),\s*?(\d{1,3}),\s*?(\d{1,3})\)/i))) {
-		return '#' +
-			toHex(match[1]).padStart(2, '0') +
-			toHex(match[2]).padStart(2, '0') +
-			toHex(match[3]).padStart(2, '0');
-	}
-
-	// expand shorthand
-	if ((match = colorStr.match(/#([0-f])([0-f])([0-f])\s*?$/i))) {
-		return '#' +
-			match[1] + match[1] +
-			match[2] + match[2] +
-			match[3] + match[3];
-	}
-
-	return colorStr;
-}
 
 /**
  * Removes any leading or trailing quotes ('")
@@ -219,12 +187,12 @@ var formats = {
 				color = elm.style.color || css(elm, 'color');
 			}
 
-			return '[color=' + _normaliseColour(color) + ']' +
+			return '[color=' + normaliseColour(color) + ']' +
 					content + '[/color]';
 		},
 		html: function (token, attrs, content) {
 			return '<font color="' +
-					escapeEntities(_normaliseColour(attrs.defaultattr), true) +
+					escapeEntities(normaliseColour(attrs.defaultattr), true) +
 					'">' + content + '</font>';
 		}
 	},
