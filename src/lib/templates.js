@@ -1,4 +1,5 @@
 import * as dom from './dom.js';
+import { replaceVars } from '../lib/utils.js';
 
 /**
  * HTML templates used by the editor and default commands
@@ -105,10 +106,7 @@ var _templates = {
 export default function (name, params, createHtml) {
 	var template = _templates[name];
 
-	template = template.replace(
-		/{\s*?([a-zA-Z0-9\-_\.]+)\s*?}/g,
-		(str, name) => params[name]
-	);
+	template = replaceVars(template, params);
 
 	if (createHtml) {
 		template = dom.parseHTML(template);
