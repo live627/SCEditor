@@ -1,7 +1,7 @@
 {
   "name": "sceditor",
   "type": "module",
-  "version": "2.1.3",
+  "version": "2.0.0",
   "description": "A lightweight HTML and BBCode WYSIWYG editor.",
   "homepage": "http://www.sceditor.com/",
   "bugs": "https://github.com/samclarke/SCEditor/issues",
@@ -45,7 +45,6 @@
     "lint": "eslint '**/*.js' --color",
     "stylelint": "stylelint '**/*.scss'",
     "test": "c8 --reporter=html --reporter=text ava --color",
-    "rollup": "rollup -c",
     "build": "gulp"
   },
   "devDependencies": {
