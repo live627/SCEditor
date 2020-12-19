@@ -1,20 +1,9 @@
 import { css, attr, is, getStyle as style } from '../lib/dom.js';
-import { isDigit, normaliseColour } from '../lib/utils.js';
+import { isDigit, normaliseColour, stripQuotes } from '../lib/utils.js';
 import { entities as escapeEntities, uriScheme } from '../lib/escape.js';
 import QuoteType from './bbcode.quotetype.js';
 
 var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
-
-/**
- * Removes any leading or trailing quotes ('")
- *
- * @return string
- * @since v1.4.0
- */
-function _stripQuotes(str) {
-	return str ?
-		str.replace(/\\(.)/g, '$1').replace(/^(["'])(.*?)\1$/, '$2') : str;
-}
 
 var formats = {
 	// START_COMMAND: Bold
@@ -111,7 +100,7 @@ var formats = {
 				font = css(element, 'font-family');
 			}
 
-			return '[font=' + _stripQuotes(font) + ']' +
+			return '[font=' + stripQuotes(font) + ']' +
 					content + '[/font]';
 		},
 		html: '<font face="{defaultattr}">{0}</font>'
