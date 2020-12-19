@@ -191,3 +191,12 @@ export var normaliseColour = x => x.replace(
 		.padStart(6, '0')
 );
 
+/**
+ * Removes any leading or trailing quotes ('")
+ *
+ * @return string
+ */
+export var stripQuotes = str=> str
+	.replace(/\\(.)/g, '$1')
+	.replace(/^(["'])(.*?)\1$/, '$2');
+
