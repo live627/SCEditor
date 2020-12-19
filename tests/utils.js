@@ -205,3 +205,23 @@ test('normaliseColour()', assert => {
 	assert.is(utils.normaliseColour('#8a5'), '#88aa55');
 	assert.is(utils.normaliseColour('red'), 'red');
 });
+
+test('stripQuotes()', assert => {
+	assert.is(utils.stripQuotes('"Name"'), 'Name');
+	assert.is(utils.stripQuotes(' "John" '), ' "John" ');
+	assert.is(utils.stripQuotes('"Name": "John"'), 'Name": "John');
+	assert.is(utils.stripQuotes('Name": "John"'), 'Name": "John"');
+	assert.is(utils.stripQuotes('"Name": "John'), '"Name": "John');
+	assert.is(utils.stripQuotes('\'Name\''), 'Name');
+	assert.is(utils.stripQuotes(' \'John\' '), ' \'John\' ');
+	assert.is(utils.stripQuotes('\'Name\': \'John\''), 'Name\': \'John');
+	assert.is(utils.stripQuotes('Name\': \'John\''), 'Name\': \'John\'');
+	assert.is(utils.stripQuotes('\'Name\': \'John'), '\'Name\': \'John');
+	assert.is(utils.stripQuotes('"Name\''), '"Name\'');
+	assert.is(utils.stripQuotes('\'John"'), '\'John"');
+	assert.is(utils.stripQuotes('\'Name": "John\''), 'Name": "John');
+	assert.is(utils.stripQuotes('Name": "John\''), 'Name": "John\'');
+	assert.is(utils.stripQuotes('\'Name": "John'), '\'Name": "John');
+	assert.is(utils.stripQuotes('Name": "John'), 'Name": "John');
+	assert.is(utils.stripQuotes('\\k\\\e\\y\\"\\\'\\s'), 'key"\'s');
+});

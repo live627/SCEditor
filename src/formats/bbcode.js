@@ -2,7 +2,7 @@ import {
 	css, attr, is, hasStyling, getStyle,
 	isInline, traverse, removeWhiteSpace
 } from '../lib/dom.js';
-import { each, extend, isFunction, replaceVars,
+import { each, extend, isFunction, stripQuotes, replaceVars,
 	format as formatString } from '../lib/utils.js';
 import { entities as escapeEntities } from '../lib/escape.js';
 import { ie as IE_VER } from '../lib/browser.js';
@@ -68,22 +68,10 @@ function removeFirstLastDiv(html) {
 	return output.innerHTML;
 }
 
-/**
- * Removes any leading or trailing quotes ('")
- *
- * @return string
- * @since v1.4.0
- */
-function _stripQuotes(str) {
-	return str ?
-		str.replace(/\\(.)/g, '$1').replace(/^(["'])(.*?)\1$/, '$2') : str;
-}
-
 var TOKEN_OPEN = 'open';
 var TOKEN_CONTENT = 'content';
 var TOKEN_NEWLINE = 'newline';
 var TOKEN_CLOSE = 'close';
-
 
 /*
  * @typedef {Object} TokenizeToken
@@ -332,7 +320,7 @@ function BBCodeParser(options) {
 		// if only one attribute then remove the = from the start and
 		// strip any quotes
 		if (attrs.charAt(0) === '=' && attrs.indexOf('=', 1) < 0) {
-			ret.defaultattr = _stripQuotes(attrs.substr(1));
+			ret.defaultattr = stripQuotes(attrs.substr(1));
 		} else {
 			if (attrs.charAt(0) === '=') {
 				attrs = 'defaultattr' + attrs;
@@ -341,7 +329,7 @@ function BBCodeParser(options) {
 			// No need to strip quotes here, the regex will do that.
 			while ((matches = attrRegex.exec(attrs))) {
 				ret[lower(matches[1])] =
-					_stripQuotes(matches[3]) || matches[4];
+					stripQuotes(matches[3]) || matches[4];
 			}
 		}
 
@@ -1232,8 +1220,6 @@ function BBCodeParser(options) {
  */
 function bbcodeFormat() {
 	var base = this;
-
-	base.stripQuotes = _stripQuotes;
 
 	/**
 	 * cache of all the tags pointing to their bbcodes to enable
