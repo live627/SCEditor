@@ -951,7 +951,7 @@ var defaultCmds = {
 	// START_COMMAND: Source
 	source: {
 		state: function () {
-			return this.sourceMode();
+			return this.isInSourceMode();
 		},
 		exec: function () {
 			this.toggleSourceMode();
