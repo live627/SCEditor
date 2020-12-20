@@ -71,7 +71,8 @@
 			return;
 		}
 
-		var	opts;
+		var base = this;
+		var opts;
 		var editor;
 		var handleFile;
 		var container;
