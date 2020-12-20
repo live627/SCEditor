@@ -1880,7 +1880,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.setValue = value => base.isInSourceMode() ?
-		base.setSourceEditorValue(value);
+		base.setSourceEditorValue(value) :
 		base.setWysiwygEditorValue(value);
 
 	/**
