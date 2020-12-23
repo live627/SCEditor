@@ -24,7 +24,18 @@ test('entities()', function (assert) {
 		escape.entities('& < > " \'    `'),
 		'&amp; &lt; &gt; &#34; &#39;&nbsp; &nbsp; &#96;'
 	);
-
+	assert.is(
+		escape.entities('http://www.example.com/?a=1&b=2&amp;c=3/'),
+		'http://www.example.com/?a=1&amp;b=2&amp;c=3/'
+	);
+	assert.is(
+		escape.entities('&lt; is <), &gt; is >), &apos; is \'), etc.'),
+		'&lt; is &lt;), &gt; is &gt;), &apos; is &#39;), etc.'
+	);
+	assert.is(
+		escape.entities('it will handle numeric escapes, e.g. &#160; – neat.'), 
+		'it will handle numeric escapes, e.g. &#160; – neat.'
+	);
 	assert.is(
 		escape.entities('& < > " \'    `', false),
 		'&amp; &lt; &gt; " \'&nbsp; &nbsp; `'
