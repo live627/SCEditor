@@ -1218,8 +1218,9 @@ function BBCodeParser(options) {
  * SCEditor BBCode format
  * @since 2.0.0
  */
-function bbcodeFormat() {
+function bbcodeFormat(options) {
 	var base = this;
+	base.opts = extend(bbcodeDefaults, options);
 
 	/**
 	 * cache of all the tags pointing to their bbcodes to enable
@@ -1547,8 +1548,6 @@ function bbcodeFormat() {
 	 * @private
 	 */
 	base.init = function () {
-		base.opts = extend(bbcodeDefaults, this.opts);
-
 		base.elementToBbcode = elementToBbcode;
 
 		// build the BBCode cache
@@ -1569,7 +1568,7 @@ function bbcodeFormat() {
 	 * @param {boolean} [legacyAsFragment] Used by fromBBCode() method
 	 */
 	function toHtml(asFragment, source, legacyAsFragment) {
-		var	parser = new BBCodeParser(base.opts.parserOptions);
+		var	parser = new BBCodeParser(base.opts);
 		var html = parser.toHTML(
 			base.opts.bbcodeTrim ? source.trim() : source
 		);
@@ -1594,7 +1593,7 @@ function bbcodeFormat() {
 		var	bbcode, elements;
 		var containerParent = context.createElement('div');
 		var container = context.createElement('div');
-		var parser = new BBCodeParser(base.opts.parserOptions);
+		var parser = new BBCodeParser(base.opts);
 
 		container.innerHTML = html;
 		css(containerParent, 'visibility', 'hidden');
