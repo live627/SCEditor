@@ -178,7 +178,7 @@ export const toHex = d => (d >>> 0).toString(16);
  * @private
  */
 export var normaliseColour = x => x.replace(
-	/#[0-f]{3}/i,
+	/^#[0-f]{3}$/i,
 	(match) =>  '#' +
 			match.charAt(1).repeat(2) +
 			match.charAt(2).repeat(2) +
