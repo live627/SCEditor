@@ -439,7 +439,7 @@ var formats = {
 		},
 		html: function (token, attrs, content) {
 			if (attrs.defaultattr) {
-				content = '<cite>' + escapeEntities(attrs.defaultattr) +
+				content = '<cite>' + attrs.defaultattr +
 						'</cite>' + content;
 			}
 
