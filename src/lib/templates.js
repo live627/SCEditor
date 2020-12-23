@@ -86,7 +86,7 @@ var _templates = {
 			'</div>',
 
 	youtube:
-		'<iframe {params} ' +
+		'<iframe ' +
 		'src="https://www.youtube.com/embed/{id}?start={time}&wmode=opaque" ' +
 		'data-youtube-id="{id}" data-youtube-start="{time}"></iframe>'
 };

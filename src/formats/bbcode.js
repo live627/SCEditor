@@ -5,7 +5,7 @@ import {
 import { each, extend, isFunction, stripQuotes, replaceVars,
 	format as formatString } from '../lib/utils.js';
 import { entities as escapeEntities } from '../lib/escape.js';
-import { ie as IE_VER } from '../lib/browser.js';
+import { ie as IE_VER } from '../lib/ie.js';
 import bbcodeHandlers from './bbcode.formats.js';
 import bbcodeDefaults from './bbcode.defaults.js';
 import bbcodeCommands from './bbcode.commands.js';
