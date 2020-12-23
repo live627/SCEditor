@@ -407,8 +407,11 @@ export default function SCEditor(original, userOptions) {
 		isRequired = original.required;
 		original.required = false;
 
-		var FormatCtor = SCEditor.formats[options.format];
-		format = FormatCtor ? new FormatCtor() : {};
+		var FormatCtor = window[options.format];
+		format = FormatCtor ? new FormatCtor(options.parserOptions) : {};
+		if (!FormatCtor) {
+			throw new Error(`Format plugin not found: ${options.format}`);
+		}
 		if ('init' in format) {
 			format.init.call(base);
 		}
