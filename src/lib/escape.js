@@ -44,16 +44,16 @@ export function entities(str, noQuotes) {
 		'\r': '<br />',
 		'\n': '<br />'
 	};
-
 	if (noQuotes !== false) {
 		replacements['"']  = '&#34;';
 		replacements['\''] = '&#39;';
 		replacements['`']  = '&#96;';
 	}
 
-	str = str.replace(/ {2}|\r\n|[&<>\r\n'"`]/g, function (match) {
-		return replacements[match] || match;
-	});
+	str = str.replace(
+		/ {2}|\r\n|&(?!(#\d+|\w+);)|[<>\r\n'"`]/g,
+		match => replacements[match] || match
+	);
 
 	return str;
 };
