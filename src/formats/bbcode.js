@@ -320,16 +320,15 @@ function BBCodeParser(options) {
 		// if only one attribute then remove the = from the start and
 		// strip any quotes
 		if (attrs.charAt(0) === '=' && attrs.indexOf('=', 1) < 0) {
-			ret.defaultattr = stripQuotes(attrs.substr(1));
+			ret.defaultattr = escapeEntities(stripQuotes(attrs.substr(1)));
 		} else {
 			if (attrs.charAt(0) === '=') {
 				attrs = 'defaultattr' + attrs;
 			}
 
-			// No need to strip quotes here, the regex will do that.
 			while ((matches = attrRegex.exec(attrs))) {
 				ret[lower(matches[1])] =
-					stripQuotes(matches[3]) || matches[4];
+					escapeEntities(matches[3] || matches[4], false);
 			}
 		}
 
