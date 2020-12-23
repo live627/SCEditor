@@ -331,11 +331,11 @@ var formats = {
 				attribs.push(`alt="${escapeEntities(alt, true)}"`);
 			}
 
-			return `[img${attribs.join(' ')}]${attr(element, 'src')}[/img]`;
+			return `[img ${attribs.join(' ')}]${attr(element, 'src')}[/img]`;
 		},
 		html: function (token, attrs, content) {
 			var
-				attribs = [],
+				attribs = [`src="${uriScheme(content)}"`],
 				width  = attrs.width,
 				height = attrs.height,
 				alt = attrs.alt;
@@ -350,8 +350,7 @@ var formats = {
 				attribs.push(`alt="${escapeEntities(alt, true)}"`);
 			}
 
-			// eslint-disable-next-line max-len
-			return `<img${attribs.join(' ')} src="${uriScheme(content)}" />`;
+			return `<img ${attribs.join(' ')} />`;
 		}
 	},
 	// END_COMMAND
@@ -550,7 +549,6 @@ var formats = {
 			}
 		},
 		html: function (token, attrs, content) {
-			var pOpts = this.opts;
 			var id = content;
 			var start = 0;
 
@@ -558,7 +556,7 @@ var formats = {
 				start = escapeEntities(attrs.defaultattr);
 			}
 
-			return '<iframe ' + pOpts.youtubeParameters + ' ' +
+			return '<iframe ' +
 				'src="https://www.youtube.com/embed/' + id +
 				'?start=' + start +
 				'&wmode=opaque" ' +
