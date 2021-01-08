@@ -1,6 +1,4 @@
 import * as dom from './dom.js';
-import * as utils from './utils.js';
-import * as escape from './escape.js';
 
 /**
  * Checks all emoticons are surrounded by whitespace and
@@ -92,26 +90,11 @@ export function checkWhitespace(node, rangeHelper) {
  */
 export function replace(root, emoticons, emoticonsCompat) {
 	var	doc           = root.ownerDocument;
-	var space         = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
-	var emoticonCodes = [];
-	var emoticonRegex = {};
 
 	// TODO: Make this tag configurable.
 	if (dom.parent(root, 'code')) {
 		return;
 	}
-
-	utils.each(emoticons, function (key) {
-		emoticonRegex[key] = new RegExp(space + escape.regex(key) + space);
-		emoticonCodes.push(key);
-	});
-
-	// Sort keys longest to shortest so that longer keys
-	// take precedence (avoids bugs with shorter keys partially
-	// matching longer ones)
-	emoticonCodes.sort(function (a, b) {
-		return b.length - a.length;
-	});
 
 	(function convert(node) {
 		node = node.firstChild;
@@ -123,18 +106,20 @@ export function replace(root, emoticons, emoticonsCompat) {
 			}
 
 			if (node.nodeType === dom.TEXT_NODE) {
-				for (var i = 0; i < emoticonCodes.length; i++) {
+				// Loop emoticons in reverse so that shorter codes won't
+				// partially match longer ones (they already got sorted)
+				for (var i = emoticons.length - 1; i >= 0; i--) {
 					var text  = node.nodeValue;
-					var key   = emoticonCodes[i];
+					var key   = emoticons[i][0];
 					var index = emoticonsCompat ?
-						text.search(emoticonRegex[key]) :
+						text.search(emoticons[i][2]) :
 						text.indexOf(key);
 
 					if (index > -1) {
 						// When emoticonsCompat is enabled this will be the
 						// position after any white space
 						var startIndex = text.indexOf(key, index);
-						var fragment   = dom.parseHTML(emoticons[key], doc);
+						var fragment   = dom.parseHTML(emoticons[i][1], doc);
 						var after      = text.substr(startIndex + key.length);
 
 						fragment.appendChild(doc.createTextNode(after));

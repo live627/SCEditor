@@ -688,77 +688,42 @@ var defaultCmds = {
 
 	// START_COMMAND: Emoticons
 	emoticon: {
-		exec: function (caller) {
+		exec: function () {
 			var editor = this;
 
-			var createContent = function (includeMore) {
-				var	moreLink,
-					opts            = editor.opts,
-					emoticonsRoot   = opts.emoticonsRoot || '',
-					emoticonsCompat = opts.emoticonsCompat,
-					rangeHelper     = editor.getRangeHelper(),
-					startSpace      = emoticonsCompat &&
+			var
+				opts            = editor.opts,
+				emoticonsRoot   = opts.emoticonsRoot || '',
+				emoticonsCompat = opts.emoticonsCompat,
+				rangeHelper     = editor.getRangeHelper(),
+				startSpace      = emoticonsCompat &&
 						rangeHelper.getOuterText(true, 1) !== ' ' ? ' ' : '',
-					endSpace        = emoticonsCompat &&
+				endSpace        = emoticonsCompat &&
 						rangeHelper.getOuterText(false, 1) !== ' ' ? ' ' : '',
-					content         = dom.createElement('div'),
-					line            = dom.createElement('div'),
-					perLine         = 0,
-					emoticons       = utils.extend(
-						{},
-						opts.emoticons.dropdown,
-						includeMore ? opts.emoticons.more : {}
-					);
+				content         = dom.createElement('div', {
+					id: 'emoticons-container'
+				}),
+				emoticons       = opts.emoticons;
 
-				dom.appendChild(content, line);
+			dom.on(content, 'click', 'img', function (e) {
+				editor.insert(startSpace + dom.attr(this, 'alt') + endSpace,
+					null, false);
+				editor.popup.hide();
+				editor.focus();
 
-				perLine = Math.sqrt(Object.keys(emoticons).length);
+				e.preventDefault();
+			});
 
-				dom.on(content, 'click', 'img', function (e) {
-					editor.insert(startSpace + dom.attr(this, 'alt') + endSpace,
-						null, false);
-					editor.dropdown.hide();
-					editor.focus();
-
-					e.preventDefault();
-				});
-
-				utils.each(emoticons, function (code, emoticon) {
-					dom.appendChild(line, dom.createElement('img', {
-						src: emoticonsRoot + (emoticon.url || emoticon),
-						alt: code,
-						title: emoticon.tooltip || code
-					}));
-
-					if (line.children.length >= perLine) {
-						line = dom.createElement('div');
-						dom.appendChild(content, line);
-					}
-				});
-
-				if (!includeMore && opts.emoticons.more) {
-					moreLink = dom.createElement('a', {
-						className: 'sceditor-more'
-					});
-
-					dom.appendChild(moreLink,
-						document.createTextNode(editor._('More')));
-
-					dom.on(moreLink, 'click', function (e) {
-						createDropDown(editor,
-							caller, 'more-emoticons', createContent(true)
-						);
-
-						e.preventDefault();
-					});
-
-					dom.appendChild(content, moreLink);
-				}
-
-				return content;
+			for (var emoticon of emoticons) {
+				dom.appendChild(content, dom.createElement('img', {
+					src: emoticonsRoot + emoticon.path,
+					alt: emoticon.code,
+					title: emoticon.tooltip || emoticon.code
+				}));
 			};
 
-			createDropDown(editor, caller, 'emoticons', createContent(false));
+			editor.popup.content(content);
+			editor.popup.show();
 		},
 		txtExec: function (caller) {
 			defaultCmds.emoticon.exec.call(this, caller);
