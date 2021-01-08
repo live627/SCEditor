@@ -621,16 +621,6 @@ export default function SCEditor(original, userOptions) {
 			dom.on(wysiwygBody, 'keyup', emoticonsCheckWhitespace);
 		}
 
-		dom.on(wysiwygBody, 'blur', function () {
-			if (!base.insert()) {
-				dom.addClass(wysiwygBody, 'placeholder');
-			}
-		});
-
-		dom.on(wysiwygBody, 'focus', function () {
-			dom.removeClass(wysiwygBody, 'placeholder');
-		});
-
 		dom.on(sourceEditor, 'blur', valueChangedBlur);
 		dom.on(sourceEditor, 'keyup', valueChangedKeyUp);
 		dom.on(sourceEditor, 'keydown', handleKeyDown);
@@ -1903,7 +1893,7 @@ export default function SCEditor(original, userOptions) {
 	 * @memberOf SCEditor.prototype
 	 */
 	base.updateOriginal = function () {
-		original.value = base.insert();
+		original.value = base.getValue();
 	};
 
 	/**
