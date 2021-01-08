@@ -5,6 +5,7 @@ import defaultCommands from './defaultCommands.js';
 import PluginManager from './PluginManager.js';
 import RangeHelper from './RangeHelper.js';
 import Dropdown from './dropdown.js';
+import Popup from './popup.js';
 import _tmpl from './templates.js';
 import * as escape from './escape.js';
 import * as browser from './browser.js';
@@ -168,14 +169,6 @@ export default function SCEditor(original, userOptions) {
 	var locale;
 
 	/**
-	 * Stores a cache of preloaded images
-	 *
-	 * @private
-	 * @type {Array.<HTMLImageElement>}
-	 */
-	var preLoadCache = [];
-
-	/**
 	 * The editors rangeHelper instance
 	 *
 	 * @type {RangeHelper}
@@ -302,13 +295,12 @@ export default function SCEditor(original, userOptions) {
 	var pasteContentFragment;
 
 	/**
-	 * All the emoticons from dropdown, more and hidden combined
-	 * and with the emoticons root set
+	 * All the emoticon codes with their HTML counterparts.
 	 *
 	 * @type {!Object<string, string>}
 	 * @private
 	 */
-	var allEmoticons = {};
+	var emoticonsCache = [];
 
 	/**
 	 * Current icon set if any
@@ -397,6 +389,7 @@ export default function SCEditor(original, userOptions) {
 		dom.insertBefore(editorContainer, original);
 
 		base.dropdown = new Dropdown(editorContainer);
+		base.popup = new Popup(editorContainer);
 
 		// Add IE version to the container to allow IE specific CSS
 		// fixes without using CSS hacks or conditional comments
@@ -915,28 +908,16 @@ export default function SCEditor(original, userOptions) {
 	initEmoticons = function () {
 		var	emoticons = options.emoticons;
 		var root      = options.emoticonsRoot || '';
+		var space     = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
 
 		if (emoticons) {
-			allEmoticons = utils.extend(
-				{}, emoticons.more, emoticons.dropdown, emoticons.hidden
-			);
+			emoticonsCache = emoticons.map(x => [x.code, _tmpl('emoticon', {
+				key: x.code,
+				url: root + x.path,
+				tooltip: x.tooltip || x.code
+			}), new RegExp(space + escape.regex(x.code) + space)]);
+			emoticonsCache.sort((a, b) => a[0].length - b[0].length);
 		}
-
-		utils.each(allEmoticons, function (key, url) {
-			allEmoticons[key] = _tmpl('emoticon', {
-				key: key,
-				// Prefix emoticon root to emoticon urls
-				url: root + (url.url || url),
-				tooltip: url.tooltip || key
-			});
-
-			// Preload the emoticon
-			if (options.emoticonsEnabled) {
-				preLoadCache.push(dom.createElement('img', {
-					src: root + (url.url || url)
-				}));
-			}
-		});
 	};
 
 	/**
@@ -1362,11 +1343,13 @@ export default function SCEditor(original, userOptions) {
 
 		pluginManager.destroy();
 		base.dropdown.destroy();
+		base.popup.destroy();
 
 		rangeHelper   = null;
 		lastRange     = null;
 		pluginManager = null;
 		base.dropdown = null;
+		base.popup    = null;
 
 		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
@@ -1942,8 +1925,10 @@ export default function SCEditor(original, userOptions) {
 	 */
 	replaceEmoticons = function () {
 		if (options.emoticonsEnabled) {
-			emoticons
-				.replace(wysiwygBody, allEmoticons, options.emoticonsCompat);
+			emoticons.replace(
+				wysiwygBody,
+				emoticonsCache,
+				options.emoticonsCompat);
 		}
 	};
 
@@ -2541,9 +2526,7 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	emoticonsKeyPress = function (e) {
-		var	replacedEmoticon,
-			cachePos       = 0,
-			emoticonsCache = base.emoticonsCache,
+		var
 			curChar        = String.fromCharCode(e.which);
 
 		// TODO: Make configurable
@@ -2551,27 +2534,11 @@ export default function SCEditor(original, userOptions) {
 			return;
 		}
 
-		if (!emoticonsCache) {
-			emoticonsCache = [];
-
-			utils.each(allEmoticons, function (key, html) {
-				emoticonsCache[cachePos++] = [key, html];
-			});
-
-			emoticonsCache.sort(function (a, b) {
-				return a[0].length - b[0].length;
-			});
-
-			base.emoticonsCache = emoticonsCache;
-			base.longestEmoticonCode =
-				emoticonsCache[emoticonsCache.length - 1][0].length;
-		}
-
-		replacedEmoticon = rangeHelper.replaceKeyword(
-			base.emoticonsCache,
+		var replacedEmoticon = rangeHelper.replaceKeyword(
+			emoticonsCache,
 			true,
 			true,
-			base.longestEmoticonCode,
+			null,
 			options.emoticonsCompat,
 			curChar
 		);

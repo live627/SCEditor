@@ -184,47 +184,50 @@ export default {
 	 * @type {string}
 	 */
 	emoticonsRoot: '',
-	emoticons: {
-		dropdown: {
-			':)': 'emoticons/smile.png',
-			':angel:': 'emoticons/angel.png',
-			':angry:': 'emoticons/angry.png',
-			'8-)': 'emoticons/cool.png',
-			':\'(': 'emoticons/cwy.png',
-			':ermm:': 'emoticons/ermm.png',
-			':D': 'emoticons/grin.png',
-			'<3': 'emoticons/heart.png',
-			':(': 'emoticons/sad.png',
-			':O': 'emoticons/shocked.png',
-			':P': 'emoticons/tongue.png',
-			';)': 'emoticons/wink.png'
-		},
-		more: {
-			':alien:': 'emoticons/alien.png',
-			':blink:': 'emoticons/blink.png',
-			':blush:': 'emoticons/blush.png',
-			':cheerful:': 'emoticons/cheerful.png',
-			':devil:': 'emoticons/devil.png',
-			':dizzy:': 'emoticons/dizzy.png',
-			':getlost:': 'emoticons/getlost.png',
-			':happy:': 'emoticons/happy.png',
-			':kissing:': 'emoticons/kissing.png',
-			':ninja:': 'emoticons/ninja.png',
-			':pinch:': 'emoticons/pinch.png',
-			':pouty:': 'emoticons/pouty.png',
-			':sick:': 'emoticons/sick.png',
-			':sideways:': 'emoticons/sideways.png',
-			':silly:': 'emoticons/silly.png',
-			':sleeping:': 'emoticons/sleeping.png',
-			':unsure:': 'emoticons/unsure.png',
-			':woot:': 'emoticons/w00t.png',
-			':wassat:': 'emoticons/wassat.png'
-		},
-		hidden: {
-			':whistling:': 'emoticons/whistling.png',
-			':love:': 'emoticons/wub.png'
-		}
-	},
+
+	/**
+	 * Emoticons
+	 *
+	 * Each object in the array represents an emoticon.
+	 *
+	 * @type {Object[]}
+	 */
+	emoticons:
+	[
+		{code: ':)', path: 'emoticons/smile.png'},
+		{code: ':angel:', path: 'emoticons/angel.png'},
+		{code: ':angry:', path: 'emoticons/angry.png'},
+		{code: '8-)', path: 'emoticons/cool.png'},
+		{code: ':\'(', path: 'emoticons/cwy.png'},
+		{code: ':ermm:', path: 'emoticons/ermm.png'},
+		{code: ':D', path: 'emoticons/grin.png'},
+		{code: '<3', path: 'emoticons/heart.png'},
+		{code: ':(', path: 'emoticons/sad.png'},
+		{code: ':O', path: 'emoticons/shocked.png'},
+		{code: ':P', path: 'emoticons/tongue.png'},
+		{code: ';)', path: 'emoticons/wink.png'},
+		{code: ':alien:', path: 'emoticons/alien.png'},
+		{code: ':blink:', path: 'emoticons/blink.png'},
+		{code: ':blush:', path: 'emoticons/blush.png'},
+		{code: ':cheerful:', path: 'emoticons/cheerful.png'},
+		{code: ':devil:', path: 'emoticons/devil.png'},
+		{code: ':dizzy:', path: 'emoticons/dizzy.png'},
+		{code: ':getlost:', path: 'emoticons/getlost.png'},
+		{code: ':happy:', path: 'emoticons/happy.png'},
+		{code: ':kissing:', path: 'emoticons/kissing.png'},
+		{code: ':ninja:', path: 'emoticons/ninja.png'},
+		{code: ':pinch:', path: 'emoticons/pinch.png'},
+		{code: ':pouty:', path: 'emoticons/pouty.png'},
+		{code: ':sick:', path: 'emoticons/sick.png'},
+		{code: ':sideways:', path: 'emoticons/sideways.png'},
+		{code: ':silly:', path: 'emoticons/silly.png'},
+		{code: ':sleeping:', path: 'emoticons/sleeping.png'},
+		{code: ':unsure:', path: 'emoticons/unsure.png'},
+		{code: ':woot:', path: 'emoticons/w00t.png'},
+		{code: ':wassat:', path: 'emoticons/wassat.png'},
+		{code: ':whistling:', path: 'emoticons/whistling.png', hidden: true},
+		{code: ':love:', path: 'emoticons/wub.png', hidden: true}
+	],
 
 	/**
 	 * Width of the editor. Set to null for automatic with

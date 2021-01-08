@@ -31,7 +31,10 @@
 	form {
 		margin: 1em;
 	}
+}
 
+#popup,
+#tooltip {
 	label {
 		color: #3c3c3c;
 		display: block;
@@ -41,12 +44,8 @@
 
 	input,
 	textarea {
-		@include rounded(1px);
 		border: 1px solid #ccc;
-		border-top-color: #888;
-		font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 		margin: 0 0 0.75em;
-		outline: 0;
 		padding: 4px;
 	}
 
@@ -58,7 +57,6 @@
 	textarea:focus {
 		@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.1));
 		border-color: #aaa;
-		border-top-color: #666;
 	}
 
 	.button {
