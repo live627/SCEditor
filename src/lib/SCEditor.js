@@ -597,7 +597,6 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	initEvents = function () {
-		var form = original.form;
 		var compositionEvents = 'compositionstart compositionend';
 		var eventsToForward = 'keydown keyup keypress focus blur contextmenu';
 		var checkSelectionEvents = 'onselectionchange' in wysiwygDocument ?
@@ -606,11 +605,6 @@ export default function SCEditor(original, userOptions) {
 
 		dom.on(window, 'beforeunload', base.updateOriginal);
 		dom.on(globalDoc, 'click', handleDocumentClick);
-
-		if (form) {
-			dom.on(form, 'reset', handleFormReset);
-			dom.on(form, 'submit', base.updateOriginal, dom.EVENT_CAPTURE);
-		}
 
 		dom.on(wysiwygBody, 'keypress', handleKeyPress);
 		dom.on(wysiwygBody, 'keydown', handleKeyDown);
@@ -1353,12 +1347,6 @@ export default function SCEditor(original, userOptions) {
 
 		dom.off(window, 'unload', base.updateOriginal);
 		dom.off(globalDoc, 'click', handleDocumentClick);
-
-		var form = original.form;
-		if (form) {
-			dom.off(form, 'reset', handleFormReset);
-			dom.off(form, 'submit', base.updateOriginal);
-		}
 
 		dom.remove(sourceEditor);
 		dom.remove(toolbar);
