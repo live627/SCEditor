@@ -725,9 +725,6 @@ var defaultCmds = {
 			editor.popup.content(content);
 			editor.popup.show();
 		},
-		txtExec: function (caller) {
-			defaultCmds.emoticon.exec.call(this, caller);
-		},
 		tooltip: 'Insert an emoticon'
 	},
 	// END_COMMAND
@@ -785,7 +782,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Date
 	date: {
-		_date: function (editor) {
+		exec: function () {
 			var	now   = new Date(),
 				year  = now.getYear(),
 				month = now.getMonth() + 1,
@@ -803,16 +800,10 @@ var defaultCmds = {
 				day = '0' + day;
 			}
 
-			return editor.opts.dateFormat
+			this.insertText(this.opts.dateFormat
 				.replace(/year/i, year)
 				.replace(/month/i, month)
-				.replace(/day/i, day);
-		},
-		exec: function () {
-			this.insertText(defaultCmds.date._date(this));
-		},
-		txtExec: function () {
-			this.insertText(defaultCmds.date._date(this));
+				.replace(/day/i, day));
 		},
 		tooltip: 'Insert current date'
 	},
@@ -820,7 +811,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Time
 	time: {
-		_time: function () {
+		exec: function () {
 			var	now   = new Date(),
 				hours = now.getHours(),
 				mins  = now.getMinutes(),
@@ -838,13 +829,7 @@ var defaultCmds = {
 				secs = '0' + secs;
 			}
 
-			return hours + ':' + mins + ':' + secs;
-		},
-		exec: function () {
-			this.insertText(defaultCmds.time._time());
-		},
-		txtExec: function () {
-			this.insertText(defaultCmds.time._time());
+			this.insertText(hours + ':' + mins + ':' + secs);
 		},
 		tooltip: 'Insert current time'
 	},
@@ -925,9 +910,6 @@ var defaultCmds = {
 		exec: function () {
 			this.maximize(!this.maximize());
 		},
-		txtExec: function () {
-			this.maximize(!this.maximize());
-		},
 		tooltip: 'Maximize',
 		shortcut: 'Ctrl+Shift+M'
 	},
@@ -941,18 +923,9 @@ var defaultCmds = {
 		exec: function () {
 			this.toggleSourceMode();
 		},
-		txtExec: function () {
-			this.toggleSourceMode();
-		},
 		tooltip: 'View source',
 		shortcut: 'Ctrl+Shift+S'
-	},
-	// END_COMMAND
-
-	// this is here so that commands above can be removed
-	// without having to remove the , after the last one.
-	// Needed for IE.
-	ignore: {}
+	}
 };
 
 export default defaultCmds;
