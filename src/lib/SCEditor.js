@@ -134,14 +134,6 @@ export default function SCEditor(original, userOptions) {
 	var sourceEditor;
 
 	/**
-	 * The current dropdown
-	 *
-	 * @type {HTMLDivElement}
-	 * @private
-	 */
-	var dropdown;
-
-	/**
 	 * Store the last cursor position. Needed for IE because it forgets
 	 *
 	 * @type {Range}
@@ -332,15 +324,11 @@ export default function SCEditor(original, userOptions) {
 		handleKeyDown,
 		handleBackSpace,
 		handleKeyPress,
-		handleFormReset,
 		handleMouseDown,
 		handleComposition,
 		handleEvent,
 		handleManualEvent,
-		handleDocumentClick,
-		updateToolBar,
 		updateActiveButtons,
-		sourceEditorSelectedText,
 		appendNewLine,
 		checkSelectionChanged,
 		checkNodeChanged,
@@ -359,8 +347,7 @@ export default function SCEditor(original, userOptions) {
 	 * @name commands
 	 * @memberOf SCEditor.prototype
 	 */
-	base.commands = utils
-		.extend(true, {}, (userOptions.commands || defaultCommands));
+	base.commands = userOptions.commands || defaultCommands;
 
 	/**
 	 * Options for this editor instance
@@ -370,9 +357,6 @@ export default function SCEditor(original, userOptions) {
 	var options = base.opts = utils.extend(
 		true, {}, defaultOptions, userOptions
 	);
-
-	// Don't deep extend emoticons (fixes #565)
-	base.opts.emoticons = userOptions.emoticons || defaultOptions.emoticons;
 
 	/**
 	 * Creates the editor iframe and textarea
@@ -604,8 +588,6 @@ export default function SCEditor(original, userOptions) {
 			'keyup focus blur contextmenu mouseup touchend click';
 
 		dom.on(window, 'beforeunload', base.updateOriginal);
-		dom.on(globalDoc, 'click', handleDocumentClick);
-
 		dom.on(wysiwygBody, 'keypress', handleKeyPress);
 		dom.on(wysiwygBody, 'keydown', handleKeyDown);
 		dom.on(wysiwygBody, 'keydown', handleBackSpace);
@@ -698,9 +680,6 @@ export default function SCEditor(original, userOptions) {
 						}
 					}
 
-					button._sceTxtMode = !!command.txtExec;
-					button._sceWysiwygMode = !!command.exec;
-					dom.toggleClass(button, 'disabled', !command.exec);
 					dom.on(button, 'click', function (e) {
 						if (!dom.hasClass(button, 'disabled')) {
 							handleCommand(button, command);
@@ -996,7 +975,9 @@ export default function SCEditor(original, userOptions) {
 		wysiwygBody.contentEditable = !readOnly;
 		sourceEditor.readonly = !readOnly;
 
-		updateToolBar(readOnly);
+		utils.each(toolbarButtons, function (_, button) {
+			dom.toggleClass(button, 'disabled', readOnly);
+		});
 
 		return base;
 	};
@@ -1039,18 +1020,6 @@ export default function SCEditor(original, userOptions) {
 		}
 
 		return base;
-	};
-
-	/**
-	 * Updates the toolbar to disable/enable the appropriate buttons
-	 * @private
-	 */
-	updateToolBar = function (disable) {
-		var mode = base.isInSourceMode() ? '_sceTxtMode' : '_sceWysiwygMode';
-
-		utils.each(toolbarButtons, function (_, button) {
-			dom.toggleClass(button, 'disabled', disable || !button[mode]);
-		});
 	};
 
 	/**
@@ -1336,8 +1305,6 @@ export default function SCEditor(original, userOptions) {
 		base.popup    = null;
 
 		dom.off(window, 'unload', base.updateOriginal);
-		dom.off(globalDoc, 'click', handleDocumentClick);
-
 		dom.remove(sourceEditor);
 		dom.remove(toolbar);
 		dom.remove(editorContainer);
@@ -1346,17 +1313,6 @@ export default function SCEditor(original, userOptions) {
 		dom.show(original);
 
 		original.required = isRequired;
-	};
-
-	/**
-	 * Handles any document click and closes the dropdown if open
-	 * @private
-	 */
-	handleDocumentClick = function (e) {
-		// ignore right clicks
-		if (e.which !== 3 && dropdown && !e.defaultPrevented) {
-			autoUpdate();
-		}
 	};
 
 	/**
@@ -1958,22 +1914,7 @@ export default function SCEditor(original, userOptions) {
 		dom.toggleClass(editorContainer, 'wysiwygMode', isInSourceMode);
 		dom.toggleClass(editorContainer, 'sourceMode', !isInSourceMode);
 
-		updateToolBar();
 		updateActiveButtons();
-	};
-
-	/**
-	 * Gets the selected text of the source editor
-	 * @return {string}
-	 * @private
-	 */
-	sourceEditorSelectedText = function () {
-		sourceEditor.focus();
-
-		return sourceEditor.value.substring(
-			sourceEditor.selectionStart,
-			sourceEditor.selectionEnd
-		);
 	};
 
 	/**
@@ -1981,16 +1922,7 @@ export default function SCEditor(original, userOptions) {
 	 * @private
 	 */
 	handleCommand = function (caller, cmd) {
-		// check if in text mode and handle text commands
-		if (base.isInSourceMode()) {
-			if (cmd.txtExec) {
-				if (Array.isArray(cmd.txtExec)) {
-					base.sourceEditorInsertText.apply(base, cmd.txtExec);
-				} else {
-					cmd.txtExec.call(base, caller, sourceEditorSelectedText());
-				}
-			}
-		} else if (cmd.exec) {
+		if (cmd.exec) {
 			if (utils.isFunction(cmd.exec)) {
 				cmd.exec.call(base, caller);
 			} else {
@@ -2190,25 +2122,20 @@ export default function SCEditor(original, userOptions) {
 			var state      = 0;
 			var btn        = toolbarButtons[btnStateHandlers[j].name];
 			var stateFn    = btnStateHandlers[j].state;
-			var isDisabled = (isSource && !btn._sceTxtMode) ||
-						(!isSource && !btn._sceWysiwygMode);
 
-			if (utils.isString(stateFn)) {
-				if (!isSource) {
-					try {
-						state = doc.queryCommandEnabled(stateFn) ? 0 : -1;
-
-						// eslint-disable-next-line max-depth
-						if (state > -1) {
-							state = doc.queryCommandState(stateFn) ? 1 : 0;
-						}
-					} catch (ex) {}
-				}
-			} else if (!isDisabled) {
+			if (utils.isFunction(stateFn)) {
 				state = stateFn.call(base, parent, firstBlock);
+			} else if (utils.isString(stateFn) && !isSource) {
+				try {
+					state = doc.queryCommandEnabled(stateFn) ? 0 : -1;
+
+					if (state > -1) {
+						state = doc.queryCommandState(stateFn) ? 1 : 0;
+					}
+				} catch (ex) {}
 			}
 
-			dom.toggleClass(btn, 'disabled', isDisabled || state < 0);
+			dom.toggleClass(btn, 'disabled', state < 0);
 			dom.toggleClass(btn, activeClass, state > 0);
 		}
 
@@ -2305,14 +2232,6 @@ export default function SCEditor(original, userOptions) {
 				return false;
 			}
 		});
-	};
-
-	/**
-	 * Handles form reset event
-	 * @private
-	 */
-	handleFormReset = function () {
-		base.insert(original.value);
 	};
 
 	/**
