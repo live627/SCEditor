@@ -62,37 +62,32 @@
 	svg {
 		margin: 0;
 	}
-
-	.active,
-	:hover,
-	:active,
-	.active:hover {
+	&:hover {
 		box-shadow: none;
 		margin: 0;
-	}
-
-	.active {
-		background: #f4f4f4;
-		border: 1px solid #ccc;
-	}
-
-	:hover {
 		background: #fefefe;
 		border: 1px solid #ddd;
 	}
-
-	.disabled:hover {
-		border: 0;
-		margin: 1px;
+}
+.sceditor-container {
+	&.disabled .sceditor-button {
+		&:hover {
+			border: 0;
+			margin: 1px;
+		}
 	}
-
-	:active {
-		background: #eee;
-		border: 1px solid #ccc;
-	}
-
-	.active:hover {
-		background: #f8f8f8;
-		border: 1px solid #ddd;
+	&:not(.disabled) .sceditor-button {
+		&.active {
+			box-shadow: none;
+			margin: 0;
+			background: #f4f4f4;
+			border: 1px solid #ccc;
+			&:hover {
+				box-shadow: none;
+				margin: 0;
+				background: #f8f8f8;
+				border: 1px solid #ddd;
+			}
+		}
 	}
 }

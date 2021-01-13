@@ -22,16 +22,22 @@
 
 .sceditor-button {
 	&:hover,
-	&:active,
-	.active {
+	&:active {
 		background: #6b6b6b;
 	}
-
 	svg {
 		fill: #fff;
 	}
-
-	.disabled svg {
-		fill: #777;
+}
+.sceditor-container {
+	&.disabled .sceditor-button {
+		svg {
+			fill: #777;
+		}
+	}
+	&:not(.disabled) .sceditor-button {
+		.active {
+			background: #6b6b6b;
+		}
 	}
 }
