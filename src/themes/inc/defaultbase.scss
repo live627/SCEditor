@@ -87,30 +87,22 @@
 }
 
 .sceditor-resize-cover {
-	background: #000;
+	background: #0009;
 	height: 100%;
 	left: 0;
-	opacity: 0.3;
 	position: absolute;
 	top: 0;
 	width: 100%;
-	z-index: 10;
 }
 
 .sceditor-grip {
 	bottom: 0;
-	cursor: pointer;
+	cursor: nwse-resize;
 	height: 10px;
-	line-height: 0;
 	overflow: hidden;
 	position: absolute;
 	right: 0;
 	width: 10px;
-	z-index: 3;
-}
-
-.sceditor-grip.has-icon {
-	background-image: none;
 }
 
 .sceditor-maximize {
@@ -151,31 +143,11 @@ body.sceditor-maximize {
 	padding: 4px;
 }
 
-.sceditor-emoticons,
-.sceditor-more-emoticons {
-	padding: 0;
-}
-
 .sceditor-pastetext textarea {
 	border: 1px solid #bbb;
 	width: 20em;
 }
 
-.sceditor-emoticons img,
-.sceditor-more-emoticons img {
-	cursor: pointer;
-	margin: 2px;
-	padding: 0;
-}
-
-.sceditor-more {
-	border-top: 1px solid #bbb;
-	cursor: pointer;
-	display: block;
-	font-weight: bold;
-	padding: 6px 0;
-	text-align: center;
-}
 
 .sceditor-fontsize-option,
 .sceditor-font-option,
@@ -202,10 +174,6 @@ body.sceditor-maximize {
 }
 
 
-/**
-	 * Toolbar styleing
-	 */
-
 .sceditor-toolbar {
 	@include rounded(3px 3px 0 0);
 	background: #f7f7f7;
@@ -215,7 +183,6 @@ body.sceditor-maximize {
 	overflow: hidden;
 	padding: 3px 5px 2px;
 	text-align: left;
-
 	user-select: none;
 }
 

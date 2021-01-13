@@ -37,7 +37,7 @@ let
 			}
 
 			var spriteObj = [
-				`div.sceditor-grip, .sceditor-button div
+				`.sceditor-button div
 	background-image: url("famfamfam.png")
 	background-repeat: no-repeat
 	width: 16px

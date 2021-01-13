@@ -10,7 +10,7 @@
 		<script src="../dist/sceditor.js"></script>
 		<script src="../sruc/icons/monocons.js"></script>
 		<script src="../dist/bbcode.js"></script>
-		<script src="../src/plugins/autoyoutube.js"></script>
+		<script src="../src/plugins/resize.js"></script>
 
 		<style>
 			html {
@@ -59,7 +59,7 @@
 
 Give it a try! :)
 
-[color=#ff00]Red text! [/color][color=#3399ff]Blue?[/color]
+[color=#f00]Red text! [/color][color=#3399ff]Blue?[/color]
 
 [ul][li]A simple list[/li][li]list item 2[/li][/ul]
 
@@ -70,19 +70,27 @@ If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be
 			</div>
 
 		<script>
-			sceditor.create(document.getElementById('example'), {
+			var parser = sceditor.create(document.getElementById('example'), {
 				format: 'bbcode',
-				plugins: ['autoyoutube'],
+				plugins: ['resize'],
 				icons: 'monocons',
 				style: '../dist/default.min.css',
-				emoticonsRoot: '../',
-				resizeEnabled: true
+				emoticonsRoot: '../'
 			});
 
 			document.getElementById('theme').onchange = function() {
 				var theme = '../dist/' + this.value + '.css';
 				document.getElementById('theme-style').href = theme;
 			};
+		console.log(parser.toBBCode(
+			'[ul]' +
+				'[color=#444444]' +
+					'[li]test[/li]\n' +
+					'[li]test[/li]\n' +
+					'[li]test[/li]\n' +
+				'[/color]' +
+			'[/ul]'
+		));
 		</script>
 
 		<p>SCEditor is licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a></p>

@@ -245,13 +245,6 @@ export default {
 	height: null,
 
 	/**
-	 * If to allow the editor to be resized
-	 *
-	 * @type {boolean}
-	 */
-	resizeEnabled: true,
-
-	/**
 	 * Min resize to width, set to null for half textarea width or -1 for
 	 * unlimited
 	 *
