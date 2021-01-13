@@ -514,8 +514,6 @@ export default function SCEditor(original, userOptions) {
 		wysiwygBody = wysiwygDocument.body;
 		wysiwygWindow = wysiwygEditor.contentWindow;
 
-		base.readOnly(!!options.readOnly);
-
 		// iframe overflow fix for iOS, also fixes an IE issue with the
 		// editor not getting focus when clicking inside
 		if (browser.ios || browser.edge || IE_VER) {
@@ -951,12 +949,14 @@ export default function SCEditor(original, userOptions) {
 	/**
 	 * Gets if the editor is read only
 	 *
-	 * @since 1.3.5
+	 * @since 3.0.0
 	 * @function
 	 * @memberOf SCEditor.prototype
-	 * @name readOnly
+	 * @name isReadOnly
 	 * @return {boolean}
 	 */
+	base.isReadOnly = () => !sourceEditor.readonly;
+
 	/**
 	 * Sets if the editor is read only
 	 *
@@ -964,22 +964,12 @@ export default function SCEditor(original, userOptions) {
 	 * @since 1.3.5
 	 * @function
 	 * @memberOf SCEditor.prototype
-	 * @name readOnly^2
-	 * @return {this}
+	 * @name readOnly
 	 */
 	base.readOnly = function (readOnly) {
-		if (typeof readOnly !== 'boolean') {
-			return !sourceEditor.readonly;
-		}
-
 		wysiwygBody.contentEditable = !readOnly;
 		sourceEditor.readonly = !readOnly;
-
-		utils.each(toolbarButtons, function (_, button) {
-			dom.toggleClass(button, 'disabled', readOnly);
-		});
-
-		return base;
+		dom.toggleClass(editorContainer, 'disabled', readOnly);
 	};
 
 	/**
@@ -2105,13 +2095,6 @@ export default function SCEditor(original, userOptions) {
 		var activeClass = 'active';
 		var doc         = wysiwygDocument;
 		var isSource    = base.isInSourceMode();
-
-		if (base.readOnly()) {
-			utils.each(dom.find(toolbar, activeClass), function (_, menuItem) {
-				dom.removeClass(menuItem, activeClass);
-			});
-			return;
-		}
 
 		if (!isSource) {
 			parent     = rangeHelper.parentNode();

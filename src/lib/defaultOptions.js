@@ -325,13 +325,6 @@ export default {
 	disablePasting: false,
 
 	/**
-	 * If the editor is read only.
-	 *
-	 * @type {boolean}
-	 */
-	readOnly: false,
-
-	/**
 	 * If to set the editor to right-to-left mode.
 	 *
 	 * If set to null the direction will be automatically detected.
