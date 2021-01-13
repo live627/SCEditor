@@ -317,7 +317,6 @@ export default function SCEditor(original, userOptions) {
 		initToolBar,
 		initOptions,
 		initEvents,
-		initResize,
 		initEmoticons,
 		handlePasteEvt,
 		handlePasteData,
@@ -566,10 +565,6 @@ export default function SCEditor(original, userOptions) {
 			dom.on(wysiwygBody, 'input keyup', autoExpand);
 		}
 
-		if (options.resizeEnabled) {
-			initResize();
-		}
-
 		dom.attr(editorContainer, 'id', options.id);
 		base.emoticons(options.emoticonsEnabled);
 	};
@@ -733,133 +728,6 @@ export default function SCEditor(original, userOptions) {
 
 		// Append the toolbar to the toolbarContainer option if given
 		dom.appendChild(options.toolbarContainer || editorContainer, toolbar);
-	};
-
-	/**
-	 * Creates the resizer.
-	 * @private
-	 */
-	initResize = function () {
-		var	minHeight, maxHeight, minWidth, maxWidth,
-			mouseMoveFunc, mouseUpFunc,
-			grip        = dom.createElement('div', {
-				className: 'sceditor-grip'
-			}),
-			// Cover is used to cover the editor iframe so document
-			// still gets mouse move events
-			cover       = dom.createElement('div', {
-				className: 'sceditor-resize-cover'
-			}),
-			moveEvents  = 'touchmove mousemove',
-			endEvents   = 'touchcancel touchend mouseup',
-			startX      = 0,
-			startY      = 0,
-			newX        = 0,
-			newY        = 0,
-			startWidth  = 0,
-			startHeight = 0,
-			origWidth   = dom.width(editorContainer),
-			origHeight  = dom.height(editorContainer),
-			isDragging  = false,
-			rtl         = base.rtl();
-
-		minHeight = options.resizeMinHeight || origHeight / 1.5;
-		maxHeight = options.resizeMaxHeight || origHeight * 2.5;
-		minWidth  = options.resizeMinWidth  || origWidth  / 1.25;
-		maxWidth  = options.resizeMaxWidth  || origWidth  * 1.25;
-
-		mouseMoveFunc = function (e) {
-			// iOS uses window.event
-			if (e.type === 'touchmove') {
-				e    = globalWin.event;
-				newX = e.changedTouches[0].pageX;
-				newY = e.changedTouches[0].pageY;
-			} else {
-				newX = e.pageX;
-				newY = e.pageY;
-			}
-
-			var	newHeight = startHeight + (newY - startY),
-				newWidth  = rtl ?
-					startWidth - (newX - startX) :
-					startWidth + (newX - startX);
-
-			if (maxWidth > 0 && newWidth > maxWidth) {
-				newWidth = maxWidth;
-			}
-			if (minWidth > 0 && newWidth < minWidth) {
-				newWidth = minWidth;
-			}
-			if (!options.resizeWidth) {
-				newWidth = false;
-			}
-
-			if (maxHeight > 0 && newHeight > maxHeight) {
-				newHeight = maxHeight;
-			}
-			if (minHeight > 0 && newHeight < minHeight) {
-				newHeight = minHeight;
-			}
-			if (!options.resizeHeight) {
-				newHeight = false;
-			}
-
-			if (newWidth || newHeight) {
-				base.dimensions(newWidth, newHeight);
-			}
-
-			e.preventDefault();
-		};
-
-		mouseUpFunc = function (e) {
-			if (!isDragging) {
-				return;
-			}
-
-			isDragging = false;
-
-			dom.hide(cover);
-			dom.removeClass(editorContainer, 'resizing');
-			dom.off(globalDoc, moveEvents, mouseMoveFunc);
-			dom.off(globalDoc, endEvents, mouseUpFunc);
-
-			e.preventDefault();
-		};
-
-		if (icons && icons.create) {
-			var icon = icons.create('grip');
-			if (icon) {
-				dom.appendChild(grip, icon);
-				dom.addClass(grip, 'has-icon');
-			}
-		}
-
-		dom.appendChild(editorContainer, grip);
-		dom.appendChild(editorContainer, cover);
-		dom.hide(cover);
-
-		dom.on(grip, 'touchstart mousedown', function (e) {
-			// iOS uses window.event
-			if (e.type === 'touchstart') {
-				e      = globalWin.event;
-				startX = e.touches[0].pageX;
-				startY = e.touches[0].pageY;
-			} else {
-				startX = e.pageX;
-				startY = e.pageY;
-			}
-
-			startWidth  = dom.width(editorContainer);
-			startHeight = dom.height(editorContainer);
-			isDragging  = true;
-
-			dom.addClass(editorContainer, 'resizing');
-			dom.show(cover);
-			dom.on(globalDoc, moveEvents, mouseMoveFunc);
-			dom.on(globalDoc, endEvents, mouseUpFunc);
-
-			e.preventDefault();
-		});
 	};
 
 	/**
@@ -1710,6 +1578,17 @@ export default function SCEditor(original, userOptions) {
 	};
 
 	/**
+	 * Gets the entire editor's container.
+	 *
+	 * @return {HTMLElement}
+	 * @function
+	 * @since 3.0.0
+	 * @name getEditorContainer
+	 * @memberOf SCEditor.prototype
+	 */
+	base.getEditorContainer = () => editorContainer;
+
+	/**
 	 * Gets the WYSIWYG editor's iFrame Body.
 	 *
 	 * @return {HTMLElement}
@@ -1718,9 +1597,7 @@ export default function SCEditor(original, userOptions) {
 	 * @name getBody
 	 * @memberOf SCEditor.prototype
 	 */
-	base.getBody = function () {
-		return wysiwygBody;
-	};
+	base.getBody = () => wysiwygBody;
 
 	/**
 	 * Gets the WYSIWYG editors container area (whole iFrame).
@@ -1731,9 +1608,7 @@ export default function SCEditor(original, userOptions) {
 	 * @name getContentAreaContainer
 	 * @memberOf SCEditor.prototype
 	 */
-	base.getContentAreaContainer = function () {
-		return wysiwygEditor;
-	};
+	base.getContentAreaContainer = () => wysiwygEditor;
 
 	/**
 	 * Gets the value of the editor.

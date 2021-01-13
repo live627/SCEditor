@@ -11,11 +11,11 @@
       "sceditor": false
   },
   "rules": {
-    "no-bitwise": "error",
+    "no-bitwise": "warn",
     "camelcase": "error",
     "curly": "error",
     "eqeqeq": "error",
-    "guard-for-in": "error",
+    "guard-for-in": "warn",
     "wrap-iife": ["error", "any"],
     "indent": ["error", "tab", { "SwitchCase": 1 }],
     "no-use-before-define": ["error", { "functions": false }],
