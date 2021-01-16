@@ -43,15 +43,14 @@ let
 	width: 16px
 	height: 16px`
 			];
-			// eslint-disable-next-line max-len
-			for (const [filename, sprite] of Object.entries(result.coordinates)) {
+			for (const sprite in result.coordinates) {
 				spriteObj.push(
 					format(`.sceditor-button-{0} div
 	background-position: {1}px {2}px`,
-					path.parse(filename).name,
-					-sprite.x, -sprite.y));
+					path.parse(sprite).name,
+					-result.coordinates.sprite.x, -result.coordinates.sprite.y
+					));
 			}
-			// eslint-disable-next-line max-len
 			fs.writeFileSync('src/themes/icons/famfamfam.sass', spriteObj.join('\n'));
 			fs.writeFileSync('src/themes/icons/famfamfam.png', result.image);
 		});

@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="../dist/default.min.css" id="theme-style" />
 
 		<script src="../dist/sceditor.js"></script>
-		<script src="../sruc/icons/monocons.js"></script>
+		<script src="../src/icons/monocons.js"></script>
 		<script src="../dist/bbcode.js"></script>
 		<script src="../src/plugins/resize.js"></script>
 
@@ -66,14 +66,14 @@ Give it a try! :)
 If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be converted into :) as you type.</textarea>
 
 				<p>If you are using IE9+ or any other browser then it should automatically replace
-					:) and other emoticon codes with theit emoticon images.</p>
+					:) and other emoticon codes with their emoticon images.</p>
 			</div>
 
 		<script>
 			var parser = sceditor.create(document.getElementById('example'), {
 				format: 'bbcode',
 				plugins: ['resize'],
-				icons: 'monocons',
+				icons: 'material',
 				style: '../dist/default.min.css',
 				emoticonsRoot: '../'
 			});
