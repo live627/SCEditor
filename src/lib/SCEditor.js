@@ -689,7 +689,7 @@ export default function SCEditor(original, userOptions) {
 					if (command.tooltip) {
 						dom.attr(button, 'title',
 							base._(command.tooltip) +
-								(shortcut ? ' (' + shortcut + ')' : '')
+								(shortcut ? ` (${shortcut})` : '')
 						);
 					}
 
@@ -872,10 +872,6 @@ export default function SCEditor(original, userOptions) {
 		dom.removeClass(editorContainer, 'rtl');
 		dom.removeClass(editorContainer, 'ltr');
 		dom.addClass(editorContainer, dir);
-
-		if (icons && icons.rtl) {
-			icons.rtl(rtl);
-		}
 
 		return base;
 	};
