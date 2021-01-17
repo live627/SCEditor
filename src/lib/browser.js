@@ -20,19 +20,19 @@ export var ie = (function () {
 		div = doc.createElement('div'),
 		all = div.getElementsByTagName('i');
 
-	do {
+	do
 		div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->';
-	} while (all[0]);
+	while (all[0]);
 
 	// Detect IE 10 as it doesn't support conditional comments.
-	if ((doc.documentMode && doc.all && window.atob)) {
+	if ((doc.documentMode && doc.all && window.atob))
 		v = 10;
-	}
+
 
 	// Detect IE 11
-	if (v === 4 && doc.documentMode) {
+	if (v === 4 && doc.documentMode)
 		v = 11;
-	}
+
 
 	return v > 4 ? v : undef;
 }());
@@ -66,9 +66,9 @@ export var isWysiwygSupported = (function () {
 
 	// Check if the contentEditable attribute is supported
 	if (!('contentEditable' in document.documentElement) ||
-		div.contentEditable !== 'true') {
+		div.contentEditable !== 'true')
 		return false;
-	}
+
 
 	// I think blackberry supports contentEditable or will at least
 	// give a valid value for the contentEditable detection above
@@ -103,30 +103,30 @@ export var isWysiwygSupported = (function () {
 	}
 
 	// iOS 5+ supports content editable
-	if (ios) {
+	if (ios)
 		// Block any version <= 4_x(_x)
 		isUnsupported = /OS [0-4](_\d)+ like Mac/i.test(USER_AGENT);
-	}
+
 
 	// Firefox does support WYSIWYG on mobiles so override
 	// any previous value if using FF
-	if (/Firefox/i.test(USER_AGENT)) {
+	if (/Firefox/i.test(USER_AGENT))
 		isUnsupported = false;
-	}
 
-	if (/OneBrowser/i.test(USER_AGENT)) {
+
+	if (/OneBrowser/i.test(USER_AGENT))
 		isUnsupported = false;
-	}
+
 
 	// UCBrowser works but doesn't give a unique user agent
-	if (navigator.vendor === 'UCWEB') {
+	if (navigator.vendor === 'UCWEB')
 		isUnsupported = false;
-	}
+
 
 	// IE <= 9 is not supported any more
-	if (ie <= 9) {
+	if (ie <= 9)
 		isUnsupported = true;
-	}
+
 
 	return !isUnsupported;
 }());

@@ -83,10 +83,10 @@ var commands = {
 		txtExec: function (caller, selected) {
 			var content = '';
 
-			for (const line of selected.split(/\r?\n/)) {
+			for (const line of selected.split(/\r?\n/))
 				content += (content ? '\n' : '') +
 							'[li]' + line + '[/li]';
-			}
+
 
 			this.insertText('[ul]\n' + content + '\n[/ul]');
 		}
@@ -95,10 +95,10 @@ var commands = {
 		txtExec: function (caller, selected) {
 			var content = '';
 
-			for (const line of selected.split(/\r?\n/)) {
+			for (const line of selected.split(/\r?\n/))
 				content += (content ? '\n' : '') +
 							'[li]' + line + '[/li]';
-			}
+
 
 			this.insertText('[ol]\n' + content + '\n[/ol]');
 		}
@@ -123,20 +123,20 @@ var commands = {
 				function (url, width, height, alt) {
 					var attrs  = '';
 
-					if (width) {
+					if (width)
 						attrs += ' width="' +
 									escapeEntities(width, true) + '"';
-					}
 
-					if (height) {
+
+					if (height)
 						attrs += ' height="' +
 									escapeEntities(height, true) + '"';
-					}
 
-					if (alt) {
+
+					if (alt)
 						attrs += ' alt="' +
 									escapeEntities(alt, true) + '"';
-					}
+
 
 					editor.insertText(
 						'[img' + attrs + ']' + url + '[/img]'

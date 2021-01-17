@@ -12,9 +12,9 @@ export function checkWhitespace(node, rangeHelper) {
 	var noneWsRegex = /[^\s\xA0\u2002\u2003\u2009\u00a0]+/;
 	var emoticons = node && dom.find(node, 'img[data-sceditor-emoticon]');
 
-	if (!node || !emoticons.length) {
+	if (!node || !emoticons.length)
 		return;
-	}
+
 
 	for (var i = 0; i < emoticons.length; i++) {
 		var emoticon = emoticons[i];
@@ -23,9 +23,9 @@ export function checkWhitespace(node, rangeHelper) {
 		var next = emoticon.nextSibling;
 
 		if ((!prev || !noneWsRegex.test(prev.nodeValue.slice(-1))) &&
-			(!next || !noneWsRegex.test((next.nodeValue || '')[0]))) {
+			(!next || !noneWsRegex.test((next.nodeValue || '')[0])))
 			continue;
-		}
+
 
 		var range = rangeHelper.cloneSelected();
 		var rangeStart = -1;
@@ -33,36 +33,36 @@ export function checkWhitespace(node, rangeHelper) {
 		var previousText = prev.nodeValue;
 
 		// For IE's HTMLPhraseElement
-		if (previousText === null) {
+		if (previousText === null)
 			previousText = prev.innerText || '';
-		}
+
 
 		previousText += dom.data(emoticon, 'sceditor-emoticon');
 
 		// If the cursor is after the removed emoticon, add
 		// the length of the newly added text to it
-		if (rangeStartContainer === next) {
+		if (rangeStartContainer === next)
 			rangeStart = previousText.length + range.startOffset;
-		}
+
 
 		// If the cursor is set before the next node, set it to
 		// the end of the new text node
 		if (rangeStartContainer === node &&
-			node.childNodes[range.startOffset] === next) {
+			node.childNodes[range.startOffset] === next)
 			rangeStart = previousText.length;
-		}
+
 
 		// If the cursor is set before the removed emoticon,
 		// just keep it at that position
-		if (rangeStartContainer === prev) {
+		if (rangeStartContainer === prev)
 			rangeStart = range.startOffset;
-		}
 
-		if (!next || next.nodeType !== dom.TEXT_NODE) {
+
+		if (!next || next.nodeType !== dom.TEXT_NODE)
 			next = parent.insertBefore(
 				parent.ownerDocument.createTextNode(''), next
 			);
-		}
+
 
 		next.insertData(0, previousText);
 		dom.remove(prev);
@@ -92,20 +92,20 @@ export function replace(root, emoticons, emoticonsCompat) {
 	var	doc           = root.ownerDocument;
 
 	// TODO: Make this tag configurable.
-	if (dom.parent(root, 'code')) {
+	if (dom.parent(root, 'code'))
 		return;
-	}
+
 
 	(function convert(node) {
 		node = node.firstChild;
 
 		while (node) {
 			// TODO: Make this tag configurable.
-			if (node.nodeType === dom.ELEMENT_NODE && !dom.is(node, 'code')) {
+			if (node.nodeType === dom.ELEMENT_NODE && !dom.is(node, 'code'))
 				convert(node);
-			}
 
-			if (node.nodeType === dom.TEXT_NODE) {
+
+			if (node.nodeType === dom.TEXT_NODE)
 				// Loop emoticons in reverse so that shorter codes won't
 				// partially match longer ones (they already got sorted)
 				for (var i = emoticons.length - 1; i >= 0; i--) {
@@ -129,7 +129,7 @@ export function replace(root, emoticons, emoticonsCompat) {
 							.insertBefore(fragment, node.nextSibling);
 					}
 				}
-			}
+
 
 			node = node.nextSibling;
 		}

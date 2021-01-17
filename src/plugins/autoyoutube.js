@@ -57,12 +57,12 @@
 					node.nodeValue = match[3] +
 						text.substr(match.index + match[0].length);
 				}
-			} else {
-				// TODO: Make this tag configurable.
-				if (!dom.is(node, 'code')) {
-					convertYoutubeLinks(node);
-				}
-			}
+			} else
+			// TODO: Make this tag configurable.
+			if (!dom.is(node, 'code'))
+				convertYoutubeLinks(node);
+
+
 
 			node = node.nextSibling;
 		}
@@ -72,18 +72,18 @@
 		this.bind('pasteraw', function (data) {
 			// TODO: Make this tag configurable.
 			// Skip code tags
-			if (dom.closest(this.currentNode(), 'code')) {
+			if (dom.closest(this.currentNode(), 'code'))
 				return;
-			}
+
 
 			if (data.html || data.text) {
 				var html = document.createElement('div');
 
-				if (data.html) {
+				if (data.html)
 					html.innerHTML = data.html;
-				} else {
+				else
 					html.textContent = data.text;
-				}
+
 
 				convertYoutubeLinks(html);
 

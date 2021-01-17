@@ -32,9 +32,9 @@ let
 		Spritesmith.run({
 			src: sprites.map(x => `src/themes/icons/src/famfamfam/${x}`)
 		}, (err, result) => {
-			if (err) {
+			if (err)
 				throw err;
-			}
+
 
 			var spriteObj = [
 				`.sceditor-button div
@@ -43,14 +43,14 @@ let
 	width: 16px
 	height: 16px`
 			];
-			for (const sprite in result.coordinates) {
+			for (const sprite in result.coordinates)
 				spriteObj.push(
 					format(`.sceditor-button-{0} div
 	background-position: {1}px {2}px`,
 					path.parse(sprite).name,
 					-result.coordinates.sprite.x, -result.coordinates.sprite.y
 					));
-			}
+
 			fs.writeFileSync('src/themes/icons/famfamfam.sass', spriteObj.join('\n'));
 			fs.writeFileSync('src/themes/icons/famfamfam.png', result.image);
 		});

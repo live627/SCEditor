@@ -121,9 +121,9 @@ export default [
 			}
 		},
 		conv: function (node) {
-			if (!attr(node, 'id')) {
+			if (!attr(node, 'id'))
 				attr(node, 'id', attr(node, 'name'));
-			}
+
 
 			removeAttr(node, 'name');
 		}

@@ -13,11 +13,11 @@
 		var ignoreNextValueChanged = false;
 
 		/**
-		 * Sets the editor to the specified state.
-		 *
-		 * @param  {Object} state
-		 * @private
-		 */
+		* Sets the editor to the specified state.
+		*
+		* @param  {Object} state
+		* @private
+		*/
 		var applyState = function (state) {
 			ignoreNextValueChanged = true;
 
@@ -27,25 +27,25 @@
 			editor.val(state.value, false);
 			editor.focus();
 
-			if (state.sourceMode) {
+			if (state.sourceMode)
 				editor.sourceEditorCaret(state.caret);
-			} else {
+			else
 				editor.getRangeHelper().restoreRange();
-			}
+
 
 			ignoreNextValueChanged = false;
 		};
 
 
 		/**
-		 * Calculates the number of characters that have changed
-		 * between two strings.
-		 *
-		 * @param {String} strA
-		 * @param {String} strB
-		 * @return {String}
-		 * @private
-		 */
+		* Calculates the number of characters that have changed
+		* between two strings.
+		*
+		* @param {String} strA
+		* @param {String} strB
+		* @return {String}
+		* @private
+		*/
 		var simpleDiff = function (strA, strB) {
 			var start, end, aLenDiff, bLenDiff,
 				aLength = strA.length,
@@ -53,22 +53,22 @@
 				length  = Math.max(aLength, bLength);
 
 			// Calculate the start
-			for (start = 0; start < length; start++) {
-				if (strA.charAt(start) !== strB.charAt(start)) {
+			for (start = 0; start < length; start++)
+				if (strA.charAt(start) !== strB.charAt(start))
 					break;
-				}
-			}
+
+
 
 			// Calculate the end
 			aLenDiff = aLength < bLength ? bLength - aLength : 0;
 			bLenDiff = bLength < aLength ? aLength - bLength : 0;
 
-			for (end = length - 1; end >= 0; end--) {
+			for (end = length - 1; end >= 0; end--)
 				if (strA.charAt(end - aLenDiff) !==
-						strB.charAt(end - bLenDiff)) {
+						strB.charAt(end - bLenDiff))
 					break;
-				}
-			}
+
+
 
 			return (end - start) + 1;
 		};
@@ -92,18 +92,18 @@
 			var state = undoStates.pop();
 			var rawEditorValue = editor.val(null, false);
 
-			if (state && !redoStates.length && rawEditorValue === state.value) {
+			if (state && !redoStates.length && rawEditorValue === state.value)
 				state = undoStates.pop();
-			}
+
 
 			if (state) {
-				if (!redoStates.length) {
+				if (!redoStates.length)
 					redoStates.push({
 						'caret': editor.sourceEditorCaret(),
 						'sourceMode': editor.sourceMode(),
 						'value': rawEditorValue
 					});
-				}
+
 
 				redoStates.push(state);
 				applyState(state);
@@ -142,37 +142,37 @@
 		});
 
 		/**
-		 * Handle the valueChanged signal.
-		 *
-		 * e.rawValue will either be the raw HTML from the WYSIWYG editor with
-		 * the rangeHelper range markers inserted, or it will be the raw value
-		 * of the source editor (BBCode or HTML depending on plugins).
-		 * @return {void}
-		 */
+		* Handle the valueChanged signal.
+		*
+		* e.rawValue will either be the raw HTML from the WYSIWYG editor with
+		* the rangeHelper range markers inserted, or it will be the raw value
+		* of the source editor (BBCode or HTML depending on plugins).
+		* @return {void}
+		*/
 		editor.bind('valuechanged', e => {
 			var rawValue = e.detail.rawValue;
 
-			if (undoLimit > 0 && undoStates.length > undoLimit) {
+			if (undoLimit > 0 && undoStates.length > undoLimit)
 				undoStates.shift();
-			}
+
 
 			// If the editor hasn't fully loaded yet,
 			// then the previous value won't be set.
 			if (ignoreNextValueChanged || !previousValue ||
-					previousValue === rawValue) {
+					previousValue === rawValue)
 				return;
-			}
+
 
 			// Value has changed so remove all redo states
 			redoStates.length = 0;
 			charChangedCount += simpleDiff(previousValue, rawValue);
 
-			if (charChangedCount < 20) {
+			if (charChangedCount < 20)
 				return;
 			// ??
-			} else if (charChangedCount < 50 && !/\s$/g.test(e.rawValue)) {
+			else if (charChangedCount < 50 && !/\s$/g.test(e.rawValue))
 				return;
-			}
+
 
 			undoStates.push({
 				'caret': editor.sourceEditorCaret(),

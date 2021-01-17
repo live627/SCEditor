@@ -13,10 +13,10 @@
 	'use strict';
 
 	/**
-	 * Place holder GIF shown while image is loading.
-	 * @type {string}
-	 * @private
-	 */
+	* Place holder GIF shown while image is loading.
+	* @type {string}
+	* @private
+	*/
 	var loadingGif = 'data:image/gif;base64,R0lGODlhlgBkAPABAH19ffb29iH5BAAK' +
 		'AAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQA' +
 		'AACwAAAAAlgBkAAAC1YyPqcvtD6OctNqLs968+w+G4kiW5omm6sq27gvH8kzX9o3n+s' +
@@ -41,10 +41,10 @@
 		'rb3N3e39DR4uPk5ebn6Onq6+zt7u/g4fLz9PX29/j5+vv8/f31QAADs=';
 
 	/**
-	 * Basic check for browser support
-	 * @type {boolean}
-	 * @private
-	 */
+	* Basic check for browser support
+	* @type {boolean}
+	* @private
+	*/
 	var isSupported = typeof window.FileReader !== 'undefined';
 	var base64DataUri = /data:[^;]+;base64,/i;
 
@@ -55,9 +55,9 @@
 		/* global Uint8Array */
 		var binary = new Uint8Array(data.length);
 
-		for (var i = 0; i < data.length; i++) {
+		for (var i = 0; i < data.length; i++)
 			binary[i] = data[i].charCodeAt(0);
-		}
+
 
 		try {
 			return new Blob([binary], { type: mime });
@@ -67,9 +67,9 @@
 	}
 
 	sceditor.plugins.dragdrop = function () {
-		if (!isSupported) {
+		if (!isSupported)
 			return;
-		}
+
 
 		var base = this;
 		var opts;
@@ -94,9 +94,9 @@
 		function isAllowed(file) {
 			// FF sets type to application/x-moz-file until it has been dropped
 			if (file.type !== 'application/x-moz-file' && opts.allowedTypes &&
-				opts.allowedTypes.indexOf(file.type) < 0) {
+				opts.allowedTypes.indexOf(file.type) < 0)
 				return false;
-			}
+
 
 			return opts.isAllowed ? opts.isAllowed(file) : true;
 		};
@@ -114,20 +114,20 @@
 					.getElementById(placeholder.id);
 
 				if (node) {
-					if (typeof html === 'string') {
+					if (typeof html === 'string')
 						node.insertAdjacentHTML('afterend', html);
-					}
+
 
 					node.parentNode.removeChild(node);
 				}
 			}
 
 			return function () {
-				if (toReplace) {
+				if (toReplace)
 					toReplace.parentNode.replaceChild(placeholder, toReplace);
-				} else {
+				else
 					editor.wysiwygEditorInsertHtml(placeholder.outerHTML);
-				}
+
 
 				return {
 					insert: function (html) {
@@ -142,12 +142,12 @@
 			var dt    = e.dataTransfer;
 			var files = dt.files.length || !dt.items ? dt.files : dt.items;
 
-			for (var i = 0; i < files.length; i++) {
+			for (var i = 0; i < files.length; i++)
 				// Dragging a string should be left to default
-				if (files[i].kind === 'string') {
+				if (files[i].kind === 'string')
 					return;
-				}
-			}
+
+
 
 			showCover();
 			e.preventDefault();
@@ -161,13 +161,13 @@
 
 			for (var i = 0; i < files.length; i++) {
 				// Dragging a string should be left to default
-				if (files[i].kind === 'string') {
+				if (files[i].kind === 'string')
 					return;
-				}
 
-				if (isAllowed(files[i])) {
+
+				if (isAllowed(files[i]))
 					handleFile(files[i], createHolder());
-				}
+
 			}
 
 			e.preventDefault();
@@ -207,11 +207,11 @@
 
 					if (base64DataUri.test(image.src)) {
 						var file = base64DataUriToBlob(image.src);
-						if (file && isAllowed(file)) {
+						if (file && isAllowed(file))
 							handleFile(file, createHolder(image));
-						} else {
+						else
 							image.parentNode.removeChild(image);
-						}
+
 					}
 				}
 

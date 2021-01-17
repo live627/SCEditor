@@ -76,15 +76,15 @@ export function extend(targetArg, sourceArg) {
 					Object.getPrototypeOf(value) === Object.prototype;
 				var isArray = Array.isArray(value);
 
-				if (isDeep && (isObject || isArray)) {
+				if (isDeep && (isObject || isArray))
 					target[key] = extend(
 						true,
 						target[key] || (isArray ? [] : {}),
 						value
 					);
-				} else {
+				else
 					target[key] = value;
-				}
+
 			}
 		}
 	}
@@ -101,9 +101,9 @@ export function extend(targetArg, sourceArg) {
 export function arrayRemove(arr, item) {
 	var i = arr.indexOf(item);
 
-	if (i > -1) {
+	if (i > -1)
 		arr.splice(i, 1);
-	}
+
 }
 
 /**
@@ -113,15 +113,15 @@ export function arrayRemove(arr, item) {
  * @param {function(*, *)} fn
  */
 export function each(obj, fn) {
-	if (Array.isArray(obj) || 'length' in obj && isNumber(obj.length)) {
-		for (var i = 0; i < obj.length; i++) {
+	if (Array.isArray(obj) || 'length' in obj && isNumber(obj.length))
+		for (var i = 0; i < obj.length; i++)
 			fn(i, obj[i]);
-		}
-	} else {
+
+	else
 		Object.keys(obj).forEach(function (key) {
 			fn(key, obj[key]);
 		});
-	}
+
 }
 
 /**

@@ -18,19 +18,19 @@ export var ie = function () {
 		div = doc.createElement('div'),
 		all = div.getElementsByTagName('i');
 
-	do {
+	do
 		div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->';
-	} while (all[0]);
+	while (all[0]);
 
 	// Detect IE 10 as it doesn't support conditional comments.
-	if ((doc.documentMode && doc.all && window.atob)) {
+	if ((doc.documentMode && doc.all && window.atob))
 		v = 10;
-	}
+
 
 	// Detect IE 11
-	if (v === 4 && doc.documentMode) {
+	if (v === 4 && doc.documentMode)
 		v = 11;
-	}
+
 
 	return v > 4 ? v : undef;
 };

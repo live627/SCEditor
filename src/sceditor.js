@@ -48,14 +48,14 @@ export default {
 
 		// Don't allow the editor to be initialised
 		// on it's own source editor
-		if (dom.parent(textarea, '.sceditor-container')) {
+		if (dom.parent(textarea, '.sceditor-container'))
 			return;
-		}
 
-		if (options.runWithoutWysiwygSupport || browser.isWysiwygSupported) {
+
+		if (options.runWithoutWysiwygSupport || browser.isWysiwygSupported)
 			/*eslint no-new: off*/
 			(new SCEditor(textarea, options));
-		}
+
 	},
 	instance: function (textarea) {
 		return textarea._sceditor;

@@ -96,9 +96,9 @@ var formats = {
 		format: function (element, content) {
 			var font;
 
-			if (!is(element, 'font') || !(font = attr(element, 'face'))) {
+			if (!is(element, 'font') || !(font = attr(element, 'face')))
 				font = css(element, 'font-family');
-			}
+
 
 			return '[font=' + stripQuotes(font) + ']' +
 					content + '[/font]';
@@ -121,36 +121,36 @@ var formats = {
 			var	fontSize = attr(element, 'size'),
 				size     = 2;
 
-			if (!fontSize) {
+			if (!fontSize)
 				fontSize = css(element, 'fontSize');
-			}
+
 
 			// Most browsers return px value but IE returns 1-7
 			if (fontSize.indexOf('px') > -1) {
 				// convert size to an int
 				fontSize = fontSize.replace('px', '') - 0;
 
-				if (fontSize < 12) {
+				if (fontSize < 12)
 					size = 1;
-				}
-				if (fontSize > 15) {
+
+				if (fontSize > 15)
 					size = 3;
-				}
-				if (fontSize > 17) {
+
+				if (fontSize > 17)
 					size = 4;
-				}
-				if (fontSize > 23) {
+
+				if (fontSize > 23)
 					size = 5;
-				}
-				if (fontSize > 31) {
+
+				if (fontSize > 31)
 					size = 6;
-				}
-				if (fontSize > 47) {
+
+				if (fontSize > 47)
 					size = 7;
-				}
-			} else {
+
+			} else
 				size = fontSize;
-			}
+
 
 			return '[size=' + size + ']' + content + '[/size]';
 		},
@@ -172,9 +172,9 @@ var formats = {
 		format: function (elm, content) {
 			var	color;
 
-			if (!is(elm, 'font') || !(color = attr(elm, 'color'))) {
+			if (!is(elm, 'font') || !(color = attr(elm, 'color')))
 				color = elm.style.color || css(elm, 'color');
-			}
+
 
 			return '[color=' + normaliseColour(color) + ']' +
 					content + '[/color]';
@@ -311,9 +311,9 @@ var formats = {
 		quoteType: QuoteType.auto,
 		format: function (element, content) {
 			// check if this is an emoticon image
-			if (attr(element, EMOTICON_DATA_ATTR)) {
+			if (attr(element, EMOTICON_DATA_ATTR))
 				return content;
-			}
+
 
 			var
 				attribs = [],
@@ -321,15 +321,15 @@ var formats = {
 				height = attr(element, 'height') || style('height'),
 				alt = attr(element, 'alt');
 
-			if (width && isDigit(width)) {
+			if (width && isDigit(width))
 				attribs.push(`width="${width}"`);
-			}
-			if (height && isDigit(height)) {
+
+			if (height && isDigit(height))
 				attribs.push(`height="${height}"`);
-			}
-			if (alt) {
+
+			if (alt)
 				attribs.push(`alt="${escapeEntities(alt, true)}"`);
-			}
+
 
 			return `[img ${attribs.join(' ')}]${attr(element, 'src')}[/img]`;
 		},
@@ -340,15 +340,15 @@ var formats = {
 				height = attrs.height,
 				alt = attrs.alt;
 
-			if (width && isDigit(width)) {
+			if (width && isDigit(width))
 				attribs.push(`width="${width}"`);
-			}
-			if (height && isDigit(height)) {
+
+			if (height && isDigit(height))
 				attribs.push(`height="${height}"`);
-			}
-			if (alt) {
+
+			if (alt)
 				attribs.push(`alt="${escapeEntities(alt, true)}"`);
-			}
+
 
 			return `<img ${attribs.join(' ')} />`;
 		}
@@ -369,10 +369,10 @@ var formats = {
 
 			// make sure this link is not an e-mail,
 			// if it is return e-mail BBCode
-			if (url.substr(0, 7) === 'mailto:') {
+			if (url.substr(0, 7) === 'mailto:')
 				return '[email="' + url.substr(7) + '"]' +
 						content + '[/email]';
-			}
+
 
 			return '[url=' + url + ']' + content + '[/url]';
 		},
@@ -410,11 +410,11 @@ var formats = {
 			var cite;
 			var children = element.children;
 
-			for (var i = 0; !cite && i < children.length; i++) {
-				if (is(children[i], 'cite')) {
+			for (var i = 0; !cite && i < children.length; i++)
+				if (is(children[i], 'cite'))
 					cite = children[i];
-				}
-			}
+
+
 
 			if (cite || attr(element, authorAttr)) {
 				author = cite && cite.textContent ||
@@ -422,25 +422,25 @@ var formats = {
 
 				attr(element, authorAttr, author);
 
-				if (cite) {
+				if (cite)
 					element.removeChild(cite);
-				}
+
 
 				content	= this.elementToBbcode(element);
 				author  = '=' + author.replace(/(^\s+|\s+$)/g, '');
 
-				if (cite) {
+				if (cite)
 					element.insertBefore(cite, element.firstChild);
-				}
+
 			}
 
 			return '[quote' + author + ']' + content + '[/quote]';
 		},
 		html: function (token, attrs, content) {
-			if (attrs.defaultattr) {
+			if (attrs.defaultattr)
 				content = '<cite>' + attrs.defaultattr +
 						'</cite>' + content;
-			}
+
 
 			return '<blockquote>' + content + '</blockquote>';
 		}
@@ -541,20 +541,20 @@ var formats = {
 			var id = attr(element, 'data-youtube-id');
 			var start = attr(element, 'data-youtube-start');
 
-			if (start > 0) {
+			if (start > 0)
 				return id ? '[youtube=' + start + ']' + id +
 						'[/youtube]' : content;
-			} else {
+			else
 				return id ? '[youtube]' + id + '[/youtube]' : content;
-			}
+
 		},
 		html: function (token, attrs, content) {
 			var id = content;
 			var start = 0;
 
-			if (attrs.defaultattr) {
+			if (attrs.defaultattr)
 				start = escapeEntities(attrs.defaultattr);
-			}
+
 
 			return '<iframe ' +
 				'src="https://www.youtube.com/embed/' + id +

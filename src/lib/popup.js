@@ -4,9 +4,9 @@ export default function (editorContainer) {
 		root = document.createElement('div'),
 
 		content = function (content) {
-			while (root.children.length > 1) {
+			while (root.children.length > 1)
 				root.removeChild(root.lastChild);
-			}
+
 			root.appendChild(content);
 		},
 		show = function () {
@@ -16,14 +16,14 @@ export default function (editorContainer) {
 			cover.classList.remove('show');
 		},
 		click = function (e) {
-			if (e.target.id === 'popup') {
+			if (e.target.id === 'popup')
 				hide();
-			}
+
 		},
 		esc = function (e) {
-			if (e.keyCode === 27) {
+			if (e.keyCode === 27)
 				hide();
-			}
+
 		},
 		destroy = function () {
 			document.removeEventListener('keydown', esc);

@@ -62,13 +62,13 @@ export function createElement(tag, attributes, context) {
 	var node = (context || document).createElement(tag);
 
 	utils.each(attributes || {}, function (key, value) {
-		if (key === 'style') {
+		if (key === 'style')
 			node.style.cssText = value;
-		} else if (key in node) {
+		else if (key in node)
 			node[key] = value;
-		} else {
+		else
 			node.setAttribute(key, value);
-		}
+
 	});
 
 	return node;
@@ -85,11 +85,11 @@ export function parents(node, selector) {
 	var parents = [];
 	var parent = node || {};
 
-	while ((parent = parent.parentNode) && !/(9|11)/.test(parent.nodeType)) {
-		if (!selector || is(parent, selector)) {
+	while ((parent = parent.parentNode) && !/(9|11)/.test(parent.nodeType))
+		if (!selector || is(parent, selector))
 			parents.push(parent);
-		}
-	}
+
+
 
 	return parents;
 }
@@ -104,11 +104,11 @@ export function parents(node, selector) {
 export function parent(node, selector) {
 	var parent = node || {};
 
-	while ((parent = parent.parentNode) && !/(9|11)/.test(parent.nodeType)) {
-		if (!selector || is(parent, selector)) {
+	while ((parent = parent.parentNode) && !/(9|11)/.test(parent.nodeType))
+		if (!selector || is(parent, selector))
 			return parent;
-		}
-	}
+
+
 }
 
 /**
@@ -129,9 +129,9 @@ export function closest(node, selector) {
  * @param {!HTMLElement} node
  */
 export function remove(node) {
-	if (node.parentNode) {
+	if (node.parentNode)
 		node.parentNode.removeChild(node);
-	}
+
 }
 
 /**
@@ -229,9 +229,9 @@ export function off(node, events, selector, fn, capture) {
 	events.split(' ').forEach(function (event) {
 		var handler;
 
-		if (utils.isString(selector)) {
+		if (utils.isString(selector))
 			handler = fn['_sce-event-' + event + selector];
-		} else {
+		else {
 			handler = selector;
 			capture = fn;
 		}
@@ -253,16 +253,16 @@ export function off(node, events, selector, fn, capture) {
  * @param {?string} [value]
  */
 export function attr(node, attr, value) {
-	if (arguments.length < 3) {
+	if (arguments.length < 3)
 		return node.getAttribute(attr);
-	}
+
 
 	// eslint-disable-next-line eqeqeq, no-eq-null
-	if (value == null) {
+	if (value == null)
 		removeAttr(node, attr);
-	} else {
+	else
 		node.setAttribute(attr, value);
-	}
+
 }
 
 /**
@@ -299,11 +299,11 @@ export function show(node) {
  * @param {!HTMLElement} node
  */
 export function toggle(node) {
-	if (isVisible(node)) {
+	if (isVisible(node))
 		hide(node);
-	} else {
+	else
 		show(node);
-	}
+
 }
 
 /**
@@ -319,9 +319,9 @@ export function toggle(node) {
  */
 export function css(node, rule, value) {
 	if (arguments.length < 3) {
-		if (utils.isString(rule)) {
+		if (utils.isString(rule))
 			return node.nodeType === 1 ? getComputedStyle(node)[rule] : null;
-		}
+
 
 		utils.each(rule, function (key, value) {
 			css(node, key, value);
@@ -354,17 +354,17 @@ export function data(node, key, value) {
 	if (node.nodeType === ELEMENT_NODE) {
 		if (argsLength === 1) {
 			utils.each(node.attributes, function (_, attr) {
-				if (/^data\-/i.test(attr.name)) {
+				if (/^data\-/i.test(attr.name))
 					data[attr.name.substr(5)] = attr.value;
-				}
+
 			});
 
 			return data;
 		}
 
-		if (argsLength === 2) {
+		if (argsLength === 2)
 			return attr(node, 'data-' + key);
-		}
+
 
 		attr(node, 'data-' + key, String(value));
 	}
@@ -380,10 +380,10 @@ export function data(node, key, value) {
 export function is(node, selector) {
 	var result = false;
 
-	if (node && node.nodeType === ELEMENT_NODE) {
+	if (node && node.nodeType === ELEMENT_NODE)
 		result = (node.matches || node.msMatchesSelector ||
 			node.webkitMatchesSelector).call(node, selector);
-	}
+
 
 	return result;
 }
@@ -411,9 +411,9 @@ export function contains(node, child) {
 export function previousElementSibling(node, selector) {
 	var prev = node.previousElementSibling;
 
-	if (selector && prev) {
+	if (selector && prev)
 		return is(prev, selector) ? prev : null;
-	}
+
 
 	return prev;
 }
@@ -451,9 +451,9 @@ export function hasClass(node, className) {
 export function addClass(node, className) {
 	var classList = classes(node);
 
-	if (classList.indexOf(className) < 0) {
+	if (classList.indexOf(className) < 0)
 		classList.push(className);
-	}
+
 
 	node.className = classList.join(' ');
 }
@@ -486,11 +486,11 @@ export function removeClass(node, className) {
 export function toggleClass(node, className, state) {
 	state = utils.isUndefined(state) ? !hasClass(node, className) : state;
 
-	if (state) {
+	if (state)
 		addClass(node, className);
-	} else {
+	else
 		removeClass(node, className);
-	}
+
 }
 
 /**
@@ -542,13 +542,13 @@ export function height(node, value) {
 export function trigger(node, eventName, data) {
 	var event;
 
-	if (utils.isFunction(window.CustomEvent)) {
+	if (utils.isFunction(window.CustomEvent))
 		event = new CustomEvent(eventName, {
 			bubbles: true,
 			cancelable: true,
 			detail: data
 		});
-	} else {
+	else {
 		event = node.ownerDocument.createEvent('CustomEvent');
 		event.initCustomEvent(eventName, true, true, data);
 	}
@@ -608,9 +608,9 @@ export function traverse(node, func, innermostFirst, siblingsOnly, reverse) {
 				node, func, innermostFirst, siblingsOnly, reverse
 			) === false) ||
 			(innermostFirst && func(node) === false)
-		) {
+		)
 			return false;
-		}
+
 
 		node = next;
 	}
@@ -640,9 +640,9 @@ export function parseHTML(html, context) {
 
 	tmp.innerHTML = html;
 
-	while (tmp.firstChild) {
+	while (tmp.firstChild)
 		appendChild(ret, tmp.firstChild);
-	}
+
 
 	return ret;
 }
@@ -684,9 +684,9 @@ export function convertElement(element, toTagName) {
 		} catch (ex) {}
 	});
 
-	while (element.firstChild) {
+	while (element.firstChild)
 		appendChild(newElement, element.firstChild);
-	}
+
 
 	element.parentNode.replaceChild(newElement, element);
 
@@ -712,9 +712,9 @@ export function canHaveChildren(node) {
 	// 1  = Element
 	// 9  = Document
 	// 11 = Document Fragment
-	if (!/11?|9/.test(node.nodeType)) {
+	if (!/11?|9/.test(node.nodeType))
 		return false;
-	}
+
 
 	// List of empty HTML tags separated by bar (|) character.
 	// Source: http://www.w3.org/TR/html4/index/elements.html
@@ -735,15 +735,15 @@ export function isInline(elm, includeCodeAsBlock) {
 	var tagName,
 		nodeType = (elm || {}).nodeType || TEXT_NODE;
 
-	if (nodeType !== ELEMENT_NODE) {
+	if (nodeType !== ELEMENT_NODE)
 		return nodeType === TEXT_NODE;
-	}
+
 
 	tagName = elm.tagName.toLowerCase();
 
-	if (tagName === 'code') {
+	if (tagName === 'code')
 		return !includeCodeAsBlock;
-	}
+
 
 	return blockLevelList.indexOf('|' + tagName + '|') < 0;
 }
@@ -770,9 +770,9 @@ export function copyCSS(from, to) {
  */
 export function fixNesting(node) {
 	var	getLastInlineParent = function (node) {
-		while (isInline(node.parentNode, true)) {
+		while (isInline(node.parentNode, true))
 			node = node.parentNode;
-		}
+
 
 		return node;
 	};
@@ -817,11 +817,11 @@ export function fixNesting(node) {
  * @return {?HTMLElement}
  */
 export function findCommonAncestor(node1, node2) {
-	while ((node1 = node1.parentNode)) {
-		if (contains(node1, node2)) {
+	while ((node1 = node1.parentNode))
+		if (contains(node1, node2))
 			return node1;
-		}
-	}
+
+
 }
 
 /**
@@ -830,9 +830,9 @@ export function findCommonAncestor(node1, node2) {
  * @returns {?Node}
  */
 export function getSibling(node, previous) {
-	if (!node) {
+	if (!node)
 		return null;
-	}
+
 
 	return (previous ? node.previousSibling : node.nextSibling) ||
 		getSibling(node.parentNode, previous);
@@ -853,27 +853,27 @@ export function removeWhiteSpace(root) {
 		node = root.firstChild;
 
 	// Skip pre & pre-wrap with any vendor prefix
-	if (/pre(\-wrap)?$/i.test(cssWhiteSpace)) {
+	if (/pre(\-wrap)?$/i.test(cssWhiteSpace))
 		return;
-	}
+
 
 	while (node) {
 		nextNode  = node.nextSibling;
 		nodeValue = node.nodeValue;
 		nodeType  = node.nodeType;
 
-		if (nodeType === ELEMENT_NODE && node.firstChild) {
+		if (nodeType === ELEMENT_NODE && node.firstChild)
 			removeWhiteSpace(node);
-		}
+
 
 		if (nodeType === TEXT_NODE) {
 			next      = getSibling(node);
 			previous  = getSibling(node, true);
 			trimStart = false;
 
-			while (hasClass(previous, 'sceditor-ignore')) {
+			while (hasClass(previous, 'sceditor-ignore'))
 				previous = getSibling(previous, true);
-			}
+
 
 			// If previous sibling isn't inline or is a textnode that
 			// ends in whitespace, time the start whitespace
@@ -884,9 +884,9 @@ export function removeWhiteSpace(root) {
 					previousSibling = previousSibling.lastChild;
 
 					// eslint-disable-next-line max-depth
-					while (hasClass(previousSibling, 'sceditor-ignore')) {
+					while (hasClass(previousSibling, 'sceditor-ignore'))
 						previousSibling = getSibling(previousSibling, true);
-					}
+
 				}
 
 				trimStart = previousSibling.nodeType === TEXT_NODE ?
@@ -898,30 +898,30 @@ export function removeWhiteSpace(root) {
 			nodeValue = nodeValue.replace(/\u200B/g, '');
 
 			// Strip leading whitespace
-			if (!previous || !isInline(previous) || trimStart) {
+			if (!previous || !isInline(previous) || trimStart)
 				nodeValue = nodeValue.replace(
 					preserveNewLines ? /^[\t ]+/ : /^[\t\n\r ]+/,
 					''
 				);
-			}
+
 
 			// Strip trailing whitespace
-			if (!next || !isInline(next)) {
+			if (!next || !isInline(next))
 				nodeValue = nodeValue.replace(
 					preserveNewLines ? /[\t ]+$/ : /[\t\n\r ]+$/,
 					''
 				);
-			}
+
 
 			// Remove empty text nodes
-			if (!nodeValue.length) {
+			if (!nodeValue.length)
 				remove(node);
-			} else {
+			else
 				node.nodeValue = nodeValue.replace(
 					preserveNewLines ? /[\t ]+/g : /[\t\n\r ]+/g,
 					' '
 				);
-			}
+
 		}
 
 		node = nextNode;
@@ -977,9 +977,9 @@ export function getStyle(elm, property) {
 	var	direction, styleValue,
 		elmStyle = elm.style;
 
-	if (!cssPropertyNameCache[property]) {
+	if (!cssPropertyNameCache[property])
 		cssPropertyNameCache[property] = camelCase(property);
-	}
+
 
 	property   = cssPropertyNameCache[property];
 	styleValue = elmStyle[property];
@@ -990,16 +990,16 @@ export function getStyle(elm, property) {
 		styleValue = styleValue || css(elm, property);
 
 		if (css(elm.parentNode, property) === styleValue ||
-			css(elm, 'display') !== 'block' || is(elm, 'hr,th')) {
+			css(elm, 'display') !== 'block' || is(elm, 'hr,th'))
 			return '';
-		}
+
 
 		// IE changes text-align to the same as the current direction
 		// so skip unless its not the same
 		if ((/right/i.test(styleValue) && direction === 'rtl') ||
-			(/left/i.test(styleValue) && direction === 'ltr')) {
+			(/left/i.test(styleValue) && direction === 'ltr'))
 			return '';
-		}
+
 	}
 
 	return styleValue;
@@ -1019,9 +1019,9 @@ export function getStyle(elm, property) {
 export function hasStyle(elm, property, values) {
 	var styleValue = getStyle(elm, property);
 
-	if (!styleValue) {
+	if (!styleValue)
 		return false;
-	}
+
 
 	return !values || styleValue === values ||
 		(Array.isArray(values) && values.indexOf(styleValue) > -1);
