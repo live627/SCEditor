@@ -110,14 +110,11 @@ var commands = {
 					if (width)
 						attrs += ' width="' + width + '"';
 
-
 					if (height)
 						attrs += ' height="' + height + '"';
 
-
 					if (alt)
 						attrs += ' alt="' + alt + '"';
-
 
 					editor.insertText(
 						'<img' + attrs + ' src="' + url + '" />'

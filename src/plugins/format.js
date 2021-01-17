@@ -42,7 +42,6 @@
 		var	insertTag,
 			formatCmd;
 
-
 		base.init = function ()
 		{
 			var	opts  = this.opts,
@@ -52,12 +51,10 @@
 			if (opts.format && opts.format === 'bbcode')
 				return;
 
-
 			if (pOpts)
 			{
 				if (pOpts.tags)
 					tags = pOpts.tags;
-
 
 				if (pOpts.excludeTags)
 					pOpts.excludeTags.forEach(function (val)
@@ -73,7 +70,6 @@
 					txtExec: formatCmd,
 					tooltip: 'Format Paragraph'
 				};
-
 
 			if (opts.toolbar === sceditor.defaultOptions.toolbar)
 				opts.toolbar = opts.toolbar.replace(',color,',
@@ -94,7 +90,6 @@
 				editor.insert('<' + tag + '>', '</' + tag + '>');
 			else
 				editor.execCommand('formatblock', '<' + tag + '>');
-
 
 		};
 
@@ -123,7 +118,6 @@
 						val.exec(editor);
 					else
 						insertTag(editor, tag);
-
 
 					e.preventDefault();
 				});

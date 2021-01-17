@@ -70,7 +70,6 @@
 				convertYoutubeLinks(node);
 
 
-
 			node = node.nextSibling;
 		}
 	};
@@ -84,7 +83,6 @@
 			if (dom.closest(this.currentNode(), 'code'))
 				return;
 
-
 			if (data.html || data.text)
 			{
 				var html = document.createElement('div');
@@ -93,7 +91,6 @@
 					html.innerHTML = data.html;
 				else
 					html.textContent = data.text;
-
 
 				convertYoutubeLinks(html);
 

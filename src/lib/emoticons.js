@@ -16,7 +16,6 @@ export function checkWhitespace(node, rangeHelper)
 	if (!node || !emoticons.length)
 		return;
 
-
 	for (var i = 0; i < emoticons.length; i++)
 	{
 		var emoticon = emoticons[i];
@@ -28,7 +27,6 @@ export function checkWhitespace(node, rangeHelper)
 			(!next || !noneWsRegex.test((next.nodeValue || '')[0])))
 			continue;
 
-
 		var range = rangeHelper.cloneSelected();
 		var rangeStart = -1;
 		var rangeStartContainer = range.startContainer;
@@ -38,7 +36,6 @@ export function checkWhitespace(node, rangeHelper)
 		if (previousText === null)
 			previousText = prev.innerText || '';
 
-
 		previousText += dom.data(emoticon, 'sceditor-emoticon');
 
 		// If the cursor is after the removed emoticon, add
@@ -46,25 +43,21 @@ export function checkWhitespace(node, rangeHelper)
 		if (rangeStartContainer === next)
 			rangeStart = previousText.length + range.startOffset;
 
-
 		// If the cursor is set before the next node, set it to
 		// the end of the new text node
 		if (rangeStartContainer === node &&
 			node.childNodes[range.startOffset] === next)
 			rangeStart = previousText.length;
 
-
 		// If the cursor is set before the removed emoticon,
 		// just keep it at that position
 		if (rangeStartContainer === prev)
 			rangeStart = range.startOffset;
 
-
 		if (!next || next.nodeType !== dom.TEXT_NODE)
 			next = parent.insertBefore(
 				parent.ownerDocument.createTextNode(''), next
 			);
-
 
 		next.insertData(0, previousText);
 		dom.remove(prev);
@@ -99,7 +92,6 @@ export function replace(root, emoticons, emoticonsCompat)
 	if (dom.parent(root, 'code'))
 		return;
 
-
 	(function convert(node)
 	{
 		node = node.firstChild;
@@ -109,7 +101,6 @@ export function replace(root, emoticons, emoticonsCompat)
 			// TODO: Make this tag configurable.
 			if (node.nodeType === dom.ELEMENT_NODE && !dom.is(node, 'code'))
 				convert(node);
-
 
 			if (node.nodeType === dom.TEXT_NODE)
 				// Loop emoticons in reverse so that shorter codes won't
@@ -137,7 +128,6 @@ export function replace(root, emoticons, emoticonsCompat)
 							.insertBefore(fragment, node.nextSibling);
 					}
 				}
-
 
 			node = node.nextSibling;
 		}

@@ -35,10 +35,8 @@
 			else
 				editor.getRangeHelper().restoreRange();
 
-
 			ignoreNextValueChanged = false;
 		};
-
 
 		/**
 		* Calculates the number of characters that have changed
@@ -62,7 +60,6 @@
 					break;
 
 
-
 			// Calculate the end
 			aLenDiff = aLength < bLength ? bLength - aLength : 0;
 			bLenDiff = bLength < aLength ? aLength - bLength : 0;
@@ -71,7 +68,6 @@
 				if (strA.charAt(end - aLenDiff) !==
 						strB.charAt(end - bLenDiff))
 					break;
-
 
 
 			return (end - start) + 1;
@@ -101,7 +97,6 @@
 			if (state && !redoStates.length && rawEditorValue === state.value)
 				state = undoStates.pop();
 
-
 			if (state)
 			{
 				if (!redoStates.length)
@@ -110,7 +105,6 @@
 						'sourceMode': editor.sourceMode(),
 						'value': rawEditorValue
 					});
-
 
 				redoStates.push(state);
 				applyState(state);
@@ -167,13 +161,11 @@
 			if (undoLimit > 0 && undoStates.length > undoLimit)
 				undoStates.shift();
 
-
 			// If the editor hasn't fully loaded yet,
 			// then the previous value won't be set.
 			if (ignoreNextValueChanged || !previousValue ||
 					previousValue === rawValue)
 				return;
-
 
 			// Value has changed so remove all redo states
 			redoStates.length = 0;
@@ -184,7 +176,6 @@
 			// ??
 			else if (charChangedCount < 50 && !/\s$/g.test(e.rawValue))
 				return;
-
 
 			undoStates.push({
 				'caret': editor.sourceEditorCaret(),

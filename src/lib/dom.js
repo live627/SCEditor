@@ -94,7 +94,6 @@ export function parents(node, selector)
 			parents.push(parent);
 
 
-
 	return parents;
 }
 
@@ -112,7 +111,6 @@ export function parent(node, selector)
 	while ((parent = parent.parentNode) && !/(9|11)/.test(parent.nodeType))
 		if (!selector || is(parent, selector))
 			return parent;
-
 
 }
 
@@ -277,7 +275,6 @@ export function attr(node, attr, value)
 	if (arguments.length < 3)
 		return node.getAttribute(attr);
 
-
 	// eslint-disable-next-line eqeqeq, no-eq-null
 	if (value == null)
 		removeAttr(node, attr);
@@ -349,7 +346,6 @@ export function css(node, rule, value)
 		if (utils.isString(rule))
 			return node.nodeType === 1 ? getComputedStyle(node)[rule] : null;
 
-
 		utils.each(rule, function (key, value)
 		{
 			css(node, key, value);
@@ -363,7 +359,6 @@ export function css(node, rule, value)
 		node.style[rule] = isNumeric ? value + 'px' : value;
 	}
 }
-
 
 /**
  * Gets or sets the data attributes on a node
@@ -399,7 +394,6 @@ export function data(node, key, value)
 		if (argsLength === 2)
 			return attr(node, 'data-' + key);
 
-
 		attr(node, 'data-' + key, String(value));
 	}
 }
@@ -419,10 +413,8 @@ export function is(node, selector)
 		result = (node.matches || node.msMatchesSelector ||
 			node.webkitMatchesSelector).call(node, selector);
 
-
 	return result;
 }
-
 
 /**
  * Returns true if node contains child otherwise false.
@@ -450,7 +442,6 @@ export function previousElementSibling(node, selector)
 
 	if (selector && prev)
 		return is(prev, selector) ? prev : null;
-
 
 	return prev;
 }
@@ -494,7 +485,6 @@ export function addClass(node, className)
 
 	if (classList.indexOf(className) < 0)
 		classList.push(className);
-
 
 	node.className = classList.join(' ');
 }
@@ -632,7 +622,6 @@ function camelCase(string)
 		});
 }
 
-
 /**
  * Loop all child nodes of the passed node
  *
@@ -664,7 +653,6 @@ export function traverse(node, func, innermostFirst, siblingsOnly, reverse)
 			(innermostFirst && func(node) === false)
 		)
 			return false;
-
 
 		node = next;
 	}
@@ -698,7 +686,6 @@ export function parseHTML(html, context)
 
 	while (tmp.firstChild)
 		appendChild(ret, tmp.firstChild);
-
 
 	return ret;
 }
@@ -749,7 +736,6 @@ export function convertElement(element, toTagName)
 	while (element.firstChild)
 		appendChild(newElement, element.firstChild);
 
-
 	element.parentNode.replaceChild(newElement, element);
 
 	return newElement;
@@ -778,7 +764,6 @@ export function canHaveChildren(node)
 	if (!/11?|9/.test(node.nodeType))
 		return false;
 
-
 	// List of empty HTML tags separated by bar (|) character.
 	// Source: http://www.w3.org/TR/html4/index/elements.html
 	// Source: http://www.w3.org/TR/html5/syntax.html#void-elements
@@ -802,12 +787,10 @@ export function isInline(elm, includeCodeAsBlock)
 	if (nodeType !== ELEMENT_NODE)
 		return nodeType === TEXT_NODE;
 
-
 	tagName = elm.tagName.toLowerCase();
 
 	if (tagName === 'code')
 		return !includeCodeAsBlock;
-
 
 	return blockLevelList.indexOf('|' + tagName + '|') < 0;
 }
@@ -839,7 +822,6 @@ export function fixNesting(node)
 	{
 		while (isInline(node.parentNode, true))
 			node = node.parentNode;
-
 
 		return node;
 	};
@@ -893,7 +875,6 @@ export function findCommonAncestor(node1, node2)
 		if (contains(node1, node2))
 			return node1;
 
-
 }
 
 /**
@@ -905,7 +886,6 @@ export function getSibling(node, previous)
 {
 	if (!node)
 		return null;
-
 
 	return (previous ? node.previousSibling : node.nextSibling) ||
 		getSibling(node.parentNode, previous);
@@ -930,7 +910,6 @@ export function removeWhiteSpace(root)
 	if (/pre(\-wrap)?$/i.test(cssWhiteSpace))
 		return;
 
-
 	while (node)
 	{
 		nextNode  = node.nextSibling;
@@ -940,7 +919,6 @@ export function removeWhiteSpace(root)
 		if (nodeType === ELEMENT_NODE && node.firstChild)
 			removeWhiteSpace(node);
 
-
 		if (nodeType === TEXT_NODE)
 		{
 			next      = getSibling(node);
@@ -949,7 +927,6 @@ export function removeWhiteSpace(root)
 
 			while (hasClass(previous, 'sceditor-ignore'))
 				previous = getSibling(previous, true);
-
 
 			// If previous sibling isn't inline or is a textnode that
 			// ends in whitespace, time the start whitespace
@@ -982,14 +959,12 @@ export function removeWhiteSpace(root)
 					''
 				);
 
-
 			// Strip trailing whitespace
 			if (!next || !isInline(next))
 				nodeValue = nodeValue.replace(
 					preserveNewLines ? /[\t ]+$/ : /[\t\n\r ]+$/,
 					''
 				);
-
 
 			// Remove empty text nodes
 			if (!nodeValue.length)
@@ -1062,7 +1037,6 @@ export function getStyle(elm, property)
 	if (!cssPropertyNameCache[property])
 		cssPropertyNameCache[property] = camelCase(property);
 
-
 	property   = cssPropertyNameCache[property];
 	styleValue = elmStyle[property];
 
@@ -1075,7 +1049,6 @@ export function getStyle(elm, property)
 		if (css(elm.parentNode, property) === styleValue ||
 			css(elm, 'display') !== 'block' || is(elm, 'hr,th'))
 			return '';
-
 
 		// IE changes text-align to the same as the current direction
 		// so skip unless its not the same
@@ -1105,7 +1078,6 @@ export function hasStyle(elm, property, values)
 
 	if (!styleValue)
 		return false;
-
 
 	return !values || styleValue === values ||
 		(Array.isArray(values) && values.indexOf(styleValue) > -1);

@@ -133,7 +133,6 @@ export default [
 			if (!attr(node, 'id'))
 				attr(node, 'id', attr(node, 'name'));
 
-
 			removeAttr(node, 'name');
 		}
 	},

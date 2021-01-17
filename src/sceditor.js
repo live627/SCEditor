@@ -52,7 +52,6 @@ export default {
 		if (dom.parent(textarea, '.sceditor-container'))
 			return;
 
-
 		if (options.runWithoutWysiwygSupport || browser.isWysiwygSupported)
 			/*eslint no-new: off*/
 			(new SCEditor(textarea, options));

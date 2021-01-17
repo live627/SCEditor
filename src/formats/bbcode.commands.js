@@ -94,7 +94,6 @@ var commands = {
 				content += (content ? '\n' : '') +
 							'[li]' + line + '[/li]';
 
-
 			this.insertText('[ul]\n' + content + '\n[/ul]');
 		}
 	},
@@ -106,7 +105,6 @@ var commands = {
 			for (const line of selected.split(/\r?\n/))
 				content += (content ? '\n' : '') +
 							'[li]' + line + '[/li]';
-
 
 			this.insertText('[ol]\n' + content + '\n[/ol]');
 		}
@@ -137,16 +135,13 @@ var commands = {
 						attrs += ' width="' +
 									escapeEntities(width, true) + '"';
 
-
 					if (height)
 						attrs += ' height="' +
 									escapeEntities(height, true) + '"';
 
-
 					if (alt)
 						attrs += ' alt="' +
 									escapeEntities(alt, true) + '"';
-
 
 					editor.insertText(
 						'[img' + attrs + ']' + url + '[/img]'

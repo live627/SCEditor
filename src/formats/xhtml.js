@@ -113,7 +113,6 @@ var XHTMLSerializer = function ()
 		else
 			serializeNode(node);
 
-
 		return outputStringBuilder.join('');
 	};
 
@@ -206,7 +205,6 @@ var XHTMLSerializer = function ()
 		if (is(node, '.sceditor-ignore'))
 			return;
 
-
 		output('<' + tagName, !parentIsPre && canIndent(node));
 		while (attrIdx--)
 		{
@@ -221,7 +219,6 @@ var XHTMLSerializer = function ()
 
 		if (!isIframe)
 			child = firstChild;
-
 
 		while (child)
 		{
@@ -277,7 +274,6 @@ var XHTMLSerializer = function ()
 		if (!parentIsPre)
 			text = trim(text);
 
-
 		if (text)
 			output(escapeEntities(text), !parentIsPre && canIndent(node));
 
@@ -302,7 +298,6 @@ var XHTMLSerializer = function ()
 			if (outputStringBuilder.length)
 				outputStringBuilder.push('\n');
 
-
 			while (i--)
 				outputStringBuilder.push(opts.indentStr);
 
@@ -324,11 +319,9 @@ var XHTMLSerializer = function ()
 		if (node.nodeType !== 1 && prev)
 			return !dom.isInline(prev);
 
-
 		// first child of a block element
 		if (!prev && !dom.isInline(node.parentNode))
 			return true;
-
 
 		return !dom.isInline(node);
 	};
@@ -374,12 +367,10 @@ function xhtmlFormat()
 						if (!tagConvertersCache[tagname])
 							tagConvertersCache[tagname] = [];
 
-
 						tagConvertersCache[tagname].push(converter);
 					});
 				}
 			);
-
 
 		this.commands = extend(true,
 			{}, defaultCommandsOverrides, this.commands);
@@ -411,7 +402,6 @@ function xhtmlFormat()
 		if (!isFragment)
 			wrapInlines(container);
 
-
 		xhtml = (new XHTMLSerializer()).serialize(container, true);
 
 		context.body.removeChild(container);
@@ -435,7 +425,6 @@ function xhtmlFormat()
 		if (!tagConvertersCache[tagName])
 			return;
 
-
 		tagConvertersCache[tagName].forEach(function (converter)
 		{
 			if (converter.tags[tagName])
@@ -444,12 +433,10 @@ function xhtmlFormat()
 					if (!node.getAttributeNode)
 						return;
 
-
 					attr = node.getAttributeNode(attr);
 
 					if (!attr || values && values.indexOf(attr.value) < 0)
 						return;
-
 
 					converter.conv.call(base, node);
 				});
@@ -495,27 +482,22 @@ function xhtmlFormat()
 		if (excludeBr && tagName === 'br')
 			return true;
 
-
 		if (is(node, '.sceditor-ignore'))
 			return true;
-
 
 		if (allowedEmpty.indexOf(tagName) > -1 || tagName === 'td' ||
 			!dom.canHaveChildren(node))
 
 			return false;
 
-
 		// \S|\u00A0 = any non space char
 		if (nodeValue && /\S|\u00A0/.test(nodeValue))
 			return false;
-
 
 		while (childrenLength--)
 			if (!isEmpty(childNodes[childrenLength],
 				excludeBr && !node.previousSibling && !node.nextSibling))
 				return false;
-
 
 
 		// Treat tags with a width and height from CSS as not empty
@@ -562,12 +544,10 @@ function xhtmlFormat()
 			if (nodeType === 3)
 				return;
 
-
 			if (nodeType === 4)
 				tagName = '!cdata';
 			else if (tagName === '!' || nodeType === 8)
 				tagName = '!comment';
-
 
 			if (nodeType === 1)
 				// skip empty nlf elements (new lines automatically
@@ -588,7 +568,6 @@ function xhtmlFormat()
 					}
 
 
-
 			if (empty)
 				remove = true;
 			// 3 is text node which do not get filtered
@@ -596,7 +575,6 @@ function xhtmlFormat()
 				remove = (allowedTags.indexOf(tagName) < 0);
 			else if (disallowedTags && disallowedTags.length)
 				remove = (disallowedTags.indexOf(tagName) > -1);
-
 
 			if (remove)
 			{
@@ -607,12 +585,10 @@ function xhtmlFormat()
 						parentNode.insertBefore(
 							document.createTextNode(' '), node);
 
-
 					// Insert all the childen after node
 					while (node.firstChild)
 						parentNode.insertBefore(node.firstChild,
 							nextSibling);
-
 
 					if (isBlock && nextSibling &&
 						dom.isInline(nextSibling))
@@ -641,10 +617,8 @@ function xhtmlFormat()
 		if (filtersA)
 			extend(ret, filtersA);
 
-
 		if (!filtersB)
 			return ret;
-
 
 		each(filtersB, function (attrName, values)
 		{
@@ -690,7 +664,6 @@ function xhtmlFormat()
 			else
 				wrapper = null;
 
-
 			node = next;
 		}
 	};
@@ -720,7 +693,6 @@ function xhtmlFormat()
 			if (!node.attributes)
 				return;
 
-
 			tagName     = node.nodeName.toLowerCase();
 			attrsLength = node.attributes.length;
 
@@ -739,7 +711,6 @@ function xhtmlFormat()
 						);
 
 
-
 				while (attrsLength--)
 				{
 					attr        = node.attributes[attrsLength];
@@ -755,7 +726,6 @@ function xhtmlFormat()
 						remove = validValues === null ||
 							(Array.isArray(validValues) &&
 								validValues.indexOf(attr.value) > -1);
-
 
 					if (remove)
 						node.removeAttribute(attrName);

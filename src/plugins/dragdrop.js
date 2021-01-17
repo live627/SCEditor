@@ -60,7 +60,6 @@
 		for (var i = 0; i < data.length; i++)
 			binary[i] = data[i].charCodeAt(0);
 
-
 		try
 		{
 			return new Blob([binary], { type: mime });
@@ -75,7 +74,6 @@
 	{
 		if (!isSupported)
 			return;
-
 
 		var base = this;
 		var opts;
@@ -107,7 +105,6 @@
 				opts.allowedTypes.indexOf(file.type) < 0)
 				return false;
 
-
 			return opts.isAllowed ? opts.isAllowed(file) : true;
 		};
 
@@ -130,7 +127,6 @@
 					if (typeof html === 'string')
 						node.insertAdjacentHTML('afterend', html);
 
-
 					node.parentNode.removeChild(node);
 				}
 			}
@@ -141,7 +137,6 @@
 					toReplace.parentNode.replaceChild(placeholder, toReplace);
 				else
 					editor.wysiwygEditorInsertHtml(placeholder.outerHTML);
-
 
 				return {
 					insert: function (html)
@@ -164,7 +159,6 @@
 					return;
 
 
-
 			showCover();
 			e.preventDefault();
 		}
@@ -181,7 +175,6 @@
 				// Dragging a string should be left to default
 				if (files[i].kind === 'string')
 					return;
-
 
 				if (isAllowed(files[i]))
 					handleFile(files[i], createHolder());

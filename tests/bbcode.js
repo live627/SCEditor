@@ -25,7 +25,6 @@ test('Check properties', t => {
 	// t.false('eatDoughnut' in parser.opts);
 });
 
-
 test('Fix invalid nesting', t => {
 	t.is(
 		stripWhiteSpace(parser.toSource('[b]test[code]test[/code]test[/b]')),
@@ -75,7 +74,6 @@ test('Fix invalid nesting', t => {
 	);
 });
 
-
 test('Rename BBCode', t => {
 	bbcode.rename('b', 'testbold');
 
@@ -103,7 +101,6 @@ test('Rename BBCode', t => {
 	);
 });
 
-
 test('Self closing tag', t => {
 	t.is(
 		parser.toSource('[hr]test'),
@@ -113,7 +110,6 @@ test('Self closing tag', t => {
 });
 
 
-
 test('Tag closed by another tag', t => {
 	t.is(
 		parser.toSource('[list][*] test[*] test 2[/list]'),
@@ -121,7 +117,6 @@ test('Tag closed by another tag', t => {
 		'List [*]'
 	);
 });
-
 
 
 test('BBCode closed outside block', t => {
@@ -183,7 +178,6 @@ test('BBCode closed outside block - No children fix', t => {
 	});
 });
 
-
 test('Closing parent tag from child', t => {
 	t.is(
 		parser.toSource('[b][color]test[/b][/color]'),
@@ -217,7 +211,6 @@ test('Closing parent tag from child', t => {
 	);
 });
 
-
 test('Missing tags', t => {
 	t.is(
 		parser.toSource('[b][color][/b]'),
@@ -231,7 +224,6 @@ test('Missing tags', t => {
 		'Missing opening tag'
 	);
 });
-
 
 test('Unknown tags', t => {
 	t.is(
@@ -277,7 +269,6 @@ test('Do not strip start and end spaces', t => {
 	);
 });
 
-
 test('New Line Handling', t => {
 	t.is(
 		parser.toHtml('[list][*]test\n[*]test2\nline\n[/list]'),
@@ -311,7 +302,6 @@ test('New Line Handling', t => {
 		'Two block-level elements together'
 	);
 });
-
 
 test('Attributes QuoteType.auto', t => {
 	// Remove the [quote] tag default quoteType so will use the default
@@ -384,7 +374,6 @@ test('Attributes QuoteType.auto', t => {
 	});
 });
 
-
 test('Attributes QuoteType.never', t => {
 	// Remove the [quote] tag default quoteType so will use the default
 	// one specified by the parser
@@ -455,7 +444,6 @@ test('Attributes QuoteType.never', t => {
 		quoteType: QuoteType.never
 	});
 });
-
 
 test('Attributes QuoteType.always', t => {
 	// Remove the [quote] tag default quoteType so will use the default
@@ -528,7 +516,6 @@ test('Attributes QuoteType.always', t => {
 		quoteType: QuoteType.never
 	});
 });
-
 
 test('Attributes QuoteType custom', t => {
 	// Remove the [quote] tag default quoteType so will use the default
@@ -607,14 +594,12 @@ test('Attributes QuoteType custom', t => {
 });
 
 
-
 test('Bold', t => {
 	t.is(
 		parser.toHtml('[b]test[/b]'),
 		'<div><strong>test</strong></div>\n'
 	);
 });
-
 
 test('Italic', t => {
 	t.is(
@@ -623,14 +608,12 @@ test('Italic', t => {
 	);
 });
 
-
 test('Underline', t => {
 	t.is(
 		parser.toHtml('[u]test[/u]'),
 		'<div><u>test</u></div>\n'
 	);
 });
-
 
 test('Strikethrough', t => {
 	t.is(
@@ -639,7 +622,6 @@ test('Strikethrough', t => {
 	);
 });
 
-
 test('Subscript', t => {
 	t.is(
 		parser.toHtml('[sub]test[/sub]'),
@@ -647,14 +629,12 @@ test('Subscript', t => {
 	);
 });
 
-
 test('Superscript', t => {
 	t.is(
 		parser.toHtml('[sup]test[/sup]'),
 		'<div><sup>test</sup></div>\n'
 	);
 });
-
 
 test('Font face', t => {
 	t.is(
@@ -676,7 +656,6 @@ test('Font face', t => {
 	);
 });
 
-
 test('Size', t => {
 	t.is(
 		parser.toHtml('[size=4]test[/size]'),
@@ -684,7 +663,6 @@ test('Size', t => {
 		'Normal'
 	);
 });
-
 
 test('Font colour', t => {
 	t.is(
@@ -699,7 +677,6 @@ test('Font colour', t => {
 		'Named'
 	);
 });
-
 
 test('List', t => {
 	t.is(
@@ -721,7 +698,6 @@ test('List', t => {
 	);
 });
 
-
 test('Table', t => {
 	t.is(
 		parser.toHtml('[table][tr][th]test[/th][/tr]' +
@@ -732,7 +708,6 @@ test('Table', t => {
 	);
 });
 
-
 test('Horizontal rule', t => {
 	t.is(
 		parser.toHtml('[hr]'),
@@ -740,7 +715,6 @@ test('Horizontal rule', t => {
 		'Normal'
 	);
 });
-
 
 test('Image', t => {
 	t.is(
@@ -771,7 +745,6 @@ test('Image', t => {
 	);
 });
 
-
 test('URL', t => {
 	t.is(
 		parser.toHtml('[url=http://test.com/]test[/url]'),
@@ -800,7 +773,6 @@ test('URL', t => {
 	);
 });
 
-
 test('Email', t => {
 	t.is(
 		parser.toHtml('[email=test@test.com]test[/email]'),
@@ -814,7 +786,6 @@ test('Email', t => {
 		'Only e-mail'
 	);
 });
-
 
 test('Quote', t => {
 	t.is(
@@ -831,7 +802,6 @@ test('Quote', t => {
 	);
 });
 
-
 test('Code', t => {
 	t.is(
 		parser.toHtml('[code]Testing 1.2.3....[/code]'),
@@ -846,7 +816,6 @@ test('Code', t => {
 	);
 });
 
-
 test('Left', t => {
 	t.is(
 		parser.toHtml('[left]Testing 1.2.3....[/left]'),
@@ -854,7 +823,6 @@ test('Left', t => {
 		'Normal'
 	);
 });
-
 
 test('Right', t => {
 	t.is(
@@ -864,7 +832,6 @@ test('Right', t => {
 	);
 });
 
-
 test('Centre', t => {
 	t.is(
 		parser.toHtml('[center]Testing 1.2.3....[/center]'),
@@ -873,7 +840,6 @@ test('Centre', t => {
 	);
 });
 
-
 test('Justify', t => {
 	t.is(
 		parser.toHtml('[justify]Testing 1.2.3....[/justify]'),
@@ -881,7 +847,6 @@ test('Justify', t => {
 		'Normal'
 	);
 });
-
 
 test('YouTube', t => {
 	t.is(
@@ -892,7 +857,6 @@ test('YouTube', t => {
 		'Normal'
 	);
 });
-
 
 
 
@@ -945,7 +909,6 @@ test('[img]', t => {
 		'Dimension attribute injection'
 	);
 });
-
 
 test('[url]', t => {
 	t.is(
@@ -1018,7 +981,6 @@ test('[url]', t => {
 	);
 });
 
-
 test('[email]', t => {
 	t.is(
 		parser.toHtml(
@@ -1043,7 +1005,6 @@ test('[email]', t => {
 		'Inject HTML'
 	);
 });
-
 
 test('CSS injection', t => {
 	t.is(
@@ -1070,7 +1031,6 @@ test('Break out of attribute', t => {
 		'Inject CSS expression'
 	);
 });
-
 
 test('HTML injection', t => {
 	t.is(
