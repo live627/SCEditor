@@ -27,14 +27,10 @@
     "url": "https://github.com/samclarke/SCEditor.git"
   },
   "keywords": [
-    "jquery-plugin",
     "WYSIWYG",
     "BBCode",
     "editor",
-    "contenteditable",
-    "jquery",
-    "ui",
-    "ecosystem:jquery"
+    "contenteditable"
   ],
   "engines": {
     "node": ">=12"
@@ -44,7 +40,6 @@
     "lint": "eslint . --color",
     "stylelint": "stylelint '**/*.scss'",
     "test": "c8 --reporter=html --reporter=text ava --color",
-    "rollup": "rollup -c",
     "build": "gulp"
   },
   "devDependencies": {
@@ -55,8 +50,6 @@
     "clean-css": "^4.2.3",
     "eslint": "^7.14.0",
     "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-copy": "^4.0.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-zip": "^5.0.2",
@@ -64,11 +57,11 @@
     "jsdom-global": "3.0.2",
     "postcss-clean": "^1.1.0",
     "rollup": "^2.34.2",
+    "rollup-plugin-terser": "^7.0.2",
     "sinon": "^9.2.1",
     "spritesmith": "^3.4.0",
     "stylelint": "^13.8.0",
     "stylelint-config-sass-guidelines": "^7.1.0",
-    "uglify-js": "^3.12.1",
     "vinyl-map": "^1.0.2"
   },
   "dependencies": {}
