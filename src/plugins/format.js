@@ -17,10 +17,10 @@
 		var base = this;
 
 		/**
-		 * Default tags
-		 * @type {Object}
-		 * @private
-		 */
+		* Default tags
+		* @type {Object}
+		* @private
+		*/
 		var tags = {
 			p: 'Paragraph',
 			h1: 'Heading 1',
@@ -34,9 +34,9 @@
 		};
 
 		/**
-		 * Private functions
-		 * @private
-		 */
+		* Private functions
+		* @private
+		*/
 		var	insertTag,
 			formatCmd;
 
@@ -46,58 +46,58 @@
 				pOpts = opts.paragraphformat;
 
 			// Don't enable if the BBCode plugin is enabled.
-			if (opts.format && opts.format === 'bbcode') {
+			if (opts.format && opts.format === 'bbcode')
 				return;
-			}
+
 
 			if (pOpts) {
-				if (pOpts.tags) {
+				if (pOpts.tags)
 					tags = pOpts.tags;
-				}
 
-				if (pOpts.excludeTags) {
+
+				if (pOpts.excludeTags)
 					pOpts.excludeTags.forEach(function (val) {
 						delete tags[val];
 					});
-				}
+
 			}
 
-			if (!this.commands.format) {
+			if (!this.commands.format)
 				this.commands.format = {
 					exec: formatCmd,
 					txtExec: formatCmd,
 					tooltip: 'Format Paragraph'
 				};
-			}
 
-			if (opts.toolbar === sceditor.defaultOptions.toolbar) {
+
+			if (opts.toolbar === sceditor.defaultOptions.toolbar)
 				opts.toolbar = opts.toolbar.replace(',color,',
 					',color,format,');
-			}
+
 		};
 
 		/**
-		 * Inserts the specified tag into the editor
-		 *
-		 * @param  {sceditor} editor
-		 * @param  {string} tag
-		 * @private
-		 */
+		* Inserts the specified tag into the editor
+		*
+		* @param  {sceditor} editor
+		* @param  {string} tag
+		* @private
+		*/
 		insertTag = function (editor, tag) {
-			if (editor.sourceMode()) {
+			if (editor.sourceMode())
 				editor.insert('<' + tag + '>', '</' + tag + '>');
-			} else {
+			else
 				editor.execCommand('formatblock', '<' + tag + '>');
-			}
+
 
 		};
 
 		/**
-		 * Function for the exec and txtExec properties
-		 *
-		 * @param  {node} caller
-		 * @private
-		 */
+		* Function for the exec and txtExec properties
+		*
+		* @param  {node} caller
+		* @private
+		*/
 		formatCmd = function (caller) {
 			var	editor   = this,
 				content = document.createElement('div');
@@ -110,11 +110,11 @@
 					editor.dropdown.hide();
 					editor.focus();
 
-					if (val.exec) {
+					if (val.exec)
 						val.exec(editor);
-					} else {
+					else
 						insertTag(editor, tag);
-					}
+
 
 					e.preventDefault();
 				});

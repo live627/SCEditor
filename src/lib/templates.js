@@ -108,9 +108,9 @@ export default function (name, params, createHtml) {
 
 	template = replaceVars(template, params);
 
-	if (createHtml) {
+	if (createHtml)
 		template = dom.parseHTML(template);
-	}
+
 
 	return template;
 };

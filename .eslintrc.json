@@ -59,6 +59,7 @@
     "no-new-wrappers": "error",
     "no-invalid-this": "off",
     "no-with": "error",
+    "curly": [2, "multi"],
     "brace-style": ["error", "1tbs", {
       "allowSingleLine": false
     }],

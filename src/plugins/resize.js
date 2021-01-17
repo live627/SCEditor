@@ -16,15 +16,15 @@
 	var globalDoc  = document;
 	function getNode(n, v) {
 		n = document.createElementNS('http://www.w3.org/2000/svg', n);
-		for (var p in v) {
+		for (var p in v)
 			n.setAttribute(p.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v[p]);
-		}
+
 		return n;
 	}
 	/**
-	 * Creates the resizer.
-	 * @private
-	 */
+	* Creates the resizer.
+	* @private
+	*/
 	var initResize = function (base, editorContainer, options) {
 		var
 			grip        = dom.createElement('div', {
@@ -67,36 +67,36 @@
 						startWidth - (newX - startX) :
 						startWidth + (newX - startX);
 
-				if (maxWidth > 0 && newWidth > maxWidth) {
+				if (maxWidth > 0 && newWidth > maxWidth)
 					newWidth = maxWidth;
-				}
-				if (minWidth > 0 && newWidth < minWidth) {
+
+				if (minWidth > 0 && newWidth < minWidth)
 					newWidth = minWidth;
-				}
-				if (!options.resizeWidth) {
+
+				if (!options.resizeWidth)
 					newWidth = false;
-				}
 
-				if (maxHeight > 0 && newHeight > maxHeight) {
+
+				if (maxHeight > 0 && newHeight > maxHeight)
 					newHeight = maxHeight;
-				}
-				if (minHeight > 0 && newHeight < minHeight) {
-					newHeight = minHeight;
-				}
-				if (!options.resizeHeight) {
-					newHeight = false;
-				}
 
-				if (newWidth || newHeight) {
+				if (minHeight > 0 && newHeight < minHeight)
+					newHeight = minHeight;
+
+				if (!options.resizeHeight)
+					newHeight = false;
+
+
+				if (newWidth || newHeight)
 					base.dimensions(newWidth, newHeight);
-				}
+
 
 				e.preventDefault();
 			},
 			mouseUpFunc = function (e) {
-				if (!isDragging) {
+				if (!isDragging)
 					return;
-				}
+
 
 				isDragging = false;
 

@@ -31,9 +31,9 @@ export function regex(str) {
  * @since 1.4.1
  */
 export function entities(str, noQuotes) {
-	if (!str) {
+	if (!str)
 		return str;
-	}
+
 
 	var replacements = {
 		'&': '&amp;',
@@ -90,9 +90,9 @@ export function uriScheme(url) {
 		location = window.location;
 
 	// Has no scheme or a valid scheme
-	if ((!url || !hasScheme.test(url)) || VALID_SCHEME_REGEX.test(url)) {
+	if ((!url || !hasScheme.test(url)) || VALID_SCHEME_REGEX.test(url))
 		return url;
-	}
+
 
 	path = location.pathname.split('/');
 	path.pop();

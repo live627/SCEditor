@@ -14,13 +14,13 @@
 
 	function getNode(n, v) {
 		n = document.createElementNS('http://www.w3.org/2000/svg', n);
-		for (var p in v) {
-			if (p === 'textContent') {
+		for (var p in v)
+			if (p === 'textContent')
 				n.textContent = v[p];
-			} else {
+			else
 				n.setAttribute(p.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v[p]);
-			}
-		}
+
+
 		return n;
 	}
 
@@ -156,18 +156,18 @@
 				if (command in icons) {
 					svg = getNode('svg');
 					svg.setAttribute('viewBox', '0 0 16 16');
-					if (typeof icons[command] === 'string') {
+					if (typeof icons[command] === 'string')
 						svg.appendChild(getNode('path', { d: icons[command] }));
-					} else {
-						for (let tag in icons[command]) {
+					else
+						for (let tag in icons[command])
 							svg.appendChild(getNode(tag, icons[command][tag]));
-						}
-					}
-					if (command === 'color') {
+
+
+					if (command === 'color')
 						colorPath = svg.appendChild(
 							getNode('path', { 'd': 'M2 13h12v2H2z' })
 						);
-					}
+
 				}
 
 				return svg;
@@ -176,9 +176,9 @@
 				if (colorPath) {
 					var color = 'inherit';
 
-					if (!isSourceMode && currentNode) {
+					if (!isSourceMode && currentNode)
 						color = currentNode.ownerDocument.queryCommandValue('forecolor');
-					}
+
 
 					colorPath.setAttribute('fill', color);
 				}
@@ -196,10 +196,10 @@
 						o[commandName][element.tagName] = {};
 						for (let name of element.getAttributeNames()) {
 							o[commandName][element.tagName][name.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())] = element.getAttribute(name);
-							if (element.textContent !== '') {
+							if (element.textContent !== '')
 								// eslint-disable-next-line max-len
 								o[commandName][element.tagName].textContent = element.textContent;
-							}
+
 						}
 					}
 				}

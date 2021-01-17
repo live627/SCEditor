@@ -37,9 +37,9 @@
 
 				if (/^sce\-autodraft\-/.test(key)) {
 					var item = JSON.parse(localStorage.getItem(storageKey));
-					if (item && item.time < Date.now() - expires) {
+					if (item && item.time < Date.now() - expires)
 						clear(key);
-					}
+
 				}
 			}
 		}
@@ -76,11 +76,11 @@
 				editor.val(state.value, false);
 				editor.focus();
 
-				if (state.sourceMode) {
+				if (state.sourceMode)
 					editor.sourceEditorCaret(state.caret);
-				} else {
+				else
 					editor.getRangeHelper().restoreRange();
-				}
+
 			}
 
 			saveHandler({

@@ -99,17 +99,17 @@ var commands = {
 				function (url, width, height, alt) {
 					var attrs  = '';
 
-					if (width) {
+					if (width)
 						attrs += ' width="' + width + '"';
-					}
 
-					if (height) {
+
+					if (height)
 						attrs += ' height="' + height + '"';
-					}
 
-					if (alt) {
+
+					if (alt)
 						attrs += ' alt="' + alt + '"';
-					}
+
 
 					editor.insertText(
 						'<img' + attrs + ' src="' + url + '" />'

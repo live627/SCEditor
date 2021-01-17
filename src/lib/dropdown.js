@@ -42,14 +42,14 @@ export default function (editorContainer) {
 			isOpegn = false;
 		},
 		click = function (e) {
-			if (isOpegn && !e.target.closest('#tooltip')) {
+			if (isOpegn && !e.target.closest('#tooltip'))
 				hide();
-			}
+
 		},
 		esc = function (e) {
-			if (e.keyCode === 27) {
+			if (e.keyCode === 27)
 				hide();
-			}
+
 		},
 		destroy = function () {
 			document.removeEventListener('click', click);

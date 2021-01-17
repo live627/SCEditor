@@ -21,25 +21,25 @@ function fixFirefoxListBug(editor) {
 		while (node) {
 			next = node;
 
-			if (next.firstChild) {
+			if (next.firstChild)
 				next = next.firstChild;
-			} else {
+			else {
 
-				while (next && !next.nextSibling) {
+				while (next && !next.nextSibling)
 					next = next.parentNode;
-				}
 
-				if (next) {
+
+				if (next)
 					next = next.nextSibling;
-				}
+
 			}
 
-			if (node.nodeType === 3 && /[\n\r\t]+/.test(node.nodeValue)) {
+			if (node.nodeType === 3 && /[\n\r\t]+/.test(node.nodeValue))
 				// Only remove if newlines are collapsed
-				if (!/^pre/.test(dom.css(node.parentNode, 'whiteSpace'))) {
+				if (!/^pre/.test(dom.css(node.parentNode, 'whiteSpace')))
 					dom.remove(node);
-				}
-			}
+
+
 
 			node = next;
 		}
@@ -51,9 +51,9 @@ var createDropDown = function (editor, menuItem, name, content) {
 	editor.dropdown.show(menuItem);
 
 	var first = document.querySelector('#tooltip input,textarea');
-	if (first) {
+	if (first)
 		first.focus();
-	}
+
 };
 
 /**
@@ -106,9 +106,9 @@ var defaultCmds = {
 	// START_COMMAND: Left
 	left: {
 		state: function (node) {
-			if (node && node.nodeType === 3) {
+			if (node && node.nodeType === 3)
 				node = node.parentNode;
-			}
+
 
 			if (node) {
 				var isLtr = dom.css(node, 'direction') === 'ltr';
@@ -130,9 +130,9 @@ var defaultCmds = {
 	// START_COMMAND: Right
 	right: {
 		state: function (node) {
-			if (node && node.nodeType === 3) {
+			if (node && node.nodeType === 3)
 				node = node.parentNode;
-			}
+
 
 			if (node) {
 				var isLtr = dom.css(node, 'direction') === 'ltr';
@@ -194,11 +194,11 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			for (var i = 1; i <= 7; i++) {
+			for (var i = 1; i <= 7; i++)
 				dom.appendChild(content, _tmpl('sizeOpt', {
 					size: i
 				}, true));
-			}
+
 
 			createDropDown(editor, caller, 'fontsize-picker', content);
 		},
@@ -223,13 +223,13 @@ var defaultCmds = {
 				for (const column of editor.opts.colors) {
 					html += '<div class="sceditor-color-column">';
 
-					for (const [color, name] of Object.entries(column)) {
+					for (const [color, name] of Object.entries(column))
 						html +=
 							'<a href="#" class="sceditor-color-option"' +
 							' style="background-color: ' + color + '"' +
 							' data-color="' + color + '"' +
 							' title="' + name + '"></a>';
-					}
+
 
 					html += '</div>';
 				}
@@ -306,9 +306,9 @@ var defaultCmds = {
 			dom.on(content, 'click', '.button', function (e) {
 				val = dom.find(content, '#txt')[0].value;
 
-				if (val) {
+				if (val)
 					editor.wysiwygEditorInsertText(val);
-				}
+
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -344,9 +344,9 @@ var defaultCmds = {
 			// Only works with lists, for now
 			var	range, startParent, endParent;
 
-			if (dom.is(firstBlock, 'li')) {
+			if (dom.is(firstBlock, 'li'))
 				return 0;
-			}
+
 
 			if (dom.is(firstBlock, 'ul,ol,menu')) {
 				// if the whole list is selected, then this must be
@@ -367,9 +367,9 @@ var defaultCmds = {
 					startParent.parentNode.firstElementChild ||
 					// work around a bug in FF
 					(dom.is(endParent, 'li') && endParent !==
-						endParent.parentNode.lastElementChild)) {
+						endParent.parentNode.lastElementChild))
 					return 0;
-				}
+
 			}
 
 			return -1;
@@ -384,9 +384,9 @@ var defaultCmds = {
 			// of complications and issues around how to indent text
 			// As default, let's just stay with indenting the lists,
 			// at least, for now.
-			if (dom.closest(block, 'ul,ol,menu')) {
+			if (dom.closest(block, 'ul,ol,menu'))
 				editor.execCommand('indent');
-			}
+
 		},
 		tooltip: 'Add indent'
 	},
@@ -398,9 +398,9 @@ var defaultCmds = {
 		},
 		exec: function () {
 			var	block = this.getRangeHelper().getFirstBlockParent();
-			if (dom.closest(block, 'ul,ol,menu')) {
+			if (dom.closest(block, 'ul,ol,menu'))
 				this.execCommand('outdent');
-			}
+
 		},
 		tooltip: 'Remove one indent'
 	},
@@ -485,14 +485,14 @@ var defaultCmds = {
 			urlInput.value = selected;
 
 			dom.on(content, 'click', '.button', function (e) {
-				if (urlInput.value) {
+				if (urlInput.value)
 					cb(
 						urlInput.value,
 						dom.find(content, '#width')[0].value,
 						dom.find(content, '#height')[0].value,
 						dom.find(content, '#alt')[0].value
 					);
-				}
+
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -511,17 +511,17 @@ var defaultCmds = {
 				function (url, width, height, alt) {
 					var attrs  = '';
 
-					if (width) {
+					if (width)
 						attrs += ' width="' + width + '"';
-					}
 
-					if (height) {
+
+					if (height)
 						attrs += ' height="' + height + '"';
-					}
 
-					if (alt) {
+
+					if (alt)
 						attrs += ' alt="' + alt + '"';
-					}
+
 
 					editor.wysiwygEditorInsertHtml(
 						'<img' + attrs + ' src="' + url + '" />'
@@ -547,9 +547,9 @@ var defaultCmds = {
 			dom.on(content, 'click', '.button', function (e) {
 				var email = dom.find(content, '#email')[0].value;
 
-				if (email) {
+				if (email)
 					cb(email, dom.find(content, '#des')[0].value);
-				}
+
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -568,15 +568,15 @@ var defaultCmds = {
 					// needed for IE to reset the last range
 					editor.focus();
 
-					if (!editor.getRangeHelper().selectedHtml() || text) {
+					if (!editor.getRangeHelper().selectedHtml() || text)
 						editor.wysiwygEditorInsertHtml(
 							'<a href="' + 'mailto:' + email + '">' +
 								(text || email) +
 							'</a>'
 						);
-					} else {
+					else
 						editor.execCommand('createlink', 'mailto:' + email);
-					}
+
 				}
 			);
 		},
@@ -598,9 +598,9 @@ var defaultCmds = {
 			var linkInput = dom.find(content, '#link')[0];
 
 			function insertUrl(e) {
-				if (linkInput.value) {
+				if (linkInput.value)
 					cb(linkInput.value, dom.find(content, '#des')[0].value);
-				}
+
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -610,9 +610,9 @@ var defaultCmds = {
 			dom.on(content, 'click', '.button', insertUrl);
 			dom.on(content, 'keypress', function (e) {
 				// 13 = enter key
-				if (e.which === 13 && linkInput.value) {
+				if (e.which === 13 && linkInput.value)
 					insertUrl(e);
-				}
+
 			}, dom.EVENT_CAPTURE);
 
 			createDropDown(editor, caller, 'insertlink', content);
@@ -633,9 +633,9 @@ var defaultCmds = {
 					editor.wysiwygEditorInsertHtml(
 						'<a href="' + url + '">' + text + '</a>'
 					);
-				} else {
+				} else
 					editor.execCommand('createlink', url);
-				}
+
 			});
 		},
 		tooltip: 'Insert a link'
@@ -651,9 +651,9 @@ var defaultCmds = {
 			var anchor = dom.closest(this.currentNode(), 'a');
 
 			if (anchor) {
-				while (anchor.firstChild) {
+				while (anchor.firstChild)
 					dom.insertBefore(anchor.firstChild, anchor);
-				}
+
 
 				dom.remove(anchor);
 			}
@@ -676,9 +676,9 @@ var defaultCmds = {
 				before = before + author + html + end;
 				end    = null;
 			// if not add a newline to the end of the inserted quote
-			} else if (this.getRangeHelper().selectedHtml() === '') {
+			} else if (this.getRangeHelper().selectedHtml() === '')
 				end = (IE_BR_FIX ? '' : '<br />') + end;
-			}
+
 
 			this.wysiwygEditorInsertHtml(before, end);
 		},
@@ -714,13 +714,13 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			for (var emoticon of emoticons) {
+			for (var emoticon of emoticons)
 				dom.appendChild(content, dom.createElement('img', {
 					src: emoticonsRoot + emoticon.path,
 					alt: emoticon.code,
 					title: emoticon.tooltip || emoticon.code
 				}));
-			};
+			;
 
 			editor.popup.content(content);
 			editor.popup.show();
@@ -745,17 +745,17 @@ var defaultCmds = {
 				var timeMatch = val.match(/[&|?](?:star)?t=((\d+[hms]?){1,3})/);
 				var time = 0;
 
-				if (timeMatch) {
+				if (timeMatch)
 					utils.each(timeMatch[1].split(/[hms]/), function (i, val) {
-						if (val !== '') {
+						if (val !== '')
 							time = (time * 60) + Number(val);
-						}
-					});
-				}
 
-				if (idMatch && /^[a-zA-Z0-9_\-]{11}$/.test(idMatch[1])) {
+					});
+
+
+				if (idMatch && /^[a-zA-Z0-9_\-]{11}$/.test(idMatch[1]))
 					callback(idMatch[1], time);
-				}
+
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -788,17 +788,17 @@ var defaultCmds = {
 				month = now.getMonth() + 1,
 				day   = now.getDate();
 
-			if (year < 2000) {
+			if (year < 2000)
 				year = 1900 + year;
-			}
 
-			if (month < 10) {
+
+			if (month < 10)
 				month = '0' + month;
-			}
 
-			if (day < 10) {
+
+			if (day < 10)
 				day = '0' + day;
-			}
+
 
 			this.insertText(this.opts.dateFormat
 				.replace(/year/i, year)
@@ -817,17 +817,17 @@ var defaultCmds = {
 				mins  = now.getMinutes(),
 				secs  = now.getSeconds();
 
-			if (hours < 10) {
+			if (hours < 10)
 				hours = '0' + hours;
-			}
 
-			if (mins < 10) {
+
+			if (mins < 10)
 				mins = '0' + mins;
-			}
 
-			if (secs < 10) {
+
+			if (secs < 10)
 				secs = '0' + secs;
-			}
+
 
 			this.insertText(hours + ':' + mins + ':' + secs);
 		},
@@ -853,9 +853,9 @@ var defaultCmds = {
 
 				node  = rangeHelper.getFirstBlockParent();
 
-				if (!node || dom.is(node, 'body')) {
+				if (!node || dom.is(node, 'body'))
 					return;
-				}
+
 			}
 
 			var toggleValue = dom.css(node, 'direction') === 'ltr' ? '' : 'ltr';
@@ -882,9 +882,9 @@ var defaultCmds = {
 
 				node = rangeHelper.getFirstBlockParent();
 
-				if (!node || dom.is(node, 'body')) {
+				if (!node || dom.is(node, 'body'))
 					return;
-				}
+
 			}
 
 			var toggleValue = dom.css(node, 'direction') === 'rtl' ? '' : 'rtl';
