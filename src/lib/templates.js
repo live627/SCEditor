@@ -112,6 +112,5 @@ export default function (name, params, createHtml)
 	if (createHtml)
 		template = dom.parseHTML(template);
 
-
 	return template;
 };

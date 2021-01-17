@@ -113,7 +113,6 @@
 					if (!isSourceMode && currentNode)
 						color = currentNode.ownerDocument.queryCommandValue('forecolor');
 
-
 					colorPath.setAttribute('fill', color);
 				}
 			}

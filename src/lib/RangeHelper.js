@@ -6,7 +6,6 @@ import { ie as IE_VER } from './browser.js';
 // causes a line break. In all other browsers it's collapsed.
 var IE_BR_FIX = IE_VER && IE_VER < 11;
 
-
 /**
  * Gets the text, start/end node and offset for
  * length chars left or right of the passed node
@@ -114,10 +113,8 @@ export default function RangeHelper(win, d)
 		if (!range)
 			return false;
 
-
 		if (endHTML)
 			html += base.selectedHtml() + endHTML;
-
 
 		div           = dom.createElement('p', {}, doc);
 		node          = doc.createDocumentFragment();
@@ -125,7 +122,6 @@ export default function RangeHelper(win, d)
 
 		while (div.firstChild)
 			dom.appendChild(node, div.firstChild);
-
 
 		base.insertNode(node);
 	};
@@ -151,7 +147,6 @@ export default function RangeHelper(win, d)
 			if (endNode)
 				node += base.selectedHtml() + endNode;
 
-
 			frag = dom.parseHTML(node);
 		}
 		else
@@ -168,10 +163,8 @@ export default function RangeHelper(win, d)
 		if (!(lastChild = frag.lastChild))
 			return;
 
-
 		while (!dom.isInline(lastChild.lastChild, true))
 			lastChild = lastChild.lastChild;
-
 
 		if (dom.canHaveChildren(lastChild))
 		{
@@ -183,7 +176,6 @@ export default function RangeHelper(win, d)
 		}
 		else
 			lastChild = frag;
-
 
 		base.removeMarkers();
 
@@ -228,7 +220,6 @@ export default function RangeHelper(win, d)
 		if (!input)
 			return false;
 
-
 		range.deleteContents();
 
 		// FF allows <br /> to be selected but inserting a node
@@ -239,7 +230,6 @@ export default function RangeHelper(win, d)
 			dom.insertBefore(input, parent);
 		else
 			range.insertNode(input);
-
 
 		base.restoreRange();
 	};
@@ -277,7 +267,6 @@ export default function RangeHelper(win, d)
 		if (!sel)
 			return;
 
-
 		// When creating a new range, set the start to the first child
 		// element of the body element to avoid errors in FF.
 		if (sel.rangeCount <= 0)
@@ -285,7 +274,6 @@ export default function RangeHelper(win, d)
 			firstChild = doc.body;
 			while (firstChild.firstChild)
 				firstChild = firstChild.firstChild;
-
 
 			range = doc.createRange();
 			// Must be setStartBefore otherwise it can cause infinite
@@ -297,7 +285,6 @@ export default function RangeHelper(win, d)
 
 		if (sel.rangeCount > 0)
 			range = sel.getRangeAt(0);
-
 
 		return range;
 	};
@@ -386,7 +373,6 @@ export default function RangeHelper(win, d)
 			if (!dom.isInline(elm, true))
 				return elm;
 
-
 			elm = elm ? elm.parentNode : null;
 
 			return elm ? func(elm) : elm;
@@ -411,7 +397,6 @@ export default function RangeHelper(win, d)
 
 		if (!range)
 			return false;
-
 
 		range.collapse(start);
 		range.insertNode(node);
@@ -551,7 +536,6 @@ export default function RangeHelper(win, d)
 			while (lastChild && dom.is(lastChild, '.sceditor-ignore'))
 				lastChild = lastChild.previousSibling;
 
-
 			if (dom.is(lastChild, 'br'))
 			{
 				var rng = doc.createRange();
@@ -590,7 +574,6 @@ export default function RangeHelper(win, d)
 		if (!start || !end || !range)
 			return false;
 
-
 		isCollapsed = start.nextSibling === end;
 
 		range = doc.createRange();
@@ -599,7 +582,6 @@ export default function RangeHelper(win, d)
 
 		if (isCollapsed)
 			range.collapse(true);
-
 
 		base.selectRange(range);
 		base.removeMarkers();
@@ -622,7 +604,6 @@ export default function RangeHelper(win, d)
 
 		if (!range)
 			return false;
-
 
 		range.collapse(false);
 
@@ -652,7 +633,6 @@ export default function RangeHelper(win, d)
 
 		if (!range)
 			return '';
-
 
 		range.collapse(!before);
 
@@ -695,7 +675,6 @@ export default function RangeHelper(win, d)
 				return a[0].length - b[0].length;
 			});
 
-
 		var outerText, match, matchPos, startIndex,
 			leftLen, charsLeft, keyword, keywordLen,
 			whitespaceRegex = '(^|[\\s\xA0\u2002\u2003\u2009])',
@@ -707,7 +686,6 @@ export default function RangeHelper(win, d)
 		if (requireWhitespace)
 			maxKeyLen++;
 
-
 		keypressChar = keypressChar || '';
 		outerText    = base.getOuterText(true, maxKeyLen);
 		leftLen      = outerText.length;
@@ -715,7 +693,6 @@ export default function RangeHelper(win, d)
 
 		if (includeAfter)
 			outerText += base.getOuterText(false, maxKeyLen);
-
 
 		while (keywordIdx--)
 		{
@@ -739,7 +716,6 @@ export default function RangeHelper(win, d)
 			}
 			else
 				matchPos = outerText.indexOf(keyword, startIndex);
-
 
 			if (matchPos > -1)
 				// Make sure the match is between before and
@@ -785,10 +761,8 @@ export default function RangeHelper(win, d)
 		if (!rngB)
 			rngB = base.selectedRange();
 
-
 		if (!rngA || !rngB)
 			return !rngA && !rngB;
-
 
 		return rngA.compareBoundaryPoints(Range.END_TO_END, rngB) === 0 &&
 			rngA.compareBoundaryPoints(Range.START_TO_START, rngB) === 0;
@@ -811,7 +785,6 @@ export default function RangeHelper(win, d)
 				sel.removeAllRanges();
 			else if (sel.empty)
 				sel.empty();
-
 
 	};
 };

@@ -386,7 +386,6 @@ export default function SCEditor(original, userOptions)
 		if (IE_VER)
 			dom.addClass(editorContainer, 'ie ie' + IE_VER);
 
-
 		isRequired = original.required;
 		original.required = false;
 
@@ -397,7 +396,6 @@ export default function SCEditor(original, userOptions)
 
 		if ('init' in format)
 			format.init.call(base);
-
 
 		// create the editor
 		initPlugins();
@@ -412,7 +410,6 @@ export default function SCEditor(original, userOptions)
 		if (!browser.isWysiwygSupported)
 			base.toggleSourceMode();
 
-
 		updateActiveButtons();
 
 		var loaded = function ()
@@ -421,7 +418,6 @@ export default function SCEditor(original, userOptions)
 
 			if (options.autofocus)
 				autofocus();
-
 
 			autoExpand();
 			appendNewLine();
@@ -495,10 +491,8 @@ export default function SCEditor(original, userOptions)
 		if (!options.spellcheck)
 			dom.attr(editorContainer, 'spellcheck', 'false');
 
-
 		if (globalWin.location.protocol === 'https:')
 			dom.attr(wysiwygEditor, 'src', 'about:blank');
-
 
 		// Add the editor to the container
 		dom.appendChild(editorContainer, wysiwygEditor);
@@ -576,7 +570,6 @@ export default function SCEditor(original, userOptions)
 		if (options.rtl === null)
 			options.rtl = dom.css(sourceEditor, 'direction') === 'rtl';
 
-
 		base.rtl(!!options.rtl);
 
 		if (options.autoExpand)
@@ -616,7 +609,6 @@ export default function SCEditor(original, userOptions)
 
 		if (options.emoticonsCompat && globalWin.getSelection)
 			dom.on(wysiwygBody, 'keyup', emoticonsCheckWhitespace);
-
 
 		dom.on(sourceEditor, 'blur', valueChangedBlur);
 		dom.on(sourceEditor, 'keyup', valueChangedKeyUp);
@@ -661,7 +653,6 @@ export default function SCEditor(original, userOptions)
 		if (options.icons in SCEditor.icons)
 			icons = new SCEditor.icons[options.icons]();
 
-
 		utils.each(options.toolbar, function (_, rowItems)
 		{
 			var row = dom.createElement('div', {
@@ -682,7 +673,6 @@ export default function SCEditor(original, userOptions)
 					// The commandName must be valid
 					if (!command)
 						return;
-
 
 					shortcut = command.shortcut;
 					button   = _tmpl('toolbarButton', {
@@ -707,7 +697,6 @@ export default function SCEditor(original, userOptions)
 						if (!dom.hasClass(button, 'disabled'))
 							handleCommand(button, command);
 
-
 						updateActiveButtons();
 						e.preventDefault();
 					});
@@ -723,10 +712,8 @@ export default function SCEditor(original, userOptions)
 								(shortcut ? ` (${shortcut})` : '')
 						);
 
-
 					if (shortcut)
 						base.addShortcut(shortcut, commandName);
-
 
 					if (command.state)
 						btnStateHandlers.push({
@@ -739,7 +726,6 @@ export default function SCEditor(original, userOptions)
 							name: commandName,
 							state: command.exec
 						});
-
 
 					dom.appendChild(group, button);
 					toolbarButtons[commandName] = button;
@@ -796,7 +782,6 @@ export default function SCEditor(original, userOptions)
 		if (!dom.isVisible(editorContainer))
 			return;
 
-
 		if (base.isInSourceMode())
 		{
 			txtPos = focusEnd ? sourceEditor.value.length : 0;
@@ -842,14 +827,12 @@ export default function SCEditor(original, userOptions)
 		else
 			range.selectNodeContents(node);
 
-
 		range.collapse(!focusEnd);
 		rangeHelper.selectRange(range);
 		currentSelection = range;
 
 		if (focusEnd)
 			wysiwygBody.scrollTop = wysiwygBody.scrollHeight;
-
 
 		base.focus();
 	};
@@ -907,7 +890,6 @@ export default function SCEditor(original, userOptions)
 		if (typeof rtl !== 'boolean')
 			return dom.attr(sourceEditor, 'dir') === 'rtl';
 
-
 		dom.attr(wysiwygBody, 'dir', dir);
 		dom.attr(sourceEditor, 'dir', dir);
 
@@ -955,7 +937,6 @@ export default function SCEditor(original, userOptions)
 	{
 		if (!width && width !== 0)
 			return dom.width(editorContainer);
-
 
 		base.dimensions(width, null, saveWidth);
 
@@ -1012,12 +993,10 @@ export default function SCEditor(original, userOptions)
 		if (width === false && height === false)
 			return { width: base.width(), height: base.height() };
 
-
 		if (width !== false)
 		{
 			if (save !== false)
 				options.width = width;
-
 
 			dom.width(editorContainer, width);
 		}
@@ -1026,7 +1005,6 @@ export default function SCEditor(original, userOptions)
 		{
 			if (save !== false)
 				options.height = height;
-
 
 			dom.height(editorContainer, height);
 		}
@@ -1074,7 +1052,6 @@ export default function SCEditor(original, userOptions)
 		if (!height && height !== 0)
 			return dom.height(editorContainer);
 
-
 		base.dimensions(null, height, saveHeight);
 
 		return base;
@@ -1106,12 +1083,10 @@ export default function SCEditor(original, userOptions)
 		if (utils.isUndefined(maximize))
 			return dom.hasClass(editorContainer, maximizeSize);
 
-
 		maximize = !!maximize;
 
 		if (maximize)
 			maximizeScrollPosition = globalWin.pageYOffset;
-
 
 		dom.toggleClass(globalDoc.documentElement, maximizeSize, maximize);
 		dom.toggleClass(globalDoc.body, maximizeSize, maximize);
@@ -1121,7 +1096,6 @@ export default function SCEditor(original, userOptions)
 
 		if (!maximize)
 			globalWin.scrollTo(0, maximizeScrollPosition);
-
 
 		autoExpand();
 
@@ -1153,7 +1127,6 @@ export default function SCEditor(original, userOptions)
 		if (base.maximize())
 			return;
 
-
 		clearTimeout(autoExpandThrottle);
 		autoExpandThrottle = false;
 
@@ -1179,7 +1152,6 @@ export default function SCEditor(original, userOptions)
 		if (!ignoreMaxHeight && autoExpandBounds.max !== -1)
 			newHeight = Math.min(newHeight, autoExpandBounds.max);
 
-
 		base.height(Math.ceil(Math.max(newHeight, autoExpandBounds.min)));
 	};
 
@@ -1198,7 +1170,6 @@ export default function SCEditor(original, userOptions)
 		// Don't destroy if the editor has already been destroyed
 		if (!pluginManager)
 			return;
-
 
 		pluginManager.destroy();
 		base.dropdown.destroy();
@@ -1260,7 +1231,6 @@ export default function SCEditor(original, userOptions)
 					IMAGE_MIME_REGEX.test(items[i].type))
 					return loadImage(clipboard.items[i].getAsFile());
 
-
 				data[types[i]] = clipboard.getData(types[i]);
 			}
 			// Call plugins here with file?
@@ -1282,7 +1252,6 @@ export default function SCEditor(original, userOptions)
 			pasteContentFragment = globalDoc.createDocumentFragment();
 			while (editable.firstChild)
 				dom.appendChild(pasteContentFragment, editable.firstChild);
-
 
 			setTimeout(function ()
 			{
@@ -1322,7 +1291,6 @@ export default function SCEditor(original, userOptions)
 		else
 			pasteArea.innerHTML = escape.entities(data.text || '');
 
-
 		var paste = {
 			val: pasteArea.innerHTML
 		};
@@ -1331,14 +1299,12 @@ export default function SCEditor(original, userOptions)
 			paste.val = format
 				.fragmentToSource(paste.val, wysiwygDocument, currentNode);
 
-
 		handleManualEvent('paste', paste);
 		dom.trigger(editorContainer, 'paste', paste);
 
 		if ('fragmentToHtml' in format)
 			paste.val = format
 				.fragmentToHtml(paste.val, currentNode);
-
 
 		handleManualEvent('pastehtml', paste);
 
@@ -1377,7 +1343,6 @@ export default function SCEditor(original, userOptions)
 		if (!overrideCodeBlocking && dom.closest(currentBlockNode, 'code'))
 			return;
 
-
 		// Insert the HTML and save the range so the editor can be scrolled
 		// to the end of the selection. Also allows emoticons to be replaced
 		// without affecting the cursor position
@@ -1396,7 +1361,6 @@ export default function SCEditor(original, userOptions)
 		// Only scroll if marker isn't already visible
 		if (scrollTo > scrollTop || scrollTo + editorHeight < scrollTop)
 			wysiwygBody.scrollTop = scrollTo;
-
 
 		triggerValueChanged(false);
 		rangeHelper.restoreRange();
@@ -1445,7 +1409,6 @@ export default function SCEditor(original, userOptions)
 		else
 			base.wysiwygEditorInsertText(text, endText);
 
-
 		return base;
 	};
 
@@ -1485,7 +1448,6 @@ export default function SCEditor(original, userOptions)
 
 		if (endText)
 			text += currentValue.substring(startPos, endPos) + endText;
-
 
 		sourceEditor.value = currentValue.substring(0, startPos) +
 			text +
@@ -1588,20 +1550,17 @@ export default function SCEditor(original, userOptions)
 				html = format
 					.fragmentToSource(html, wysiwygDocument, currentNode);
 
-
 			start += html + end;
 		}
 		// TODO: This filter should allow empty tags as it's inserting.
 		if (filter !== false && 'fragmentToHtml' in format)
 			start = format.fragmentToHtml(start, currentNode);
 
-
 		// Convert any escaped HTML back into HTML if mixed is allowed
 		if (filter !== false && allowMixed === true)
 			start = start.replace(/&lt;/g, '<')
 				.replace(/&gt;/g, '>')
 				.replace(/&amp;/g, '&');
-
 
 		base.wysiwygEditorInsertHtml(start);
 
@@ -1632,7 +1591,6 @@ export default function SCEditor(original, userOptions)
 		for (var i = 0; i < childNodes.length; i++)
 			dom.appendChild(tmp, childNodes[i].cloneNode(true));
 
-
 		dom.appendChild(wysiwygBody, tmp);
 		dom.fixNesting(tmp);
 		dom.remove(tmp);
@@ -1642,7 +1600,6 @@ export default function SCEditor(original, userOptions)
 		// filter the HTML and DOM through any plugins
 		if (filter !== false && format.hasOwnProperty('toSource'))
 			html = format.toSource(html, wysiwygDocument);
-
 
 		return html;
 	};
@@ -1722,7 +1679,6 @@ export default function SCEditor(original, userOptions)
 		if (filter !== false && 'toHtml' in format)
 			val = format.toHtml(val);
 
-
 		return val;
 	};
 
@@ -1752,7 +1708,6 @@ export default function SCEditor(original, userOptions)
 	{
 		if (!value)
 			value = '<p>' + (IE_VER ? '' : '<br />') + '</p>';
-
 
 		wysiwygBody.innerHTML = value;
 		replaceEmoticons();
@@ -1835,7 +1790,6 @@ export default function SCEditor(original, userOptions)
 		if (!browser.isWysiwygSupported && isInSourceMode)
 			return;
 
-
 		if (!isInSourceMode)
 		{
 			rangeHelper.saveRange();
@@ -1848,7 +1802,6 @@ export default function SCEditor(original, userOptions)
 			base.setWysiwygEditorValue(base.getSourceEditorValue());
 		else
 			base.setSourceEditorValue(base.getWysiwygEditorValue());
-
 
 		lastRange = null;
 		dom.toggle(sourceEditor);
@@ -1874,7 +1827,6 @@ export default function SCEditor(original, userOptions)
 					cmd.exec,
 					cmd.hasOwnProperty('execParam') ? cmd.execParam : null
 				);
-
 
 
 	};
@@ -1913,7 +1865,6 @@ export default function SCEditor(original, userOptions)
 		if (dom.closest(rangeHelper.parentNode(), 'code'))
 			return;
 
-
 		try
 		{
 			executed = wysiwygDocument.execCommand(command, false, param);
@@ -1925,7 +1876,6 @@ export default function SCEditor(original, userOptions)
 		if (!executed && commandObj && commandObj.errorMessage)
 			/*global alert:false*/
 			alert(base._(commandObj.errorMessage));
-
 
 		updateActiveButtons();
 	};
@@ -1964,10 +1914,8 @@ export default function SCEditor(original, userOptions)
 					if (offset && parent.nodeType !== dom.TEXT_NODE)
 						parent = parent.childNodes[offset];
 
-
 					while (parent && parent.parentNode !== wysiwygBody)
 						parent = parent.parentNode;
-
 
 					if (parent && dom.isInline(parent, true))
 					{
@@ -1985,7 +1933,6 @@ export default function SCEditor(original, userOptions)
 
 		if (isSelectionCheckPending)
 			return;
-
 
 		isSelectionCheckPending = true;
 
@@ -2091,7 +2038,6 @@ export default function SCEditor(original, userOptions)
 				catch (ex)
 				{}
 
-
 			dom.toggleClass(btn, 'disabled', state < 0);
 			dom.toggleClass(btn, activeClass, state > 0);
 		}
@@ -2111,7 +2057,6 @@ export default function SCEditor(original, userOptions)
 		// FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=501496
 		if (e.defaultPrevented)
 			return;
-
 
 		// 13 = enter key
 		if (e.which === 13)
@@ -2189,7 +2134,6 @@ export default function SCEditor(original, userOptions)
 					return false;
 				}
 
-
 			// Last non-empty text node or line break.
 			// No need to add line-break after them
 			if ((node.nodeType === 3 && !/^\s*$/.test(node.nodeValue)) ||
@@ -2243,7 +2187,6 @@ export default function SCEditor(original, userOptions)
 			for (var fn of eventHandlers[type])
 				fn.call(base, e);
 
-
 	};
 
 	/**
@@ -2285,7 +2228,6 @@ export default function SCEditor(original, userOptions)
 				eventHandlers[event].add(handler);
 			}
 
-
 		return base;
 	};
 
@@ -2308,7 +2250,6 @@ export default function SCEditor(original, userOptions)
 				eventHandlers[event].delete(handler);
 
 
-
 		return base;
 	};
 
@@ -2327,7 +2268,6 @@ export default function SCEditor(original, userOptions)
 			wysiwygBody.blur();
 		else
 			sourceEditor.blur();
-
 
 		return base;
 	};
@@ -2348,7 +2288,6 @@ export default function SCEditor(original, userOptions)
 			if (dom.find(wysiwygDocument, ':focus').length)
 				return;
 
-
 			var container;
 			var rng = rangeHelper.selectedRange();
 
@@ -2356,7 +2295,6 @@ export default function SCEditor(original, userOptions)
 			// if the editor hasn't had focus before. See issue #393
 			if (!currentSelection)
 				autofocus();
-
 
 			// Check if cursor is set after a BR when the BR is the only
 			// child of the parent. In Firefox this causes a line break
@@ -2390,7 +2328,6 @@ export default function SCEditor(original, userOptions)
 		else
 			sourceEditor.focus();
 
-
 		updateActiveButtons();
 
 		return base;
@@ -2409,7 +2346,6 @@ export default function SCEditor(original, userOptions)
 		if (dom.closest(currentBlockNode, 'code'))
 			return;
 
-
 		var replacedEmoticon = rangeHelper.replaceKeyword(
 			emoticonsCache,
 			true,
@@ -2422,7 +2358,6 @@ export default function SCEditor(original, userOptions)
 		if (replacedEmoticon)
 			if (!options.emoticonsCompat || !/^\s$/.test(curChar))
 				e.preventDefault();
-
 
 	};
 
@@ -2457,7 +2392,6 @@ export default function SCEditor(original, userOptions)
 	{
 		if (!enable && enable !== false)
 			return options.emoticonsEnabled;
-
 
 		options.emoticonsEnabled = enable;
 
@@ -2529,12 +2463,10 @@ export default function SCEditor(original, userOptions)
 			return inlineCss.styleSheet ?
 				inlineCss.styleSheet.cssText : inlineCss.innerHTML;
 
-
 		if (inlineCss.styleSheet)
 			inlineCss.styleSheet.cssText = css;
 		else
 			inlineCss.innerHTML = css;
-
 
 		return base;
 	};
@@ -2653,10 +2585,8 @@ export default function SCEditor(original, userOptions)
 		if (e.ctrlKey || e.metaKey)
 			shortcut.push('ctrl');
 
-
 		if (e.altKey)
 			shortcut.push('alt');
-
 
 		if (e.shiftKey)
 		{
@@ -2672,7 +2602,6 @@ export default function SCEditor(original, userOptions)
 		// Shift is 16, ctrl is 17 and alt is 18
 		if (character && (which < 16 || which > 18))
 			shortcut.push(character);
-
 
 		shortcut = shortcut.join('+');
 		if (shortcutHandlers[shortcut] &&
@@ -2704,7 +2633,6 @@ export default function SCEditor(original, userOptions)
 		else
 			shortcutHandlers[shortcut] = cmd;
 
-
 		return base;
 	};
 
@@ -2735,14 +2663,12 @@ export default function SCEditor(original, userOptions)
 			!(range = rangeHelper.selectedRange()))
 			return;
 
-
 		node   = range.startContainer;
 		offset = range.startOffset;
 
 		if (offset !== 0 || !(parent = currentStyledBlockNode()) ||
 			dom.is(parent, 'body'))
 			return;
-
 
 		while (node !== parent)
 		{
@@ -2781,7 +2707,6 @@ export default function SCEditor(original, userOptions)
 				return;
 
 
-
 		return block;
 	};
 
@@ -2800,7 +2725,6 @@ export default function SCEditor(original, userOptions)
 		if (!block || dom.is(block, 'body'))
 			return base;
 
-
 		rangeHelper.saveRange();
 
 		block.className = '';
@@ -2810,7 +2734,6 @@ export default function SCEditor(original, userOptions)
 
 		if (!dom.is(block, 'p,div,td'))
 			dom.convertElement(block, 'p');
-
 
 		rangeHelper.restoreRange();
 		return base;
@@ -2832,7 +2755,6 @@ export default function SCEditor(original, userOptions)
 	{
 		if (!eventHandlers.valuechanged)
 			return;
-
 
 		var	currentHtml,
 			sourceMode   = base.isInSourceMode(),
@@ -2856,7 +2778,6 @@ export default function SCEditor(original, userOptions)
 
 		if (hasSelection && saveRange)
 			rangeHelper.saveRange();
-
 
 		currentHtml = sourceMode ? sourceEditor.value : wysiwygBody.innerHTML;
 
@@ -2902,7 +2823,6 @@ export default function SCEditor(original, userOptions)
 
 		if (isComposing)
 			return;
-
 
 		// 13 = return & 32 = space
 		if (which === 13 || which === 32)
@@ -2956,7 +2876,6 @@ export default function SCEditor(original, userOptions)
 	init();
 };
 
-
 /**
  * Map containing the loaded SCEditor locales
  * @type {Object}
@@ -2967,7 +2886,6 @@ SCEditor.locale = {};
 
 SCEditor.formats = {};
 SCEditor.icons = {};
-
 
 /**
  * Static command helper class
@@ -3016,7 +2934,6 @@ SCEditor.command =
 		if (!name || !cmd)
 			return false;
 
-
 		// merge any existing command properties
 		cmd = utils.extend(defaultCommands[name] || {}, cmd);
 
@@ -3040,7 +2957,6 @@ SCEditor.command =
 	{
 		if (defaultCommands[name])
 			delete defaultCommands[name];
-
 
 		return this;
 	}

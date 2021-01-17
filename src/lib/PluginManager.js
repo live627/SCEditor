@@ -57,7 +57,6 @@ export default function PluginManager(thisObj)
 					if (registeredPlugins[idx] instanceof plugins[plugin])
 						return true;
 
-
 			}
 
 			return false;
@@ -77,13 +76,11 @@ export default function PluginManager(thisObj)
 			if (!exists(plugin) || isRegistered(plugin))
 				return false;
 
-
 			plugin = new plugins[plugin]();
 			registeredPlugins.push(plugin);
 
 			if ('init' in plugin)
 				plugin.init.call(thisObj);
-
 
 			return true;
 		},
@@ -106,7 +103,6 @@ export default function PluginManager(thisObj)
 			if (!isRegistered(plugin))
 				return removed;
 
-
 			while (pluginIdx--)
 				if (registeredPlugins[pluginIdx] instanceof plugins[plugin])
 				{
@@ -117,7 +113,6 @@ export default function PluginManager(thisObj)
 						removedPlugin.destroy.call(thisObj);
 
 				}
-
 
 			return removed;
 		},
@@ -138,7 +133,6 @@ export default function PluginManager(thisObj)
 			while (i--)
 				if ('destroy' in registeredPlugins[i])
 					registeredPlugins[i].destroy.call(thisObj);
-
 
 
 			registeredPlugins = [];

@@ -32,7 +32,6 @@ function fixFirefoxListBug(editor)
 				while (next && !next.nextSibling)
 					next = next.parentNode;
 
-
 				if (next)
 					next = next.nextSibling;
 
@@ -42,7 +41,6 @@ function fixFirefoxListBug(editor)
 				// Only remove if newlines are collapsed
 				if (!/^pre/.test(dom.css(node.parentNode, 'whiteSpace')))
 					dom.remove(node);
-
 
 
 			node = next;
@@ -115,7 +113,6 @@ var defaultCmds = {
 			if (node && node.nodeType === 3)
 				node = node.parentNode;
 
-
 			if (node)
 			{
 				var isLtr = dom.css(node, 'direction') === 'ltr';
@@ -140,7 +137,6 @@ var defaultCmds = {
 		{
 			if (node && node.nodeType === 3)
 				node = node.parentNode;
-
 
 			if (node)
 			{
@@ -215,7 +211,6 @@ var defaultCmds = {
 					size: i
 				}, true));
 
-
 			createDropDown(editor, caller, 'fontsize-picker', content);
 		},
 		exec: function (caller)
@@ -250,7 +245,6 @@ var defaultCmds = {
 							' style="background-color: ' + color + '"' +
 							' data-color="' + color + '"' +
 							' title="' + name + '"></a>';
-
 
 					html += '</div>';
 				}
@@ -335,7 +329,6 @@ var defaultCmds = {
 				if (val)
 					editor.wysiwygEditorInsertText(val);
 
-
 				editor.dropdown.hide();
 				editor.focus();
 				e.preventDefault();
@@ -375,7 +368,6 @@ var defaultCmds = {
 
 			if (dom.is(firstBlock, 'li'))
 				return 0;
-
 
 			if (dom.is(firstBlock, 'ul,ol,menu'))
 			{
@@ -517,7 +509,6 @@ var defaultCmds = {
 				insert: editor._('Insert')
 			}, true));
 
-
 			var	urlInput = dom.find(content, '#image')[0];
 
 			urlInput.value = selected;
@@ -531,7 +522,6 @@ var defaultCmds = {
 						dom.find(content, '#height')[0].value,
 						dom.find(content, '#alt')[0].value
 					);
-
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -555,14 +545,11 @@ var defaultCmds = {
 					if (width)
 						attrs += ' width="' + width + '"';
 
-
 					if (height)
 						attrs += ' height="' + height + '"';
 
-
 					if (alt)
 						attrs += ' alt="' + alt + '"';
-
 
 					editor.wysiwygEditorInsertHtml(
 						'<img' + attrs + ' src="' + url + '" />'
@@ -592,7 +579,6 @@ var defaultCmds = {
 
 				if (email)
 					cb(email, dom.find(content, '#des')[0].value);
-
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -647,7 +633,6 @@ var defaultCmds = {
 			{
 				if (linkInput.value)
 					cb(linkInput.value, dom.find(content, '#des')[0].value);
-
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -709,14 +694,12 @@ var defaultCmds = {
 				while (anchor.firstChild)
 					dom.insertBefore(anchor.firstChild, anchor);
 
-
 				dom.remove(anchor);
 			}
 		},
 		tooltip: 'Unlink'
 	},
 	// END_COMMAND
-
 
 	// START_COMMAND: Quote
 	quote: {
@@ -736,7 +719,6 @@ var defaultCmds = {
 			}
 			else if (this.getRangeHelper().selectedHtml() === '')
 				end = (IE_BR_FIX ? '' : '<br />') + end;
-
 
 			this.wysiwygEditorInsertHtml(before, end);
 		},
@@ -815,10 +797,8 @@ var defaultCmds = {
 
 					});
 
-
 				if (idMatch && /^[a-zA-Z0-9_\-]{11}$/.test(idMatch[1]))
 					callback(idMatch[1], time);
-
 
 				editor.dropdown.hide();
 				editor.focus();
@@ -857,14 +837,11 @@ var defaultCmds = {
 			if (year < 2000)
 				year = 1900 + year;
 
-
 			if (month < 10)
 				month = '0' + month;
 
-
 			if (day < 10)
 				day = '0' + day;
-
 
 			this.insertText(this.opts.dateFormat
 				.replace(/year/i, year)
@@ -887,21 +864,17 @@ var defaultCmds = {
 			if (hours < 10)
 				hours = '0' + hours;
 
-
 			if (mins < 10)
 				mins = '0' + mins;
 
-
 			if (secs < 10)
 				secs = '0' + secs;
-
 
 			this.insertText(hours + ':' + mins + ':' + secs);
 		},
 		tooltip: 'Insert current time'
 	},
 	// END_COMMAND
-
 
 	// START_COMMAND: Ltr
 	ltr: {
@@ -966,7 +939,6 @@ var defaultCmds = {
 		tooltip: 'Right-to-Left'
 	},
 	// END_COMMAND
-
 
 	// START_COMMAND: Print
 	print: {

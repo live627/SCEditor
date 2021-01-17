@@ -83,7 +83,6 @@
 				if (!options.resizeWidth)
 					newWidth = false;
 
-
 				if (maxHeight > 0 && newHeight > maxHeight)
 					newHeight = maxHeight;
 
@@ -93,10 +92,8 @@
 				if (!options.resizeHeight)
 					newHeight = false;
 
-
 				if (newWidth || newHeight)
 					base.dimensions(newWidth, newHeight);
-
 
 				e.preventDefault();
 			},
@@ -104,7 +101,6 @@
 			{
 				if (!isDragging)
 					return;
-
 
 				isDragging = false;
 

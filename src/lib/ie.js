@@ -27,11 +27,9 @@ export var ie = function ()
 	if ((doc.documentMode && doc.all && window.atob))
 		v = 10;
 
-
 	// Detect IE 11
 	if (v === 4 && doc.documentMode)
 		v = 11;
-
 
 	return v > 4 ? v : undef;
 };

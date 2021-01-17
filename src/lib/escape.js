@@ -36,7 +36,6 @@ export function entities(str, noQuotes)
 	if (!str)
 		return str;
 
-
 	var replacements = {
 		'&': '&amp;',
 		'<': '&lt;',
@@ -96,7 +95,6 @@ export function uriScheme(url)
 	// Has no scheme or a valid scheme
 	if ((!url || !hasScheme.test(url)) || VALID_SCHEME_REGEX.test(url))
 		return url;
-
 
 	path = location.pathname.split('/');
 	path.pop();

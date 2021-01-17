@@ -562,7 +562,6 @@ test('rTraverse()', function (assert) {
 	assert.is(result, '54321');
 });
 
-
 test('parseHTML()', function (assert) {
 	var result = dom.parseHTML(
 		'<span>span<div style="font-weight: bold;">div</div>span</span>'
@@ -586,7 +585,6 @@ test('parseHTML() - Parse multiple', function (assert) {
 	assert.is(result.nodeType, dom.DOCUMENT_FRAGMENT_NODE);
 	assert.is(result.childNodes.length, 3);
 });
-
 
 test('hasStyling()', function (assert) {
 	var node = parsHTML('<pre></pre>').childNodes[0];
@@ -1192,7 +1190,6 @@ test('getStyle() - No style attribute', function (assert) {
 
 	assert.is(dom.getStyle(node, 'color'), '');
 });
-
 
 test('hasStyle()', function (assert) {
 	var node = parsHTML(

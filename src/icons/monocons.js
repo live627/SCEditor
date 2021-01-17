@@ -22,7 +22,6 @@
 			else
 				n.setAttribute(p.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v[p]);
 
-
 		return n;
 	}
 
@@ -167,7 +166,6 @@
 						for (let tag in icons[command])
 							svg.appendChild(getNode(tag, icons[command][tag]));
 
-
 					if (command === 'color')
 						colorPath = svg.appendChild(
 							getNode('path', { 'd': 'M2 13h12v2H2z' })
@@ -185,7 +183,6 @@
 
 					if (!isSourceMode && currentNode)
 						color = currentNode.ownerDocument.queryCommandValue('forecolor');
-
 
 					colorPath.setAttribute('fill', color);
 				}

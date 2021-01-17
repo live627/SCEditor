@@ -100,7 +100,6 @@ var formats = {
 			if (!is(element, 'font') || !(font = attr(element, 'face')))
 				font = css(element, 'font-family');
 
-
 			return '[font=' + stripQuotes(font) + ']' +
 					content + '[/font]';
 		},
@@ -125,7 +124,6 @@ var formats = {
 
 			if (!fontSize)
 				fontSize = css(element, 'fontSize');
-
 
 			// Most browsers return px value but IE returns 1-7
 			if (fontSize.indexOf('px') > -1)
@@ -155,7 +153,6 @@ var formats = {
 			else
 				size = fontSize;
 
-
 			return '[size=' + size + ']' + content + '[/size]';
 		},
 		html: '<font size="{defaultattr}">{0}</font>'
@@ -179,7 +176,6 @@ var formats = {
 
 			if (!is(elm, 'font') || !(color = attr(elm, 'color')))
 				color = elm.style.color || css(elm, 'color');
-
 
 			return '[color=' + normaliseColour(color) + ']' +
 					content + '[/color]';
@@ -322,7 +318,6 @@ var formats = {
 			if (attr(element, EMOTICON_DATA_ATTR))
 				return content;
 
-
 			var
 				attribs = [],
 				width = attr(element, 'width') || style('width'),
@@ -337,7 +332,6 @@ var formats = {
 
 			if (alt)
 				attribs.push(`alt="${escapeEntities(alt, true)}"`);
-
 
 			return `[img ${attribs.join(' ')}]${attr(element, 'src')}[/img]`;
 		},
@@ -357,7 +351,6 @@ var formats = {
 
 			if (alt)
 				attribs.push(`alt="${escapeEntities(alt, true)}"`);
-
 
 			return `<img ${attribs.join(' ')} />`;
 		}
@@ -382,7 +375,6 @@ var formats = {
 			if (url.substr(0, 7) === 'mailto:')
 				return '[email="' + url.substr(7) + '"]' +
 						content + '[/email]';
-
 
 			return '[url=' + url + ']' + content + '[/url]';
 		},
@@ -428,7 +420,6 @@ var formats = {
 					cite = children[i];
 
 
-
 			if (cite || attr(element, authorAttr))
 			{
 				author = cite && cite.textContent ||
@@ -438,7 +429,6 @@ var formats = {
 
 				if (cite)
 					element.removeChild(cite);
-
 
 				content	= this.elementToBbcode(element);
 				author  = '=' + author.replace(/(^\s+|\s+$)/g, '');
@@ -456,7 +446,6 @@ var formats = {
 				content = '<cite>' + attrs.defaultattr +
 						'</cite>' + content;
 
-
 			return '<blockquote>' + content + '</blockquote>';
 		}
 	},
@@ -473,7 +462,6 @@ var formats = {
 		html: '<code>{0}</code>'
 	},
 	// END_COMMAND
-
 
 	// START_COMMAND: Left
 	left: {
@@ -572,7 +560,6 @@ var formats = {
 			if (attrs.defaultattr)
 				start = escapeEntities(attrs.defaultattr);
 
-
 			return '<iframe ' +
 				'src="https://www.youtube.com/embed/' + id +
 				'?start=' + start +
@@ -583,7 +570,6 @@ var formats = {
 		}
 	},
 	// END_COMMAND
-
 
 	// START_COMMAND: Rtl
 	rtl: {
