@@ -9,7 +9,8 @@
  *
  * @author Sam Clarke
  */
-(function (document, sceditor) {
+(function (document, sceditor)
+{
 	'use strict';
 
 	/**
@@ -72,16 +73,19 @@
 		youtube: 'M10,16.5V7.5L16,12M20,4.4C19.4,4.2 15.7,4 12,4C8.3,4 4.6,4.19 4,4.38C2.44,4.9 2,8.4 2,12C2,15.59 2.44,19.1 4,19.61C4.6,19.81 8.3,20 12,20C15.7,20 19.4,19.81 20,19.61C21.56,19.1 22,15.59 22,12C22,8.4 21.56,4.91 20,4.4Z'
 	};
 
-	sceditor.icons.material = function () {
+	sceditor.icons.material = function ()
+	{
 		var colorPath;
 
 		return {
-			create: command => {
+			create: command =>
+			{
 				var
 					n = 'http://www.w3.org/2000/svg',
 					svg = document.createElementNS(n,'svg'),
 					p = document.createElementNS(n,'path');
-				if (command in icons) {
+				if (command in icons)
+				{
 
 					// Using viewbox="1 1 22 22" to trim off the 1 unit border
 					// around the SVG icons.
@@ -90,7 +94,8 @@
 
 					p.setAttribute('d', icons[command]);
 					svg.appendChild(p);
-					if (command === 'color') {
+					if (command === 'color')
+					{
 						colorPath = document.createElementNS(n,'path');
 						colorPath.setAttribute('d', 'M2 13h12v2H2z');
 						svg.appendChild(colorPath);
@@ -99,8 +104,10 @@
 
 				return svg;
 			},
-			update: (isSourceMode, currentNode) => {
-				if (colorPath) {
+			update: (isSourceMode, currentNode) =>
+			{
+				if (colorPath)
+				{
 					var color = 'inherit';
 
 					if (!isSourceMode && currentNode)

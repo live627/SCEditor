@@ -32,13 +32,15 @@ var commands = {
 		txtExec: ['[justify]', '[/justify]']
 	},
 	font: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			editor.command.get('font')._dropDown(
 				editor,
 				caller,
-				function (fontName) {
+				function (fontName)
+				{
 					editor.insertText(
 						'[font=' + fontName + ']',
 						'[/font]'
@@ -48,13 +50,15 @@ var commands = {
 		}
 	},
 	size: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			editor.command.get('size')._dropDown(
 				editor,
 				caller,
-				function (fontSize) {
+				function (fontSize)
+				{
 					editor.insertText(
 						'[size=' + fontSize + ']',
 						'[/size]'
@@ -64,13 +68,15 @@ var commands = {
 		}
 	},
 	color: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			editor.command.get('color')._dropDown(
 				editor,
 				caller,
-				function (color) {
+				function (color)
+				{
 					editor.insertText(
 						'[color=' + color + ']',
 						'[/color]'
@@ -80,7 +86,8 @@ var commands = {
 		}
 	},
 	bulletlist: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var content = '';
 
 			for (const line of selected.split(/\r?\n/))
@@ -92,7 +99,8 @@ var commands = {
 		}
 	},
 	orderedlist: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var content = '';
 
 			for (const line of selected.split(/\r?\n/))
@@ -113,14 +121,16 @@ var commands = {
 		txtExec: ['[code]', '[/code]']
 	},
 	image: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var	editor  = this;
 
 			editor.command.get('image')._dropDown(
 				editor,
 				caller,
 				selected,
-				function (url, width, height, alt) {
+				function (url, width, height, alt)
+				{
 					var attrs  = '';
 
 					if (width)
@@ -146,13 +156,15 @@ var commands = {
 		}
 	},
 	email: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var	editor  = this;
 
 			editor.command.get('email')._dropDown(
 				editor,
 				caller,
-				function (url, text) {
+				function (url, text)
+				{
 					editor.insertText(
 						'[email=' + url + ']' +
 									(text || selected || url) +
@@ -163,13 +175,15 @@ var commands = {
 		}
 	},
 	link: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var	editor  = this;
 
 			editor.command.get('link')._dropDown(
 				editor,
 				caller,
-				function (url, text) {
+				function (url, text)
+				{
 					editor.insertText(
 						'[url=' + url + ']' +
 									(text || selected || url) +
@@ -183,13 +197,15 @@ var commands = {
 		txtExec: ['[quote]', '[/quote]']
 	},
 	youtube: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			editor.command.get('youtube')._dropDown(
 				editor,
 				caller,
-				function (id) {
+				function (id)
+				{
 					editor.insertText('[youtube]' + id + '[/youtube]');
 				}
 			);

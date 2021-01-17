@@ -10,10 +10,12 @@
  * @fileoverview SCEditor Paragraph Formatting Plugin
  * @author Sam Clarke
  */
-(function (sceditor) {
+(function (sceditor)
+{
 	'use strict';
 
-	sceditor.plugins.format = function () {
+	sceditor.plugins.format = function ()
+	{
 		var base = this;
 
 		/**
@@ -41,7 +43,8 @@
 			formatCmd;
 
 
-		base.init = function () {
+		base.init = function ()
+		{
 			var	opts  = this.opts,
 				pOpts = opts.paragraphformat;
 
@@ -50,13 +53,15 @@
 				return;
 
 
-			if (pOpts) {
+			if (pOpts)
+			{
 				if (pOpts.tags)
 					tags = pOpts.tags;
 
 
 				if (pOpts.excludeTags)
-					pOpts.excludeTags.forEach(function (val) {
+					pOpts.excludeTags.forEach(function (val)
+					{
 						delete tags[val];
 					});
 
@@ -83,7 +88,8 @@
 		* @param  {string} tag
 		* @private
 		*/
-		insertTag = function (editor, tag) {
+		insertTag = function (editor, tag)
+		{
 			if (editor.sourceMode())
 				editor.insert('<' + tag + '>', '</' + tag + '>');
 			else
@@ -98,15 +104,18 @@
 		* @param  {node} caller
 		* @private
 		*/
-		formatCmd = function (caller) {
+		formatCmd = function (caller)
+		{
 			var	editor   = this,
 				content = document.createElement('div');
 
-			sceditor.utils.each(tags, function (tag, val) {
+			sceditor.utils.each(tags, function (tag, val)
+			{
 				var link = document.createElement('a');
 				link.className = 'sceditor-option';
 				link.textContent = val.name || val;
-				link.addEventListener('click', function (e) {
+				link.addEventListener('click', function (e)
+				{
 					editor.dropdown.hide();
 					editor.focus();
 

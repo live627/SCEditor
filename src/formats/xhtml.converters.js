@@ -18,7 +18,8 @@ export default [
 				width: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'width', attr(node, 'width'));
 			removeAttr(node, 'width');
 		}
@@ -29,7 +30,8 @@ export default [
 				height: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'height', attr(node, 'height'));
 			removeAttr(node, 'height');
 		}
@@ -40,7 +42,8 @@ export default [
 				value: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			removeAttr(node, 'value');
 		}
 	},
@@ -50,7 +53,8 @@ export default [
 				text: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'color', attr(node, 'text'));
 			removeAttr(node, 'text');
 		}
@@ -61,7 +65,8 @@ export default [
 				color: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'color', attr(node, 'color'));
 			removeAttr(node, 'color');
 		}
@@ -72,7 +77,8 @@ export default [
 				face: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'fontFamily', attr(node, 'face'));
 			removeAttr(node, 'face');
 		}
@@ -83,7 +89,8 @@ export default [
 				align: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'textAlign', attr(node, 'align'));
 			removeAttr(node, 'align');
 		}
@@ -94,7 +101,8 @@ export default [
 				border: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'borderWidth', attr(node, 'border'));
 			removeAttr(node, 'border');
 		}
@@ -120,7 +128,8 @@ export default [
 				name: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			if (!attr(node, 'id'))
 				attr(node, 'id', attr(node, 'name'));
 
@@ -134,7 +143,8 @@ export default [
 				vspace: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'marginTop', attr(node, 'vspace') - 0);
 			css(node, 'marginBottom', attr(node, 'vspace') - 0);
 			removeAttr(node, 'vspace');
@@ -146,7 +156,8 @@ export default [
 				hspace: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'marginLeft', attr(node, 'hspace') - 0);
 			css(node, 'marginRight', attr(node, 'hspace') - 0);
 			removeAttr(node, 'hspace');
@@ -158,7 +169,8 @@ export default [
 				noshade: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'borderStyle', 'solid');
 			removeAttr(node, 'noshade');
 		}
@@ -169,7 +181,8 @@ export default [
 				nowrap: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'whiteSpace', 'nowrap');
 			removeAttr(node, 'nowrap');
 		}
@@ -178,7 +191,8 @@ export default [
 		tags: {
 			big: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(convertElement(node, 'span'), 'fontSize', 'larger');
 		}
 	},
@@ -186,7 +200,8 @@ export default [
 		tags: {
 			small: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(convertElement(node, 'span'), 'fontSize', 'smaller');
 		}
 	},
@@ -194,7 +209,8 @@ export default [
 		tags: {
 			b: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			convertElement(node, 'strong');
 		}
 	},
@@ -202,7 +218,8 @@ export default [
 		tags: {
 			u: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(convertElement(node, 'span'), 'textDecoration',
 				'underline');
 		}
@@ -212,7 +229,8 @@ export default [
 			s: null,
 			strike: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(convertElement(node, 'span'), 'textDecoration',
 				'line-through');
 		}
@@ -221,7 +239,8 @@ export default [
 		tags: {
 			dir: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			convertElement(node, 'ul');
 		}
 	},
@@ -229,7 +248,8 @@ export default [
 		tags: {
 			center: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(convertElement(node, 'div'), 'textAlign', 'center');
 		}
 	},
@@ -239,7 +259,8 @@ export default [
 				size: null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			css(node, 'fontSize', css(node, 'fontSize'));
 			removeAttr(node, 'size');
 		}
@@ -248,7 +269,8 @@ export default [
 		tags: {
 			font: null
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			// All it's attributes will be converted
 			// by the attribute converters
 			convertElement(node, 'span');
@@ -260,7 +282,8 @@ export default [
 				type: ['_moz']
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			removeAttr(node, 'type');
 		}
 	},
@@ -270,7 +293,8 @@ export default [
 				'_moz_dirty': null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			removeAttr(node, '_moz_dirty');
 		}
 	},
@@ -280,7 +304,8 @@ export default [
 				'_moz_editor_bogus_node': null
 			}
 		},
-		conv: function (node) {
+		conv: function (node)
+		{
 			node.parentNode.removeChild(node);
 		}
 	}

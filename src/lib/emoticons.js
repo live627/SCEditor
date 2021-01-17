@@ -8,7 +8,8 @@ import * as dom from './dom.js';
  * @param {rangeHelper} rangeHelper
  * @return {void}
  */
-export function checkWhitespace(node, rangeHelper) {
+export function checkWhitespace(node, rangeHelper)
+{
 	var noneWsRegex = /[^\s\xA0\u2002\u2003\u2009\u00a0]+/;
 	var emoticons = node && dom.find(node, 'img[data-sceditor-emoticon]');
 
@@ -16,7 +17,8 @@ export function checkWhitespace(node, rangeHelper) {
 		return;
 
 
-	for (var i = 0; i < emoticons.length; i++) {
+	for (var i = 0; i < emoticons.length; i++)
+	{
 		var emoticon = emoticons[i];
 		var parent = emoticon.parentNode;
 		var prev = emoticon.previousSibling;
@@ -69,7 +71,8 @@ export function checkWhitespace(node, rangeHelper) {
 		dom.remove(emoticon);
 
 		// Need to update the range starting position if it's been modified
-		if (rangeStart > -1) {
+		if (rangeStart > -1)
+		{
 			range.setStart(next, rangeStart);
 			range.collapse(true);
 			rangeHelper.selectRange(range);
@@ -88,7 +91,8 @@ export function checkWhitespace(node, rangeHelper) {
  * @param {boolean} emoticonsCompat
  * @return {void}
  */
-export function replace(root, emoticons, emoticonsCompat) {
+export function replace(root, emoticons, emoticonsCompat)
+{
 	var	doc           = root.ownerDocument;
 
 	// TODO: Make this tag configurable.
@@ -96,10 +100,12 @@ export function replace(root, emoticons, emoticonsCompat) {
 		return;
 
 
-	(function convert(node) {
+	(function convert(node)
+	{
 		node = node.firstChild;
 
-		while (node) {
+		while (node)
+		{
 			// TODO: Make this tag configurable.
 			if (node.nodeType === dom.ELEMENT_NODE && !dom.is(node, 'code'))
 				convert(node);
@@ -108,14 +114,16 @@ export function replace(root, emoticons, emoticonsCompat) {
 			if (node.nodeType === dom.TEXT_NODE)
 				// Loop emoticons in reverse so that shorter codes won't
 				// partially match longer ones (they already got sorted)
-				for (var i = emoticons.length - 1; i >= 0; i--) {
+				for (var i = emoticons.length - 1; i >= 0; i--)
+				{
 					var text  = node.nodeValue;
 					var key   = emoticons[i][0];
 					var index = emoticonsCompat ?
 						text.search(emoticons[i][2]) :
 						text.indexOf(key);
 
-					if (index > -1) {
+					if (index > -1)
+					{
 						// When emoticonsCompat is enabled this will be the
 						// position after any white space
 						var startIndex = text.indexOf(key, index);

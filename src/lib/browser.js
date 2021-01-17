@@ -13,7 +13,8 @@ var USER_AGENT = navigator.userAgent;
  * @name ie
  * @type {number}
  */
-export var ie = (function () {
+export var ie = (function ()
+{
 	var	undef,
 		v   = 3,
 		doc = document,
@@ -58,7 +59,8 @@ export var ios = /iPhone|iPod|iPad| wosbrowser\//i.test(USER_AGENT);
  * @name isWysiwygSupported
  * @return {boolean}
  */
-export var isWysiwygSupported = (function () {
+export var isWysiwygSupported = (function ()
+{
 	var	match, isUnsupported;
 
 	var div = document.createElement('div');
@@ -83,10 +85,12 @@ export var isWysiwygSupported = (function () {
 	// Exclude Opera mobile and mini
 	isUnsupported = /Opera Mobi|Opera Mini/i.test(USER_AGENT);
 
-	if (/Android/i.test(USER_AGENT)) {
+	if (/Android/i.test(USER_AGENT))
+	{
 		isUnsupported = true;
 
-		if (/Safari/.test(USER_AGENT)) {
+		if (/Safari/.test(USER_AGENT))
+		{
 			// Android browser 534+ supports content editable
 			// This also matches Chrome which supports content editable too
 			match = /Safari\/(\d+)/.exec(USER_AGENT);
@@ -97,7 +101,8 @@ export var isWysiwygSupported = (function () {
 	// The current version of Amazon Silk supports it, older versions didn't
 	// As it uses webkit like Android, assume it's the same and started
 	// working at versions >= 534
-	if (/ Silk\//i.test(USER_AGENT)) {
+	if (/ Silk\//i.test(USER_AGENT))
+	{
 		match = /AppleWebKit\/(\d+)/.exec(USER_AGENT);
 		isUnsupported = (!match || !match[1] ? true : match[1] < 534);
 	}

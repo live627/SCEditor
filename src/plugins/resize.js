@@ -9,12 +9,14 @@
  *
  * @author Sam Clarke
  */
-(function (sceditor) {
+(function (sceditor)
+{
 	'use strict';
 	var dom = sceditor.dom;
 	var globalWin  = window;
 	var globalDoc  = document;
-	function getNode(n, v) {
+	function getNode(n, v)
+	{
 		n = document.createElementNS('http://www.w3.org/2000/svg', n);
 		for (var p in v)
 			n.setAttribute(p.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v[p]);
@@ -25,7 +27,8 @@
 	* Creates the resizer.
 	* @private
 	*/
-	var initResize = function (base, editorContainer, options) {
+	var initResize = function (base, editorContainer, options)
+	{
 		var
 			grip        = dom.createElement('div', {
 				className: 'sceditor-grip'
@@ -51,13 +54,17 @@
 			maxHeight = options.resizeMaxHeight || origHeight * 2.5,
 			minWidth  = options.resizeMinWidth  || origWidth  / 1.25,
 			maxWidth  = options.resizeMaxWidth  || origWidth  * 1.25,
-			mouseMoveFunc = function (e) {
+			mouseMoveFunc = function (e)
+			{
 				// iOS uses window.event
-				if (e.type === 'touchmove') {
+				if (e.type === 'touchmove')
+				{
 					e    = globalWin.event;
 					newX = e.changedTouches[0].pageX;
 					newY = e.changedTouches[0].pageY;
-				} else {
+				}
+				else
+				{
 					newX = e.pageX;
 					newY = e.pageY;
 				}
@@ -93,7 +100,8 @@
 
 				e.preventDefault();
 			},
-			mouseUpFunc = function (e) {
+			mouseUpFunc = function (e)
+			{
 				if (!isDragging)
 					return;
 
@@ -118,13 +126,17 @@
 		dom.appendChild(editorContainer, cover);
 		dom.hide(cover);
 
-		dom.on(grip, 'touchstart mousedown', function (e) {
+		dom.on(grip, 'touchstart mousedown', function (e)
+		{
 			// iOS uses window.event
-			if (e.type === 'touchstart') {
+			if (e.type === 'touchstart')
+			{
 				e      = globalWin.event;
 				startX = e.touches[0].pageX;
 				startY = e.touches[0].pageY;
-			} else {
+			}
+			else
+			{
 				startX = e.pageX;
 				startY = e.pageY;
 			}
@@ -142,9 +154,12 @@
 		});
 	};
 
-	sceditor.plugins.resize = function () {
-		this.init = function () {
-			window.addEventListener('load', () => {
+	sceditor.plugins.resize = function ()
+	{
+		this.init = function ()
+		{
+			window.addEventListener('load', () =>
+			{
 				initResize(this, this.getEditorContainer(), this.opts);
 			});
 		};

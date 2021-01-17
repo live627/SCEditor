@@ -1,7 +1,8 @@
 /**
  * @author Nikos Aggelis nikosaggelis@hotmail.gr
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['el'] = {

@@ -12,18 +12,22 @@ var IE_BR_FIX = IE_VER && IE_VER < 11;
  * new lines in their own list item.
  * See issue #359
  */
-function fixFirefoxListBug(editor) {
+function fixFirefoxListBug(editor)
+{
 	// Only apply to Firefox as will break other browsers.
-	if ('mozHidden' in document) {
+	if ('mozHidden' in document)
+	{
 		var node = editor.getBody();
 		var next;
 
-		while (node) {
+		while (node)
+		{
 			next = node;
 
 			if (next.firstChild)
 				next = next.firstChild;
-			else {
+			else
+			{
 
 				while (next && !next.nextSibling)
 					next = next.parentNode;
@@ -46,7 +50,8 @@ function fixFirefoxListBug(editor) {
 	}
 }
 
-var createDropDown = function (editor, menuItem, name, content) {
+var createDropDown = function (editor, menuItem, name, content)
+{
 	editor.dropdown.content(content);
 	editor.dropdown.show(menuItem);
 
@@ -105,12 +110,14 @@ var defaultCmds = {
 
 	// START_COMMAND: Left
 	left: {
-		state: function (node) {
+		state: function (node)
+		{
 			if (node && node.nodeType === 3)
 				node = node.parentNode;
 
 
-			if (node) {
+			if (node)
+			{
 				var isLtr = dom.css(node, 'direction') === 'ltr';
 				var align = dom.css(node, 'textAlign');
 
@@ -129,12 +136,14 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Right
 	right: {
-		state: function (node) {
+		state: function (node)
+		{
 			if (node && node.nodeType === 3)
 				node = node.parentNode;
 
 
-			if (node) {
+			if (node)
+			{
 				var isLtr = dom.css(node, 'direction') === 'ltr';
 				var align = dom.css(node, 'textAlign');
 
@@ -154,17 +163,20 @@ var defaultCmds = {
 
 	// START_COMMAND: Font
 	font: {
-		_dropDown: function (editor, caller, callback) {
+		_dropDown: function (editor, caller, callback)
+		{
 			var	content = dom.createElement('div');
 
-			dom.on(content, 'click', 'a', function (e) {
+			dom.on(content, 'click', 'a', function (e)
+			{
 				callback(dom.data(this, 'font'));
 				editor.dropdown.hide();
 				editor.focus();
 				e.preventDefault();
 			});
 
-			editor.opts.fonts.forEach(function (font) {
+			editor.opts.fonts.forEach(function (font)
+			{
 				dom.appendChild(content, _tmpl('fontOpt', {
 					font: font
 				}, true));
@@ -172,10 +184,12 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'font-picker', content);
 		},
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var editor = this;
 
-			defaultCmds.font._dropDown(editor, caller, function (fontName) {
+			defaultCmds.font._dropDown(editor, caller, function (fontName)
+			{
 				editor.execCommand('fontname', fontName);
 			});
 		},
@@ -184,10 +198,12 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Size
 	size: {
-		_dropDown: function (editor, caller, callback) {
+		_dropDown: function (editor, caller, callback)
+		{
 			var	content = dom.createElement('div');
 
-			dom.on(content, 'click', 'a', function (e) {
+			dom.on(content, 'click', 'a', function (e)
+			{
 				callback(dom.data(this, 'size'));
 				editor.dropdown.hide();
 				editor.focus();
@@ -202,10 +218,12 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'fontsize-picker', content);
 		},
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var editor = this;
 
-			defaultCmds.size._dropDown(editor, caller, function (fontSize) {
+			defaultCmds.size._dropDown(editor, caller, function (fontSize)
+			{
 				editor.execCommand('fontsize', fontSize);
 			});
 		},
@@ -214,13 +232,16 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Colour
 	color: {
-		_dropDown: function (editor, caller, callback) {
+		_dropDown: function (editor, caller, callback)
+		{
 			var	content = dom.createElement('div'),
 				html    = '',
 				cmd     = defaultCmds.color;
 
-			if (!cmd._htmlCache) {
-				for (const column of editor.opts.colors) {
+			if (!cmd._htmlCache)
+			{
+				for (const column of editor.opts.colors)
+				{
 					html += '<div class="sceditor-color-column">';
 
 					for (const [color, name] of Object.entries(column))
@@ -239,7 +260,8 @@ var defaultCmds = {
 
 			dom.appendChild(content, dom.parseHTML(cmd._htmlCache));
 
-			dom.on(content, 'click', 'a', function (e) {
+			dom.on(content, 'click', 'a', function (e)
+			{
 				callback(dom.data(this, 'color'));
 				editor.dropdown.hide();
 				editor.focus();
@@ -248,10 +270,12 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'color-picker', content);
 		},
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var editor = this;
 
-			defaultCmds.color._dropDown(editor, caller, function (color) {
+			defaultCmds.color._dropDown(editor, caller, function (color)
+			{
 				editor.execCommand('forecolor', color);
 			});
 		},
@@ -291,7 +315,8 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Paste Text
 	pastetext: {
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var	val,
 				content = dom.createElement('div'),
 				editor  = this;
@@ -303,7 +328,8 @@ var defaultCmds = {
 				insert: editor._('Insert')
 			}, true));
 
-			dom.on(content, 'click', '.button', function (e) {
+			dom.on(content, 'click', '.button', function (e)
+			{
 				val = dom.find(content, '#txt')[0].value;
 
 				if (val)
@@ -322,7 +348,8 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Bullet List
 	bulletlist: {
-		exec: function () {
+		exec: function ()
+		{
 			fixFirefoxListBug(this);
 			this.execCommand('insertunorderedlist');
 		},
@@ -331,7 +358,8 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Ordered List
 	orderedlist: {
-		exec: function () {
+		exec: function ()
+		{
 			fixFirefoxListBug(this);
 			this.execCommand('insertorderedlist');
 		},
@@ -340,7 +368,8 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Indent
 	indent: {
-		state: function (parent, firstBlock) {
+		state: function (parent, firstBlock)
+		{
 			// Only works with lists, for now
 			var	range, startParent, endParent;
 
@@ -348,7 +377,8 @@ var defaultCmds = {
 				return 0;
 
 
-			if (dom.is(firstBlock, 'ul,ol,menu')) {
+			if (dom.is(firstBlock, 'ul,ol,menu'))
+			{
 				// if the whole list is selected, then this must be
 				// invalidated because the browser will place a
 				// <blockquote> there
@@ -374,7 +404,8 @@ var defaultCmds = {
 
 			return -1;
 		},
-		exec: function () {
+		exec: function ()
+		{
 			var editor = this,
 				block = editor.getRangeHelper().getFirstBlockParent();
 
@@ -393,10 +424,12 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Outdent
 	outdent: {
-		state: function (parents, firstBlock) {
+		state: function (parents, firstBlock)
+		{
 			return dom.closest(firstBlock, 'ul,ol,menu') ? 0 : -1;
 		},
-		exec: function () {
+		exec: function ()
+		{
 			var	block = this.getRangeHelper().getFirstBlockParent();
 			if (dom.closest(block, 'ul,ol,menu'))
 				this.execCommand('outdent');
@@ -408,7 +441,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Table
 	table: {
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var	editor  = this,
 				content = dom.createElement('div');
 
@@ -418,12 +452,14 @@ var defaultCmds = {
 				insert: editor._('Insert')
 			}, true));
 
-			dom.on(content, 'click', '.button', function (e) {
+			dom.on(content, 'click', '.button', function (e)
+			{
 				var	rows = Number(dom.find(content, '#rows')[0].value),
 					cols = Number(dom.find(content, '#cols')[0].value),
 					html = '<table>';
 
-				if (rows > 0 && cols > 0) {
+				if (rows > 0 && cols > 0)
+				{
 					html += Array(rows + 1).join(
 						'<tr>' +
 							Array(cols + 1).join(
@@ -456,7 +492,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Code
 	code: {
-		exec: function () {
+		exec: function ()
+		{
 			this.wysiwygEditorInsertHtml(
 				'<code>',
 				(IE_BR_FIX ? '' : '<br />') + '</code>'
@@ -468,7 +505,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Image
 	image: {
-		_dropDown: function (editor, caller, selected, cb) {
+		_dropDown: function (editor, caller, selected, cb)
+		{
 			var	content = dom.createElement('div');
 
 			dom.appendChild(content, _tmpl('image', {
@@ -484,7 +522,8 @@ var defaultCmds = {
 
 			urlInput.value = selected;
 
-			dom.on(content, 'click', '.button', function (e) {
+			dom.on(content, 'click', '.button', function (e)
+			{
 				if (urlInput.value)
 					cb(
 						urlInput.value,
@@ -501,14 +540,16 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertimage', content);
 		},
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var	editor  = this;
 
 			defaultCmds.image._dropDown(
 				editor,
 				caller,
 				'',
-				function (url, width, height, alt) {
+				function (url, width, height, alt)
+				{
 					var attrs  = '';
 
 					if (width)
@@ -535,7 +576,8 @@ var defaultCmds = {
 
 	// START_COMMAND: E-mail
 	email: {
-		_dropDown: function (editor, caller, cb) {
+		_dropDown: function (editor, caller, cb)
+		{
 			var	content = dom.createElement('div');
 
 			dom.appendChild(content, _tmpl('email', {
@@ -544,7 +586,8 @@ var defaultCmds = {
 				insert: editor._('Insert')
 			}, true));
 
-			dom.on(content, 'click', '.button', function (e) {
+			dom.on(content, 'click', '.button', function (e)
+			{
 				var email = dom.find(content, '#email')[0].value;
 
 				if (email)
@@ -558,13 +601,15 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertemail', content);
 		},
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var	editor  = this;
 
 			defaultCmds.email._dropDown(
 				editor,
 				caller,
-				function (email, text) {
+				function (email, text)
+				{
 					// needed for IE to reset the last range
 					editor.focus();
 
@@ -586,7 +631,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Link
 	link: {
-		_dropDown: function (editor, caller, cb) {
+		_dropDown: function (editor, caller, cb)
+		{
 			var content = dom.createElement('div');
 
 			dom.appendChild(content, _tmpl('link', {
@@ -597,7 +643,8 @@ var defaultCmds = {
 
 			var linkInput = dom.find(content, '#link')[0];
 
-			function insertUrl(e) {
+			function insertUrl(e)
+			{
 				if (linkInput.value)
 					cb(linkInput.value, dom.find(content, '#des')[0].value);
 
@@ -608,7 +655,8 @@ var defaultCmds = {
 			}
 
 			dom.on(content, 'click', '.button', insertUrl);
-			dom.on(content, 'keypress', function (e) {
+			dom.on(content, 'keypress', function (e)
+			{
 				// 13 = enter key
 				if (e.which === 13 && linkInput.value)
 					insertUrl(e);
@@ -617,23 +665,27 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertlink', content);
 		},
-		exec: function (caller) {
+		exec: function (caller)
+		{
 			var editor = this;
 
-			defaultCmds.link._dropDown(editor, caller, function (url, text) {
+			defaultCmds.link._dropDown(editor, caller, function (url, text)
+			{
 				// needed for IE to restore the last range
 				editor.focus();
 
 				// If there is no selected text then must set the URL as
 				// the text. Most browsers do this automatically, sadly
 				// IE doesn't.
-				if (text || !editor.getRangeHelper().selectedHtml()) {
+				if (text || !editor.getRangeHelper().selectedHtml())
+				{
 					text = text || url;
 
 					editor.wysiwygEditorInsertHtml(
 						'<a href="' + url + '">' + text + '</a>'
 					);
-				} else
+				}
+				else
 					editor.execCommand('createlink', url);
 
 			});
@@ -644,13 +696,16 @@ var defaultCmds = {
 
 	// START_COMMAND: Unlink
 	unlink: {
-		state: function () {
+		state: function ()
+		{
 			return dom.closest(this.currentNode(), 'a') ? 0 : -1;
 		},
-		exec: function () {
+		exec: function ()
+		{
 			var anchor = dom.closest(this.currentNode(), 'a');
 
-			if (anchor) {
+			if (anchor)
+			{
 				while (anchor.firstChild)
 					dom.insertBefore(anchor.firstChild, anchor);
 
@@ -665,18 +720,21 @@ var defaultCmds = {
 
 	// START_COMMAND: Quote
 	quote: {
-		exec: function (caller, html, author) {
+		exec: function (caller, html, author)
+		{
 			var	before = '<blockquote>',
 				end    = '</blockquote>';
 
 			// if there is HTML passed set end to null so any selected
 			// text is replaced
-			if (html) {
+			if (html)
+			{
 				author = (author ? '<cite>' + author + '</cite>' : '');
 				before = before + author + html + end;
 				end    = null;
 			// if not add a newline to the end of the inserted quote
-			} else if (this.getRangeHelper().selectedHtml() === '')
+			}
+			else if (this.getRangeHelper().selectedHtml() === '')
 				end = (IE_BR_FIX ? '' : '<br />') + end;
 
 
@@ -688,7 +746,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Emoticons
 	emoticon: {
-		exec: function () {
+		exec: function ()
+		{
 			var editor = this;
 
 			var
@@ -705,7 +764,8 @@ var defaultCmds = {
 				}),
 				emoticons       = opts.emoticons;
 
-			dom.on(content, 'click', 'img', function (e) {
+			dom.on(content, 'click', 'img', function (e)
+			{
 				editor.insert(startSpace + dom.attr(this, 'alt') + endSpace,
 					null, false);
 				editor.popup.hide();
@@ -731,7 +791,8 @@ var defaultCmds = {
 
 	// START_COMMAND: YouTube
 	youtube: {
-		_dropDown: function (editor, caller, callback) {
+		_dropDown: function (editor, caller, callback)
+		{
 			var	content = dom.createElement('div');
 
 			dom.appendChild(content, _tmpl('youtubeMenu', {
@@ -739,14 +800,16 @@ var defaultCmds = {
 				insert: editor._('Insert')
 			}, true));
 
-			dom.on(content, 'click', '.button', function (e) {
+			dom.on(content, 'click', '.button', function (e)
+			{
 				var val = dom.find(content, '#link')[0].value;
 				var idMatch = val.match(/(?:v=|v\/|embed\/|youtu.be\/)(.{11})/);
 				var timeMatch = val.match(/[&|?](?:star)?t=((\d+[hms]?){1,3})/);
 				var time = 0;
 
 				if (timeMatch)
-					utils.each(timeMatch[1].split(/[hms]/), function (i, val) {
+					utils.each(timeMatch[1].split(/[hms]/), function (i, val)
+					{
 						if (val !== '')
 							time = (time * 60) + Number(val);
 
@@ -764,11 +827,13 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertlink', content);
 		},
-		exec: function (btn) {
+		exec: function (btn)
+		{
 			var editor = this;
 			var pOpts = editor.opts.parserOptions;
 
-			defaultCmds.youtube._dropDown(editor, btn, function (id, time) {
+			defaultCmds.youtube._dropDown(editor, btn, function (id, time)
+			{
 				editor.wysiwygEditorInsertHtml(_tmpl('youtube', {
 					id: id,
 					time: time,
@@ -782,7 +847,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Date
 	date: {
-		exec: function () {
+		exec: function ()
+		{
 			var	now   = new Date(),
 				year  = now.getYear(),
 				month = now.getMonth() + 1,
@@ -811,7 +877,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Time
 	time: {
-		exec: function () {
+		exec: function ()
+		{
 			var	now   = new Date(),
 				hours = now.getHours(),
 				mins  = now.getMinutes(),
@@ -838,17 +905,20 @@ var defaultCmds = {
 
 	// START_COMMAND: Ltr
 	ltr: {
-		state: function (parents, firstBlock) {
+		state: function (parents, firstBlock)
+		{
 			return firstBlock && firstBlock.style.direction === 'ltr';
 		},
-		exec: function () {
+		exec: function ()
+		{
 			var	editor = this,
 				rangeHelper = editor.getRangeHelper(),
 				node = rangeHelper.getFirstBlockParent();
 
 			editor.focus();
 
-			if (!node || dom.is(node, 'body')) {
+			if (!node || dom.is(node, 'body'))
+			{
 				editor.execCommand('formatBlock', 'p');
 
 				node  = rangeHelper.getFirstBlockParent();
@@ -867,17 +937,20 @@ var defaultCmds = {
 
 	// START_COMMAND: Rtl
 	rtl: {
-		state: function (parents, firstBlock) {
+		state: function (parents, firstBlock)
+		{
 			return firstBlock && firstBlock.style.direction === 'rtl';
 		},
-		exec: function () {
+		exec: function ()
+		{
 			var	editor = this,
 				rangeHelper = editor.getRangeHelper(),
 				node = rangeHelper.getFirstBlockParent();
 
 			editor.focus();
 
-			if (!node || dom.is(node, 'body')) {
+			if (!node || dom.is(node, 'body'))
+			{
 				editor.execCommand('formatBlock', 'p');
 
 				node = rangeHelper.getFirstBlockParent();
@@ -904,10 +977,12 @@ var defaultCmds = {
 
 	// START_COMMAND: Maximize
 	maximize: {
-		state: function () {
+		state: function ()
+		{
 			return this.maximize();
 		},
-		exec: function () {
+		exec: function ()
+		{
 			this.maximize(!this.maximize());
 		},
 		tooltip: 'Maximize',
@@ -917,10 +992,12 @@ var defaultCmds = {
 
 	// START_COMMAND: Source
 	source: {
-		state: function () {
+		state: function ()
+		{
 			return this.isInSourceMode();
 		},
-		exec: function () {
+		exec: function ()
+		{
 			this.toggleSourceMode();
 		},
 		tooltip: 'View source',

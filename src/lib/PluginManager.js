@@ -5,7 +5,8 @@ var plugins = {};
  * @class PluginManager
  * @name PluginManager
  */
-export default function PluginManager(thisObj) {
+export default function PluginManager(thisObj)
+{
 	var
 		/**
 		* Array of all currently registered plugins
@@ -24,8 +25,10 @@ export default function PluginManager(thisObj) {
 		* @name exists
 		* @memberOf PluginManager.prototype
 		*/
-		exists = plugin => {
-			if (plugin in plugins) {
+		exists = plugin =>
+		{
+			if (plugin in plugins)
+			{
 				plugin = plugins[plugin];
 
 				return typeof plugin === 'function' &&
@@ -44,8 +47,10 @@ export default function PluginManager(thisObj) {
 		* @name isRegistered
 		* @memberOf PluginManager.prototype
 		*/
-		isRegistered = plugin => {
-			if (exists(plugin)) {
+		isRegistered = plugin =>
+		{
+			if (exists(plugin))
+			{
 				var idx = registeredPlugins.length;
 
 				while (idx--)
@@ -67,7 +72,8 @@ export default function PluginManager(thisObj) {
 		* @name register
 		* @memberOf PluginManager.prototype
 		*/
-		register = plugin => {
+		register = plugin =>
+		{
 			if (!exists(plugin) || isRegistered(plugin))
 				return false;
 
@@ -91,7 +97,8 @@ export default function PluginManager(thisObj) {
 		* @name deregister
 		* @memberOf PluginManager.prototype
 		*/
-		deregister = plugin => {
+		deregister = plugin =>
+		{
 			var	removedPlugin,
 				pluginIdx = registeredPlugins.length,
 				removed   = false;
@@ -101,7 +108,8 @@ export default function PluginManager(thisObj) {
 
 
 			while (pluginIdx--)
-				if (registeredPlugins[pluginIdx] instanceof plugins[plugin]) {
+				if (registeredPlugins[pluginIdx] instanceof plugins[plugin])
+				{
 					removedPlugin = registeredPlugins.splice(pluginIdx, 1)[0];
 					removed       = true;
 
@@ -123,7 +131,8 @@ export default function PluginManager(thisObj) {
 		* @name destroy
 		* @memberOf PluginManager.prototype
 		*/
-		destroy = () => {
+		destroy = () =>
+		{
 			var i = registeredPlugins.length;
 
 			while (i--)

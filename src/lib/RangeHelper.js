@@ -19,7 +19,8 @@ var IE_BR_FIX = IE_VER && IE_VER < 11;
  * @return {Object}
  * @private
  */
-var outerText = function (range, isLeft, length) {
+var outerText = function (range, isLeft, length)
+{
 	var nodeValue, remaining, start, end, node,
 		text = '',
 		next = range.startContainer,
@@ -28,33 +29,39 @@ var outerText = function (range, isLeft, length) {
 	// Handle cases where node is a paragraph and offset
 	// refers to the index of a text node.
 	// 3 = text node
-	if (next && next.nodeType !== 3) {
+	if (next && next.nodeType !== 3)
+	{
 		next = next.childNodes[offset];
 		offset = 0;
 	}
 
 	start = end = offset;
 
-	while (length > text.length && next && next.nodeType === 3) {
+	while (length > text.length && next && next.nodeType === 3)
+	{
 		nodeValue = next.nodeValue;
 		remaining = length - text.length;
 
 		// If not the first node, start and end should be at their
 		// max values as will be updated when getting the text
-		if (node) {
+		if (node)
+		{
 			end = nodeValue.length;
 			start = 0;
 		}
 
 		node = next;
 
-		if (isLeft) {
+		if (isLeft)
+		{
 			start = Math.max(end - remaining, 0);
 			offset = start;
 
 			text = nodeValue.substr(start, end - start) + text;
 			next = node.previousSibling;
-		} else {
+		}
+		else
+		{
 			end = Math.min(remaining, nodeValue.length);
 			offset = start + end;
 
@@ -76,7 +83,8 @@ var outerText = function (range, isLeft, length) {
  * @class RangeHelper
  * @name RangeHelper
  */
-export default function RangeHelper(win, d) {
+export default function RangeHelper(win, d)
+{
 	var	_createMarker, _prepareInput,
 		doc          = d || win.contentDocument || win.document,
 		startMarker  = 'sceditor-start-marker',
@@ -98,7 +106,8 @@ export default function RangeHelper(win, d) {
 	* @name insertHTML
 	* @memberOf RangeHelper.prototype
 	*/
-	base.insertHTML = function (html, endHTML) {
+	base.insertHTML = function (html, endHTML)
+	{
 		var	node, div,
 			range = base.selectedRange();
 
@@ -132,20 +141,25 @@ export default function RangeHelper(win, d) {
 	* @return {Node|string}
 	* @private
 	*/
-	_prepareInput = function (node, endNode, returnHtml) {
+	_prepareInput = function (node, endNode, returnHtml)
+	{
 		var lastChild,
 			frag = doc.createDocumentFragment();
 
-		if (typeof node === 'string') {
+		if (typeof node === 'string')
+		{
 			if (endNode)
 				node += base.selectedHtml() + endNode;
 
 
 			frag = dom.parseHTML(node);
-		} else {
+		}
+		else
+		{
 			dom.appendChild(frag, node);
 
-			if (endNode) {
+			if (endNode)
+			{
 				dom.appendChild(frag, base.selectedRange().extractContents());
 				dom.appendChild(frag, endNode);
 			}
@@ -159,13 +173,15 @@ export default function RangeHelper(win, d) {
 			lastChild = lastChild.lastChild;
 
 
-		if (dom.canHaveChildren(lastChild)) {
+		if (dom.canHaveChildren(lastChild))
+		{
 			// Webkit won't allow the cursor to be placed inside an
 			// empty tag, so add a zero width space to it.
 			if (!lastChild.lastChild)
 				dom.appendChild(lastChild, document.createTextNode('\u200B'));
 
-		} else
+		}
+		else
 			lastChild = frag;
 
 
@@ -176,7 +192,8 @@ export default function RangeHelper(win, d) {
 		dom.appendChild(lastChild, _createMarker(startMarker));
 		dom.appendChild(lastChild, _createMarker(endMarker));
 
-		if (returnHtml) {
+		if (returnHtml)
+		{
 			var div = dom.createElement('div');
 			dom.appendChild(div, frag);
 
@@ -202,7 +219,8 @@ export default function RangeHelper(win, d) {
 	* @name insertNode
 	* @memberOf RangeHelper.prototype
 	*/
-	base.insertNode = function (node, endNode) {
+	base.insertNode = function (node, endNode)
+	{
 		var	input  = _prepareInput(node, endNode),
 			range  = base.selectedRange(),
 			parent = range.commonAncestorContainer;
@@ -234,7 +252,8 @@ export default function RangeHelper(win, d) {
 	* @name cloneSelected
 	* @memberOf RangeHelper.prototype
 	*/
-	base.cloneSelected = function () {
+	base.cloneSelected = function ()
+	{
 		var range = base.selectedRange();
 
 		if (range)
@@ -250,7 +269,8 @@ export default function RangeHelper(win, d) {
 	* @name selectedRange
 	* @memberOf RangeHelper.prototype
 	*/
-	base.selectedRange = function () {
+	base.selectedRange = function ()
+	{
 		var	range, firstChild,
 			sel = win.getSelection();
 
@@ -260,7 +280,8 @@ export default function RangeHelper(win, d) {
 
 		// When creating a new range, set the start to the first child
 		// element of the body element to avoid errors in FF.
-		if (sel.rangeCount <= 0) {
+		if (sel.rangeCount <= 0)
+		{
 			firstChild = doc.body;
 			while (firstChild.firstChild)
 				firstChild = firstChild.firstChild;
@@ -290,7 +311,8 @@ export default function RangeHelper(win, d) {
 	* @since 1.4.4
 	* @memberOf RangeHelper.prototype
 	*/
-	base.hasSelection = function () {
+	base.hasSelection = function ()
+	{
 		var	sel = win.getSelection();
 
 		return sel && sel.rangeCount > 0;
@@ -304,11 +326,13 @@ export default function RangeHelper(win, d) {
 	* @name selectedHtml
 	* @memberOf RangeHelper.prototype
 	*/
-	base.selectedHtml = function () {
+	base.selectedHtml = function ()
+	{
 		var	div,
 			range = base.selectedRange();
 
-		if (range) {
+		if (range)
+		{
 			div = dom.createElement('p', {}, doc);
 			dom.appendChild(div, range.cloneContents());
 
@@ -326,7 +350,8 @@ export default function RangeHelper(win, d) {
 	* @name parentNode
 	* @memberOf RangeHelper.prototype
 	*/
-	base.parentNode = function () {
+	base.parentNode = function ()
+	{
 		var range = base.selectedRange();
 
 		if (range)
@@ -354,8 +379,10 @@ export default function RangeHelper(win, d) {
 	* @since 1.4.1
 	* @memberOf RangeHelper.prototype
 	*/
-	base.getFirstBlockParent = function (node) {
-		var func = function (elm) {
+	base.getFirstBlockParent = function (node)
+	{
+		var func = function (elm)
+		{
 			if (!dom.isInline(elm, true))
 				return elm;
 
@@ -377,7 +404,8 @@ export default function RangeHelper(win, d) {
 	* @name insertNodeAt
 	* @memberOf RangeHelper.prototype
 	*/
-	base.insertNodeAt = function (start, node) {
+	base.insertNodeAt = function (start, node)
+	{
 		var	currentRange = base.selectedRange(),
 			range        = base.cloneSelected();
 
@@ -400,7 +428,8 @@ export default function RangeHelper(win, d) {
 	* @return {HTMLSpanElement}
 	* @private
 	*/
-	_createMarker = function (id) {
+	_createMarker = function (id)
+	{
 		base.removeMarker(id);
 
 		var marker  = dom.createElement('span', {
@@ -423,7 +452,8 @@ export default function RangeHelper(win, d) {
 	* @function
 	* @name insertMarkers
 	*/
-	base.insertMarkers = function () {
+	base.insertMarkers = function ()
+	{
 		var	currentRange = base.selectedRange();
 		var startNode = _createMarker(startMarker);
 
@@ -449,7 +479,8 @@ export default function RangeHelper(win, d) {
 	* @name getMarker
 	* @memberOf RangeHelper.prototype
 	*/
-	base.getMarker = function (id) {
+	base.getMarker = function (id)
+	{
 		return doc.getElementById(id);
 	};
 
@@ -461,7 +492,8 @@ export default function RangeHelper(win, d) {
 	* @name removeMarker
 	* @memberOf RangeHelper.prototype
 	*/
-	base.removeMarker = function (id) {
+	base.removeMarker = function (id)
+	{
 		var marker = base.getMarker(id);
 
 		if (marker)
@@ -476,7 +508,8 @@ export default function RangeHelper(win, d) {
 	* @name removeMarkers
 	* @memberOf RangeHelper.prototype
 	*/
-	base.removeMarkers = function () {
+	base.removeMarkers = function ()
+	{
 		base.removeMarker(startMarker);
 		base.removeMarker(endMarker);
 	};
@@ -488,7 +521,8 @@ export default function RangeHelper(win, d) {
 	* @name saveRage
 	* @memberOf RangeHelper.prototype
 	*/
-	base.saveRange = function () {
+	base.saveRange = function ()
+	{
 		base.insertMarkers();
 	};
 
@@ -500,7 +534,8 @@ export default function RangeHelper(win, d) {
 	* @name selectRange
 	* @memberOf RangeHelper.prototype
 	*/
-	base.selectRange = function (range) {
+	base.selectRange = function (range)
+	{
 		var lastChild;
 		var sel = win.getSelection();
 		var container = range.endContainer;
@@ -509,26 +544,30 @@ export default function RangeHelper(win, d) {
 		// child of the parent. In Firefox this causes a line break
 		// to occur when something is typed. See issue #321
 		if (!IE_BR_FIX && range.collapsed && container &&
-			!dom.isInline(container, true)) {
+			!dom.isInline(container, true))
+		{
 
 			lastChild = container.lastChild;
 			while (lastChild && dom.is(lastChild, '.sceditor-ignore'))
 				lastChild = lastChild.previousSibling;
 
 
-			if (dom.is(lastChild, 'br')) {
+			if (dom.is(lastChild, 'br'))
+			{
 				var rng = doc.createRange();
 				rng.setEndAfter(lastChild);
 				rng.collapse(false);
 
-				if (base.compare(range, rng)) {
+				if (base.compare(range, rng))
+				{
 					range.setStartBefore(lastChild);
 					range.collapse(true);
 				}
 			}
 		}
 
-		if (sel) {
+		if (sel)
+		{
 			base.clear();
 			sel.addRange(range);
 		}
@@ -541,7 +580,8 @@ export default function RangeHelper(win, d) {
 	* @name restoreRange
 	* @memberOf RangeHelper.prototype
 	*/
-	base.restoreRange = function () {
+	base.restoreRange = function ()
+	{
 		var	isCollapsed,
 			range = base.selectedRange(),
 			start = base.getMarker(startMarker),
@@ -575,7 +615,8 @@ export default function RangeHelper(win, d) {
 	* @name selectOuterText
 	* @memberOf RangeHelper.prototype
 	*/
-	base.selectOuterText = function (left, right) {
+	base.selectOuterText = function (left, right)
+	{
 		var start, end,
 			range = base.cloneSelected();
 
@@ -605,7 +646,8 @@ export default function RangeHelper(win, d) {
 	* @name selectOuterText
 	* @memberOf RangeHelper.prototype
 	*/
-	base.getOuterText = function (before, length) {
+	base.getOuterText = function (before, length)
+	{
 		var	range = base.cloneSelected();
 
 		if (!range)
@@ -645,9 +687,11 @@ export default function RangeHelper(win, d) {
 		longestKeyword,
 		requireWhitespace,
 		keypressChar
-	) {
+	)
+	{
 		if (!keywordsSorted)
-			keywords.sort(function (a, b) {
+			keywords.sort(function (a, b)
+			{
 				return a[0].length - b[0].length;
 			});
 
@@ -673,13 +717,15 @@ export default function RangeHelper(win, d) {
 			outerText += base.getOuterText(false, maxKeyLen);
 
 
-		while (keywordIdx--) {
+		while (keywordIdx--)
+		{
 			keyword    = keywords[keywordIdx][0];
 			keywordLen = keyword.length;
 			startIndex = Math.max(0, leftLen - keywordLen - whitespaceLen);
 			matchPos   = -1;
 
-			if (requireWhitespace) {
+			if (requireWhitespace)
+			{
 				match = outerText
 					.substr(startIndex)
 					.match(new RegExp(whitespaceRegex +
@@ -690,7 +736,8 @@ export default function RangeHelper(win, d) {
 					// substr() and also add 1 for the whitespace
 					matchPos = match.index + startIndex + match[1].length;
 
-			} else
+			}
+			else
 				matchPos = outerText.indexOf(keyword, startIndex);
 
 
@@ -698,7 +745,8 @@ export default function RangeHelper(win, d) {
 				// Make sure the match is between before and
 				// after, not just entirely in one side or the other
 				if (matchPos <= leftLen &&
-					matchPos + keywordLen + whitespaceLen >= leftLen) {
+					matchPos + keywordLen + whitespaceLen >= leftLen)
+				{
 					charsLeft = leftLen - matchPos;
 
 					// If the keypress char is white space then it should
@@ -732,7 +780,8 @@ export default function RangeHelper(win, d) {
 	* @name compare
 	* @memberOf RangeHelper.prototype
 	*/
-	base.compare = function (rngA, rngB) {
+	base.compare = function (rngA, rngB)
+	{
 		if (!rngB)
 			rngB = base.selectedRange();
 
@@ -753,7 +802,8 @@ export default function RangeHelper(win, d) {
 	* @name clear
 	* @memberOf RangeHelper.prototype
 	*/
-	base.clear = function () {
+	base.clear = function ()
+	{
 		var sel = win.getSelection();
 
 		if (sel)

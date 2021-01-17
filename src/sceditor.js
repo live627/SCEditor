@@ -43,7 +43,8 @@ export default {
 	},
 	plugins: PluginManager.plugins,
 	formats: SCEditor.formats,
-	create: function (textarea, options) {
+	create: function (textarea, options)
+	{
 		options = options || {};
 
 		// Don't allow the editor to be initialised
@@ -57,7 +58,8 @@ export default {
 			(new SCEditor(textarea, options));
 
 	},
-	instance: function (textarea) {
+	instance: function (textarea)
+	{
 		return textarea._sceditor;
 	}
 };

@@ -24,7 +24,8 @@ var isEmptyObject = utils.isEmptyObject;
  * @name jQuery.sceditor.XHTMLSerializer
  * @since v1.4.1
  */
-var XHTMLSerializer = function () {
+var XHTMLSerializer = function ()
+{
 	var base = this;
 
 	var opts = {
@@ -54,7 +55,8 @@ var XHTMLSerializer = function () {
 	* @return {string}
 	* @private
 	*/
-	function escapeEntities(str) {
+	function escapeEntities(str)
+	{
 		var entities = {
 			'&': '&amp;',
 			'<': '&lt;',
@@ -63,7 +65,8 @@ var XHTMLSerializer = function () {
 			'\xa0': '&nbsp;'
 		};
 
-		return !str ? '' : str.replace(/[&<>"\xa0]/g, function (entity) {
+		return !str ? '' : str.replace(/[&<>"\xa0]/g, function (entity)
+		{
 			return entities[entity] || entity;
 		});
 	};
@@ -73,7 +76,8 @@ var XHTMLSerializer = function () {
 	* @return {string}
 	* @private
 	*/
-	function trim(str) {
+	function trim(str)
+	{
 		return str
 			// New lines will be shown as spaces so just convert to spaces.
 			.replace(/[\r\n]/, ' ')
@@ -92,17 +96,21 @@ var XHTMLSerializer = function () {
 	* @memberOf jQuery.sceditor.XHTMLSerializer.prototype
 	* @since v1.4.1
 	*/
-	base.serialize = function (node, onlyChildren) {
+	base.serialize = function (node, onlyChildren)
+	{
 		outputStringBuilder = [];
 
-		if (onlyChildren) {
+		if (onlyChildren)
+		{
 			node = node.firstChild;
 
-			while (node) {
+			while (node)
+			{
 				serializeNode(node);
 				node = node.nextSibling;
 			}
-		} else
+		}
+		else
 			serializeNode(node);
 
 
@@ -116,8 +124,10 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function serializeNode(node, parentIsPre) {
-		switch (node.nodeType) {
+	function serializeNode(node, parentIsPre)
+	{
+		switch (node.nodeType)
+		{
 			case 1: // element
 				var tagName = node.nodeName.toLowerCase();
 
@@ -163,10 +173,12 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function handleDoc(node) {
+	function handleDoc(node)
+	{
 		var	child = node.firstChild;
 
-		while (child) {
+		while (child)
+		{
 			serializeNode(child);
 			child = child.nextSibling;
 		}
@@ -178,7 +190,8 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function handleElement(node, parentIsPre) {
+	function handleElement(node, parentIsPre)
+	{
 		var	child, attr, attrValue,
 			tagName     = node.nodeName.toLowerCase(),
 			isIframe    = tagName === 'iframe',
@@ -195,7 +208,8 @@ var XHTMLSerializer = function () {
 
 
 		output('<' + tagName, !parentIsPre && canIndent(node));
-		while (attrIdx--) {
+		while (attrIdx--)
+		{
 			attr = node.attributes[attrIdx];
 
 			attrValue = attr.value;
@@ -209,7 +223,8 @@ var XHTMLSerializer = function () {
 			child = firstChild;
 
 
-		while (child) {
+		while (child)
+		{
 			currentIndent++;
 
 			serializeNode(child, isPre);
@@ -233,7 +248,8 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function handleCdata(node) {
+	function handleCdata(node)
+	{
 		output('<![CDATA[' + escapeEntities(node.nodeValue) + ']]>');
 	};
 
@@ -243,7 +259,8 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function handleComment(node) {
+	function handleComment(node)
+	{
 		output('<!-- ' + escapeEntities(node.nodeValue) + ' -->');
 	};
 
@@ -253,7 +270,8 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function handleText(node, parentIsPre) {
+	function handleText(node, parentIsPre)
+	{
 		var text = node.nodeValue;
 
 		if (!parentIsPre)
@@ -274,10 +292,12 @@ var XHTMLSerializer = function () {
 	* @return {void}
 	* @private
 	*/
-	function output(str, indent) {
+	function output(str, indent)
+	{
 		var i = currentIndent;
 
-		if (indent !== false) {
+		if (indent !== false)
+		{
 			// Don't add a new line if it's the first element
 			if (outputStringBuilder.length)
 				outputStringBuilder.push('\n');
@@ -297,7 +317,8 @@ var XHTMLSerializer = function () {
 	* @return {boolean}
 	* @private
 	*/
-	function canIndent(node) {
+	function canIndent(node)
+	{
 		var prev = node.previousSibling;
 
 		if (node.nodeType !== 1 && prev)
@@ -319,7 +340,8 @@ var XHTMLSerializer = function () {
  * @name jQuery.sceditor.plugins.xhtml
  * @since v1.4.1
  */
-function xhtmlFormat() {
+function xhtmlFormat()
+{
 	var base = this;
 
 	/**
@@ -340,12 +362,15 @@ function xhtmlFormat() {
 	* Init
 	* @return {void}
 	*/
-	base.init = function () {
+	base.init = function ()
+	{
 		if (!isEmptyObject(converters || {}))
 			each(
 				converters,
-				function (idx, converter) {
-					each(converter.tags, function (tagname) {
+				function (idx, converter)
+				{
+					each(converter.tags, function (tagname)
+					{
 						if (!tagConvertersCache[tagname])
 							tagConvertersCache[tagname] = [];
 
@@ -370,7 +395,8 @@ function xhtmlFormat() {
 	* @return {string}
 	* @memberOf jQuery.sceditor.plugins.xhtml.prototype
 	*/
-	function toSource(isFragment, html, context) {
+	function toSource(isFragment, html, context)
+	{
 		var xhtml,
 			container = context.createElement('div');
 		container.innerHTML = html;
@@ -404,14 +430,17 @@ function xhtmlFormat() {
 	* @return {Node} node
 	* @private
 	*/
-	function convertNode(tagName, node) {
+	function convertNode(tagName, node)
+	{
 		if (!tagConvertersCache[tagName])
 			return;
 
 
-		tagConvertersCache[tagName].forEach(function (converter) {
+		tagConvertersCache[tagName].forEach(function (converter)
+		{
 			if (converter.tags[tagName])
-				each(converter.tags[tagName], function (attr, values) {
+				each(converter.tags[tagName], function (attr, values)
+				{
 					if (!node.getAttributeNode)
 						return;
 
@@ -436,8 +465,10 @@ function xhtmlFormat() {
 	* @return {void}
 	* @private
 	*/
-	function convertTags(node) {
-		dom.traverse(node, function (node) {
+	function convertTags(node)
+	{
+		dom.traverse(node, function (node)
+		{
 			var	tagName = node.nodeName.toLowerCase();
 
 			convertNode('*', node);
@@ -452,7 +483,8 @@ function xhtmlFormat() {
 	* @return {boolean}
 	* @private
 	*/
-	function isEmpty(node, excludeBr) {
+	function isEmpty(node, excludeBr)
+	{
 		var	rect,
 			childNodes     = node.childNodes,
 			tagName        = node.nodeName.toLowerCase(),
@@ -488,7 +520,8 @@ function xhtmlFormat() {
 
 		// Treat tags with a width and height from CSS as not empty
 		if (node.getBoundingClientRect &&
-			(node.className || node.hasAttributes('style'))) {
+			(node.className || node.hasAttributes('style')))
+		{
 			rect = node.getBoundingClientRect();
 			return !rect.width || !rect.height;
 		}
@@ -505,8 +538,10 @@ function xhtmlFormat() {
 	* @return {void}
 	* @private
 	*/
-	function removeTags(rootNode) {
-		dom.traverse(rootNode, function (node) {
+	function removeTags(rootNode)
+	{
+		dom.traverse(rootNode, function (node)
+		{
 			var	remove,
 				tagName         = node.nodeName.toLowerCase(),
 				parentNode      = node.parentNode,
@@ -543,7 +578,8 @@ function xhtmlFormat() {
 						/br/i.test(firstChild.nodeName)))
 						// Mark as empty,it will be removed by the next code
 						empty = true;
-					else {
+					else
+					{
 						node.classList.remove('sceditor-nlf');
 
 						if (!node.className)
@@ -562,8 +598,10 @@ function xhtmlFormat() {
 				remove = (disallowedTags.indexOf(tagName) > -1);
 
 
-			if (remove) {
-				if (!empty) {
+			if (remove)
+			{
+				if (!empty)
+				{
 					if (isBlock && previousSibling &&
 						dom.isInline(previousSibling))
 						parentNode.insertBefore(
@@ -596,7 +634,8 @@ function xhtmlFormat() {
 	* @return {Object}
 	* @private
 	*/
-	function mergeAttribsFilters(filtersA, filtersB) {
+	function mergeAttribsFilters(filtersA, filtersB)
+	{
 		var ret = {};
 
 		if (filtersA)
@@ -607,7 +646,8 @@ function xhtmlFormat() {
 			return ret;
 
 
-		each(filtersB, function (attrName, values) {
+		each(filtersB, function (attrName, values)
+		{
 			if (Array.isArray(values))
 				ret[attrName] = (ret[attrName] || []).concat(values);
 			else if (!ret[attrName])
@@ -625,24 +665,29 @@ function xhtmlFormat() {
 	* @param {Node} root
 	* @private
 	*/
-	function wrapInlines(root) {
+	function wrapInlines(root)
+	{
 		// Strip empty text nodes so they don't get wrapped.
 		dom.removeWhiteSpace(root);
 
 		var wrapper;
 		var node = root.firstChild;
 		var next;
-		while (node) {
+		while (node)
+		{
 			next = node.nextSibling;
 
-			if (dom.isInline(node) && !is(node, '.sceditor-ignore')) {
-				if (!wrapper) {
+			if (dom.isInline(node) && !is(node, '.sceditor-ignore'))
+			{
+				if (!wrapper)
+				{
 					wrapper = root.ownerDocument.createElement('p');
 					node.parentNode.insertBefore(wrapper, node);
 				}
 
 				wrapper.appendChild(node);
-			} else
+			}
+			else
 				wrapper = null;
 
 
@@ -658,7 +703,8 @@ function xhtmlFormat() {
 	* @return {void}
 	* @private
 	*/
-	function removeAttribs(node) {
+	function removeAttribs(node)
+	{
 		var	tagName, attr, attrName, attrsLength, validValues, remove,
 			allowedAttribs    = xhtmlFormat.allowedAttribs,
 			isAllowed         = allowedAttribs &&
@@ -669,7 +715,8 @@ function xhtmlFormat() {
 
 		attrsCache = {};
 
-		dom.traverse(node, function (node) {
+		dom.traverse(node, function (node)
+		{
 			if (!node.attributes)
 				return;
 
@@ -677,7 +724,8 @@ function xhtmlFormat() {
 			tagName     = node.nodeName.toLowerCase();
 			attrsLength = node.attributes.length;
 
-			if (attrsLength) {
+			if (attrsLength)
+			{
 				if (!attrsCache[tagName])
 					if (isAllowed)
 						attrsCache[tagName] = mergeAttribsFilters(
@@ -692,7 +740,8 @@ function xhtmlFormat() {
 
 
 
-				while (attrsLength--) {
+				while (attrsLength--)
+				{
 					attr        = node.attributes[attrsLength];
 					attrName    = attr.name;
 					validValues = attrsCache[tagName][attrName];

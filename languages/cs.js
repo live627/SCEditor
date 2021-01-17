@@ -2,7 +2,8 @@
  * @author Daniel Vítek danielvitek1@gmail.com danvitek.cz
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['cs'] = {

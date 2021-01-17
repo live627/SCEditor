@@ -2,7 +2,8 @@
  * @author Team from www.klaustukai.lt
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['lt'] = {

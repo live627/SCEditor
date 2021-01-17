@@ -9,10 +9,12 @@
  *
  * @author Sam Clarke
  */
-(function (document, sceditor) {
+(function (document, sceditor)
+{
 	'use strict';
 
-	function getNode(n, v) {
+	function getNode(n, v)
+	{
 		n = document.createElementNS('http://www.w3.org/2000/svg', n);
 		for (var p in v)
 			if (p === 'textContent')
@@ -147,13 +149,16 @@
 		youtube: 'M2 2C1 2 0 3 0 4v8c0 1 1 2 2 2h12c1 0 2-1 2-2V4c0-1-1-2-2-2H2zm4 3l6 3-6 3V5z'
 	};
 
-	sceditor.icons.monocons = function () {
+	sceditor.icons.monocons = function ()
+	{
 		var colorPath;
 
 		return {
-			create: command => {
+			create: command =>
+			{
 				var svg;
-				if (command in icons) {
+				if (command in icons)
+				{
 					svg = getNode('svg');
 					svg.setAttribute('viewBox', '0 0 16 16');
 					if (typeof icons[command] === 'string')
@@ -172,8 +177,10 @@
 
 				return svg;
 			},
-			update: (isSourceMode, currentNode) => {
-				if (colorPath) {
+			update: (isSourceMode, currentNode) =>
+			{
+				if (colorPath)
+				{
 					var color = 'inherit';
 
 					if (!isSourceMode && currentNode)
@@ -183,18 +190,23 @@
 					colorPath.setAttribute('fill', color);
 				}
 			},
-			rebuild: editorContainer => {
+			rebuild: editorContainer =>
+			{
 				var o = {};
-				for (let commandName in icons) {
+				for (let commandName in icons)
+				{
 					const elements = editorContainer.querySelectorAll(`sceditor-button-${commandName} svg *`);
 					o[commandName] = {};
-					for (let element of elements) {
-						if (element.tagName === 'path' && elements.length === 1) {
+					for (let element of elements)
+					{
+						if (element.tagName === 'path' && elements.length === 1)
+						{
 							o[commandName] = element.getAttribute('d');
 							break;
 						}
 						o[commandName][element.tagName] = {};
-						for (let name of element.getAttributeNames()) {
+						for (let name of element.getAttributeNames())
+						{
 							o[commandName][element.tagName][name.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())] = element.getAttribute(name);
 							if (element.textContent !== '')
 								// eslint-disable-next-line max-len

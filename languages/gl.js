@@ -2,7 +2,8 @@
  * @author Fran Sobrino
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['gl'] = {

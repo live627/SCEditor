@@ -15,7 +15,8 @@ var VALID_SCHEME_REGEX =
  * @param {string} str
  * @return {string}
  */
-export function regex(str) {
+export function regex(str)
+{
 	return str.replace(/([\-.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
 };
 
@@ -30,7 +31,8 @@ export function regex(str) {
  * @return {string}
  * @since 1.4.1
  */
-export function entities(str, noQuotes) {
+export function entities(str, noQuotes)
+{
 	if (!str)
 		return str;
 
@@ -44,7 +46,8 @@ export function entities(str, noQuotes) {
 		'\r': '<br />',
 		'\n': '<br />'
 	};
-	if (noQuotes !== false) {
+	if (noQuotes !== false)
+	{
 		replacements['"']  = '&#34;';
 		replacements['\''] = '&#39;';
 		replacements['`']  = '&#96;';
@@ -83,7 +86,8 @@ export function entities(str, noQuotes) {
  * @return {string}
  * @since 1.4.5
  */
-export function uriScheme(url) {
+export function uriScheme(url)
+{
 	var	path,
 		// If there is a : before a / then it has a scheme
 		hasScheme = /^[^\/]*:/i,
