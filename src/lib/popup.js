@@ -1,31 +1,38 @@
-export default function (editorContainer) {
+export default function (editorContainer)
+{
 	var
 		cover = document.createElement('div'),
 		root = document.createElement('div'),
 
-		content = function (content) {
+		content = function (content)
+		{
 			while (root.children.length > 1)
 				root.removeChild(root.lastChild);
 
 			root.appendChild(content);
 		},
-		show = function () {
+		show = function ()
+		{
 			cover.classList.add('show');
 		},
-		hide = function () {
+		hide = function ()
+		{
 			cover.classList.remove('show');
 		},
-		click = function (e) {
+		click = function (e)
+		{
 			if (e.target.id === 'popup')
 				hide();
 
 		},
-		esc = function (e) {
+		esc = function (e)
+		{
 			if (e.keyCode === 27)
 				hide();
 
 		},
-		destroy = function () {
+		destroy = function ()
+		{
 			document.removeEventListener('keydown', esc);
 		},
 		a = document.createElement('button');

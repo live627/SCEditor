@@ -9,7 +9,8 @@
  *
  * @author Sam Clarke
  */
-(function (sceditor) {
+(function (sceditor)
+{
 	'use strict';
 
 	var extend = sceditor.utils.extend;
@@ -23,30 +24,38 @@
 	* pastetext.enabled - If the plain text button should be enabled at start
 	*                     up. Only applies if addButton is enabled.
 	*/
-	sceditor.plugins.plaintext = function () {
+	sceditor.plugins.plaintext = function ()
+	{
 		var plainTextEnabled = true;
 
-		this.init = function () {
+		this.init = function ()
+		{
 			var commands = this.commands;
 			var opts = this.opts;
 
-			if (opts && opts.plaintext && opts.plaintext.addButton) {
+			if (opts && opts.plaintext && opts.plaintext.addButton)
+			{
 				plainTextEnabled = opts.plaintext.enabled;
 
 				commands.pastetext = extend(commands.pastetext || {}, {
-					state: function () {
+					state: function ()
+					{
 						return plainTextEnabled ? 1 : 0;
 					},
-					exec: function () {
+					exec: function ()
+					{
 						plainTextEnabled = !plainTextEnabled;
 					}
 				});
 			}
 		};
 
-		this.signalPasteRaw = function (data) {
-			if (plainTextEnabled) {
-				if (data.html && !data.text) {
+		this.signalPasteRaw = function (data)
+		{
+			if (plainTextEnabled)
+			{
+				if (data.html && !data.text)
+				{
 					var div = document.createElement('div');
 					div.innerHTML = data.html;
 					data.text = div.innerText;

@@ -103,7 +103,8 @@ var _templates = {
  * @returns {string|DocumentFragment}
  * @private
  */
-export default function (name, params, createHtml) {
+export default function (name, params, createHtml)
+{
 	var template = _templates[name];
 
 	template = replaceVars(template, params);

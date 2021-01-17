@@ -2,7 +2,8 @@
  * @author Sandy Irawan (sndbkct@gmail.com)
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['id'] = {

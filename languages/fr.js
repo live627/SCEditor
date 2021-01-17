@@ -1,7 +1,8 @@
 
 // add locale:'fr', to your config options.
 
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['fr-FR'] = {

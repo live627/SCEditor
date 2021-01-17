@@ -93,7 +93,8 @@ var formats = {
 			'font-family': null
 		},
 		quoteType: QuoteType.never,
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			var font;
 
 			if (!is(element, 'font') || !(font = attr(element, 'face')))
@@ -117,7 +118,8 @@ var formats = {
 		styles: {
 			'font-size': null
 		},
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			var	fontSize = attr(element, 'size'),
 				size     = 2;
 
@@ -126,7 +128,8 @@ var formats = {
 
 
 			// Most browsers return px value but IE returns 1-7
-			if (fontSize.indexOf('px') > -1) {
+			if (fontSize.indexOf('px') > -1)
+			{
 				// convert size to an int
 				fontSize = fontSize.replace('px', '') - 0;
 
@@ -148,7 +151,8 @@ var formats = {
 				if (fontSize > 47)
 					size = 7;
 
-			} else
+			}
+			else
 				size = fontSize;
 
 
@@ -169,7 +173,8 @@ var formats = {
 			color: null
 		},
 		quoteType: QuoteType.never,
-		format: function (elm, content) {
+		format: function (elm, content)
+		{
 			var	color;
 
 			if (!is(elm, 'font') || !(color = attr(elm, 'color')))
@@ -179,7 +184,8 @@ var formats = {
 			return '[color=' + normaliseColour(color) + ']' +
 					content + '[/color]';
 		},
-		html: function (token, attrs, content) {
+		html: function (token, attrs, content)
+		{
 			return '<font color="' +
 					escapeEntities(normaliseColour(attrs.defaultattr), true) +
 					'">' + content + '</font>';
@@ -279,7 +285,8 @@ var formats = {
 				'data-sceditor-emoticon': null
 			}
 		},
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			return attr(element, EMOTICON_DATA_ATTR) + content;
 		},
 		html: '{0}'
@@ -309,7 +316,8 @@ var formats = {
 		},
 		allowedChildren: ['#'],
 		quoteType: QuoteType.auto,
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			// check if this is an emoticon image
 			if (attr(element, EMOTICON_DATA_ATTR))
 				return content;
@@ -333,7 +341,8 @@ var formats = {
 
 			return `[img ${attribs.join(' ')}]${attr(element, 'src')}[/img]`;
 		},
-		html: function (token, attrs, content) {
+		html: function (token, attrs, content)
+		{
 			var
 				attribs = [`src="${uriScheme(content)}"`],
 				width  = attrs.width,
@@ -364,7 +373,8 @@ var formats = {
 			}
 		},
 		quoteType: QuoteType.never,
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			var url = attr(element, 'href');
 
 			// make sure this link is not an e-mail,
@@ -376,7 +386,8 @@ var formats = {
 
 			return '[url=' + url + ']' + content + '[/url]';
 		},
-		html: function (token, attrs, content) {
+		html: function (token, attrs, content)
+		{
 			attrs.defaultattr =
 					escapeEntities(attrs.defaultattr, true) || content;
 
@@ -389,7 +400,8 @@ var formats = {
 	// START_COMMAND: E-mail
 	email: {
 		quoteType: QuoteType.never,
-		html: function (token, attrs, content) {
+		html: function (token, attrs, content)
+		{
 			return '<a href="mailto:' +
 					(escapeEntities(attrs.defaultattr, true) || content) +
 					'">' + content + '</a>';
@@ -404,7 +416,8 @@ var formats = {
 		},
 		isInline: false,
 		quoteType: QuoteType.never,
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			var authorAttr = 'data-author';
 			var	author = '';
 			var cite;
@@ -416,7 +429,8 @@ var formats = {
 
 
 
-			if (cite || attr(element, authorAttr)) {
+			if (cite || attr(element, authorAttr))
+			{
 				author = cite && cite.textContent ||
 						attr(element, authorAttr);
 
@@ -436,7 +450,8 @@ var formats = {
 
 			return '[quote' + author + ']' + content + '[/quote]';
 		},
-		html: function (token, attrs, content) {
+		html: function (token, attrs, content)
+		{
 			if (attrs.defaultattr)
 				content = '<cite>' + attrs.defaultattr +
 						'</cite>' + content;
@@ -537,7 +552,8 @@ var formats = {
 				'data-youtube-start': null
 			}
 		},
-		format: function (element, content) {
+		format: function (element, content)
+		{
 			var id = attr(element, 'data-youtube-id');
 			var start = attr(element, 'data-youtube-start');
 
@@ -548,7 +564,8 @@ var formats = {
 				return id ? '[youtube]' + id + '[/youtube]' : content;
 
 		},
-		html: function (token, attrs, content) {
+		html: function (token, attrs, content)
+		{
 			var id = content;
 			var start = 0;
 

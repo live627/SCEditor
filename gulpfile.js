@@ -13,13 +13,16 @@ import  Spritesmith from 'spritesmith';
 import  zip   from 'gulp-zip';
 
 let
-	m = () => {
+	m = () =>
+	{
 		return gulp.src('./dist/sceditor.js')
-			.pipe(map(buff => {
+			.pipe(map(buff =>
+			{
 				var result = uglify.minify(buff.toString());
-				if (result.error) {
+				if (result.error)
+
 					throw result.error;
-				}
+
 				return result.code;
 			}))
 			.pipe(rename({ suffix: '.min' }))
@@ -27,11 +30,13 @@ let
 	},
 	sprites = fs.readdirSync('src/themes/icons/src/famfamfam')
 		.filter(x => path.extname(x).toLowerCase() === '.png'),
-	sprite = () => {
+	sprite = () =>
+	{
 		sprites.sort();
 		Spritesmith.run({
 			src: sprites.map(x => `src/themes/icons/src/famfamfam/${x}`)
-		}, (err, result) => {
+		}, (err, result) =>
+		{
 			if (err)
 				throw err;
 
@@ -58,7 +63,8 @@ let
 		return gulp.src('src/themes/icons/famfamfam.png')
 			.pipe(gulp.dest('dist'));
 	},
-	css = () => {
+	css = () =>
+	{
 		return gulp.src('src/themes/*.scss')
 			.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
 			.pipe(gulp.dest('dist'))
@@ -66,7 +72,8 @@ let
 			.pipe(rename({suffix: '.min'}))
 			.pipe(gulp.dest('dist'));
 	},
-	z = () => {
+	z = () =>
+	{
 		return gulp.src(['dist/*', '!dist/sceditor.zip'])
 			.pipe(zip('sceditor.zip'))
 			.pipe(gulp.dest('dist'));

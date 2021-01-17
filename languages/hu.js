@@ -3,7 +3,8 @@
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  * @date 2013-08-11
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['hu'] = {

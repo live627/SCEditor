@@ -60,7 +60,7 @@
     "no-invalid-this": "off",
     "no-with": "error",
     "curly": [2, "multi"],
-    "brace-style": ["error", "1tbs", {
+    "brace-style": ["error", "allman", {
       "allowSingleLine": false
     }],
     "no-mixed-spaces-and-tabs": "error",

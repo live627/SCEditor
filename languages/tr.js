@@ -2,7 +2,8 @@
  * @author Mahmut Yaman - iletisim@/m-yaman.com
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  */
-(function () {
+(function ()
+{
 	'use strict';
 	sceditor.locale['tr'] = {
 		'Bold': 'Kalın',

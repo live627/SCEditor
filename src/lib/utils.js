@@ -6,7 +6,8 @@
  * @param {*} arg
  * @returns {boolean}
  */
-function isTypeof(type, arg) {
+function isTypeof(type, arg)
+{
 	return typeof arg === type;
 }
 
@@ -41,7 +42,8 @@ export var isDigit = x => /^\d+$/.test(x);
  * @param {!Object} obj
  * @returns {boolean}
  */
-export function isEmptyObject(obj) {
+export function isEmptyObject(obj)
+{
 	return !Object.keys(obj).length;
 }
 
@@ -55,23 +57,27 @@ export function isEmptyObject(obj) {
  * @param {...Object} source
  * @return {Object}
  */
-export function extend(targetArg, sourceArg) {
+export function extend(targetArg, sourceArg)
+{
 	var isTargetBoolean = targetArg === !!targetArg;
 	var i      = isTargetBoolean ? 2 : 1;
 	var target = isTargetBoolean ? sourceArg : targetArg;
 	var isDeep = isTargetBoolean ? targetArg : false;
 
-	for (; i < arguments.length; i++) {
+	for (; i < arguments.length; i++)
+	{
 		var source = arguments[i];
 
 		// Copy all properties for jQuery compatibility
 		/* eslint guard-for-in: off */
-		for (var key in source) {
+		for (var key in source)
+		{
 			var value = source[key];
 
 			// Skip undefined values to match jQuery and
 			// skip if target to prevent infinite loop
-			if (!isUndefined(value)) {
+			if (!isUndefined(value))
+			{
 				var isObject = value !== null && typeof value === 'object' &&
 					Object.getPrototypeOf(value) === Object.prototype;
 				var isArray = Array.isArray(value);
@@ -98,7 +104,8 @@ export function extend(targetArg, sourceArg) {
  * @param {!Array} arr
  * @param {*} item
  */
-export function arrayRemove(arr, item) {
+export function arrayRemove(arr, item)
+{
 	var i = arr.indexOf(item);
 
 	if (i > -1)
@@ -112,13 +119,15 @@ export function arrayRemove(arr, item) {
  * @param {!Object|Array} obj
  * @param {function(*, *)} fn
  */
-export function each(obj, fn) {
+export function each(obj, fn)
+{
 	if (Array.isArray(obj) || 'length' in obj && isNumber(obj.length))
 		for (var i = 0; i < obj.length; i++)
 			fn(i, obj[i]);
 
 	else
-		Object.keys(obj).forEach(function (key) {
+		Object.keys(obj).forEach(function (key)
+		{
 			fn(key, obj[key]);
 		});
 

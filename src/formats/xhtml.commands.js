@@ -32,13 +32,15 @@ var commands = {
 		txtExec: ['<div style="text-align:justify;">', '</div>']
 	},
 	font: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			getEditorCommand('font')._dropDown(
 				editor,
 				caller,
-				function (font) {
+				function (font)
+				{
 					editor.insertText('<span style="font-family:' +
 							font + ';">', '</span>');
 				}
@@ -46,13 +48,15 @@ var commands = {
 		}
 	},
 	size: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			getEditorCommand('size')._dropDown(
 				editor,
 				caller,
-				function (size) {
+				function (size)
+				{
 					editor.insertText('<span style="font-size:' +
 							size + ';">', '</span>');
 				}
@@ -60,13 +64,15 @@ var commands = {
 		}
 	},
 	color: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 
 			getEditorCommand('color')._dropDown(
 				editor,
 				caller,
-				function (color) {
+				function (color)
+				{
 					editor.insertText('<span style="color:' +
 							color + ';">', '</span>');
 				}
@@ -89,14 +95,16 @@ var commands = {
 		txtExec: ['<code>', '</code>']
 	},
 	image: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var	editor  = this;
 
 			getEditorCommand('image')._dropDown(
 				editor,
 				caller,
 				selected,
-				function (url, width, height, alt) {
+				function (url, width, height, alt)
+				{
 					var attrs  = '';
 
 					if (width)
@@ -119,13 +127,15 @@ var commands = {
 		}
 	},
 	email: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var	editor  = this;
 
 			getEditorCommand('email')._dropDown(
 				editor,
 				caller,
-				function (url, text) {
+				function (url, text)
+				{
 					editor.insertText(
 						'<a href="mailto:' + url + '">' +
 								(text || selected || url) +
@@ -136,13 +146,15 @@ var commands = {
 		}
 	},
 	link: {
-		txtExec: function (caller, selected) {
+		txtExec: function (caller, selected)
+		{
 			var	editor  = this;
 
 			getEditorCommand('link')._dropDown(
 				editor,
 				caller,
-				function (url, text) {
+				function (url, text)
+				{
 					editor.insertText(
 						'<a href="' + url + '">' +
 								(text || selected || url) +
@@ -156,14 +168,16 @@ var commands = {
 		txtExec: ['<blockquote>', '</blockquote>']
 	},
 	youtube: {
-		txtExec: function (caller) {
+		txtExec: function (caller)
+		{
 			var editor = this;
 			var pOpts = editor.opts.parserOptions;
 
 			getEditorCommand('youtube')._dropDown(
 				editor,
 				caller,
-				function (id, start) {
+				function (id, start)
+				{
 					editor.insertText(
 						'<iframe ' + pOpts.youtubeParameters + ' ' +
 							'src="https://www.youtube.com/embed/' + id +

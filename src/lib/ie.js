@@ -11,7 +11,8 @@
  * @name ie
  * @type {number}
  */
-export var ie = function () {
+export var ie = function ()
+{
 	var	undef,
 		v   = 3,
 		doc = document,

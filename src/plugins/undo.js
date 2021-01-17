@@ -1,7 +1,9 @@
-(function (sceditor) {
+(function (sceditor)
+{
 	'use strict';
 
-	sceditor.plugins.undo = function () {
+	sceditor.plugins.undo = function ()
+	{
 		var base = this;
 		var editor;
 		var charChangedCount = 0;
@@ -18,7 +20,8 @@
 		* @param  {Object} state
 		* @private
 		*/
-		var applyState = function (state) {
+		var applyState = function (state)
+		{
 			ignoreNextValueChanged = true;
 
 			previousValue = state.value;
@@ -46,7 +49,8 @@
 		* @return {String}
 		* @private
 		*/
-		var simpleDiff = function (strA, strB) {
+		var simpleDiff = function (strA, strB)
+		{
 			var start, end, aLenDiff, bLenDiff,
 				aLength = strA.length,
 				bLength = strB.length,
@@ -73,7 +77,8 @@
 			return (end - start) + 1;
 		};
 
-		base.init = function () {
+		base.init = function ()
+		{
 			// The this variable will be set to the instance of the editor
 			// calling it, hence why the plugins "this" is saved to the base
 			// variable.
@@ -88,7 +93,8 @@
 			editor.addShortcut('ctrl+y', base.redo);
 		};
 
-		base.undo = function () {
+		base.undo = function ()
+		{
 			var state = undoStates.pop();
 			var rawEditorValue = editor.val(null, false);
 
@@ -96,7 +102,8 @@
 				state = undoStates.pop();
 
 
-			if (state) {
+			if (state)
+			{
 				if (!redoStates.length)
 					redoStates.push({
 						'caret': editor.sourceEditorCaret(),
@@ -112,15 +119,18 @@
 			return false;
 		};
 
-		base.redo = function () {
+		base.redo = function ()
+		{
 			var state = redoStates.pop();
 
-			if (!undoStates.length) {
+			if (!undoStates.length)
+			{
 				undoStates.push(state);
 				state = redoStates.pop();
 			}
 
-			if (state) {
+			if (state)
+			{
 				undoStates.push(state);
 				applyState(state);
 			}
@@ -128,7 +138,8 @@
 			return false;
 		};
 
-		window.addEventListener('load', () => {
+		window.addEventListener('load', () =>
+		{
 			var rawValue = editor.val(null, false);
 
 			// Store the initial value as the last value
@@ -149,7 +160,8 @@
 		* of the source editor (BBCode or HTML depending on plugins).
 		* @return {void}
 		*/
-		editor.bind('valuechanged', e => {
+		editor.bind('valuechanged', e =>
+		{
 			var rawValue = e.detail.rawValue;
 
 			if (undoLimit > 0 && undoStates.length > undoLimit)

@@ -2,7 +2,8 @@
  * @author Katrine
  * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
  */
-(function () {
+(function ()
+{
 	'use strict';
 
 	sceditor.locale['nb-NO'] = {

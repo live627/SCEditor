@@ -29,12 +29,16 @@ var IMAGE_MIME_REGEX = /^image\/(p?jpe?g|gif|png|bmp)$/i;
  * @param {Document} doc
  * @private
  */
-function wrapInlines(body, doc) {
+function wrapInlines(body, doc)
+{
 	var wrapper;
 
-	dom.traverse(body, function (node) {
-		if (dom.isInline(node, true)) {
-			if (!wrapper) {
+	dom.traverse(body, function (node)
+	{
+		if (dom.isInline(node, true))
+		{
+			if (!wrapper)
+			{
 				wrapper = dom.createElement('p', {}, doc);
 				dom.insertBefore(wrapper, node);
 			}
@@ -42,7 +46,8 @@ function wrapInlines(body, doc) {
 			if (node.nodeType !== dom.TEXT_NODE || node.nodeValue !== '')
 				dom.appendChild(wrapper, node);
 
-		} else
+		}
+		else
 			wrapper = null;
 
 	}, false, true);
@@ -56,7 +61,8 @@ function wrapInlines(body, doc) {
  * @class SCEditor
  * @name SCEditor
  */
-export default function SCEditor(original, userOptions) {
+export default function SCEditor(original, userOptions)
+{
 	/**
 	* Alias of this
 	*
@@ -361,7 +367,8 @@ export default function SCEditor(original, userOptions) {
 	* Creates the editor iframe and textarea
 	* @private
 	*/
-	init = function () {
+	init = function ()
+	{
 		original._sceditor = base;
 		initLocale();
 
@@ -408,7 +415,8 @@ export default function SCEditor(original, userOptions) {
 
 		updateActiveButtons();
 
-		var loaded = function () {
+		var loaded = function ()
+		{
 			dom.off(globalWin, 'load', loaded);
 
 			if (options.autofocus)
@@ -424,10 +432,12 @@ export default function SCEditor(original, userOptions) {
 
 	};
 
-	initPlugins = function () {
+	initPlugins = function ()
+	{
 		pluginManager = new PluginManager(base);
 
-		options.plugins.forEach(function (plugin) {
+		options.plugins.forEach(function (plugin)
+		{
 			pluginManager.register(plugin.trim());
 		});
 	};
@@ -437,12 +447,14 @@ export default function SCEditor(original, userOptions) {
 	* @private
 	* @return void
 	*/
-	initLocale = function () {
+	initLocale = function ()
+	{
 		var lang;
 
 		locale = SCEditor.locale[options.locale] || {};
 
-		if (!locale) {
+		if (!locale)
+		{
 			lang   = options.locale.split('-');
 			locale = SCEditor.locale[lang[0]];
 		}
@@ -457,7 +469,8 @@ export default function SCEditor(original, userOptions) {
 	* Creates the editor iframe and textarea
 	* @private
 	*/
-	initEditor = function () {
+	initEditor = function ()
+	{
 		sourceEditor  = dom.createElement('textarea');
 		wysiwygEditor = dom.createElement('iframe', {
 			frameborder: 0,
@@ -468,10 +481,13 @@ export default function SCEditor(original, userOptions) {
 		* for any reason, the user may not want the value to be tinkered
 		* by any filters.
 		*/
-		if (options.startInSourceMode) {
+		if (options.startInSourceMode)
+		{
 			dom.addClass(editorContainer, 'sourceMode');
 			dom.hide(wysiwygEditor);
-		} else {
+		}
+		else
+		{
 			dom.addClass(editorContainer, 'wysiwygMode');
 			dom.hide(sourceEditor);
 		}
@@ -515,7 +531,8 @@ export default function SCEditor(original, userOptions) {
 
 		// iframe overflow fix for iOS, also fixes an IE issue with the
 		// editor not getting focus when clicking inside
-		if (browser.ios || browser.edge || IE_VER) {
+		if (browser.ios || browser.edge || IE_VER)
+		{
 			dom.height(wysiwygBody, '100%');
 
 			if (!IE_VER)
@@ -536,7 +553,8 @@ export default function SCEditor(original, userOptions) {
 		var placeholder = options.placeholder ||
 			dom.attr(original, 'placeholder');
 
-		if (placeholder) {
+		if (placeholder)
+		{
 			sourceEditor.placeholder = placeholder;
 			dom.attr(wysiwygBody, 'placeholder', placeholder);
 		}
@@ -546,9 +564,11 @@ export default function SCEditor(original, userOptions) {
 	* Initialises options
 	* @private
 	*/
-	initOptions = function () {
+	initOptions = function ()
+	{
 		// auto-update original textbox on blur if option set to true
-		if (options.autoUpdate) {
+		if (options.autoUpdate)
+		{
 			dom.on(wysiwygBody, 'blur', autoUpdate);
 			dom.on(sourceEditor, 'blur', autoUpdate);
 		}
@@ -559,7 +579,8 @@ export default function SCEditor(original, userOptions) {
 
 		base.rtl(!!options.rtl);
 
-		if (options.autoExpand) {
+		if (options.autoExpand)
+		{
 			// Need to update when images (or anything else) loads
 			dom.on(wysiwygBody, 'load', autoExpand, dom.EVENT_CAPTURE);
 			dom.on(wysiwygBody, 'input keyup', autoExpand);
@@ -573,7 +594,8 @@ export default function SCEditor(original, userOptions) {
 	* Initialises events
 	* @private
 	*/
-	initEvents = function () {
+	initEvents = function ()
+	{
 		var compositionEvents = 'compositionstart compositionend';
 		var eventsToForward = 'keydown keyup keypress focus blur contextmenu';
 		var checkSelectionEvents = 'onselectionchange' in wysiwygDocument ?
@@ -606,7 +628,8 @@ export default function SCEditor(original, userOptions) {
 		dom.on(wysiwygDocument, checkSelectionEvents, checkSelectionChanged);
 		dom.on(wysiwygDocument, 'beforedeactivate keyup mouseup', saveRange);
 		dom.on(wysiwygDocument, 'keyup', appendNewLine);
-		dom.on(wysiwygDocument, 'focus', function () {
+		dom.on(wysiwygDocument, 'focus', function ()
+		{
 			lastRange = null;
 		});
 
@@ -624,7 +647,8 @@ export default function SCEditor(original, userOptions) {
 	* Creates the toolbar and appends it to the container
 	* @private
 	*/
-	initToolBar = function () {
+	initToolBar = function ()
+	{
 		var
 			group,
 			commands = base.commands;
@@ -638,17 +662,20 @@ export default function SCEditor(original, userOptions) {
 			icons = new SCEditor.icons[options.icons]();
 
 
-		utils.each(options.toolbar, function (_, rowItems) {
+		utils.each(options.toolbar, function (_, rowItems)
+		{
 			var row = dom.createElement('div', {
 				className: 'sceditor-row'
 			});
 
-			utils.each(rowItems, function (_, menuItems) {
+			utils.each(rowItems, function (_, menuItems)
+			{
 				group = dom.createElement('div', {
 					className: 'sceditor-group'
 				});
 
-				utils.each(menuItems, function (_, commandName) {
+				utils.each(menuItems, function (_, commandName)
+				{
 					var	button, shortcut,
 						command  = commands[commandName];
 
@@ -664,16 +691,19 @@ export default function SCEditor(original, userOptions) {
 								command.tooltip || commandName)
 					}, true).firstChild;
 
-					if (icons && icons.create) {
+					if (icons && icons.create)
+					{
 						var icon = icons.create(commandName);
-						if (icon) {
+						if (icon)
+						{
 							dom.insertBefore(icons.create(commandName),
 								button.firstChild);
 							dom.addClass(button, 'has-icon');
 						}
 					}
 
-					dom.on(button, 'click', function (e) {
+					dom.on(button, 'click', function (e)
+					{
 						if (!dom.hasClass(button, 'disabled'))
 							handleCommand(button, command);
 
@@ -682,7 +712,8 @@ export default function SCEditor(original, userOptions) {
 						e.preventDefault();
 					});
 					// Prevent editor losing focus when button clicked
-					dom.on(button, 'mousedown', function (e) {
+					dom.on(button, 'mousedown', function (e)
+					{
 						e.preventDefault();
 					});
 
@@ -734,12 +765,14 @@ export default function SCEditor(original, userOptions) {
 	* Prefixes and preloads the emoticon images
 	* @private
 	*/
-	initEmoticons = function () {
+	initEmoticons = function ()
+	{
 		var	emoticons = options.emoticons;
 		var root      = options.emoticonsRoot || '';
 		var space     = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
 
-		if (emoticons) {
+		if (emoticons)
+		{
 			emoticonsCache = emoticons.map(x => [x.code, _tmpl('emoticon', {
 				key: x.code,
 				url: root + x.path,
@@ -753,7 +786,8 @@ export default function SCEditor(original, userOptions) {
 	* Autofocus the editor
 	* @private
 	*/
-	autofocus = function () {
+	autofocus = function ()
+	{
 		var	range, txtPos,
 			node     = wysiwygBody.firstChild,
 			focusEnd = !!options.autofocusEnd;
@@ -763,7 +797,8 @@ export default function SCEditor(original, userOptions) {
 			return;
 
 
-		if (base.isInSourceMode()) {
+		if (base.isInSourceMode())
+		{
 			txtPos = focusEnd ? sourceEditor.value.length : 0;
 
 			sourceEditor.setSelectionRange(txtPos, txtPos);
@@ -773,13 +808,16 @@ export default function SCEditor(original, userOptions) {
 
 		dom.removeWhiteSpace(wysiwygBody);
 
-		if (focusEnd) {
-			if (!(node = wysiwygBody.lastChild)) {
+		if (focusEnd)
+		{
+			if (!(node = wysiwygBody.lastChild))
+			{
 				node = dom.createElement('p', {}, wysiwygDocument);
 				dom.appendChild(wysiwygBody, node);
 			}
 
-			while (node.lastChild) {
+			while (node.lastChild)
+			{
 				node = node.lastChild;
 
 				// IE < 11 should place the cursor after the <br> as
@@ -793,13 +831,15 @@ export default function SCEditor(original, userOptions) {
 
 		range = wysiwygDocument.createRange();
 
-		if (!dom.canHaveChildren(node)) {
+		if (!dom.canHaveChildren(node))
+		{
 			range.setStartBefore(node);
 
 			if (focusEnd)
 				range.setStartAfter(node);
 
-		} else
+		}
+		else
 			range.selectNodeContents(node);
 
 
@@ -834,7 +874,8 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @name readOnly
 	*/
-	base.readOnly = function (readOnly) {
+	base.readOnly = function (readOnly)
+	{
 		wysiwygBody.contentEditable = !readOnly;
 		sourceEditor.readonly = !readOnly;
 		dom.toggleClass(editorContainer, 'disabled', readOnly);
@@ -859,7 +900,8 @@ export default function SCEditor(original, userOptions) {
 	* @name rtl^2
 	* @return {this}
 	*/
-	base.rtl = function (rtl) {
+	base.rtl = function (rtl)
+	{
 		var dir = rtl ? 'rtl' : 'ltr';
 
 		if (typeof rtl !== 'boolean')
@@ -909,7 +951,8 @@ export default function SCEditor(original, userOptions) {
 	* @name width^3
 	* @return {this}
 	*/
-	base.width = function (width, saveWidth) {
+	base.width = function (width, saveWidth)
+	{
 		if (!width && width !== 0)
 			return dom.width(editorContainer);
 
@@ -960,7 +1003,8 @@ export default function SCEditor(original, userOptions) {
 	* @name dimensions^3
 	* @return {this}
 	*/
-	base.dimensions = function (width, height, save) {
+	base.dimensions = function (width, height, save)
+	{
 		// set undefined width/height to boolean false
 		width  = (!width && width !== 0) ? false : width;
 		height = (!height && height !== 0) ? false : height;
@@ -969,7 +1013,8 @@ export default function SCEditor(original, userOptions) {
 			return { width: base.width(), height: base.height() };
 
 
-		if (width !== false) {
+		if (width !== false)
+		{
 			if (save !== false)
 				options.width = width;
 
@@ -977,7 +1022,8 @@ export default function SCEditor(original, userOptions) {
 			dom.width(editorContainer, width);
 		}
 
-		if (height !== false) {
+		if (height !== false)
+		{
 			if (save !== false)
 				options.height = height;
 
@@ -1023,7 +1069,8 @@ export default function SCEditor(original, userOptions) {
 	* @name height^3
 	* @return {this}
 	*/
-	base.height = function (height, saveHeight) {
+	base.height = function (height, saveHeight)
+	{
 		if (!height && height !== 0)
 			return dom.height(editorContainer);
 
@@ -1052,7 +1099,8 @@ export default function SCEditor(original, userOptions) {
 	* @name maximize^2
 	* @return {this}
 	*/
-	base.maximize = function (maximize) {
+	base.maximize = function (maximize)
+	{
 		var maximizeSize = 'sceditor-maximize';
 
 		if (utils.isUndefined(maximize))
@@ -1080,7 +1128,8 @@ export default function SCEditor(original, userOptions) {
 		return base;
 	};
 
-	autoExpand = function () {
+	autoExpand = function ()
+	{
 		if (options.autoExpand && !autoExpandThrottle)
 			autoExpandThrottle = setTimeout(base.expandToContent, 200);
 
@@ -1099,7 +1148,8 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @see #resizeToContent
 	*/
-	base.expandToContent = function (ignoreMaxHeight) {
+	base.expandToContent = function (ignoreMaxHeight)
+	{
 		if (base.maximize())
 			return;
 
@@ -1107,7 +1157,8 @@ export default function SCEditor(original, userOptions) {
 		clearTimeout(autoExpandThrottle);
 		autoExpandThrottle = false;
 
-		if (!autoExpandBounds) {
+		if (!autoExpandBounds)
+		{
 			var height = options.resizeMinHeight || options.height ||
 				dom.height(original);
 
@@ -1142,7 +1193,8 @@ export default function SCEditor(original, userOptions) {
 	* @name destroy
 	* @memberOf SCEditor.prototype
 	*/
-	base.destroy = function () {
+	base.destroy = function ()
+	{
 		// Don't destroy if the editor has already been destroyed
 		if (!pluginManager)
 			return;
@@ -1173,13 +1225,16 @@ export default function SCEditor(original, userOptions) {
 	* Handles the WYSIWYG editors paste event
 	* @private
 	*/
-	handlePasteEvt = function (e) {
+	handlePasteEvt = function (e)
+	{
 		var isIeOrEdge = IE_VER || browser.edge;
 		var editable = wysiwygBody;
 		var clipboard = e.clipboardData;
-		var loadImage = function (file) {
+		var loadImage = function (file)
+		{
 			var reader = new FileReader();
-			reader.onload = function (e) {
+			reader.onload = function (e)
+			{
 				handlePasteData({
 					html: '<img src="' + e.target.result + '" />'
 				});
@@ -1190,14 +1245,16 @@ export default function SCEditor(original, userOptions) {
 		// Modern browsers with clipboard API - everything other than _very_
 		// old android web views and UC browser which doesn't support the
 		// paste event at all.
-		if (clipboard && !isIeOrEdge) {
+		if (clipboard && !isIeOrEdge)
+		{
 			var data = {};
 			var types = clipboard.types;
 			var items = clipboard.items;
 
 			e.preventDefault();
 
-			for (var i = 0; i < types.length; i++) {
+			for (var i = 0; i < types.length; i++)
+			{
 				// Normalise image pasting to paste as a data-uri
 				if (globalWin.FileReader && items &&
 					IMAGE_MIME_REGEX.test(items[i].type))
@@ -1213,7 +1270,9 @@ export default function SCEditor(original, userOptions) {
 			handlePasteData(data);
 		// If contentsFragment exists then we are already waiting for a
 		// previous paste so let the handler for that handle this one too
-		} else if (!pasteContentFragment) {
+		}
+		else if (!pasteContentFragment)
+		{
 			// Save the scroll position so can be restored
 			// when contents is restored
 			var scrollTop = editable.scrollTop;
@@ -1225,7 +1284,8 @@ export default function SCEditor(original, userOptions) {
 				dom.appendChild(pasteContentFragment, editable.firstChild);
 
 
-			setTimeout(function () {
+			setTimeout(function ()
+			{
 				var html = editable.innerHTML;
 
 				editable.innerHTML = '';
@@ -1245,18 +1305,21 @@ export default function SCEditor(original, userOptions) {
 	* @param {Object} data
 	* @private
 	*/
-	handlePasteData = function (data) {
+	handlePasteData = function (data)
+	{
 		var pasteArea = dom.createElement('div', {}, wysiwygDocument);
 
 		handleManualEvent('pasteraw', data);
 		dom.trigger(editorContainer, 'pasteraw', data);
 
-		if (data.html) {
+		if (data.html)
+		{
 			pasteArea.innerHTML = data.html;
 
 			// fix any invalid nesting
 			dom.fixNesting(pasteArea);
-		} else
+		}
+		else
 			pasteArea.innerHTML = escape.entities(data.text || '');
 
 
@@ -1301,7 +1364,8 @@ export default function SCEditor(original, userOptions) {
 	*/
 	base.wysiwygEditorInsertHtml = function (
 		html, endHtml, overrideCodeBlocking
-	) {
+	)
+	{
 		var	marker, scrollTop, scrollTo,
 			editorHeight = dom.height(wysiwygEditor);
 
@@ -1352,7 +1416,8 @@ export default function SCEditor(original, userOptions) {
 	* @name wysiwygEditorInsertText
 	* @memberOf SCEditor.prototype
 	*/
-	base.wysiwygEditorInsertText = function (text, endText) {
+	base.wysiwygEditorInsertText = function (text, endText)
+	{
 		base.wysiwygEditorInsertHtml(
 			escape.entities(text), escape.entities(endText)
 		);
@@ -1373,7 +1438,8 @@ export default function SCEditor(original, userOptions) {
 	* @name insertText
 	* @memberOf SCEditor.prototype
 	*/
-	base.insertText = function (text, endText) {
+	base.insertText = function (text, endText)
+	{
 		if (base.isInSourceMode())
 			base.sourceEditorInsertText(text, endText);
 		else
@@ -1407,7 +1473,8 @@ export default function SCEditor(original, userOptions) {
 	* @name sourceEditorInsertText
 	* @memberOf SCEditor.prototype
 	*/
-	base.sourceEditorInsertText = function (text, endText) {
+	base.sourceEditorInsertText = function (text, endText)
+	{
 		var scrollTop, currentValue,
 			startPos = sourceEditor.selectionStart,
 			endPos   = sourceEditor.selectionEnd;
@@ -1443,7 +1510,8 @@ export default function SCEditor(original, userOptions) {
 	* @name getRangeHelper
 	* @memberOf SCEditor.prototype
 	*/
-	base.getRangeHelper = function () {
+	base.getRangeHelper = function ()
+	{
 		return rangeHelper;
 	};
 
@@ -1457,10 +1525,12 @@ export default function SCEditor(original, userOptions) {
 	* @name sourceEditorCaret
 	* @memberOf SCEditor.prototype
 	*/
-	base.sourceEditorCaret = function (position) {
+	base.sourceEditorCaret = function (position)
+	{
 		sourceEditor.focus();
 
-		if (position) {
+		if (position)
+		{
 			sourceEditor.selectionStart = position.start;
 			sourceEditor.selectionEnd = position.end;
 
@@ -1501,14 +1571,17 @@ export default function SCEditor(original, userOptions) {
 	// eslint-disable-next-line max-params
 	base.insert = function (
 		start, end, filter, convertEmoticons, allowMixed
-	) {
-		if (base.isInSourceMode()) {
+	)
+	{
+		if (base.isInSourceMode())
+		{
 			base.sourceEditorInsertText(start, end);
 			return base;
 		}
 
 		// Add the selection between start and end
-		if (end) {
+		if (end)
+		{
 			var	html = rangeHelper.selectedHtml();
 
 			if (filter !== false && 'fragmentToSource' in format)
@@ -1548,7 +1621,8 @@ export default function SCEditor(original, userOptions) {
 	* @name getWysiwygEditorValue
 	* @memberOf SCEditor.prototype
 	*/
-	base.getWysiwygEditorValue = function (filter) {
+	base.getWysiwygEditorValue = function (filter)
+	{
 		var	html;
 		// Create a tmp node to store contents so it can be modified
 		// without affecting anything else.
@@ -1641,7 +1715,8 @@ export default function SCEditor(original, userOptions) {
 	* @name getSourceEditorValue
 	* @memberOf SCEditor.prototype
 	*/
-	base.getSourceEditorValue = function (filter) {
+	base.getSourceEditorValue = function (filter)
+	{
 		var val = sourceEditor.value;
 
 		if (filter !== false && 'toHtml' in format)
@@ -1673,7 +1748,8 @@ export default function SCEditor(original, userOptions) {
 	* @name setWysiwygEditorValue
 	* @memberOf SCEditor.prototype
 	*/
-	base.setWysiwygEditorValue = function (value) {
+	base.setWysiwygEditorValue = function (value)
+	{
 		if (!value)
 			value = '<p>' + (IE_VER ? '' : '<br />') + '</p>';
 
@@ -1694,7 +1770,8 @@ export default function SCEditor(original, userOptions) {
 	* @name setSourceEditorValue
 	* @memberOf SCEditor.prototype
 	*/
-	base.setSourceEditorValue = function (value) {
+	base.setSourceEditorValue = function (value)
+	{
 		sourceEditor.value = value;
 
 		triggerValueChanged();
@@ -1709,7 +1786,8 @@ export default function SCEditor(original, userOptions) {
 	* @since 1.4.0
 	* @memberOf SCEditor.prototype
 	*/
-	base.updateOriginal = function () {
+	base.updateOriginal = function ()
+	{
 		original.value = base.getValue();
 	};
 
@@ -1718,7 +1796,8 @@ export default function SCEditor(original, userOptions) {
 	* with their emoticon images
 	* @private
 	*/
-	replaceEmoticons = function () {
+	replaceEmoticons = function ()
+	{
 		if (options.emoticonsEnabled)
 			emoticons.replace(
 				wysiwygBody,
@@ -1735,7 +1814,8 @@ export default function SCEditor(original, userOptions) {
 	* @name isInSourceMode
 	* @memberOf SCEditor.prototype
 	*/
-	base.isInSourceMode = function () {
+	base.isInSourceMode = function ()
+	{
 		return dom.hasClass(editorContainer, 'sourceMode');
 	};
 
@@ -1747,7 +1827,8 @@ export default function SCEditor(original, userOptions) {
 	* @since 1.4.0
 	* @memberOf SCEditor.prototype
 	*/
-	base.toggleSourceMode = function () {
+	base.toggleSourceMode = function ()
+	{
 		var isInSourceMode = base.isInSourceMode();
 
 		// don't allow switching to WYSIWYG if doesn't support it
@@ -1755,7 +1836,8 @@ export default function SCEditor(original, userOptions) {
 			return;
 
 
-		if (!isInSourceMode) {
+		if (!isInSourceMode)
+		{
 			rangeHelper.saveRange();
 			rangeHelper.clear();
 		}
@@ -1782,7 +1864,8 @@ export default function SCEditor(original, userOptions) {
 	* Handles the passed command
 	* @private
 	*/
-	handleCommand = function (caller, cmd) {
+	handleCommand = function (caller, cmd)
+	{
 		if (cmd.exec)
 			if (utils.isFunction(cmd.exec))
 				cmd.exec.call(base, caller);
@@ -1801,7 +1884,8 @@ export default function SCEditor(original, userOptions) {
 	* where the cursor was and what was selected
 	* @private
 	*/
-	saveRange = function () {
+	saveRange = function ()
+	{
 		/* this is only needed for IE */
 		if (IE_VER)
 			lastRange = rangeHelper.selectedRange();
@@ -1817,7 +1901,8 @@ export default function SCEditor(original, userOptions) {
 	* @name execCommand
 	* @memberOf SCEditor.prototype
 	*/
-	base.execCommand = function (command, param) {
+	base.execCommand = function (command, param)
+	{
 		var	executed    = false,
 			commandObj  = base.commands[command];
 
@@ -1829,9 +1914,12 @@ export default function SCEditor(original, userOptions) {
 			return;
 
 
-		try {
+		try
+		{
 			executed = wysiwygDocument.execCommand(command, false, param);
-		} catch (ex) { }
+		}
+		catch (ex)
+		{ }
 
 		// show error if execution failed and an error message exists
 		if (!executed && commandObj && commandObj.errorMessage)
@@ -1850,8 +1938,10 @@ export default function SCEditor(original, userOptions) {
 	* This is because only IE has a selection changed event.
 	* @private
 	*/
-	checkSelectionChanged = function () {
-		function check() {
+	checkSelectionChanged = function ()
+	{
+		function check()
+		{
 			// Don't create new selection if there isn't one (like after
 			// blur event in iOS)
 			if (wysiwygWindow.getSelection() &&
@@ -1859,12 +1949,14 @@ export default function SCEditor(original, userOptions) {
 				currentSelection = null;
 			// rangeHelper could be null if editor was destroyed
 			// before the timeout had finished
-			else if (rangeHelper && !rangeHelper.compare(currentSelection)) {
+			else if (rangeHelper && !rangeHelper.compare(currentSelection))
+			{
 				currentSelection = rangeHelper.cloneSelected();
 
 				// If the selection is in an inline wrap it in a block.
 				// Fixes #331
-				if (currentSelection && currentSelection.collapsed) {
+				if (currentSelection && currentSelection.collapsed)
+				{
 					var parent = currentSelection.startContainer;
 					var offset = currentSelection.startOffset;
 
@@ -1877,7 +1969,8 @@ export default function SCEditor(original, userOptions) {
 						parent = parent.parentNode;
 
 
-					if (parent && dom.isInline(parent, true)) {
+					if (parent && dom.isInline(parent, true))
+					{
 						rangeHelper.saveRange();
 						wrapInlines(wysiwygBody, wysiwygDocument);
 						rangeHelper.restoreRange();
@@ -1909,12 +2002,14 @@ export default function SCEditor(original, userOptions) {
 	* the nodechanged event if it has
 	* @private
 	*/
-	checkNodeChanged = function () {
+	checkNodeChanged = function ()
+	{
 		// check if node has changed
 		var	oldNode,
 			node = rangeHelper.parentNode();
 
-		if (currentNode !== node) {
+		if (currentNode !== node)
+		{
 			oldNode          = currentNode;
 			currentNode      = node;
 			currentBlockNode = rangeHelper.getFirstBlockParent(node);
@@ -1937,7 +2032,8 @@ export default function SCEditor(original, userOptions) {
 	* @name currentNode
 	* @memberOf SCEditor.prototype
 	*/
-	base.currentNode = function () {
+	base.currentNode = function ()
+	{
 		return currentNode;
 	};
 
@@ -1953,7 +2049,8 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @since 1.4.4
 	*/
-	base.currentBlockNode = function () {
+	base.currentBlockNode = function ()
+	{
 		return currentBlockNode;
 	};
 
@@ -1961,18 +2058,21 @@ export default function SCEditor(original, userOptions) {
 	* Updates if buttons are active or not
 	* @private
 	*/
-	updateActiveButtons = function () {
+	updateActiveButtons = function ()
+	{
 		var firstBlock, parent;
 		var activeClass = 'active';
 		var doc         = wysiwygDocument;
 		var isSource    = base.isInSourceMode();
 
-		if (!isSource) {
+		if (!isSource)
+		{
 			parent     = rangeHelper.parentNode();
 			firstBlock = rangeHelper.getFirstBlockParent(parent);
 		}
 
-		for (var j = 0; j < btnStateHandlers.length; j++) {
+		for (var j = 0; j < btnStateHandlers.length; j++)
+		{
 			var state      = 0;
 			var btn        = toolbarButtons[btnStateHandlers[j].name];
 			var stateFn    = btnStateHandlers[j].state;
@@ -1980,13 +2080,16 @@ export default function SCEditor(original, userOptions) {
 			if (utils.isFunction(stateFn))
 				state = stateFn.call(base, parent, firstBlock);
 			else if (utils.isString(stateFn) && !isSource)
-				try {
+				try
+				{
 					state = doc.queryCommandEnabled(stateFn) ? 0 : -1;
 
 					if (state > -1)
 						state = doc.queryCommandState(stateFn) ? 1 : 0;
 
-				} catch (ex) {}
+				}
+				catch (ex)
+				{}
 
 
 			dom.toggleClass(btn, 'disabled', state < 0);
@@ -2003,20 +2106,23 @@ export default function SCEditor(original, userOptions) {
 	*
 	* @private
 	*/
-	handleKeyPress = function (e) {
+	handleKeyPress = function (e)
+	{
 		// FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=501496
 		if (e.defaultPrevented)
 			return;
 
 
 		// 13 = enter key
-		if (e.which === 13) {
+		if (e.which === 13)
+		{
 			var LIST_TAGS = 'li,ul,ol';
 
 			// "Fix" (cludge) for blocklevel elements being duplicated in some
 			// browsers when enter is pressed instead of inserting a newline
 			if (!dom.is(currentBlockNode, LIST_TAGS) &&
-				dom.hasStyling(currentBlockNode)) {
+				dom.hasStyling(currentBlockNode))
+			{
 				lastRange = null;
 
 				var br = dom.createElement('br', {}, wysiwygDocument);
@@ -2025,13 +2131,15 @@ export default function SCEditor(original, userOptions) {
 				// Last <br> of a block will be collapsed unless it is
 				// IE < 11 so need to make sure the <br> that was inserted
 				// isn't the last node of a block.
-				if (!IE_BR_FIX) {
+				if (!IE_BR_FIX)
+				{
 					var parent  = br.parentNode;
 					var lastChild = parent.lastChild;
 
 					// Sometimes an empty next node is created after the <br>
 					if (lastChild && lastChild.nodeType === dom.TEXT_NODE &&
-						lastChild.nodeValue === '') {
+						lastChild.nodeValue === '')
+					{
 						dom.remove(lastChild);
 						lastChild = parent.lastChild;
 					}
@@ -2060,17 +2168,20 @@ export default function SCEditor(original, userOptions) {
 	* @return {void}
 	* @private
 	*/
-	appendNewLine = function () {
+	appendNewLine = function ()
+	{
 		// Check all nodes in reverse until either add a new line
 		// or reach a non-empty textnode or BR at which point can
 		// stop checking.
-		dom.rTraverse(wysiwygBody, function (node) {
+		dom.rTraverse(wysiwygBody, function (node)
+		{
 			// Last block, add new line after if has styling
 			if (node.nodeType === dom.ELEMENT_NODE &&
 				!/inline/.test(dom.css(node, 'display')))
 
 				// Add line break after if has styling
-				if (!dom.is(node, '.sceditor-nlf') && dom.hasStyling(node)) {
+				if (!dom.is(node, '.sceditor-nlf') && dom.hasStyling(node))
+				{
 					var paragraph = dom.createElement('p', {}, wysiwygDocument);
 					paragraph.className = 'sceditor-nlf';
 					paragraph.innerHTML = !IE_BR_FIX ? '<br />' : '';
@@ -2092,7 +2203,8 @@ export default function SCEditor(original, userOptions) {
 	* Handles any mousedown press in the WYSIWYG editor
 	* @private
 	*/
-	handleMouseDown = function () {
+	handleMouseDown = function ()
+	{
 		lastRange = null;
 	};
 
@@ -2115,7 +2227,8 @@ export default function SCEditor(original, userOptions) {
 	* @private
 	* @return void
 	*/
-	handleEvent = function (e) {
+	handleEvent = function (e)
+	{
 		handleManualEvent(e.type, e);
 	};
 
@@ -2124,7 +2237,8 @@ export default function SCEditor(original, userOptions) {
 	* @private
 	* @return void
 	*/
-	handleManualEvent = (type, e) => {
+	handleManualEvent = (type, e) =>
+	{
 		if (eventHandlers[type])
 			for (var fn of eventHandlers[type])
 				fn.call(base, e);
@@ -2159,9 +2273,11 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @since 1.4.1
 	*/
-	base.bind = function (events, handler) {
+	base.bind = function (events, handler)
+	{
 		for (var event of events)
-			if (utils.isFunction(handler)) {
+			if (utils.isFunction(handler))
+			{
 				if (!eventHandlers[event])
 					// eslint-disable-next-line no-undef
 					eventHandlers[event] = new Set();
@@ -2185,7 +2301,8 @@ export default function SCEditor(original, userOptions) {
 	* @since 1.4.1
 	* @see bind
 	*/
-	base.unbind = function (events, handler) {
+	base.unbind = function (events, handler)
+	{
 		for (var event of events)
 			if (utils.isFunction(handler))
 				eventHandlers[event].delete(handler);
@@ -2204,7 +2321,8 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @since 1.3.6
 	*/
-	base.blur = function () {
+	base.blur = function ()
+	{
 		if (!base.isInSourceMode())
 			wysiwygBody.blur();
 		else
@@ -2222,8 +2340,10 @@ export default function SCEditor(original, userOptions) {
 	* @name focus
 	* @memberOf SCEditor.prototype
 	*/
-	base.focus = function () {
-		if (!base.isInSourceMode()) {
+	base.focus = function ()
+	{
+		if (!base.isInSourceMode())
+		{
 			// Already has focus so do nothing
 			if (dom.find(wysiwygDocument, ':focus').length)
 				return;
@@ -2241,11 +2361,13 @@ export default function SCEditor(original, userOptions) {
 			// Check if cursor is set after a BR when the BR is the only
 			// child of the parent. In Firefox this causes a line break
 			// to occur when something is typed. See issue #321
-			if (!IE_BR_FIX && rng && rng.endOffset === 1 && rng.collapsed) {
+			if (!IE_BR_FIX && rng && rng.endOffset === 1 && rng.collapsed)
+			{
 				container = rng.endContainer;
 
 				if (container && container.childNodes.length === 1 &&
-					dom.is(container.firstChild, 'br')) {
+					dom.is(container.firstChild, 'br'))
+				{
 					rng.setStartBefore(container.firstChild);
 					rng.collapse(true);
 					rangeHelper.selectRange(rng);
@@ -2256,14 +2378,16 @@ export default function SCEditor(original, userOptions) {
 			wysiwygBody.focus();
 
 			// Needed for IE
-			if (lastRange) {
+			if (lastRange)
+			{
 				rangeHelper.selectRange(lastRange);
 
 				// Remove the stored range after being set.
 				// If the editor loses focus it should be saved again.
 				lastRange = null;
 			}
-		} else
+		}
+		else
 			sourceEditor.focus();
 
 
@@ -2276,7 +2400,8 @@ export default function SCEditor(original, userOptions) {
 	* Emoticons keypress handler
 	* @private
 	*/
-	emoticonsKeyPress = function (e) {
+	emoticonsKeyPress = function (e)
+	{
 		var
 			curChar        = String.fromCharCode(e.which);
 
@@ -2305,7 +2430,8 @@ export default function SCEditor(original, userOptions) {
 	* Makes sure emoticons are surrounded by whitespace
 	* @private
 	*/
-	emoticonsCheckWhitespace = function () {
+	emoticonsCheckWhitespace = function ()
+	{
 		emoticons.checkWhitespace(currentBlockNode, rangeHelper);
 	};
 
@@ -2327,17 +2453,20 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @since 1.4.2
 	*/
-	base.emoticons = function (enable) {
+	base.emoticons = function (enable)
+	{
 		if (!enable && enable !== false)
 			return options.emoticonsEnabled;
 
 
 		options.emoticonsEnabled = enable;
 
-		if (enable) {
+		if (enable)
+		{
 			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
 
-			if (!base.isInSourceMode()) {
+			if (!base.isInSourceMode())
+			{
 				rangeHelper.saveRange();
 
 				replaceEmoticons();
@@ -2345,11 +2474,14 @@ export default function SCEditor(original, userOptions) {
 
 				rangeHelper.restoreRange();
 			}
-		} else {
+		}
+		else
+		{
 			var emoticons =
 				dom.find(wysiwygBody, 'img[data-sceditor-emoticon]');
 
-			utils.each(emoticons, function (_, img) {
+			utils.each(emoticons, function (_, img)
+			{
 				var text = dom.data(img, 'sceditor-emoticon');
 				var textNode = wysiwygDocument.createTextNode(text);
 				img.parentNode.replaceChild(textNode, img);
@@ -2382,8 +2514,10 @@ export default function SCEditor(original, userOptions) {
 	* @memberOf SCEditor.prototype
 	* @since 1.4.3
 	*/
-	base.css = function (css) {
-		if (!inlineCss) {
+	base.css = function (css)
+	{
+		if (!inlineCss)
+		{
 			inlineCss = dom.createElement('style', {
 				id: 'inline'
 			}, wysiwygDocument);
@@ -2409,7 +2543,8 @@ export default function SCEditor(original, userOptions) {
 	* Handles the keydown event, used for shortcuts
 	* @private
 	*/
-	handleKeyDown = function (e) {
+	handleKeyDown = function (e)
+	{
 		var	shortcut   = [],
 			SHIFT_KEYS = {
 				'`': '~',
@@ -2523,7 +2658,8 @@ export default function SCEditor(original, userOptions) {
 			shortcut.push('alt');
 
 
-		if (e.shiftKey) {
+		if (e.shiftKey)
+		{
 			shortcut.push('shift');
 
 			if (NUMPAD_SHIFT_KEYS[which])
@@ -2540,7 +2676,8 @@ export default function SCEditor(original, userOptions) {
 
 		shortcut = shortcut.join('+');
 		if (shortcutHandlers[shortcut] &&
-			shortcutHandlers[shortcut].call(base) === false) {
+			shortcutHandlers[shortcut].call(base) === false)
+		{
 
 			e.stopPropagation();
 			e.preventDefault();
@@ -2553,11 +2690,13 @@ export default function SCEditor(original, userOptions) {
 	* @param  {String|Function} cmd
 	* @return {sceditor}
 	*/
-	base.addShortcut = function (shortcut, cmd) {
+	base.addShortcut = function (shortcut, cmd)
+	{
 		shortcut = shortcut.toLowerCase();
 
 		if (utils.isString(cmd))
-			shortcutHandlers[shortcut] = function () {
+			shortcutHandlers[shortcut] = function ()
+			{
 				handleCommand(toolbarButtons[cmd], base.commands[cmd]);
 
 				return false;
@@ -2574,7 +2713,8 @@ export default function SCEditor(original, userOptions) {
 	* @param  {string} shortcut
 	* @return {sceditor}
 	*/
-	base.removeShortcut = function (shortcut) {
+	base.removeShortcut = function (shortcut)
+	{
 		delete shortcutHandlers[shortcut.toLowerCase()];
 
 		return base;
@@ -2586,7 +2726,8 @@ export default function SCEditor(original, userOptions) {
 	* Will remove block styling like quotes/code ect if at the start.
 	* @private
 	*/
-	handleBackSpace = function (e) {
+	handleBackSpace = function (e)
+	{
 		var	node, offset, range, parent;
 
 		// 8 is the backspace key
@@ -2603,8 +2744,10 @@ export default function SCEditor(original, userOptions) {
 			return;
 
 
-		while (node !== parent) {
-			while (node.previousSibling) {
+		while (node !== parent)
+		{
+			while (node.previousSibling)
+			{
 				node = node.previousSibling;
 
 				// Everything but empty text nodes before the cursor
@@ -2629,7 +2772,8 @@ export default function SCEditor(original, userOptions) {
 	* Gets the first styled block node that contains the cursor
 	* @return {HTMLElement}
 	*/
-	currentStyledBlockNode = function () {
+	currentStyledBlockNode = function ()
+	{
 		var block = currentBlockNode;
 
 		while (!dom.hasStyling(block) || dom.isInline(block, true))
@@ -2649,7 +2793,8 @@ export default function SCEditor(original, userOptions) {
 	* @param  {HTMLElement} block
 	* @since 1.4.4
 	*/
-	base.clearBlockFormatting = function (block) {
+	base.clearBlockFormatting = function (block)
+	{
 		block = block || currentStyledBlockNode();
 
 		if (!block || dom.is(block, 'body'))
@@ -2683,7 +2828,8 @@ export default function SCEditor(original, userOptions) {
 	* @param {boolean} saveRange If to call rangeHelper.saveRange().
 	* @private
 	*/
-	triggerValueChanged = function (saveRange) {
+	triggerValueChanged = function (saveRange)
+	{
 		if (!eventHandlers.valuechanged)
 			return;
 
@@ -2702,7 +2848,8 @@ export default function SCEditor(original, userOptions) {
 			!wysiwygDocument.getElementById('sceditor-start-marker');
 
 		// Clear any current timeout as it's now been triggered
-		if (valueChangedKeyUpTimer) {
+		if (valueChangedKeyUpTimer)
+		{
 			clearTimeout(valueChangedKeyUpTimer);
 			valueChangedKeyUpTimer = false;
 		}
@@ -2714,7 +2861,8 @@ export default function SCEditor(original, userOptions) {
 		currentHtml = sourceMode ? sourceEditor.value : wysiwygBody.innerHTML;
 
 		// Only trigger if something has actually changed.
-		if (currentHtml !== lastVal) {
+		if (currentHtml !== lastVal)
+		{
 			lastVal = currentHtml;
 
 			dom.trigger(editorContainer, 'valuechanged', {
@@ -2731,7 +2879,8 @@ export default function SCEditor(original, userOptions) {
 	* Should be called whenever there is a blur event
 	* @private
 	*/
-	valueChangedBlur = function () {
+	valueChangedBlur = function ()
+	{
 		if (valueChangedKeyUpTimer)
 			triggerValueChanged();
 
@@ -2742,7 +2891,8 @@ export default function SCEditor(original, userOptions) {
 	* @param  {Event} e The keypress event
 	* @private
 	*/
-	valueChangedKeyUp = function (e) {
+	valueChangedKeyUp = function (e)
+	{
 		var which         = e.which,
 			lastChar      = valueChangedKeyUp.lastChar,
 			lastWasSpace  = (lastChar === 13 || lastChar === 32),
@@ -2768,7 +2918,8 @@ export default function SCEditor(original, userOptions) {
 			else
 				valueChangedKeyUp.triggerNext = true;
 
-		else if (valueChangedKeyUp.triggerNext) {
+		else if (valueChangedKeyUp.triggerNext)
+		{
 			triggerValueChanged();
 			valueChangedKeyUp.triggerNext = false;
 		}
@@ -2779,14 +2930,16 @@ export default function SCEditor(original, userOptions) {
 		// Trigger the event 1.5s after the last keypress if space
 		// isn't pressed. This might need to be lowered, will need
 		// to look into what the slowest average Chars Per Min is.
-		valueChangedKeyUpTimer = setTimeout(function () {
+		valueChangedKeyUpTimer = setTimeout(function ()
+		{
 			if (!isComposing)
 				triggerValueChanged();
 
 		}, 1500);
 	};
 
-	handleComposition = function (e) {
+	handleComposition = function (e)
+	{
 		isComposing = /start/i.test(e.type);
 
 		if (!isComposing)
@@ -2794,7 +2947,8 @@ export default function SCEditor(original, userOptions) {
 
 	};
 
-	autoUpdate = function () {
+	autoUpdate = function ()
+	{
 		base.updateOriginal();
 	};
 
@@ -2830,7 +2984,8 @@ SCEditor.command =
 	* @return {Object|null}
 	* @since v1.3.5
 	*/
-	get: function (name) {
+	get: function (name)
+	{
 		return defaultCommands[name] || null;
 	},
 
@@ -2856,7 +3011,8 @@ SCEditor.command =
 	* @return {this|false} Returns false if name or cmd is false
 	* @since v1.3.5
 	*/
-	set: function (name, cmd) {
+	set: function (name, cmd)
+	{
 		if (!name || !cmd)
 			return false;
 
@@ -2864,7 +3020,8 @@ SCEditor.command =
 		// merge any existing command properties
 		cmd = utils.extend(defaultCommands[name] || {}, cmd);
 
-		cmd.remove = function () {
+		cmd.remove = function ()
+		{
 			SCEditor.command.remove(name);
 		};
 
@@ -2879,7 +3036,8 @@ SCEditor.command =
 	* @return {this}
 	* @since v1.3.5
 	*/
-	remove: function (name) {
+	remove: function (name)
+	{
 		if (defaultCommands[name])
 			delete defaultCommands[name];
 
