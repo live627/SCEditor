@@ -15,18 +15,6 @@
 	var dom = sceditor.dom;
 	var globalWin  = window;
 	var globalDoc  = document;
-	function getNode(n, v)
-	{
-		n = document.createElementNS('http://www.w3.org/2000/svg', n);
-		for (var p in v)
-			n.setAttribute(p.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v[p]);
-
-		return n;
-	}
-	/**
-	* Creates the resizer.
-	* @private
-	*/
 	var initResize = function (base, editorContainer, options)
 	{
 		var
@@ -111,13 +99,15 @@
 
 				e.preventDefault();
 			};
-		var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-
+		var
+			n = 'http://www.w3.org/2000/svg',
+			svg = document.createElementNS(n,'svg'),
+			p = document.createElementNS(n,'path');
 		svg.setAttribute('viewBox', '0 0 16 16');
 		// eslint-disable-next-line max-len
-		svg.appendChild(getNode('path', { d: 'M14.656 5.156l-10 10 .688.688 10-10-.688-.688zm0 3l-7 7 .688.688 7-7-.688-.688zm0 3l-4 4 .688.688 4-4-.688-.688z'}));
+		p.setAttribute('d', 'M14.656 5.156l-10 10 .688.688 10-10-.688-.688zm0 3l-7 7 .688.688 7-7-.688-.688zm0 3l-4 4 .688.688 4-4-.688-.688z');
+		svg.appendChild(p);
 		dom.appendChild(grip, svg);
-
 		dom.appendChild(editorContainer, grip);
 		dom.appendChild(editorContainer, cover);
 		dom.hide(cover);
@@ -154,10 +144,7 @@
 	{
 		this.init = function ()
 		{
-			window.addEventListener('load', () =>
-			{
-				initResize(this, this.getEditorContainer(), this.opts);
-			});
+			initResize(this, this.getEditorContainer(), this.opts);
 		};
 	};
 }(sceditor));

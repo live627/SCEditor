@@ -1,6 +1,4 @@
 import fs from 'fs';
-import path from 'path';
-
 import gulp from 'gulp';
 import rename from 'gulp-rename';
 import sass   from 'gulp-sass';
@@ -12,40 +10,46 @@ import { rollup } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
 
 let
-	out = [],
-	addFile = (n, x) =>
+	addFile = (n, x, b) =>
 	{
 		let
+			d = b ? `${x}/${n}` : x,
 			f = () =>
 				rollup({
-					input: `./src/${x}.js`
+					input: `./src/${d}.js`
 				}).then(bundle =>
 				{
 					bundle.write(
 						{
-							file: `./dist/${x}.js`,
-							name: n,
+							file: `./dist/${d}.js`,
+							name: n.replace(/\W+/g,'_'),
 							format: 'iife'
 						}
 					);
 					bundle.write(
 						{
-							file: `./dist/${x}.min.js`,
-							name: n,
+							file: `./dist/${d}.min.js`,
+							name: n.replace(/\W+/g,'_'),
 							format: 'iife', plugins: [terser()]
 						}
 					);
 				});
-		f.displayName = `Compiling ${x}.js...`;
+		f.displayName = `Compiling ${d}.js...`;
 		return f;
 	},
 	javascript = done =>
 	{
-		out.push(addFile('sceditor','sceditor'));
-		out.push(addFile('bbcode','formats/bbcode'));
-		out.push(addFile('sceditor','sceditor.bbcode'));
-		out.push(addFile('xhtml','formats/xhtml'));
-		out.push(addFile('sceditor','sceditor.xhtml'));
+		let
+			out = [],
+			mapFiles = d => fs.readdirSync(d)
+				.map(x => addFile(x.slice(0, -3), d.slice(4),  true));
+
+		out.push(addFile('sceditor','sceditor', false));
+		out.push(addFile('bbcode','formats',  true));
+		out.push(addFile('sceditor','sceditor.bbcode', false));
+		out.push(addFile('xhtml','formats',  true));
+		out.push(addFile('sceditor','sceditor.xhtml', false));
+		out = out.concat(mapFiles('src/languages'));
 
 		return gulp.parallel(...out, seriesDone =>
 		{
@@ -54,7 +58,7 @@ let
 		})();
 	},
 	sprites = fs.readdirSync('src/themes/icons/src/famfamfam')
-		.filter(x => path.extname(x).toLowerCase() === '.png'),
+		.filter(x => x.slice(-3).toLowerCase() === 'png'),
 	sprite = () =>
 	{
 		sprites.sort();
@@ -73,7 +77,7 @@ let
 	height: 16px`
 			];
 			for (const sprite in result.coordinates)
-				spriteObj.push(`.sceditor-button-${path.parse(sprite).name} div
+				spriteObj.push(`.sceditor-button-${sprite.slice(sprite.lastIndexOf('/') + 1, -4)} div
 	background-position: ${-result.coordinates[sprite].x}px ${-result.coordinates[sprite].y}px`);
 
 			fs.writeFileSync('src/themes/icons/famfamfam.sass', spriteObj.join('\n'));

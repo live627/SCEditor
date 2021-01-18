@@ -318,8 +318,6 @@ export default function SCEditor(original, userOptions)
 		handleCommand,
 		saveRange,
 		initEditor,
-		initPlugins,
-		initLocale,
 		initToolBar,
 		initOptions,
 		initEvents,
@@ -348,20 +346,18 @@ export default function SCEditor(original, userOptions)
 		autoExpand;
 
 	/**
+	* Options for this editor instance
+	* @name opts
+	* @memberOf SCEditor.prototype
+	*/
+	var options = base.opts = Object.assign(defaultOptions, userOptions);
+
+	/**
 	* All the commands supported by the editor
 	* @name commands
 	* @memberOf SCEditor.prototype
 	*/
 	base.commands = userOptions.commands || defaultCommands;
-
-	/**
-	* Options for this editor instance
-	* @name opts
-	* @memberOf SCEditor.prototype
-	*/
-	var options = base.opts = utils.extend(
-		true, {}, defaultOptions, userOptions
-	);
 
 	/**
 	* Creates the editor iframe and textarea
@@ -370,7 +366,6 @@ export default function SCEditor(original, userOptions)
 	init = function ()
 	{
 		original._sceditor = base;
-		initLocale();
 
 		editorContainer = dom.createElement('div', {
 			className: 'sceditor-container'
@@ -386,6 +381,12 @@ export default function SCEditor(original, userOptions)
 		if (IE_VER)
 			dom.addClass(editorContainer, 'ie ie' + IE_VER);
 
+		locale = options.locale || {};
+
+		// Locale DateTime format overrides any specified in the options
+		if (locale && locale.dateFormat)
+			options.dateFormat = locale.dateFormat;
+
 		isRequired = original.required;
 		original.required = false;
 
@@ -397,12 +398,15 @@ export default function SCEditor(original, userOptions)
 		if ('init' in format)
 			format.init.call(base);
 
-		// create the editor
-		initPlugins();
 		initEmoticons();
 		initToolBar();
 		initEditor();
 		initOptions();
+		pluginManager = new PluginManager(base);
+		options.plugins.forEach(function (plugin)
+		{
+			pluginManager.register(plugin.trim());
+		});
 		initEvents();
 
 		// force into source mode if is a browser that can't handle
@@ -425,40 +429,6 @@ export default function SCEditor(original, userOptions)
 		dom.on(globalWin, 'load', loaded);
 		if (globalDoc.readyState === 'complete')
 			loaded();
-
-	};
-
-	initPlugins = function ()
-	{
-		pluginManager = new PluginManager(base);
-
-		options.plugins.forEach(function (plugin)
-		{
-			pluginManager.register(plugin.trim());
-		});
-	};
-
-	/**
-	* Init the locale variable with the specified locale if possible
-	* @private
-	* @return void
-	*/
-	initLocale = function ()
-	{
-		var lang;
-
-		locale = SCEditor.locale[options.locale] || {};
-
-		if (!locale)
-		{
-			lang   = options.locale.split('-');
-			locale = SCEditor.locale[lang[0]];
-		}
-
-		// Locale DateTime format overrides any specified in the options
-		if (locale && locale.dateFormat)
-			options.dateFormat = locale.dateFormat;
-
 	};
 
 	/**
@@ -473,7 +443,8 @@ export default function SCEditor(original, userOptions)
 			allowfullscreen: true
 		});
 
-		/* This needs to be done right after they are created because,
+		/*
+		 * This needs to be done right after they are created because,
 		* for any reason, the user may not want the value to be tinkered
 		* by any filters.
 		*/
@@ -580,7 +551,6 @@ export default function SCEditor(original, userOptions)
 		}
 
 		dom.attr(editorContainer, 'id', options.id);
-		base.emoticons(options.emoticonsEnabled);
 	};
 
 	/**
