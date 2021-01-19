@@ -1,0 +1,69 @@
+version: v1
+
+labels:
+  - label: "build"
+    matcher:
+      branch: "^build[/-].*"
+      commits: "^build:.*"
+
+  - label: "chore"
+    matcher:
+      branch: "^chore[/-].*"
+      commits: "^chore:.*"
+
+  - label: "ci"
+    matcher:
+      branch: "^ci[/-].*"
+      commits: "^ci:.*"
+      files: ".github/**"
+
+  - label: "docs"
+    matcher:
+      branch: "^docs[/-].*"
+      commits: "^docs:.*"
+
+  - label: "feature"
+    matcher:
+      branch: "^feat[/-].*"
+      commits: "^feat:.*"
+
+  - label: "icons"
+    matcher:
+      files: "src/icons/*"
+
+  - label: "lib"
+    matcher:
+      files: "src/lib/*"
+
+  - label: "languages"
+    matcher:
+      files: "src/languages/*"
+
+  - label: "fix"
+    matcher:
+      branch: "^fix[/-].*"
+      commits: "^fix:.*"
+
+  - label: "performance"
+    matcher:
+      branch: "^perf[/-].*"
+      commits: "^perf:.*"
+
+  - label: "plugins"
+    matcher:
+      files: "src/plugins/*"
+
+  - label: "refactor"
+    matcher:
+      branch: "^refactor[/-].*"
+      commits: "^refactor:.*"
+
+  - label: "test"
+    matcher:
+      branch: "^test[/-].*"
+      commits: "^test:.*"
+      files: "test/**"
+
+  - label: "themes"
+    matcher:
+      files: "src/themes/**"
