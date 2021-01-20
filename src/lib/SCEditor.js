@@ -858,42 +858,6 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets if the editor is in RTL mode
-	*
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name rtl
-	* @return {boolean}
-	*/
-	/**
-	* Sets if the editor is in RTL mode
-	*
-	* @param {boolean} rtl
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name rtl^2
-	* @return {this}
-	*/
-	base.rtl = function (rtl)
-	{
-		var dir = rtl ? 'rtl' : 'ltr';
-
-		if (typeof rtl !== 'boolean')
-			return dom.attr(sourceEditor, 'dir') === 'rtl';
-
-		dom.attr(wysiwygBody, 'dir', dir);
-		dom.attr(sourceEditor, 'dir', dir);
-
-		dom.removeClass(editorContainer, 'rtl');
-		dom.removeClass(editorContainer, 'ltr');
-		dom.addClass(editorContainer, dir);
-
-		return base;
-	};
-
-	/**
 	* Gets the width of the editor in pixels
 	*
 	* @since 1.3.5

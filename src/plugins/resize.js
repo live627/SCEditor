@@ -37,7 +37,7 @@
 			origWidth   = dom.width(editorContainer),
 			origHeight  = dom.height(editorContainer),
 			isDragging  = false,
-			rtl         = base.rtl(),
+			rtl         = dom.attr(globalDoc.body, 'dir') === 'rtl',
 			minHeight = options.resizeMinHeight || origHeight / 1.5,
 			maxHeight = options.resizeMaxHeight || origHeight * 2.5,
 			minWidth  = options.resizeMinWidth  || origWidth  / 1.25,
