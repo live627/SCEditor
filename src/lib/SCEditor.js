@@ -336,8 +336,6 @@ export default function SCEditor(original, userOptions)
 		checkSelectionChanged,
 		checkNodeChanged,
 		autofocus,
-		emoticonsKeyPress,
-		emoticonsCheckWhitespace,
 		currentStyledBlockNode,
 		triggerValueChanged,
 		valueChangedBlur,
@@ -398,9 +396,9 @@ export default function SCEditor(original, userOptions)
 		if ('init' in format)
 			format.init.call(base);
 
-		initEmoticons();
 		initToolBar();
 		initEditor();
+		initEmoticons();
 		initOptions();
 		pluginManager = new PluginManager(base);
 		options.plugins.forEach(function (plugin)
@@ -577,9 +575,6 @@ export default function SCEditor(original, userOptions)
 		dom.on(wysiwygBody, checkSelectionEvents, checkSelectionChanged);
 		dom.on(wysiwygBody, eventsToForward, handleEvent);
 
-		if (options.emoticonsCompat && globalWin.getSelection)
-			dom.on(wysiwygBody, 'keyup', emoticonsCheckWhitespace);
-
 		dom.on(sourceEditor, 'blur', valueChangedBlur);
 		dom.on(sourceEditor, 'keyup', valueChangedKeyUp);
 		dom.on(sourceEditor, 'keydown', handleKeyDown);
@@ -723,9 +718,26 @@ export default function SCEditor(original, userOptions)
 	*/
 	initEmoticons = function ()
 	{
-		var	emoticons = options.emoticons;
+		var emoticons = options.emoticons;
 		var root      = options.emoticonsRoot || '';
 		var space     = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
+
+		var emoticonsKeyPress = e =>
+		{
+			// TODO: Make configurable
+			if (dom.closest(currentBlockNode, 'code'))
+				return;
+
+			if (rangeHelper.replaceKeyword(
+				emoticonsCache,
+				true,
+				true,
+				null,
+				options.emoticonsCompat,
+				e.key
+			) && (!options.emoticonsCompat || !/^\s$/.test(e.key)))
+				e.preventDefault();
+		};
 
 		if (emoticons)
 		{
@@ -735,6 +747,24 @@ export default function SCEditor(original, userOptions)
 				tooltip: x.tooltip || x.code
 			}), new RegExp(space + escape.regex(x.code) + space)]);
 			emoticonsCache.sort((a, b) => a[0].length - b[0].length);
+
+			if (options.emoticonsCompat && globalWin.getSelection)
+				dom.on(wysiwygBody, 'keyup', function ()
+				{
+					emoticons.checkWhitespace(currentBlockNode, rangeHelper);
+				});
+
+			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
+
+			if (!base.isInSourceMode())
+			{
+				rangeHelper.saveRange();
+
+				replaceEmoticons();
+				triggerValueChanged(false);
+
+				rangeHelper.restoreRange();
+			}
 		}
 	};
 
@@ -2297,95 +2327,6 @@ export default function SCEditor(original, userOptions)
 			sourceEditor.focus();
 
 		updateActiveButtons();
-
-		return base;
-	};
-
-	/**
-	* Emoticons keypress handler
-	* @private
-	*/
-	emoticonsKeyPress = function (e)
-	{
-		var
-			curChar = String.fromCharCode(e.which);
-
-		// TODO: Make configurable
-		if (dom.closest(currentBlockNode, 'code'))
-			return;
-
-		var r = rangeHelper.replaceKeyword(
-			emoticonsCache,
-			true,
-			true,
-			null,
-			options.emoticonsCompat,
-			curChar
-		);
-
-		if (r && (!options.emoticonsCompat || !/^\s$/.test(curChar)))
-				e.preventDefault();
-	};
-
-	/**
-	* Makes sure emoticons are surrounded by whitespace
-	* @private
-	*/
-	emoticonsCheckWhitespace = function ()
-	{
-		emoticons.checkWhitespace(currentBlockNode, rangeHelper);
-	};
-
-	/**
-	* Gets if emoticons are currently enabled
-	* @return {boolean}
-	* @function
-	* @name emoticons
-	* @memberOf SCEditor.prototype
-	* @since 1.4.2
-	*/
-	/**
-	* Enables/disables emoticons
-	*
-	* @param {boolean} enable
-	* @return {this}
-	* @function
-	* @name emoticons^2
-	* @memberOf SCEditor.prototype
-	* @since 1.4.2
-	*/
-	base.emoticons = function (enable)
-	{
-		if (enable)
-		{
-			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
-
-			if (!base.isInSourceMode())
-			{
-				rangeHelper.saveRange();
-
-				replaceEmoticons();
-				triggerValueChanged(false);
-
-				rangeHelper.restoreRange();
-			}
-		}
-		else
-		{
-			var emoticons =
-				dom.find(wysiwygBody, 'img[data-sceditor-emoticon]');
-
-			utils.each(emoticons, function (_, img)
-			{
-				var text = dom.data(img, 'sceditor-emoticon');
-				var textNode = wysiwygDocument.createTextNode(text);
-				img.parentNode.replaceChild(textNode, img);
-			});
-
-			dom.off(wysiwygBody, 'keypress', emoticonsKeyPress);
-
-			triggerValueChanged();
-		}
 
 		return base;
 	};
