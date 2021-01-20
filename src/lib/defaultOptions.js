@@ -170,15 +170,6 @@ export default {
 	emoticonsCompat: false,
 
 	/**
-	* If to enable emoticons. Can be changes at runtime using the
-	* emoticons() method.
-	*
-	* @type {boolean}
-	* @since 1.4.2
-	*/
-	emoticonsEnabled: true,
-
-	/**
 	* Emoticon root URL
 	*
 	* @type {string}

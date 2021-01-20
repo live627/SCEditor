@@ -1723,12 +1723,10 @@ export default function SCEditor(original, userOptions)
 	*/
 	replaceEmoticons = function ()
 	{
-		if (options.emoticonsEnabled)
-			emoticons.replace(
-				wysiwygBody,
-				emoticonsCache,
-				options.emoticonsCompat);
-
+		emoticons.replace(
+			wysiwygBody,
+			emoticonsCache,
+			options.emoticonsCompat);
 	};
 
 	/**
@@ -2310,13 +2308,13 @@ export default function SCEditor(original, userOptions)
 	emoticonsKeyPress = function (e)
 	{
 		var
-			curChar        = String.fromCharCode(e.which);
+			curChar = String.fromCharCode(e.which);
 
 		// TODO: Make configurable
 		if (dom.closest(currentBlockNode, 'code'))
 			return;
 
-		var replacedEmoticon = rangeHelper.replaceKeyword(
+		var r = rangeHelper.replaceKeyword(
 			emoticonsCache,
 			true,
 			true,
@@ -2325,10 +2323,8 @@ export default function SCEditor(original, userOptions)
 			curChar
 		);
 
-		if (replacedEmoticon)
-			if (!options.emoticonsCompat || !/^\s$/.test(curChar))
+		if (r && (!options.emoticonsCompat || !/^\s$/.test(curChar)))
 				e.preventDefault();
-
 	};
 
 	/**
@@ -2360,11 +2356,6 @@ export default function SCEditor(original, userOptions)
 	*/
 	base.emoticons = function (enable)
 	{
-		if (!enable && enable !== false)
-			return options.emoticonsEnabled;
-
-		options.emoticonsEnabled = enable;
-
 		if (enable)
 		{
 			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
