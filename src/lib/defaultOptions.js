@@ -369,13 +369,6 @@ export default {
 	startInSourceMode: false,
 
 	/**
-	* Optional ID to give the editor.
-	*
-	* @type {string}
-	*/
-	id: null,
-
-	/**
 	* Array of plugins
 	*
 	* @type {string[]}

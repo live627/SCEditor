@@ -547,8 +547,6 @@ export default function SCEditor(original, userOptions)
 			dom.on(wysiwygBody, 'load', autoExpand, dom.EVENT_CAPTURE);
 			dom.on(wysiwygBody, 'input keyup', autoExpand);
 		}
-
-		dom.attr(editorContainer, 'id', options.id);
 	};
 
 	/**
