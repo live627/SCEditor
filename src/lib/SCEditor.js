@@ -536,11 +536,6 @@ export default function SCEditor(original, userOptions)
 			dom.on(sourceEditor, 'blur', autoUpdate);
 		}
 
-		if (options.rtl === null)
-			options.rtl = dom.css(sourceEditor, 'direction') === 'rtl';
-
-		base.rtl(!!options.rtl);
-
 		if (options.autoExpand)
 		{
 			// Need to update when images (or anything else) loads

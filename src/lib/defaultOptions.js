@@ -309,15 +309,6 @@ export default {
 	disablePasting: false,
 
 	/**
-	* If to set the editor to right-to-left mode.
-	*
-	* If set to null the direction will be automatically detected.
-	*
-	* @type {boolean}
-	*/
-	rtl: false,
-
-	/**
 	* If to auto focus the editor on page load
 	*
 	* @type {boolean}
