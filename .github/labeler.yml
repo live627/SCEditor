@@ -4,36 +4,36 @@ labels:
   - label: build
     sync: true
     matcher:
-      title: ^build(?\:\([\w-]+\))?\:.*
+      title: ^build(?:\([\w-]+\))?:.*
       branch: ^build[/-].*
-      commits: ^build(?\:\([\w-]+\))?\:.*
+      commits: ^build(?:\([\w-]+\))?:.*
 
-  - label: chore
+  - label: build
     sync: true
     matcher:
-      title: ^chore(?\:\([\w-]+\))?\:.*
+      title: ^chore(?:\([\w-]+\))?:.*
       branch: ^chore[/-].*
-      commits: ^chore(?\:\([\w-]+\))?\:.*
+      commits: ^chore(?:\([\w-]+\))?:.*
 
   - label: ci
     sync: true
     matcher:
       branch: ^ci[/-].*
-      commits: ^ci(?\:\([\w-]+\))?\:.*
+      commits: ^ci(?:\([\w-]+\))?:.*
       files: .github/**
 
   - label: docs
     sync: true
     matcher:
       branch: ^docs[/-].*
-      commits: ^docs(?\:\([\w-]+\))?\:.*
+      commits: ^docs(?:\([\w-]+\))?:.*
 
   - label: feature
     sync: true
     matcher:
-      title: ^feat(?\:\([\w-]+\))?\:.*
+      title: ^feat(?:\([\w-]+\))?:.*
       branch: ^feat[/-].*
-      commits: ^feat(?\:\([\w-]+\))?\:.*
+      commits: ^feat(?:\([\w-]+\))?:.*
 
   - label: icons
     sync: true
@@ -54,13 +54,13 @@ labels:
     sync: true
     matcher:
       branch: ^fix[/-].*
-      commits: ^fix(?\:\([\w-]+\))?\:.*
+      commits: ^fix(?:\([\w-]+\))?:.*
 
   - label: performance
     sync: true
     matcher:
       branch: ^perf[/-].*
-      commits: ^perf(?\:\([\w-]+\))?\:.*
+      commits: ^perf(?:\([\w-]+\))?:.*
 
   - label: plugins
     sync: true
@@ -71,19 +71,19 @@ labels:
     sync: true
     matcher:
       branch: ^refactor[/-].*
-      commits: ^refactor(?\:\([\w-]+\))?\:.*
+      commits: ^refactor(?:\([\w-]+\))?:.*
 
   - label: style
     sync: true
     matcher:
       branch: ^style[/-].*
-      commits: ^style(?\:\([\w-]+\))?\:.*
+      commits: ^style(?:\([\w-]+\))?:.*
 
   - label: test
     sync: true
     matcher:
       branch: ^test[/-].*
-      commits: ^test(?\:\([\w-]+\))?\:.*
+      commits: ^test(?:\([\w-]+\))?:.*
       files: test/**
 
   - label: themes
