@@ -300,13 +300,6 @@ export default function SCEditor(original, userOptions)
 	*/
 	var emoticonsCache = [];
 
-	/**
-	* Current icon set if any
-	*
-	* @type {?Object}
-	* @private
-	*/
-	var icons;
 	var lastVal;
 
 	/**
@@ -601,15 +594,14 @@ export default function SCEditor(original, userOptions)
 	{
 		var
 			group,
-			commands = base.commands;
+			commands = base.commands,
+			Icons = options.icons;
 
 		toolbar = dom.createElement('div', {
 			className: 'sceditor-toolbar',
 			unselectable: 'on'
 		});
-
-		if (options.icons in SCEditor.icons)
-			icons = new SCEditor.icons[options.icons]();
+		options.icons = new Icons;
 
 		utils.each(options.toolbar, function (_, rowItems)
 		{
@@ -639,16 +631,8 @@ export default function SCEditor(original, userOptions)
 								command.tooltip || commandName)
 					}, true).firstChild;
 
-					if (icons && icons.create)
-					{
-						var icon = icons.create(commandName);
-						if (icon)
-						{
-							dom.insertBefore(icons.create(commandName),
-								button.firstChild);
-							dom.addClass(button, 'has-icon');
-						}
-					}
+					dom.insertBefore(options.icons.create(commandName),
+						button.firstChild);
 
 					dom.on(button, 'click', function (e)
 					{
@@ -1896,7 +1880,6 @@ export default function SCEditor(original, userOptions)
 			check();
 		else
 			setTimeout(check, 100);
-
 	};
 
 	/**
@@ -1907,7 +1890,8 @@ export default function SCEditor(original, userOptions)
 	checkNodeChanged = function ()
 	{
 		// check if node has changed
-		var	oldNode,
+		var
+			oldNode,
 			node = rangeHelper.parentNode();
 
 		if (currentNode !== node)
@@ -1988,7 +1972,6 @@ export default function SCEditor(original, userOptions)
 
 					if (state > -1)
 						state = doc.queryCommandState(stateFn) ? 1 : 0;
-
 				}
 				catch (ex)
 				{}
@@ -1997,9 +1980,7 @@ export default function SCEditor(original, userOptions)
 			dom.toggleClass(btn, activeClass, state > 0);
 		}
 
-		if (icons && icons.update)
-			icons.update(isSource, parent, firstBlock);
-
+		options.icons.update(isSource, parent, firstBlock);
 	};
 
 	/**
@@ -2051,7 +2032,6 @@ export default function SCEditor(original, userOptions)
 					if (!dom.isInline(parent, true) && lastChild === br &&
 						dom.isInline(br.previousSibling))
 						rangeHelper.insertHTML('<br>');
-
 				}
 
 				e.preventDefault();
@@ -2094,7 +2074,6 @@ export default function SCEditor(original, userOptions)
 			if ((node.nodeType === 3 && !/^\s*$/.test(node.nodeValue)) ||
 				dom.is(node, 'br'))
 				return false;
-
 		});
 	};
 
@@ -2141,7 +2120,6 @@ export default function SCEditor(original, userOptions)
 		if (eventHandlers[type])
 			for (var fn of eventHandlers[type])
 				fn.call(base, e);
-
 	};
 
 	/**
@@ -2203,7 +2181,6 @@ export default function SCEditor(original, userOptions)
 		for (var event of events)
 			if (utils.isFunction(handler))
 				eventHandlers[event].delete(handler);
-
 
 		return base;
 	};

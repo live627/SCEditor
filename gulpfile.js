@@ -4,7 +4,6 @@ import rename from 'gulp-rename';
 import sass   from 'gulp-sass';
 import  CleanCSS   from 'clean-css';
 import  map from 'vinyl-map';
-import  Spritesmith from 'spritesmith';
 import  zip   from 'gulp-zip';
 import { rollup } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
@@ -41,7 +40,7 @@ let
 	{
 		let
 			out = [],
-			mapFiles = d => fs.readdirSync(d)
+			mapFiles = d => fs.readdirSync(d).filter(x => !x.includes('icons'))
 				.map(x => addFile(x.slice(0, -3), d.slice(4),  true));
 
 		out.push(addFile('sceditor','sceditor', false));
@@ -50,6 +49,7 @@ let
 		out.push(addFile('xhtml','formats',  true));
 		out.push(addFile('sceditor','sceditor.xhtml', false));
 		out = out.concat(mapFiles('src/languages'));
+		out = out.concat(mapFiles('src/icons'));
 
 		return gulp.parallel(...out, seriesDone =>
 		{
@@ -57,35 +57,20 @@ let
 			done();
 		})();
 	},
-	sprites = fs.readdirSync('src/themes/icons/src/famfamfam')
+	sprites = fs.readdirSync('src/themes/icons/famfamfam')
 		.filter(x => x.slice(-3).toLowerCase() === 'png'),
-	sprite = () =>
+	sprite = cb =>
 	{
 		sprites.sort();
-		Spritesmith.run({
-			src: sprites.map(x => `src/themes/icons/src/famfamfam/${x}`)
-		}, (err, result) =>
+		var spriteObj = [];
+		for (const sprite of sprites)
 		{
-			if (err)
-				throw err;
+			var data = fs.readFileSync(`src/themes/icons/famfamfam/${sprite}`, 'base64');
+			spriteObj.push(`${sprite.slice(0, -4).toLowerCase()}: '${data}'`);
+		}
+		fs.writeFileSync('src/icons/famfamfam-icons.js', `export default\n{\n\t${spriteObj.join(',\n\t')}\n}\n`);
 
-			var spriteObj = [
-				`.sceditor-button div
-	background-image: url("famfamfam.png")
-	background-repeat: no-repeat
-	width: 16px
-	height: 16px`
-			];
-			for (const sprite in result.coordinates)
-				spriteObj.push(`.sceditor-button-${sprite.slice(sprite.lastIndexOf('/') + 1, -4)} div
-	background-position: ${-result.coordinates[sprite].x}px ${-result.coordinates[sprite].y}px`);
-
-			fs.writeFileSync('src/themes/icons/famfamfam.sass', spriteObj.join('\n'));
-			fs.writeFileSync('src/themes/icons/famfamfam.png', result.image);
-		});
-
-		return gulp.src('src/themes/icons/famfamfam.png')
-			.pipe(gulp.dest('dist'));
+		return cb();
 	},
 	css = () =>
 		gulp.src('src/themes/*.scss')
@@ -101,8 +86,8 @@ let
 
 export default gulp.series(gulp.parallel(javascript, sprite, css), z);
 export {
-	javascript,
 	sprite,
+	javascript,
 	css,
 	zip as z
 };
