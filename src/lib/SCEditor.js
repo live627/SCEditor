@@ -1,3 +1,4 @@
+import { createNanoEvents } from 'nanoevents';
 import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
@@ -322,8 +323,6 @@ export default function SCEditor(original, userOptions)
 		handleKeyPress,
 		handleMouseDown,
 		handleComposition,
-		handleEvent,
-		handleManualEvent,
 		updateActiveButtons,
 		appendNewLine,
 		checkSelectionChanged,
@@ -349,6 +348,27 @@ export default function SCEditor(original, userOptions)
 	* @memberOf SCEditor.prototype
 	*/
 	base.commands = userOptions.commands || defaultCommands;
+
+	/**
+	* All the events supported by the editor
+	*
+	* The supported events are:
+	*
+	* * keyup
+	* * keydown
+	* * Keypress
+	* * blur
+	* * focus
+	* * nodechanged - When the current node containing
+	* 		the selection changes in WYSIWYG mode
+	* * contextmenu
+	* * selectionchanged
+	* * valuechanged
+	*
+	* @name events
+	* @memberOf SCEditor.prototype
+	*/
+	base.events = createNanoEvents();
 
 	/**
 	* Creates the editor iframe and textarea
@@ -493,7 +513,6 @@ export default function SCEditor(original, userOptions)
 
 			if (!IE_VER)
 				dom.on(wysiwygBody, 'touchend', base.focus);
-
 		}
 
 		var tabIndex = dom.attr(original, 'tabindex');
@@ -505,15 +524,6 @@ export default function SCEditor(original, userOptions)
 		// load any textarea value into the editor
 		dom.hide(original);
 		base.insert(original.value);
-
-		var placeholder = options.placeholder ||
-			dom.attr(original, 'placeholder');
-
-		if (placeholder)
-		{
-			sourceEditor.placeholder = placeholder;
-			dom.attr(wysiwygBody, 'placeholder', placeholder);
-		}
 	};
 
 	/**
@@ -559,13 +569,13 @@ export default function SCEditor(original, userOptions)
 		dom.on(wysiwygBody, 'paste', handlePasteEvt);
 		dom.on(wysiwygBody, compositionEvents, handleComposition);
 		dom.on(wysiwygBody, checkSelectionEvents, checkSelectionChanged);
-		dom.on(wysiwygBody, eventsToForward, handleEvent);
+		dom.on(wysiwygBody, eventsToForward, base.events.emit.bind(null));
 
 		dom.on(sourceEditor, 'blur', valueChangedBlur);
 		dom.on(sourceEditor, 'keyup', valueChangedKeyUp);
 		dom.on(sourceEditor, 'keydown', handleKeyDown);
 		dom.on(sourceEditor, compositionEvents, handleComposition);
-		dom.on(sourceEditor, eventsToForward, handleEvent);
+		dom.on(sourceEditor, eventsToForward, base.events.emit.bind(null));
 
 		dom.on(wysiwygDocument, 'mousedown', handleMouseDown);
 		dom.on(wysiwygDocument, checkSelectionEvents, checkSelectionChanged);
@@ -582,7 +592,7 @@ export default function SCEditor(original, userOptions)
 		dom.on(
 			editorContainer,
 			'selectionchanged valuechanged nodechanged pasteraw paste',
-			handleEvent
+			base.events.emit.bind(null)
 		);
 	};
 
@@ -1219,7 +1229,7 @@ export default function SCEditor(original, userOptions)
 	{
 		var pasteArea = dom.createElement('div', {}, wysiwygDocument);
 
-		handleManualEvent('pasteraw', data);
+		base.events.emit('pasteraw', data);
 		dom.trigger(editorContainer, 'pasteraw', data);
 
 		if (data.html)
@@ -1240,14 +1250,14 @@ export default function SCEditor(original, userOptions)
 			paste.val = format
 				.fragmentToSource(paste.val, wysiwygDocument, currentNode);
 
-		handleManualEvent('paste', paste);
+		base.events.emit('paste', paste);
 		dom.trigger(editorContainer, 'paste', paste);
 
 		if ('fragmentToHtml' in format)
 			paste.val = format
 				.fragmentToHtml(paste.val, currentNode);
 
-		handleManualEvent('pastehtml', paste);
+		base.events.emit('pastehtml', paste);
 
 		base.wysiwygEditorInsertHtml(paste.val, null, true);
 	};
@@ -1255,7 +1265,7 @@ export default function SCEditor(original, userOptions)
 	/**
 	* Inserts HTML into WYSIWYG editor.
 	*
-	* If endHtml is specified, any selected text will be placed
+	* If endHtml is specified,  any selected text will be placed
 	* between html and endHtml. If there is no selected text html
 	* and endHtml will just be concatenate together.
 	*
@@ -2099,91 +2109,6 @@ export default function SCEditor(original, userOptions)
 	* @memberOf SCEditor.prototype
 	*/
 	base._ = (str, ...args) => utils.format(locale[str] || str, ...args);
-
-	/**
-	* Passes events on to any handlers
-	* @private
-	* @return void
-	*/
-	handleEvent = function (e)
-	{
-		handleManualEvent(e.type, e);
-	};
-
-	/**
-	* Passes events on to any handlers
-	* @private
-	* @return void
-	*/
-	handleManualEvent = (type, e) =>
-	{
-		if (eventHandlers[type])
-			for (var fn of eventHandlers[type])
-				fn.call(base, e);
-	};
-
-	/**
-	* Binds a handler to the specified events
-	*
-	* This function only binds to a limited list of
-	* supported events.
-	*
-	* The supported events are:
-	*
-	* * keyup
-	* * keydown
-	* * Keypress
-	* * blur
-	* * focus
-	* * nodechanged - When the current node containing
-	* 		the selection changes in WYSIWYG mode
-	* * contextmenu
-	* * selectionchanged
-	* * valuechanged
-	*
-	* @param  {string[]} events
-	* @param  {Function} handler
-	* @return {this}
-	* @function
-	* @name bind
-	* @memberOf SCEditor.prototype
-	* @since 1.4.1
-	*/
-	base.bind = function (events, handler)
-	{
-		for (var event of events)
-			if (utils.isFunction(handler))
-			{
-				if (!eventHandlers[event])
-					// eslint-disable-next-line no-undef
-					eventHandlers[event] = new Set();
-
-				eventHandlers[event].add(handler);
-			}
-
-		return base;
-	};
-
-	/**
-	* Unbinds an event that was bound using bind().
-	*
-	* @param  {string[]} events
-	* @param  {Function} handler
-	* @return {this}
-	* @function
-	* @name unbind
-	* @memberOf SCEditor.prototype
-	* @since 1.4.1
-	* @see bind
-	*/
-	base.unbind = function (events, handler)
-	{
-		for (var event of events)
-			if (utils.isFunction(handler))
-				eventHandlers[event].delete(handler);
-
-		return base;
-	};
 
 	/**
 	* Blurs the editors input area

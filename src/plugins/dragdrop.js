@@ -209,7 +209,7 @@
 			editor.getBody().addEventListener('drop', hideCover);
 		});
 
-		editor.bind('pastehtml', function (paste)
+		editor.events.on('pastehtml', function (paste)
 		{
 			if (!('handlePaste' in opts) || opts.handlePaste)
 			{

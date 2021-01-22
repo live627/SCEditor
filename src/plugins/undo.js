@@ -154,7 +154,7 @@
 		* of the source editor (BBCode or HTML depending on plugins).
 		* @return {void}
 		*/
-		editor.bind('valuechanged', e =>
+		editor.events.on('valuechanged', e =>
 		{
 			var rawValue = e.detail.rawValue;
 

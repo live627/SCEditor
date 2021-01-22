@@ -104,7 +104,7 @@
 			});
 		});
 
-		editor.bind('valuechanged', e =>
+		editor.events.on('valuechanged', e =>
 		{
 			saveHandler({
 				caret: this.sourceEditorCaret(),

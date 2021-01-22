@@ -76,7 +76,7 @@
 
 	sceditor.plugins.autoyoutube = function ()
 	{
-		this.bind('pasteraw', function (data)
+		this.events.on('pasteraw', function (data)
 		{
 			// TODO: Make this tag configurable.
 			// Skip code tags
