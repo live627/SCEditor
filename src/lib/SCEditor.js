@@ -1,4 +1,4 @@
-import { createNanoEvents } from 'nanoevents';
+import createNanoEvents from './events.js';
 import * as dom from './dom.js';
 import * as utils from './utils.js';
 import defaultOptions from './defaultOptions.js';
@@ -335,14 +335,14 @@ export default function SCEditor(original, userOptions)
 	* @name opts
 	* @memberOf SCEditor.prototype
 	*/
-	var options = base.opts = Object.assign(defaultOptions, userOptions);
+	var options = Object.assign(defaultOptions, userOptions);
 
 	/**
 	* All the commands supported by the editor
 	* @name commands
 	* @memberOf SCEditor.prototype
 	*/
-	base.commands = userOptions.commands || defaultCommands;
+	var commands = userOptions.commands || defaultCommands;
 
 	/**
 	* All the events supported by the editor
@@ -363,7 +363,11 @@ export default function SCEditor(original, userOptions)
 	* @name events
 	* @memberOf SCEditor.prototype
 	*/
-	base.events = createNanoEvents();
+	var events = createNanoEvents();
+
+	base.commands = commands;
+	base.opts = options;
+	base.events = events;
 
 	/**
 	* Creates the editor iframe and textarea
@@ -572,6 +576,7 @@ export default function SCEditor(original, userOptions)
 			// Need to update when images (or anything else) loads
 			dom.on(wysiwygBody, 'load', autoExpand, dom.EVENT_CAPTURE);
 			dom.on(wysiwygBody, 'input', autoExpand);
+			dom.on(sourceEditor, 'input', autoExpand);
 		}
 	};
 
@@ -583,7 +588,6 @@ export default function SCEditor(original, userOptions)
 	{
 		var
 			group,
-			commands = base.commands,
 			Icons = options.icons;
 
 		toolbar = dom.createElement('div', {
@@ -1737,8 +1741,6 @@ export default function SCEditor(original, userOptions)
 					cmd.exec,
 					cmd.hasOwnProperty('execParam') ? cmd.execParam : null
 				);
-
-
 	};
 
 	/**
@@ -1751,7 +1753,6 @@ export default function SCEditor(original, userOptions)
 		/* this is only needed for IE */
 		if (IE_VER)
 			lastRange = rangeHelper.selectedRange();
-
 	};
 
 	/**
@@ -1766,7 +1767,7 @@ export default function SCEditor(original, userOptions)
 	base.execCommand = function (command, param)
 	{
 		var	executed    = false,
-			commandObj  = base.commands[command];
+			commandObj  = commands[command];
 
 		base.focus();
 
@@ -2329,7 +2330,6 @@ export default function SCEditor(original, userOptions)
 		if (shortcutHandlers[shortcut] &&
 			shortcutHandlers[shortcut].call(base) === false)
 		{
-
 			e.stopPropagation();
 			e.preventDefault();
 		}
@@ -2348,7 +2348,7 @@ export default function SCEditor(original, userOptions)
 		if (utils.isString(cmd))
 			shortcutHandlers[shortcut] = function ()
 			{
-				handleCommand(toolbarButtons[cmd], base.commands[cmd]);
+				handleCommand(toolbarButtons[cmd], commands[cmd]);
 
 				return false;
 			};

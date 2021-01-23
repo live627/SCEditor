@@ -62,7 +62,5 @@
     "stylelint-config-sass-guidelines": "^7.1.0",
     "vinyl-map": "^1.0.2"
   },
-  "dependencies": {
-    "nanoevents": "^5.1.10"
-  }
+  "dependencies": {}
 }
