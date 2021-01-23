@@ -43,14 +43,11 @@ function wrapInlines(body, doc)
 				wrapper = dom.createElement('p', {}, doc);
 				dom.insertBefore(wrapper, node);
 			}
-
 			if (node.nodeType !== dom.TEXT_NODE || node.nodeValue !== '')
 				dom.appendChild(wrapper, node);
-
 		}
 		else
 			wrapper = null;
-
 	}, false, true);
 };
 
@@ -414,10 +411,9 @@ export default function SCEditor(original, userOptions)
 		initEmoticons();
 		initOptions();
 		pluginManager = new PluginManager(base);
-		options.plugins.forEach(function (plugin)
-		{
+		for (const plugin of options.plugins)
 			pluginManager.register(plugin.trim());
-		});
+
 		initEvents();
 
 		// force into source mode if is a browser that can't handle
@@ -736,10 +732,11 @@ export default function SCEditor(original, userOptions)
 			emoticonsCache.sort((a, b) => a[0].length - b[0].length);
 
 			if (options.emoticonsCompat && globalWin.getSelection)
-				dom.on(wysiwygBody, 'keyup', function ()
-				{
-					emoticons.checkWhitespace(currentBlockNode, rangeHelper);
-				});
+				dom.on(
+					wysiwygBody,
+					'keyup',
+					emoticons.checkWhitespace.bind(null, currentBlockNode, rangeHelper)
+				);
 
 			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
 
@@ -809,7 +806,6 @@ export default function SCEditor(original, userOptions)
 
 			if (focusEnd)
 				range.setStartAfter(node);
-
 		}
 		else
 			range.selectNodeContents(node);
@@ -1057,7 +1053,6 @@ export default function SCEditor(original, userOptions)
 	{
 		if (options.autoExpand && !autoExpandThrottle)
 			autoExpandThrottle = setTimeout(base.expandToContent, 200);
-
 	};
 
 	/**
@@ -2625,7 +2620,6 @@ export default function SCEditor(original, userOptions)
 
 		if (!isComposing)
 			triggerValueChanged();
-
 	};
 
 	autoUpdate = function ()

@@ -24,16 +24,19 @@
 	&:active {
 		background: #6b6b6b;
 	}
+
 	svg {
 		fill: #fff;
 	}
 }
+
 .sceditor-container {
 	&.disabled .sceditor-button {
 		svg {
 			fill: #777;
 		}
 	}
+
 	&:not(.disabled) .sceditor-button {
 		.active {
 			background: #6b6b6b;

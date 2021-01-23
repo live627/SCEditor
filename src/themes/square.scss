@@ -62,13 +62,15 @@
 	svg {
 		margin: 0;
 	}
+
 	&:hover {
-		box-shadow: none;
-		margin: 0;
 		background: #fefefe;
 		border: 1px solid #ddd;
+		box-shadow: none;
+		margin: 0;
 	}
 }
+
 .sceditor-container {
 	&.disabled .sceditor-button {
 		&:hover {
@@ -76,17 +78,19 @@
 			margin: 1px;
 		}
 	}
+
 	&:not(.disabled) .sceditor-button {
 		&.active {
-			box-shadow: none;
-			margin: 0;
 			background: #f4f4f4;
 			border: 1px solid #ccc;
+			box-shadow: none;
+			margin: 0;
+
 			&:hover {
-				box-shadow: none;
-				margin: 0;
 				background: #f8f8f8;
 				border: 1px solid #ddd;
+				box-shadow: none;
+				margin: 0;
 			}
 		}
 	}

@@ -185,30 +185,36 @@ body.sceditor-maximize {
 .sceditor-container {
 	&.disabled .sceditor-button {
 		pointer-events: none;
+
 		&:hover {
 			@include box-shadow(none);
 			background: inherit;
 			cursor: default;
 		}
+
 		svg {
 			fill: #888;
 		}
+
 		div {
 			opacity: 0.3;
 		}
 	}
+
 	&:not(.disabled) .sceditor-button {
 		&.active,
 		&:hover {
 			@include box-shadow(unquote('inset 1px 1px 0 rgba(0,0,0,0.3), inset -1px 0 rgba(0,0,0,0.3), inset 0 -1px 0 rgba(0,0,0,0.2)'));
 			background: #fff;
 		}
+
 		&:active {
 			@include box-shadow(unquote('inset 1px 1px 0 rgba(0,0,0,0.3), inset -1px 0 rgba(0,0,0,0.3), inset 0 -1px 0 rgba(0,0,0,0.2), inset 0 0 8px rgba(0,0,0,0.3)'));
 			background: #fff;
 		}
 	}
 }
+
 .sceditor-button {
 	@include rounded(3px);
 	cursor: pointer;
