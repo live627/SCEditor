@@ -25,18 +25,8 @@ export default function PluginManager(thisObj)
 		* @name exists
 		* @memberOf PluginManager.prototype
 		*/
-		exists = plugin =>
-		{
-			if (plugin in plugins)
-			{
-				plugin = plugins[plugin];
-
-				return typeof plugin === 'function' &&
-					typeof plugin.prototype === 'object';
-			}
-
-			return false;
-		},
+		exists = plugin => typeof plugin === 'function' &&
+					typeof plugin.prototype === 'object',
 
 		/**
 		* Checks if the passed plugin is currently registered.
@@ -54,9 +44,8 @@ export default function PluginManager(thisObj)
 				var idx = registeredPlugins.length;
 
 				while (idx--)
-					if (registeredPlugins[idx] instanceof plugins[plugin])
+					if (registeredPlugins[idx] instanceof plugin)
 						return true;
-
 			}
 
 			return false;
@@ -76,7 +65,8 @@ export default function PluginManager(thisObj)
 			if (!exists(plugin) || isRegistered(plugin))
 				return false;
 
-			plugin = new plugins[plugin]();
+			var Plugin = plugin;
+			plugin = new Plugin;
 			registeredPlugins.push(plugin);
 
 			if ('init' in plugin)
@@ -111,7 +101,6 @@ export default function PluginManager(thisObj)
 
 					if ('destroy' in removedPlugin)
 						removedPlugin.destroy.call(thisObj);
-
 				}
 
 			return removed;
@@ -134,18 +123,15 @@ export default function PluginManager(thisObj)
 				if ('destroy' in registeredPlugins[i])
 					registeredPlugins[i].destroy.call(thisObj);
 
-
 			registeredPlugins = [];
 			thisObj    = null;
 		};
 
 	return {
-		exists: exists,
-		isRegistered: isRegistered,
-		register: register,
-		deregister: deregister,
-		destroy: destroy
+		exists,
+		isRegistered,
+		register,
+		deregister,
+		destroy
 	};
 };
-
-PluginManager.plugins = plugins;

@@ -1,17 +1,5 @@
-/**
- * SCEditor Plugin
- * http://www.sceditor.com/
- *
- * Copyright (C) 2016, Sam Clarke (samclarke.com)
- *
- * SCEditor is licensed under the MIT license:
- *	http://www.opensource.org/licenses/mit-license.php
- *
- * @author Sam Clarke
- */
-(function (sceditor)
+var plugin = function ()
 {
-	'use strict';
 	var dom = sceditor.dom;
 	var globalWin  = window;
 	var globalDoc  = document;
@@ -140,11 +128,10 @@
 		});
 	};
 
-	sceditor.plugins.resize = function ()
+	this.init = function ()
 	{
-		this.init = function ()
-		{
-			initResize(this, this.getEditorContainer(), this.opts);
-		};
+		initResize(this, this.getEditorContainer(), this.opts);
 	};
-}(sceditor));
+};
+
+export default plugin;

@@ -1,18 +1,5 @@
-/**
- * SCEditor Auto Youtube Plugin
- * http://www.sceditor.com/
- *
- * Copyright (C) 2016, Sam Clarke (samclarke.com)
- *
- * SCEditor is licensed under the MIT license:
- *	http://www.opensource.org/licenses/mit-license.php
- *
- * @author Sam Clarke
- */
-(function (document, sceditor)
+var plugin = function ()
 {
-	'use strict';
-
 	var dom = sceditor.dom;
 
 	/*
@@ -30,14 +17,14 @@
 	*/
 	var ytUrlRegex = /(^|\s)(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/watch\?v=)([^"&?\/ ]{11})(?:\&[\&_\?0-9a-z\#]+)?(\s|$)/i;
 
-	function youtubeEmbedCode(id)
+	var youtubeEmbedCode = function (id)
 	{
 		return '<iframe width="560" height="315" frameborder="0" ' +
 			'src="https://www.youtube-nocookie.com/embed/' + id + '" ' +
 			'data-youtube-id="' + id + '" allowfullscreen></iframe>';
-	}
+	};
 
-	function convertYoutubeLinks(root)
+	var convertYoutubeLinks = function (root)
 	{
 		var node = root.firstChild;
 
@@ -69,12 +56,11 @@
 			if (!dom.is(node, 'code'))
 				convertYoutubeLinks(node);
 
-
 			node = node.nextSibling;
 		}
 	};
 
-	sceditor.plugins.autoyoutube = function ()
+	this.init = function ()
 	{
 		this.events.on('pasteraw', function (data)
 		{
@@ -98,4 +84,6 @@
 			}
 		});
 	};
-})(document, sceditor);
+};
+
+export default plugin;

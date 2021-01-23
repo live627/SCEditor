@@ -1,18 +1,5 @@
-/**
- * SCEditor Drag and Drop Plugin
- * http://www.sceditor.com/
- *
- * Copyright (C) 2017, Sam Clarke (samclarke.com)
- *
- * SCEditor is licensed under the MIT license:
- *	http://www.opensource.org/licenses/mit-license.php
- *
- * @author Sam Clarke
- */
-(function (sceditor)
+var plugin = function ()
 {
-	'use strict';
-
 	/**
 	* Place holder GIF shown while image is loading.
 	* @type {string}
@@ -70,170 +57,167 @@
 		}
 	}
 
-	sceditor.plugins.dragdrop = function ()
+	if (!isSupported)
+		return;
+
+	var opts;
+	var editor;
+	var handleFile;
+	var container;
+	var cover;
+	var placeholderId = 0;
+
+	function hideCover()
 	{
-		if (!isSupported)
-			return;
+		cover.style.display = 'none';
+		container.className = container.className.replace(/(^| )dnd( |$)/g, '');
+	}
 
-		var base = this;
-		var opts;
-		var editor;
-		var handleFile;
-		var container;
-		var cover;
-		var placeholderId = 0;
-
-		function hideCover()
+	function showCover()
+	{
+		if (cover.style.display === 'none')
 		{
-			cover.style.display = 'none';
-			container.className = container.className.replace(/(^| )dnd( |$)/g, '');
+			cover.style.display = 'block';
+			container.className += ' dnd';
 		}
+	}
 
-		function showCover()
-		{
-			if (cover.style.display === 'none')
-			{
-				cover.style.display = 'block';
-				container.className += ' dnd';
-			}
-		}
-
-		function isAllowed(file)
-		{
-			// FF sets type to application/x-moz-file until it has been dropped
-			if (file.type !== 'application/x-moz-file' && opts.allowedTypes &&
+	function isAllowed(file)
+	{
+		// FF sets type to application/x-moz-file until it has been dropped
+		if (file.type !== 'application/x-moz-file' && opts.allowedTypes &&
 				opts.allowedTypes.indexOf(file.type) < 0)
-				return false;
+			return false;
 
-			return opts.isAllowed ? opts.isAllowed(file) : true;
-		};
+		return opts.isAllowed ? opts.isAllowed(file) : true;
+	};
 
-		function createHolder(toReplace)
+	function createHolder(toReplace)
+	{
+		var placeholder = document.createElement('img');
+		placeholder.src = loadingGif;
+		placeholder.className = 'sceditor-ignore';
+		placeholder.id = 'sce-dragdrop-' + placeholderId++;
+
+		function replace(html)
 		{
-			var placeholder = document.createElement('img');
-			placeholder.src = loadingGif;
-			placeholder.className = 'sceditor-ignore';
-			placeholder.id = 'sce-dragdrop-' + placeholderId++;
+			var node = editor
+				.getBody()
+				.ownerDocument
+				.getElementById(placeholder.id);
 
-			function replace(html)
+			if (node)
 			{
-				var node = editor
-					.getBody()
-					.ownerDocument
-					.getElementById(placeholder.id);
+				if (typeof html === 'string')
+					node.insertAdjacentHTML('afterend', html);
 
-				if (node)
+				node.parentNode.removeChild(node);
+			}
+		}
+
+		return function ()
+		{
+			if (toReplace)
+				toReplace.parentNode.replaceChild(placeholder, toReplace);
+			else
+				editor.wysiwygEditorInsertHtml(placeholder.outerHTML);
+
+			return {
+				insert: function (html)
 				{
-					if (typeof html === 'string')
-						node.insertAdjacentHTML('afterend', html);
-
-					node.parentNode.removeChild(node);
-				}
-			}
-
-			return function ()
-			{
-				if (toReplace)
-					toReplace.parentNode.replaceChild(placeholder, toReplace);
-				else
-					editor.wysiwygEditorInsertHtml(placeholder.outerHTML);
-
-				return {
-					insert: function (html)
-					{
-						replace(html);
-					},
-					cancel: replace
-				};
+					replace(html);
+				},
+				cancel: replace
 			};
-		}
-
-		function handleDragOver(e)
-		{
-			var dt    = e.dataTransfer;
-			var files = dt.files.length || !dt.items ? dt.files : dt.items;
-
-			for (var i = 0; i < files.length; i++)
-				// Dragging a string should be left to default
-				if (files[i].kind === 'string')
-					return;
-
-
-			showCover();
-			e.preventDefault();
-		}
-
-		function handleDrop(e)
-		{
-			var dt    = e.dataTransfer;
-			var files = dt.files.length || !dt.items ? dt.files : dt.items;
-
-			hideCover();
-
-			for (var i = 0; i < files.length; i++)
-			{
-				// Dragging a string should be left to default
-				if (files[i].kind === 'string')
-					return;
-
-				if (isAllowed(files[i]))
-					handleFile(files[i], createHolder());
-
-			}
-
-			e.preventDefault();
-		}
-
-		base.init = function ()
-		{
-			editor = this;
-			opts = editor.opts.dragdrop || {};
-			handleFile = opts.handleFile;
-			container = editor.getContentAreaContainer().parentNode;
 		};
+	}
 
-		window.addEventListener('load', () =>
+	function handleDragOver(e)
+	{
+		var dt    = e.dataTransfer;
+		var files = dt.files.length || !dt.items ? dt.files : dt.items;
+
+		for (var i = 0; i < files.length; i++)
+		// Dragging a string should be left to default
+			if (files[i].kind === 'string')
+				return;
+
+
+		showCover();
+		e.preventDefault();
+	}
+
+	function handleDrop(e)
+	{
+		var dt    = e.dataTransfer;
+		var files = dt.files.length || !dt.items ? dt.files : dt.items;
+
+		hideCover();
+
+		for (var i = 0; i < files.length; i++)
 		{
-			cover = container.appendChild(sceditor.dom.parseHTML(
-				'<div class="sceditor-dnd-cover" style="display: none">' +
+			// Dragging a string should be left to default
+			if (files[i].kind === 'string')
+				return;
+
+			if (isAllowed(files[i]))
+				handleFile(files[i], createHolder());
+
+		}
+
+		e.preventDefault();
+	}
+
+	this.init = function ()
+	{
+		editor = this;
+		opts = editor.opts.dragdrop || {};
+		handleFile = opts.handleFile;
+		container = editor.getContentAreaContainer().parentNode;
+	};
+
+	window.addEventListener('load', () =>
+	{
+		cover = container.appendChild(sceditor.dom.parseHTML(
+			'<div class="sceditor-dnd-cover" style="display: none">' +
 					'<p>' + editor._('Drop files here') + '</p>' +
 				'</div>'
-			).firstChild);
+		).firstChild);
 
-			container.addEventListener('dragover', handleDragOver);
-			container.addEventListener('dragleave', hideCover);
-			container.addEventListener('dragend', hideCover);
-			container.addEventListener('drop', handleDrop);
+		container.addEventListener('dragover', handleDragOver);
+		container.addEventListener('dragleave', hideCover);
+		container.addEventListener('dragend', hideCover);
+		container.addEventListener('drop', handleDrop);
 
-			editor.getBody().addEventListener('dragover', handleDragOver);
-			editor.getBody().addEventListener('drop', hideCover);
-		});
+		editor.getBody().addEventListener('dragover', handleDragOver);
+		editor.getBody().addEventListener('drop', hideCover);
+	});
 
-		editor.events.on('pastehtml', function (paste)
+	editor.events.on('pastehtml', function (paste)
+	{
+		if (!('handlePaste' in opts) || opts.handlePaste)
 		{
-			if (!('handlePaste' in opts) || opts.handlePaste)
+			var div = document.createElement('div');
+			div.innerHTML = paste.val;
+
+			var images = div.querySelectorAll('img');
+			for (var i = 0; i < images.length; i++)
 			{
-				var div = document.createElement('div');
-				div.innerHTML = paste.val;
+				var image = images[i];
 
-				var images = div.querySelectorAll('img');
-				for (var i = 0; i < images.length; i++)
+				if (base64DataUri.test(image.src))
 				{
-					var image = images[i];
-
-					if (base64DataUri.test(image.src))
-					{
-						var file = base64DataUriToBlob(image.src);
-						if (file && isAllowed(file))
-							handleFile(file, createHolder(image));
-						else
-							image.parentNode.removeChild(image);
-
-					}
+					var file = base64DataUriToBlob(image.src);
+					if (file && isAllowed(file))
+						handleFile(file, createHolder(image));
+					else
+						image.parentNode.removeChild(image);
 				}
-
-				paste.val = div.innerHTML;
 			}
-		});
-	};
-})(sceditor);
+
+			paste.val = div.innerHTML;
+		}
+	});
+};
+
+export default plugin;

@@ -396,8 +396,7 @@ export default function SCEditor(original, userOptions)
 		initEditor();
 		initEmoticons();
 		pluginManager = new PluginManager(base);
-		for (const plugin of options.plugins)
-			pluginManager.register(plugin.trim());
+		options.plugins.forEach(pluginManager.register);
 
 		initEvents();
 

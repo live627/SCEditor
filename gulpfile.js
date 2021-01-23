@@ -50,6 +50,7 @@ let
 		out.push(addFile('sceditor','sceditor.xhtml', false));
 		out = out.concat(mapFiles('src/languages'));
 		out = out.concat(mapFiles('src/icons'));
+		out = out.concat(mapFiles('src/plugins'));
 
 		return gulp.parallel(...out, seriesDone =>
 		{
