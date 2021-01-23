@@ -735,7 +735,8 @@ export default function SCEditor(original, userOptions)
 				dom.on(
 					wysiwygBody,
 					'keyup',
-					emoticons.checkWhitespace.bind(null, currentBlockNode, rangeHelper)
+					emoticons.checkWhitespace.bind(
+						null, currentBlockNode, rangeHelper)
 				);
 
 			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
@@ -1058,47 +1059,29 @@ export default function SCEditor(original, userOptions)
 	/**
 	* Expands or shrinks the editors height to the height of it's content
 	*
-	* Unless ignoreMaxHeight is set to true it will not expand
-	* higher than the maxHeight option.
-	*
-	* @since 1.3.5
-	* @param {boolean} [ignoreMaxHeight=false]
 	* @function
 	* @name expandToContent
 	* @memberOf SCEditor.prototype
-	* @see #resizeToContent
 	*/
-	base.expandToContent = function (ignoreMaxHeight)
+	base.expandToContent = function ()
 	{
 		if (base.maximize())
 			return;
 
 		clearTimeout(autoExpandThrottle);
-		autoExpandThrottle = false;
 
 		if (!autoExpandBounds)
-		{
-			var height = options.resizeMinHeight || options.height ||
-				dom.height(original);
+			autoExpandBounds = [
+				options.height || dom.height(original),
+				globalDoc.documentElement.clientHeight - wysiwygBody.offsetTop
+			];
 
-			autoExpandBounds = {
-				min: height,
-				max: options.resizeMaxHeight || (height * 2)
-			};
-		}
-
-		var range = globalDoc.createRange();
-		range.selectNodeContents(wysiwygBody);
-
-		var rect = range.getBoundingClientRect();
-		var current = wysiwygDocument.documentElement.clientHeight - 1;
-		var spaceNeeded = rect.bottom - rect.top;
-		var newHeight = base.height() + 1 + (spaceNeeded - current);
-
-		if (!ignoreMaxHeight && autoExpandBounds.max !== -1)
-			newHeight = Math.min(newHeight, autoExpandBounds.max);
-
-		base.height(Math.ceil(Math.max(newHeight, autoExpandBounds.min)));
+		base.height(
+			Math.max(
+				Math.min(wysiwygBody.scrollHeight, autoExpandBounds[0]),
+				autoExpandBounds[1]
+			)
+		);
 	};
 
 	/**
