@@ -2,37 +2,37 @@ import { entities as escapeEntities } from '../lib/escape.js';
 
 var commands = {
 	bold: {
-		txtExec: ['[b]', '[/b]']
+		code: ['[b]', '[/b]']
 	},
 	italic: {
-		txtExec: ['[i]', '[/i]']
+		code: ['[i]', '[/i]']
 	},
 	underline: {
-		txtExec: ['[u]', '[/u]']
+		code: ['[u]', '[/u]']
 	},
 	strike: {
-		txtExec: ['[s]', '[/s]']
+		code: ['[s]', '[/s]']
 	},
 	subscript: {
-		txtExec: ['[sub]', '[/sub]']
+		code: ['[sub]', '[/sub]']
 	},
 	superscript: {
-		txtExec: ['[sup]', '[/sup]']
+		code: ['[sup]', '[/sup]']
 	},
 	left: {
-		txtExec: ['[left]', '[/left]']
+		code: ['[left]', '[/left]']
 	},
 	center: {
-		txtExec: ['[center]', '[/center]']
+		code: ['[center]', '[/center]']
 	},
 	right: {
-		txtExec: ['[right]', '[/right]']
+		code: ['[right]', '[/right]']
 	},
 	justify: {
-		txtExec: ['[justify]', '[/justify]']
+		code: ['[justify]', '[/justify]']
 	},
 	font: {
-		txtExec: function (caller)
+		code: function (caller)
 		{
 			var editor = this;
 
@@ -50,7 +50,7 @@ var commands = {
 		}
 	},
 	size: {
-		txtExec: function (caller)
+		code: function (caller)
 		{
 			var editor = this;
 
@@ -68,7 +68,7 @@ var commands = {
 		}
 	},
 	color: {
-		txtExec: function (caller)
+		code: function (caller)
 		{
 			var editor = this;
 
@@ -86,7 +86,7 @@ var commands = {
 		}
 	},
 	bulletlist: {
-		txtExec: function (caller, selected)
+		code: function (caller, selected)
 		{
 			var content = '';
 
@@ -98,7 +98,7 @@ var commands = {
 		}
 	},
 	orderedlist: {
-		txtExec: function (caller, selected)
+		code: function (caller, selected)
 		{
 			var content = '';
 
@@ -110,16 +110,16 @@ var commands = {
 		}
 	},
 	table: {
-		txtExec: ['[table][tr][td]', '[/td][/tr][/table]']
+		code: ['[table][tr][td]', '[/td][/tr][/table]']
 	},
 	horizontalrule: {
-		txtExec: ['[hr]']
+		code: ['[hr]']
 	},
 	code: {
-		txtExec: ['[code]', '[/code]']
+		code: ['[code]', '[/code]']
 	},
 	image: {
-		txtExec: function (caller, selected)
+		code: function (caller, selected)
 		{
 			var	editor  = this;
 
@@ -151,7 +151,7 @@ var commands = {
 		}
 	},
 	email: {
-		txtExec: function (caller, selected)
+		code: function (caller, selected)
 		{
 			var	editor  = this;
 
@@ -170,7 +170,7 @@ var commands = {
 		}
 	},
 	link: {
-		txtExec: function (caller, selected)
+		code: function (caller, selected)
 		{
 			var	editor  = this;
 
@@ -189,10 +189,10 @@ var commands = {
 		}
 	},
 	quote: {
-		txtExec: ['[quote]', '[/quote]']
+		code: ['[quote]', '[/quote]']
 	},
 	youtube: {
-		txtExec: function (caller)
+		code: function (caller)
 		{
 			var editor = this;
 
@@ -207,10 +207,10 @@ var commands = {
 		}
 	},
 	rtl: {
-		txtExec: ['[rtl]', '[/rtl]']
+		code: ['[rtl]', '[/rtl]']
 	},
 	ltr: {
-		txtExec: ['[ltr]', '[/ltr]']
+		code: ['[ltr]', '[/ltr]']
 	}
 };
 

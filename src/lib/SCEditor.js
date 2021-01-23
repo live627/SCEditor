@@ -390,6 +390,7 @@ export default function SCEditor(original, userOptions)
 
 		if ('init' in format)
 			format.init.call(base);
+		commands = base.commands;
 
 		initToolBar();
 		initEditor();
@@ -1698,14 +1699,27 @@ export default function SCEditor(original, userOptions)
 	*/
 	handleCommand = function (caller, cmd)
 	{
-		if (cmd.exec)
-			if (utils.isFunction(cmd.exec))
-				cmd.exec.call(base, caller);
-			else
-				base.execCommand(
-					cmd.exec,
-					cmd.hasOwnProperty('execParam') ? cmd.execParam : null
+		if (base.isInSourceMode() && cmd.code)
+		{
+			var code = cmd.code;
+			if (code.call)
+				code = cmd.code.call(
+					base,
+					caller,
+					sourceEditor.value.substring(
+						sourceEditor.selectionStart,
+						sourceEditor.selectionEnd
+					)
 				);
+			base.sourceEditorInsertText.apply(base, code);
+		}
+		if (cmd.exec.call)
+			cmd.exec.call(base, caller);
+		else
+			base.execCommand(
+				cmd.exec,
+				cmd.hasOwnProperty('execParam') ? cmd.execParam : null
+			);
 	};
 
 	/**

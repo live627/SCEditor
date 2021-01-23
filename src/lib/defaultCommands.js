@@ -43,7 +43,7 @@ var fixFirefoxListBug = function (editor)
 			node = next;
 		}
 	}
-}
+};
 
 var createDropDown = function (editor, menuItem, name, content)
 {
