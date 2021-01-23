@@ -310,7 +310,6 @@ export default function SCEditor(original, userOptions)
 		saveRange,
 		initEditor,
 		initToolBar,
-		initOptions,
 		initEvents,
 		initEmoticons,
 		handlePasteEvt,
@@ -329,7 +328,6 @@ export default function SCEditor(original, userOptions)
 		triggerValueChanged,
 		valueChangedBlur,
 		valueChangedKeyUp,
-		autoUpdate,
 		autoExpand;
 
 	/**
@@ -409,7 +407,6 @@ export default function SCEditor(original, userOptions)
 		initToolBar();
 		initEditor();
 		initEmoticons();
-		initOptions();
 		pluginManager = new PluginManager(base);
 		for (const plugin of options.plugins)
 			pluginManager.register(plugin.trim());
@@ -523,27 +520,6 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Initialises options
-	* @private
-	*/
-	initOptions = function ()
-	{
-		// auto-update original textbox on blur if option set to true
-		if (options.autoUpdate)
-		{
-			dom.on(wysiwygBody, 'blur', autoUpdate);
-			dom.on(sourceEditor, 'blur', autoUpdate);
-		}
-
-		if (options.autoExpand)
-		{
-			// Need to update when images (or anything else) loads
-			dom.on(wysiwygBody, 'load', autoExpand, dom.EVENT_CAPTURE);
-			dom.on(wysiwygBody, 'input keyup', autoExpand);
-		}
-	};
-
-	/**
 	* Initialises events
 	* @private
 	*/
@@ -590,6 +566,13 @@ export default function SCEditor(original, userOptions)
 			'selectionchanged valuechanged nodechanged pasteraw paste',
 			base.events.emit.bind(null)
 		);
+
+		if (options.autoExpand)
+		{
+			// Need to update when images (or anything else) loads
+			dom.on(wysiwygBody, 'load', autoExpand, dom.EVENT_CAPTURE);
+			dom.on(wysiwygBody, 'input', autoExpand);
+		}
 	};
 
 	/**
@@ -2605,10 +2588,6 @@ export default function SCEditor(original, userOptions)
 			triggerValueChanged();
 	};
 
-	autoUpdate = function ()
-	{
-		base.updateOriginal();
-	};
 
 	// run the initializer
 	init();

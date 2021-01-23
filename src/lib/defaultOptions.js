@@ -5,7 +5,6 @@ import { attr } from './dom.js';
  * @type {Object}
  */
 export default {
-	/** @lends jQuery.sceditor.defaultOptions */
 	/**
 	* Toolbar buttons order and groups.
 	*
@@ -328,13 +327,6 @@ export default {
 	* @type {boolean}
 	*/
 	autoExpand: false,
-
-	/**
-	* If to auto update original textbox on blur
-	*
-	* @type {boolean}
-	*/
-	autoUpdate: false,
 
 	/**
 	* If to enable the browsers built in spell checker
