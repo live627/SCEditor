@@ -138,14 +138,6 @@ export default function SCEditor(original, userOptions)
 	var sourceEditor;
 
 	/**
-	* Store the last cursor position. Needed for IE because it forgets
-	*
-	* @type {Range}
-	* @private
-	*/
-	var lastRange;
-
-	/**
 	* If the user is currently composing text via IME
 	* @type {boolean}
 	*/
@@ -156,13 +148,6 @@ export default function SCEditor(original, userOptions)
 	* @type {number}
 	*/
 	var valueChangedKeyUpTimer;
-
-	/**
-	* The editors locale
-	*
-	* @private
-	*/
-	var locale;
 
 	/**
 	* The editors rangeHelper instance
@@ -307,7 +292,6 @@ export default function SCEditor(original, userOptions)
 	var	init,
 		replaceEmoticons,
 		handleCommand,
-		saveRange,
 		initEditor,
 		initToolBar,
 		initEvents,
@@ -317,7 +301,6 @@ export default function SCEditor(original, userOptions)
 		handleKeyDown,
 		handleBackSpace,
 		handleKeyPress,
-		handleMouseDown,
 		handleComposition,
 		updateActiveButtons,
 		appendNewLine,
@@ -336,6 +319,13 @@ export default function SCEditor(original, userOptions)
 	* @memberOf SCEditor.prototype
 	*/
 	var options = Object.assign(defaultOptions, userOptions);
+
+	/**
+	* The editors locale
+	*
+	* @private
+	*/
+	var locale = options.locale || {};
 
 	/**
 	* All the commands supported by the editor
@@ -385,13 +375,6 @@ export default function SCEditor(original, userOptions)
 
 		base.dropdown = new Dropdown(editorContainer);
 		base.popup = new Popup(editorContainer);
-
-		// Add IE version to the container to allow IE specific CSS
-		// fixes without using CSS hacks or conditional comments
-		if (IE_VER)
-			dom.addClass(editorContainer, 'ie ie' + IE_VER);
-
-		locale = options.locale || {};
 
 		// Locale DateTime format overrides any specified in the options
 		if (locale && locale.dateFormat)
@@ -502,16 +485,6 @@ export default function SCEditor(original, userOptions)
 		wysiwygBody = wysiwygDocument.body;
 		wysiwygWindow = wysiwygEditor.contentWindow;
 
-		// iframe overflow fix for iOS, also fixes an IE issue with the
-		// editor not getting focus when clicking inside
-		if (browser.ios || browser.edge || IE_VER)
-		{
-			dom.height(wysiwygBody, '100%');
-
-			if (!IE_VER)
-				dom.on(wysiwygBody, 'touchend', base.focus);
-		}
-
 		var tabIndex = dom.attr(original, 'tabindex');
 		dom.attr(sourceEditor, 'tabindex', tabIndex);
 		dom.attr(wysiwygEditor, 'tabindex', tabIndex);
@@ -553,14 +526,8 @@ export default function SCEditor(original, userOptions)
 		dom.on(sourceEditor, compositionEvents, handleComposition);
 		dom.on(sourceEditor, eventsToForward, base.events.emit.bind(null));
 
-		dom.on(wysiwygDocument, 'mousedown', handleMouseDown);
 		dom.on(wysiwygDocument, checkSelectionEvents, checkSelectionChanged);
-		dom.on(wysiwygDocument, 'beforedeactivate keyup mouseup', saveRange);
 		dom.on(wysiwygDocument, 'keyup', appendNewLine);
-		dom.on(wysiwygDocument, 'focus', function ()
-		{
-			lastRange = null;
-		});
 
 		dom.on(editorContainer, 'selectionchanged', checkNodeChanged);
 		dom.on(editorContainer, 'selectionchanged', updateActiveButtons);
@@ -1092,7 +1059,6 @@ export default function SCEditor(original, userOptions)
 		base.popup.destroy();
 
 		rangeHelper   = null;
-		lastRange     = null;
 		pluginManager = null;
 		base.dropdown = null;
 		base.popup    = null;
@@ -1717,7 +1683,6 @@ export default function SCEditor(original, userOptions)
 		else
 			base.setSourceEditorValue(base.getWysiwygEditorValue());
 
-		lastRange = null;
 		dom.toggle(sourceEditor);
 		dom.toggle(wysiwygEditor);
 
@@ -1741,18 +1706,6 @@ export default function SCEditor(original, userOptions)
 					cmd.exec,
 					cmd.hasOwnProperty('execParam') ? cmd.execParam : null
 				);
-	};
-
-	/**
-	* Saves the current range. Needed for IE because it forgets
-	* where the cursor was and what was selected
-	* @private
-	*/
-	saveRange = function ()
-	{
-		/* this is only needed for IE */
-		if (IE_VER)
-			lastRange = rangeHelper.selectedRange();
 	};
 
 	/**
@@ -1936,7 +1889,7 @@ export default function SCEditor(original, userOptions)
 			var stateFn    = btnStateHandlers[j].state;
 
 			if (utils.isFunction(stateFn))
-				state = stateFn.call(base, parent, firstBlock);
+				state = stateFn(base, parent, firstBlock);
 			else if (utils.isString(stateFn) && !isSource)
 				try
 				{
@@ -1976,8 +1929,6 @@ export default function SCEditor(original, userOptions)
 			if (!dom.is(currentBlockNode, LIST_TAGS) &&
 				dom.hasStyling(currentBlockNode))
 			{
-				lastRange = null;
-
 				var br = dom.createElement('br', {}, wysiwygDocument);
 				rangeHelper.insertNode(br);
 
@@ -2047,15 +1998,6 @@ export default function SCEditor(original, userOptions)
 				dom.is(node, 'br'))
 				return false;
 		});
-	};
-
-	/**
-	* Handles any mousedown press in the WYSIWYG editor
-	* @private
-	*/
-	handleMouseDown = function ()
-	{
-		lastRange = null;
 	};
 
 	/**
@@ -2133,16 +2075,6 @@ export default function SCEditor(original, userOptions)
 
 			wysiwygWindow.focus();
 			wysiwygBody.focus();
-
-			// Needed for IE
-			if (lastRange)
-			{
-				rangeHelper.selectRange(lastRange);
-
-				// Remove the stored range after being set.
-				// If the editor loses focus it should be saved again.
-				lastRange = null;
-			}
 		}
 		else
 			sourceEditor.focus();
@@ -2450,7 +2382,6 @@ export default function SCEditor(original, userOptions)
 		rangeHelper.saveRange();
 
 		block.className = '';
-		lastRange       = null;
 
 		dom.attr(block, 'style', '');
 

@@ -1,7 +1,7 @@
 // Borrowed & tweaked from ai/nanoevents
 // https://github.com/ai/nanoevents/blob/master/index.js
 
-var object function ()
+var object = function ()
 {
 	var events = {};
 	return {
@@ -18,5 +18,5 @@ var object function ()
 				(events[event] = events[event].filter((i) => i !== cb));
 		}
 	};
-}
+};
 export default object;

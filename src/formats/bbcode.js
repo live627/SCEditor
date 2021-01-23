@@ -977,11 +977,7 @@ function BBCodeParser(options)
 						!bbcode.isPreFormatted &&
 						!bbcode.skipLastLineBreak)
 						// Add placeholder br to end of block level elements
-						// in all browsers apart from IE < 9 which handle
-						// new lines differently and doesn't need one.
-						if (!IE_BR_FIX)
-							content += '<br />';
-
+						content += '<br />';
 
 					if (!isFunction(bbcode.html))
 					{
@@ -998,12 +994,10 @@ function BBCodeParser(options)
 							token.attrs,
 							content
 						);
-
 				}
 				else
 					html = token.val + content +
 						(token.closing ? token.closing.val : '');
-
 			}
 			else if (token.type === TOKEN_NEWLINE)
 			{
@@ -1450,16 +1444,15 @@ function bbcodeFormat(options)
 	*/
 	function handleTags(element, content, blockLevel)
 	{
-		var	convertBBCode, format,
-			tag     = element.nodeName.toLowerCase();
-
-		// convert blockLevel to boolean
 		blockLevel = !!blockLevel;
+		var
+			convertBBCode, format,
+			tag     = element.nodeName.toLowerCase(),
+			thisTag = tagsToBBCodes[tag];
 
-		if (tagsToBBCodes[tag] && tagsToBBCodes[tag][blockLevel])
+		if (thisTag && thisTag[blockLevel])
 			// loop all bbcodes for this tag
-			each(tagsToBBCodes[tag][blockLevel], function (
-				bbcode, bbcodeAttribs)
+			each(thisTag[blockLevel], function (bbcode, bbcodeAttribs)
 			{
 				// if the bbcode requires any attributes then check this has
 				// all needed
@@ -1499,7 +1492,6 @@ function bbcodeFormat(options)
 					content = format.call(base, element, content);
 				else
 					content = formatString(format, content);
-
 			});
 
 		return content;

@@ -12,7 +12,7 @@ var IE_BR_FIX = IE_VER && IE_VER < 11;
  * new lines in their own list item.
  * See issue #359
  */
-function fixFirefoxListBug(editor)
+var fixFirefoxListBug = function (editor)
 {
 	// Only apply to Firefox as will break other browsers.
 	if ('mozHidden' in document)
@@ -28,20 +28,17 @@ function fixFirefoxListBug(editor)
 				next = next.firstChild;
 			else
 			{
-
 				while (next && !next.nextSibling)
 					next = next.parentNode;
 
 				if (next)
 					next = next.nextSibling;
-
 			}
 
 			if (node.nodeType === 3 && /[\n\r\t]+/.test(node.nodeValue))
 				// Only remove if newlines are collapsed
 				if (!/^pre/.test(dom.css(node.parentNode, 'whiteSpace')))
 					dom.remove(node);
-
 
 			node = next;
 		}
@@ -56,7 +53,6 @@ var createDropDown = function (editor, menuItem, name, content)
 	var first = document.querySelector('#tooltip input,textarea');
 	if (first)
 		first.focus();
-
 };
 
 /**
@@ -108,7 +104,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Left
 	left: {
-		state: function (node)
+		state(editor, node)
 		{
 			if (node && node.nodeType === 3)
 				node = node.parentNode;
@@ -133,7 +129,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Right
 	right: {
-		state: function (node)
+		state(editor, node)
 		{
 			if (node && node.nodeType === 3)
 				node = node.parentNode;
@@ -159,7 +155,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Font
 	font: {
-		_dropDown: function (editor, caller, callback)
+		_dropDown(editor, caller, callback)
 		{
 			var	content = dom.createElement('div');
 
@@ -180,7 +176,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'font-picker', content);
 		},
-		exec: function (caller)
+		exec(caller)
 		{
 			var editor = this;
 
@@ -194,7 +190,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Size
 	size: {
-		_dropDown: function (editor, caller, callback)
+		_dropDown(editor, caller, callback)
 		{
 			var	content = dom.createElement('div');
 
@@ -213,7 +209,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'fontsize-picker', content);
 		},
-		exec: function (caller)
+		exec(caller)
 		{
 			var editor = this;
 
@@ -227,7 +223,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Colour
 	color: {
-		_dropDown: function (editor, caller, callback)
+		_dropDown(editor, caller, callback)
 		{
 			var	content = dom.createElement('div'),
 				html    = '',
@@ -264,7 +260,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'color-picker', content);
 		},
-		exec: function (caller)
+		exec(caller)
 		{
 			var editor = this;
 
@@ -309,7 +305,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Paste Text
 	pastetext: {
-		exec: function (caller)
+		exec(caller)
 		{
 			var	val,
 				content = dom.createElement('div'),
@@ -341,7 +337,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Bullet List
 	bulletlist: {
-		exec: function ()
+		exec()
 		{
 			fixFirefoxListBug(this);
 			this.execCommand('insertunorderedlist');
@@ -351,7 +347,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Ordered List
 	orderedlist: {
-		exec: function ()
+		exec()
 		{
 			fixFirefoxListBug(this);
 			this.execCommand('insertorderedlist');
@@ -361,7 +357,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Indent
 	indent: {
-		state: function (parent, firstBlock)
+		state(editor, parent, firstBlock)
 		{
 			// Only works with lists, for now
 			var	range, startParent, endParent;
@@ -374,7 +370,7 @@ var defaultCmds = {
 				// if the whole list is selected, then this must be
 				// invalidated because the browser will place a
 				// <blockquote> there
-				range = this.getRangeHelper().selectedRange();
+				range = editor.getRangeHelper().selectedRange();
 
 				startParent = range.startContainer.parentNode;
 				endParent   = range.endContainer.parentNode;
@@ -391,12 +387,11 @@ var defaultCmds = {
 					(dom.is(endParent, 'li') && endParent !==
 						endParent.parentNode.lastElementChild))
 					return 0;
-
 			}
 
 			return -1;
 		},
-		exec: function ()
+		exec()
 		{
 			var editor = this,
 				block = editor.getRangeHelper().getFirstBlockParent();
@@ -416,11 +411,11 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Outdent
 	outdent: {
-		state: function (parents, firstBlock)
+		state(editor, parents, firstBlock)
 		{
 			return dom.closest(firstBlock, 'ul,ol,menu') ? 0 : -1;
 		},
-		exec: function ()
+		exec()
 		{
 			var	block = this.getRangeHelper().getFirstBlockParent();
 			if (dom.closest(block, 'ul,ol,menu'))
@@ -433,7 +428,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Table
 	table: {
-		exec: function (caller)
+		exec(caller)
 		{
 			var	editor  = this,
 				content = dom.createElement('div');
@@ -484,7 +479,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Code
 	code: {
-		exec: function ()
+		exec()
 		{
 			this.wysiwygEditorInsertHtml(
 				'<code>',
@@ -497,7 +492,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Image
 	image: {
-		_dropDown: function (editor, caller, selected, cb)
+		_dropDown(editor, caller, selected, cb)
 		{
 			var	content = dom.createElement('div');
 
@@ -530,7 +525,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertimage', content);
 		},
-		exec: function (caller)
+		exec(caller)
 		{
 			var	editor  = this;
 
@@ -563,7 +558,7 @@ var defaultCmds = {
 
 	// START_COMMAND: E-mail
 	email: {
-		_dropDown: function (editor, caller, cb)
+		_dropDown(editor, caller, cb)
 		{
 			var	content = dom.createElement('div');
 
@@ -587,7 +582,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertemail', content);
 		},
-		exec: function (caller)
+		exec(caller)
 		{
 			var	editor  = this;
 
@@ -617,7 +612,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Link
 	link: {
-		_dropDown: function (editor, caller, cb)
+		_dropDown(editor, caller, cb)
 		{
 			var content = dom.createElement('div');
 
@@ -650,7 +645,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertlink', content);
 		},
-		exec: function (caller)
+		exec(caller)
 		{
 			var editor = this;
 
@@ -681,11 +676,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Unlink
 	unlink: {
-		state: function ()
-		{
-			return dom.closest(this.currentNode(), 'a') ? 0 : -1;
-		},
-		exec: function ()
+		state: editor => dom.closest(editor.currentNode(), 'a') ? 0 : -1,
+		exec()
 		{
 			var anchor = dom.closest(this.currentNode(), 'a');
 
@@ -703,7 +695,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Quote
 	quote: {
-		exec: function (caller, html, author)
+		exec(caller, html, author)
 		{
 			var	before = '<blockquote>',
 				end    = '</blockquote>';
@@ -728,7 +720,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Emoticons
 	emoticon: {
-		exec: function ()
+		exec()
 		{
 			var editor = this;
 
@@ -773,7 +765,7 @@ var defaultCmds = {
 
 	// START_COMMAND: YouTube
 	youtube: {
-		_dropDown: function (editor, caller, callback)
+		_dropDown(editor, caller, callback)
 		{
 			var	content = dom.createElement('div');
 
@@ -807,7 +799,7 @@ var defaultCmds = {
 
 			createDropDown(editor, caller, 'insertlink', content);
 		},
-		exec: function (btn)
+		exec(btn)
 		{
 			var editor = this;
 			var pOpts = editor.opts.parserOptions;
@@ -827,7 +819,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Date
 	date: {
-		exec: function ()
+		exec()
 		{
 			var	now   = new Date(),
 				year  = now.getYear(),
@@ -854,7 +846,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Time
 	time: {
-		exec: function ()
+		exec()
 		{
 			var	now   = new Date(),
 				hours = now.getHours(),
@@ -878,11 +870,11 @@ var defaultCmds = {
 
 	// START_COMMAND: Ltr
 	ltr: {
-		state: function (parents, firstBlock)
+		state(editor, parents, firstBlock)
 		{
 			return firstBlock && firstBlock.style.direction === 'ltr';
 		},
-		exec: function ()
+		exec()
 		{
 			var	editor = this,
 				rangeHelper = editor.getRangeHelper(),
@@ -910,11 +902,11 @@ var defaultCmds = {
 
 	// START_COMMAND: Rtl
 	rtl: {
-		state: function (parents, firstBlock)
+		state(editor, parents, firstBlock)
 		{
 			return firstBlock && firstBlock.style.direction === 'rtl';
 		},
-		exec: function ()
+		exec()
 		{
 			var	editor = this,
 				rangeHelper = editor.getRangeHelper(),
@@ -949,11 +941,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Maximize
 	maximize: {
-		state: function ()
-		{
-			return this.maximize();
-		},
-		exec: function ()
+		state: editor => editor.maximize(),
+		exec()
 		{
 			this.maximize(!this.maximize());
 		},
@@ -964,11 +953,8 @@ var defaultCmds = {
 
 	// START_COMMAND: Source
 	source: {
-		state: function ()
-		{
-			return this.isInSourceMode();
-		},
-		exec: function ()
+		state: editor => editor.isInSourceMode(),
+		exec()
 		{
 			this.toggleSourceMode();
 		},
