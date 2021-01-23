@@ -1477,14 +1477,20 @@ function bbcodeFormat(options)
 							values.indexOf(attr(element, attrib)) < 0))
 							return;
 
-						// break this loop as we have matched this bbcode
+						if (attr(element, attrib) && values === false)
+						{
+							convertBBCode = false;
+
+							// break this loop as we have matched this bbcode
+							return;
+						}
+
 						convertBBCode = true;
-						return false;
+						return;
 					});
 
 					if (!convertBBCode)
 						return;
-
 				}
 
 				format = bbcodeHandlers[bbcode].format;

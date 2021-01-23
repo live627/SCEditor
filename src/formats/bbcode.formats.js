@@ -278,13 +278,10 @@ var formats = {
 		tags: {
 			img: {
 				src: null,
-				'data-sceditor-emoticon': null
+				[EMOTICON_DATA_ATTR]: null
 			}
 		},
-		format: function (element, content)
-		{
-			return attr(element, EMOTICON_DATA_ATTR) + content;
-		},
+		format: element => attr(element, EMOTICON_DATA_ATTR),
 		html: '{0}'
 	},
 	// END_COMMAND
@@ -307,17 +304,14 @@ var formats = {
 		allowsEmpty: true,
 		tags: {
 			img: {
-				src: null
+				src: null,
+				[EMOTICON_DATA_ATTR]: false
 			}
 		},
 		allowedChildren: ['#'],
 		quoteType: QuoteType.auto,
-		format: function (element, content)
+		format: function (element)
 		{
-			// check if this is an emoticon image
-			if (attr(element, EMOTICON_DATA_ATTR))
-				return content;
-
 			var
 				attribs = [],
 				width = attr(element, 'width') || style('width'),
