@@ -94,7 +94,7 @@ export default function PluginManager(thisObj)
 				return removed;
 
 			while (pluginIdx--)
-				if (registeredPlugins[pluginIdx] instanceof plugins[plugin])
+				if (registeredPlugins[pluginIdx] instanceof plugin)
 				{
 					removedPlugin = registeredPlugins.splice(pluginIdx, 1)[0];
 					removed       = true;
