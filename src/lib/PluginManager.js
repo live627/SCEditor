@@ -1,5 +1,3 @@
-var plugins = {};
-
 /**
  * Plugin Manager class
  * @class PluginManager
