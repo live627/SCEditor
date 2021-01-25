@@ -12,6 +12,7 @@
 		<script src="../dist/formats/bbcode.js"></script>
 		<script src="../dist/languages/en.min.js"></script>
 		<script src="../dist/plugins/resize.js"></script>
+		<script src="../dist/plugins/emoticons.js"></script>
 
 		<style>
 			html {
@@ -73,7 +74,22 @@ If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be
 		<script>
 			var parser = sceditor.create(document.getElementById('example'), {
 				format: 'bbcode',
-				plugins: [resize],
+				toolbar: [
+					[
+						['bold','italic','underline','strike','subscript','superscript'],
+						['left','center','right','justify'],
+						['font','size','color','removeformat'],
+						['cut','copy','pastetext'],
+						['bulletlist','orderedlist','indent','outdent'],
+						['table'],
+						['code','quote'],
+						['horizontalrule','image','email','link','unlink'],
+						['emoticon','youtube','date','time'],
+						['ltr','rtl'],
+						['print','maximize','source']
+					]
+				],
+				plugins: [resize, emoticons],
 				icons: famfamfam,
 				locale: en,
 				style: '../dist/default.min.css',

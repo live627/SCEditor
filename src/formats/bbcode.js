@@ -1688,7 +1688,6 @@ function bbcodeFormat(options)
 	base.fragmentToHtml = toHtml.bind(null, true);
 	base.toSource = toSource.bind(null, false);
 	base.fragmentToSource = toSource.bind(null, true);
-};
 
 /**
  * Gets a BBCode
@@ -1697,7 +1696,7 @@ function bbcodeFormat(options)
  * @return {Object|null}
  * @since 2.0.0
  */
-bbcodeFormat.get = function (name)
+base.get = function (name)
 {
 	return bbcodeHandlers[name] || null;
 };
@@ -1711,7 +1710,7 @@ bbcodeFormat.get = function (name)
  * @return {this}
  * @since 2.0.0
  */
-bbcodeFormat.set = function (name, bbcode)
+base.set = function (name, bbcode)
 {
 	if (name && bbcode)
 	{
@@ -1740,7 +1739,7 @@ bbcodeFormat.set = function (name, bbcode)
  * @return {this|false}
  * @since 2.0.0
  */
-bbcodeFormat.rename = function (name, newName)
+base.rename = function (name, newName)
 {
 	if (name in bbcodeHandlers)
 	{
@@ -1759,12 +1758,13 @@ bbcodeFormat.rename = function (name, newName)
  * @return {this}
  * @since 2.0.0
  */
-bbcodeFormat.remove = function (name)
+base.remove = function (name)
 {
 	if (name in bbcodeHandlers)
 		delete bbcodeHandlers[name];
 
 	return this;
+};
 };
 
 export default bbcodeFormat;

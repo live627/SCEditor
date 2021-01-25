@@ -642,13 +642,12 @@ export default function RangeHelper(win, d)
 	/**
 	* Replaces keywords with values based on the current caret position
 	*
-	* @param {Array}   keywords
+	* Assumes that the keywords array is sorted shortest to longest
+	*
+	* @param {Array<string, string, RegExp>}   keywords
 	* @param {boolean} includeAfter      If to include the text after the
 	*                                    current caret position or just
 	*                                    text before
-	* @param {boolean} keywordsSorted    If the keywords array is pre
-	*                                    sorted shortest to longest
-	* @param {number}  longestKeyword    Length of the longest keyword
 	* @param {boolean} requireWhitespace If the key must be surrounded
 	*                                    by whitespace
 	* @param {string}  keypressChar      If this is being called from
@@ -663,25 +662,16 @@ export default function RangeHelper(win, d)
 	base.replaceKeyword = function (
 		keywords,
 		includeAfter,
-		keywordsSorted,
-		longestKeyword,
 		requireWhitespace,
 		keypressChar
 	)
 	{
-		if (!keywordsSorted)
-			keywords.sort(function (a, b)
-			{
-				return a[0].length - b[0].length;
-			});
-
 		var outerText, match, matchPos, startIndex,
 			leftLen, charsLeft, keyword, keywordLen,
 			whitespaceRegex = '(^|[\\s\xA0\u2002\u2003\u2009])',
 			keywordIdx      = keywords.length,
 			whitespaceLen   = requireWhitespace ? 1 : 0,
-			maxKeyLen       = longestKeyword ||
-				keywords[keywordIdx - 1][0].length;
+			maxKeyLen       = keywords[keywordIdx - 1][0].length;
 
 		if (requireWhitespace)
 			maxKeyLen++;

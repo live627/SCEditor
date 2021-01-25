@@ -716,54 +716,6 @@ var defaultCmds = {
 		},
 		tooltip: 'Insert a Quote'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Emoticons
-	emoticon: {
-		exec()
-		{
-			var editor = this;
-
-			var
-				opts            = editor.opts,
-				emoticonsRoot   = opts.emoticonsRoot || '',
-				emoticonsCompat = opts.emoticonsCompat,
-				rangeHelper     = editor.getRangeHelper(),
-				startSpace      = emoticonsCompat &&
-						rangeHelper.getOuterText(true, 1) !== ' ' ? ' ' : '',
-				endSpace        = emoticonsCompat &&
-						rangeHelper.getOuterText(false, 1) !== ' ' ? ' ' : '',
-				content         = dom.createElement('div', {
-					id: 'emoticons-container'
-				}),
-				emoticons       = opts.emoticons;
-
-			dom.on(content, 'click', 'img', function (e)
-			{
-				editor.insert(startSpace + dom.attr(this, 'alt') + endSpace,
-					null, false);
-				editor.popup.hide();
-				editor.focus();
-
-				e.preventDefault();
-			});
-
-			for (var emoticon of emoticons)
-				dom.appendChild(content, dom.createElement('img', {
-					src: emoticonsRoot + emoticon.path,
-					alt: emoticon.code,
-					title: emoticon.tooltip || emoticon.code
-				}));
-			;
-
-			editor.popup.content(content);
-			editor.popup.show();
-		},
-		tooltip: 'Insert an emoticon'
-	},
-	// END_COMMAND
-
-	// START_COMMAND: YouTube
 	youtube: {
 		_dropDown(editor, caller, callback)
 		{

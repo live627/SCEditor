@@ -40,7 +40,7 @@ let
 	{
 		let
 			out = [],
-			mapFiles = d => fs.readdirSync(d).filter(x => !x.includes('icons'))
+			mapFiles = d => fs.readdirSync(d).filter(x => !x.includes('-icons'))
 				.map(x => addFile(x.slice(0, -3), d.slice(4),  true));
 
 		out.push(addFile('sceditor','sceditor', false));

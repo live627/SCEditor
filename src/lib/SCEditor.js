@@ -10,7 +10,6 @@ import Popup from './popup.js';
 import _tmpl from './templates.js';
 import * as escape from './escape.js';
 import * as browser from './browser.js';
-import * as emoticons from './emoticons.js';
 
 var globalWin  = window;
 var globalDoc  = document;
@@ -275,27 +274,18 @@ export default function SCEditor(original, userOptions)
 	*/
 	var pasteContentFragment;
 
-	/**
-	* All the emoticon codes with their HTML counterparts.
-	*
-	* @type {!Object<string, string>}
-	* @private
-	*/
-	var emoticonsCache = [];
-
 	var lastVal;
 
 	/**
 	* Private functions
 	* @private
 	*/
-	var	init,
-		replaceEmoticons,
+	var
+		init,
 		handleCommand,
 		initEditor,
 		initToolBar,
 		initEvents,
-		initEmoticons,
 		handlePasteEvt,
 		handlePasteData,
 		handleKeyDown,
@@ -388,24 +378,27 @@ export default function SCEditor(original, userOptions)
 		if (!FormatCtor)
 			throw new Error(`Format plugin not found: ${options.format}`);
 
-		if ('init' in format)
-			format.init.call(base);
-		commands = base.commands;
-
-		initToolBar();
+		base.opts.format = format;
 		initEditor();
-		initEmoticons();
 		pluginManager = new PluginManager(base);
 		options.plugins.forEach(pluginManager.register);
 
-		initEvents();
+		if ('init' in format)
+			format.init.call(base);
+		commands = base.commands;
+		options = base.opts;
 
 		// force into source mode if is a browser that can't handle
 		// full editing
 		if (!browser.isWysiwygSupported)
 			base.toggleSourceMode();
 
-		updateActiveButtons();
+		initToolBar();
+		initEvents();
+
+		// load any textarea value into the editor
+		dom.hide(original);
+		base.insert(original.value);
 
 		var loaded = function ()
 		{
@@ -490,10 +483,6 @@ export default function SCEditor(original, userOptions)
 		dom.attr(wysiwygEditor, 'tabindex', tabIndex);
 
 		rangeHelper = new RangeHelper(wysiwygWindow);
-
-		// load any textarea value into the editor
-		dom.hide(original);
-		base.insert(original.value);
 	};
 
 	/**
@@ -647,64 +636,6 @@ export default function SCEditor(original, userOptions)
 
 		// Append the toolbar to the toolbarContainer option if given
 		dom.appendChild(options.toolbarContainer || editorContainer, toolbar);
-	};
-
-	/**
-	* Prefixes and preloads the emoticon images
-	* @private
-	*/
-	initEmoticons = function ()
-	{
-		var emoticons = options.emoticons;
-		var root      = options.emoticonsRoot || '';
-		var space     = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
-
-		var emoticonsKeyPress = e =>
-		{
-			// TODO: Make configurable
-			if (dom.closest(currentBlockNode, 'code'))
-				return;
-
-			if (rangeHelper.replaceKeyword(
-				emoticonsCache,
-				true,
-				true,
-				null,
-				options.emoticonsCompat,
-				e.key
-			) && (!options.emoticonsCompat || !/^\s$/.test(e.key)))
-				e.preventDefault();
-		};
-
-		if (emoticons)
-		{
-			emoticonsCache = emoticons.map(x => [x.code, _tmpl('emoticon', {
-				key: x.code,
-				url: root + x.path,
-				tooltip: x.tooltip || x.code
-			}), new RegExp(space + escape.regex(x.code) + space)]);
-			emoticonsCache.sort((a, b) => a[0].length - b[0].length);
-
-			if (options.emoticonsCompat && globalWin.getSelection)
-				dom.on(
-					wysiwygBody,
-					'keyup',
-					emoticons.checkWhitespace.bind(
-						null, currentBlockNode, rangeHelper)
-				);
-
-			dom.on(wysiwygBody, 'keypress', emoticonsKeyPress);
-
-			if (!base.isInSourceMode())
-			{
-				rangeHelper.saveRange();
-
-				replaceEmoticons();
-				triggerValueChanged(false);
-
-				rangeHelper.restoreRange();
-			}
-		}
 	};
 
 	/**
@@ -1230,7 +1161,7 @@ export default function SCEditor(original, userOptions)
 		// without affecting the cursor position
 		rangeHelper.insertHTML(html, endHtml);
 		rangeHelper.saveRange();
-		replaceEmoticons();
+		base.events.emit('inserthtml', html, endHtml);
 
 		// Scroll the editor after the end of the selection
 		marker   = dom.find(wysiwygBody, '#sceditor-end-marker')[0];
@@ -1592,7 +1523,7 @@ export default function SCEditor(original, userOptions)
 			value = '<p>' + (IE_VER ? '' : '<br />') + '</p>';
 
 		wysiwygBody.innerHTML = value;
-		replaceEmoticons();
+		base.events.emit('inserthtml', value);
 
 		appendNewLine();
 		triggerValueChanged();
@@ -1626,19 +1557,6 @@ export default function SCEditor(original, userOptions)
 	base.updateOriginal = function ()
 	{
 		original.value = base.getValue();
-	};
-
-	/**
-	* Replaces any emoticon codes in the passed HTML
-	* with their emoticon images
-	* @private
-	*/
-	replaceEmoticons = function ()
-	{
-		emoticons.replace(
-			wysiwygBody,
-			emoticonsCache,
-			options.emoticonsCompat);
 	};
 
 	/**

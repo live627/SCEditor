@@ -1,89 +1,83 @@
 import test from 'ava';
 import browserEnv from 'browser-env';
-import * as emoticons from '../src/lib/emoticons.js';
-
+import * as dom from '../../src/lib/dom.js';
+import Plugin from '../../src/plugins/emoticons.js';
+var emoticons = new Plugin(dom);
 browserEnv();
-let parsHTML = function (html) {
+let parsHTML = function (html)
+{
 	var container = document.createElement('div');
 	container.innerHTML = '<pre>' + html + '</pre>';
 
 	var pre = container.firstChild;
-	while (pre.firstChild) {
+	while (pre.firstChild)
 		container.appendChild(pre.firstChild);
-	}
+
 	container.removeChild(pre);
 
 	return container;
 };
 
-test('replace()', function (assert) {
-	var codes = {
-		':)': '~happy~',
-		':angel:': '~angel~'
-	};
+test('replace()', function (assert)
+{
+	var codes = [
+		[':)', '~happy~', ''],
+		[':angel:', '~angel~', '']
+	];
 
 	var root = parsHTML(':):angel:');
 
 	emoticons.replace(root, codes);
 
-	assert.deepEqual(root, parsHTML('~happy~~angel~'));
+	assert.is(root.textContent, '~happy~~angel~');
 });
 
-test('replace() - code blocks', function (assert) {
-	var codes = {
-		':)': '~happy~'
-	};
+test('replace() - code blocks', function (assert)
+{
+	var codes = [
+		[':)', '~happy~', '']
+	];
 
 	var root = parsHTML('<code>:)</code>');
-
 	emoticons.replace(root, codes);
 
-	assert.deepEqual(root, parsHTML('<code>:)</code>'));
+	assert.is(root.innerHTML, '<code>:)</code>');
 });
 
-test('replace() - longest first', function (assert) {
-	var codes = {
-		':(': '~sad~',
-		'>:(': '~angry~',
-		'>:': '~grr~'
-	};
+test('replace() - longest first', function (assert)
+{
+	var codes = [
+		[':(', '~sad~', ''],
+		['>:', '~grr~', ''],
+		['>:(', '~angry~', '']
+	];
 
 	var root = parsHTML('>:(');
 
 	emoticons.replace(root, codes);
 
-	assert.deepEqual(root, parsHTML('~angry~'));
+	assert.is(root.textContent, '~angry~');
 });
 
-test('replace() - emoticonsCompat', function (assert) {
-	var codes = {
-		':)': '~happy~',
-		':angel:': '~angel~'
-	};
+test('replace() - emoticonsCompat', function (assert)
+{
+	var space = '(^|\\s|\xA0|\u2002|\u2003|\u2009|$)';
+	var codes = [
+		[':)', '~happy~', new RegExp(space + '\:\\)' + space)],
+		[':angel:', '~angel~', new RegExp(space + '\:angel\:' + space)]
+	];
 
 	var root = parsHTML(':) :):) :)t :) t:) test:)test :angel:');
 
 	emoticons.replace(root, codes, true);
 
-	assert.deepEqual(
-		root,
-		parsHTML('~happy~ :):) :)t ~happy~ t:) test:)test ~angel~')
+	assert.is(
+		root.textContent,
+		'~happy~ :):) :)t ~happy~ t:) test:)test ~angel~'
 	);
 });
 
-test('replace() - emoticonsCompat regex key', function (assert) {
-	var codes = {
-		'[^1-9]': '~happy~'
-	};
-
-	var root = parsHTML('[^1-9]');
-
-	emoticons.replace(root, codes, true);
-
-	assert.deepEqual(root, parsHTML('~happy~'));
-});
-
-test('checkWhitespace() - All have whitespace', function (assert) {
+test('checkWS() - All have whitespace', function (assert) {
 	var root = parsHTML(
 		'<img data-sceditor-emoticon=":)" /> test ' +
 		'<img data-sceditor-emoticon=":)" /> test ' +
@@ -113,13 +107,14 @@ test('checkWhitespace() - All have whitespace', function (assert) {
 		}
 	};
 
-	emoticons.checkWhitespace(root, mockRangeHelper);
+	emoticons.checkWS(root, mockRangeHelper);
 
-	assert.deepEqual(root.childNodes, parsHTML(
-		'<img data-sceditor-emoticon=":)" /> test ' +
-		'<img data-sceditor-emoticon=":)" /> test ' +
-		'<img data-sceditor-emoticon=":)" />'
-	).childNodes);
+	assert.is(
+		root.innerHTML,
+		'<img data-sceditor-emoticon=":)"> test ' +
+		'<img data-sceditor-emoticon=":)"> test ' +
+		'<img data-sceditor-emoticon=":)">'
+	 );
 
 	assert.is(mockRange.startContainer, root.childNodes[1]);
 	assert.is(mockRange.startOffset, 2);
@@ -127,7 +122,7 @@ test('checkWhitespace() - All have whitespace', function (assert) {
 	assert.false(mockRangeHelper.selectRangeCalled);
 });
 
-test('checkWhitespace() - Remove emoticons without whitespace', function (assert) {
+test('checkWS() - Remove emoticons without whitespace', function (assert) {
 	var root = parsHTML(
 		'<img data-sceditor-emoticon=":P" /> test ' +
 		'<img data-sceditor-emoticon=":)" />test ' +
@@ -157,13 +152,14 @@ test('checkWhitespace() - Remove emoticons without whitespace', function (assert
 		}
 	};
 
-	emoticons.checkWhitespace(root, mockRangeHelper);
+	emoticons.checkWS(root, mockRangeHelper);
 
-	assert.deepEqual(root.childNodes, parsHTML(
-		'<img data-sceditor-emoticon=":P" /> test ' +
+	assert.is(
+		root.innerHTML,
+		'<img data-sceditor-emoticon=":P"> test ' +
 		':)test ' +
-		'<img data-sceditor-emoticon=":P" />'
-	).childNodes);
+		'<img data-sceditor-emoticon=":P">'
+	);
 
 	assert.is(mockRange.startContainer, root.childNodes[1]);
 	assert.is(mockRange.startOffset, 10);
@@ -171,7 +167,7 @@ test('checkWhitespace() - Remove emoticons without whitespace', function (assert
 	assert.true(mockRangeHelper.selectRangeCalled);
 });
 
-test('checkWhitespace() - Remove cursor placed before', function (assert) {
+test('checkWS() - Remove cursor placed before', function (assert) {
 	var root = parsHTML(
 		'<img data-sceditor-emoticon=":P" /> test' +
 		'<img data-sceditor-emoticon=":)" /> test ' +
@@ -201,13 +197,14 @@ test('checkWhitespace() - Remove cursor placed before', function (assert) {
 		}
 	};
 
-	emoticons.checkWhitespace(root, mockRangeHelper);
+	emoticons.checkWS(root, mockRangeHelper);
 
-	assert.deepEqual(root.childNodes, parsHTML(
-		'<img data-sceditor-emoticon=":P" /> test' +
+	assert.is(
+		root.innerHTML,
+		'<img data-sceditor-emoticon=":P"> test' +
 		':) test ' +
-		'<img data-sceditor-emoticon=":P" />'
-	).childNodes);
+		'<img data-sceditor-emoticon=":P">'
+	);
 
 	assert.is(mockRange.startContainer, root.childNodes[1]);
 	assert.is(mockRange.startOffset, 2);
@@ -215,7 +212,7 @@ test('checkWhitespace() - Remove cursor placed before', function (assert) {
 	assert.true(mockRangeHelper.selectRangeCalled);
 });
 
-test('checkWhitespace() - Remove cursor placed after', function (assert) {
+test('checkWS() - Remove cursor placed after', function (assert) {
 	var root = parsHTML(
 		'<img data-sceditor-emoticon=":P" /> test ' +
 		'<img data-sceditor-emoticon=":)" />test ' +
@@ -245,13 +242,14 @@ test('checkWhitespace() - Remove cursor placed after', function (assert) {
 		}
 	};
 
-	emoticons.checkWhitespace(root, mockRangeHelper);
+	emoticons.checkWS(root, mockRangeHelper);
 
-	assert.deepEqual(root.childNodes, parsHTML(
-		'<img data-sceditor-emoticon=":P" /> test ' +
+	assert.is(
+		root.innerHTML,
+		'<img data-sceditor-emoticon=":P"> test ' +
 		':)test ' +
-		'<img data-sceditor-emoticon=":P" />'
-	).childNodes);
+		'<img data-sceditor-emoticon=":P">'
+	);
 
 	assert.is(mockRange.startContainer, root.childNodes[1]);
 	assert.is(mockRange.startOffset, 8);

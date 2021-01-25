@@ -3,8 +3,6 @@ import { isDigit, normaliseColour, stripQuotes } from '../lib/utils.js';
 import { entities as escapeEntities, uriScheme } from '../lib/escape.js';
 import QuoteType from './bbcode.quotetype.js';
 
-var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
-
 var formats = {
 	// START_COMMAND: Bold
 	b: {
@@ -270,23 +268,6 @@ var formats = {
 		format: '[td]{0}[/td]',
 		html: '<td>{0}</td>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Emoticons
-	emoticon: {
-		allowsEmpty: true,
-		tags: {
-			img: {
-				src: null,
-				[EMOTICON_DATA_ATTR]: null
-			}
-		},
-		format: element => attr(element, EMOTICON_DATA_ATTR),
-		html: '{0}'
-	},
-	// END_COMMAND
-
-	// START_COMMAND: Horizontal Rule
 	hr: {
 		tags: {
 			hr: null
@@ -297,15 +278,11 @@ var formats = {
 		format: '[hr]{0}',
 		html: '<hr />'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Image
 	img: {
 		allowsEmpty: true,
 		tags: {
 			img: {
-				src: null,
-				[EMOTICON_DATA_ATTR]: false
+				src: null
 			}
 		},
 		allowedChildren: ['#'],
