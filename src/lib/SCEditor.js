@@ -520,12 +520,6 @@ export default function SCEditor(original, userOptions)
 
 		dom.on(editorContainer, 'selectionchanged', checkNodeChanged);
 		dom.on(editorContainer, 'selectionchanged', updateActiveButtons);
-		// Custom events to forward
-		dom.on(
-			editorContainer,
-			'selectionchanged valuechanged nodechanged pasteraw paste',
-			base.events.emit.bind(null)
-		);
 
 		if (options.autoExpand)
 		{
@@ -1092,7 +1086,6 @@ export default function SCEditor(original, userOptions)
 		var pasteArea = dom.createElement('div', {}, wysiwygDocument);
 
 		base.events.emit('pasteraw', data);
-		dom.trigger(editorContainer, 'pasteraw', data);
 
 		if (data.html)
 		{
@@ -1113,7 +1106,6 @@ export default function SCEditor(original, userOptions)
 				.fragmentToSource(paste.val, wysiwygDocument, currentNode);
 
 		base.events.emit('paste', paste);
-		dom.trigger(editorContainer, 'paste', paste);
 
 		if ('fragmentToHtml' in format)
 			paste.val = format
@@ -1285,10 +1277,7 @@ export default function SCEditor(original, userOptions)
 	* @name getRangeHelper
 	* @memberOf SCEditor.prototype
 	*/
-	base.getRangeHelper = function ()
-	{
-		return rangeHelper;
-	};
+	base.getRangeHelper = () => rangeHelper;
 
 	/**
 	* Gets or sets the source editor caret position.
@@ -1335,18 +1324,14 @@ export default function SCEditor(original, userOptions)
 	* @param {string} start
 	* @param {string} [end=null]
 	* @param {boolean} [filter=true]
-	* @param {boolean} [convertEmoticons=true] If to convert emoticons
 	* @param {boolean} [allowMixed=false]
 	* @return {this}
 	* @since 1.4.3
 	* @function
-	* @name insert^2
+	* @name insert
 	* @memberOf SCEditor.prototype
 	*/
-	// eslint-disable-next-line max-params
-	base.insert = function (
-		start, end, filter, convertEmoticons, allowMixed
-	)
+	base.insert = function (start, end, filter, allowMixed)
 	{
 		if (base.isInSourceMode())
 		{
@@ -1720,7 +1705,7 @@ export default function SCEditor(original, userOptions)
 					}
 				}
 
-				dom.trigger(editorContainer, 'selectionchanged');
+				base.events.emit('selectionchanged');
 			}
 
 			isSelectionCheckPending = false;
@@ -1756,10 +1741,7 @@ export default function SCEditor(original, userOptions)
 			currentNode      = node;
 			currentBlockNode = rangeHelper.getFirstBlockParent(node);
 
-			dom.trigger(editorContainer, 'nodechanged', {
-				oldNode: oldNode,
-				newNode: currentNode
-			});
+			base.events.emit('nodechanged', oldNode, currentNode);
 		}
 	};
 
@@ -1774,10 +1756,7 @@ export default function SCEditor(original, userOptions)
 	* @name currentNode
 	* @memberOf SCEditor.prototype
 	*/
-	base.currentNode = function ()
-	{
-		return currentNode;
-	};
+	base.currentNode = () => currentNode;
 
 	/**
 	* Gets the first block level node that contains the
@@ -1791,10 +1770,7 @@ export default function SCEditor(original, userOptions)
 	* @memberOf SCEditor.prototype
 	* @since 1.4.4
 	*/
-	base.currentBlockNode = function ()
-	{
-		return currentBlockNode;
-	};
+	base.currentBlockNode = () => currentBlockNode;
 
 	/**
 	* Updates if buttons are active or not
@@ -2265,12 +2241,10 @@ export default function SCEditor(original, userOptions)
 				// should prevent the style from being removed
 				if (node.nodeType !== dom.TEXT_NODE || node.nodeValue)
 					return;
-
 			}
 
 			if (!(node = node.parentNode))
 				return;
-
 		}
 
 		// The backspace was pressed at the start of
@@ -2290,7 +2264,6 @@ export default function SCEditor(original, userOptions)
 		while (!dom.hasStyling(block) || dom.isInline(block, true))
 			if (!(block = block.parentNode) || dom.is(block, 'body'))
 				return;
-
 
 		return block;
 	};
@@ -2340,7 +2313,8 @@ export default function SCEditor(original, userOptions)
 		if (!eventHandlers.valuechanged)
 			return;
 
-		var	currentHtml,
+		var
+			currentHtml,
 			sourceMode   = base.isInSourceMode(),
 			hasSelection = !sourceMode && rangeHelper.hasSelection();
 
@@ -2370,14 +2344,11 @@ export default function SCEditor(original, userOptions)
 		{
 			lastVal = currentHtml;
 
-			dom.trigger(editorContainer, 'valuechanged', {
-				rawValue: sourceMode ? base.insert() : currentHtml
-			});
+			base.events.emit('valuechanged', currentHtml);
 		}
 
 		if (hasSelection && saveRange)
 			rangeHelper.removeMarkers();
-
 	};
 
 	/**
@@ -2388,7 +2359,6 @@ export default function SCEditor(original, userOptions)
 	{
 		if (valueChangedKeyUpTimer)
 			triggerValueChanged();
-
 	};
 
 	/**
@@ -2408,21 +2378,28 @@ export default function SCEditor(original, userOptions)
 		if (isComposing)
 			return;
 
-		// 13 = return & 32 = space
-		if (which === 13 || which === 32)
-			if (!lastWasSpace)
-				triggerValueChanged();
-			else
-				valueChangedKeyUp.triggerNext = true;
-
-		// 8 = backspace & 46 = del
-		else if (which === 8 || which === 46)
-			if (!lastWasDelete)
-				triggerValueChanged();
-			else
-				valueChangedKeyUp.triggerNext = true;
-
-		else if (valueChangedKeyUp.triggerNext)
+		switch (which)
+		{
+		// 13 = return
+			case 13:
+				// 32 = space
+			case 32:
+				if (!lastWasSpace)
+					triggerValueChanged();
+				else
+					valueChangedKeyUp.triggerNext = true;
+				break;
+			case 8:
+				// 8 = backspace
+			case 46:
+				// 46 = del
+				if (!lastWasDelete)
+					triggerValueChanged();
+				else
+					valueChangedKeyUp.triggerNext = true;
+				break;
+		}
+		if (valueChangedKeyUp.triggerNext)
 		{
 			triggerValueChanged();
 			valueChangedKeyUp.triggerNext = false;
@@ -2450,93 +2427,70 @@ export default function SCEditor(original, userOptions)
 			triggerValueChanged();
 	};
 
-
 	// run the initializer
 	init();
-};
 
-/**
- * Map containing the loaded SCEditor locales
- * @type {Object}
- * @name locale
- * @memberOf sceditor
- */
-SCEditor.locale = {};
-
-SCEditor.formats = {};
-SCEditor.icons = {};
-
-/**
- * Static command helper class
- * @class command
- * @name sceditor.command
- */
-SCEditor.command =
-/** @lends sceditor.command */
-{
-	/**
-	* Gets a command
-	*
-	* @param {string} name
-	* @return {Object|null}
-	* @since v1.3.5
-	*/
-	get: function (name)
+	base.command =
 	{
-		return defaultCommands[name] || null;
-	},
-
-	/**
-	* <p>Adds a command to the editor or updates an existing
-	* command if a command with the specified name already exists.</p>
-	*
-	* <p>Once a command is add it can be included in the toolbar by
-	* adding it's name to the toolbar option in the constructor. It
-	* can also be executed manually by calling
-	* {@link sceditor.execCommand}</p>
-	*
-	* @example
-	* SCEditor.command.set("hello",
-	* {
-	*     exec: function () {
-	*         alert("Hello World!");
-	*     }
-	* });
-	*
-	* @param {string} name
-	* @param {Object} cmd
-	* @return {this|false} Returns false if name or cmd is false
-	* @since v1.3.5
-	*/
-	set: function (name, cmd)
-	{
-		if (!name || !cmd)
-			return false;
-
-		// merge any existing command properties
-		cmd = utils.extend(defaultCommands[name] || {}, cmd);
-
-		cmd.remove = function ()
+		/**
+		* Gets a command
+		*
+		* @param {string} name
+		* @return {Object|null}
+		* @since v1.3.5
+		*/
+		get(name)
 		{
-			SCEditor.command.remove(name);
-		};
+			return defaultCommands[name] || null;
+		},
 
-		defaultCommands[name] = cmd;
-		return this;
-	},
+		/**
+		* <p>Adds a command to the editor or updates an existing
+		* command if a command with the specified name already exists.</p>
+		*
+		* <p>Once a command is add it can be included in the toolbar by
+		* adding it's name to the toolbar option in the constructor. It
+		* can also be executed manually by calling
+		* {@link sceditor.execCommand}</p>
+		*
+		* @example
+		* SCEditor.command.set("hello",
+		* {
+		*     exec() {
+		*         alert("Hello World!");
+		*     }
+		* });
+		*
+		* @param {string} name
+		* @param {Object} cmd
+		* @return {this|false} Returns false if name or cmd is false
+		* @since v1.3.5
+		*/
+		set(name, cmd)
+		{
+			if (!name || !cmd)
+				return false;
 
-	/**
-	* Removes a command
-	*
-	* @param {string} name
-	* @return {this}
-	* @since v1.3.5
-	*/
-	remove: function (name)
-	{
-		if (defaultCommands[name])
-			delete defaultCommands[name];
+			// merge any existing command properties
+			cmd = utils.extend(defaultCommands[name] || {}, cmd);
 
-		return this;
-	}
+			defaultCommands[name] = cmd;
+			return this;
+		},
+
+		/**
+		* Removes a command
+		*
+		* @param {string} name
+		* @return {this}
+		* @since v1.3.5
+		*/
+		remove(name)
+		{
+			if (defaultCommands[name])
+				delete defaultCommands[name];
+
+			return this;
+		}
+	};
 };

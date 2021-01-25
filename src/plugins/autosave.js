@@ -77,7 +77,6 @@ var plugin = function ()
 				editor.sourceEditorCaret(state.caret);
 			else
 				editor.getRangeHelper().restoreRange();
-
 		}
 
 		saveHandler({
@@ -88,12 +87,12 @@ var plugin = function ()
 		});
 	});
 
-	editor.events.on('valuechanged', e =>
+	editor.events.on('valuechanged', rawValue =>
 	{
 		saveHandler({
 			caret: this.sourceEditorCaret(),
 			sourceMode: this.sourceMode(),
-			value: e.detail.rawValue,
+			value: rawValue,
 			time: Date.now()
 		});
 	});

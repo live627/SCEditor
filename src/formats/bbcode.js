@@ -117,7 +117,7 @@ TokenizeToken.prototype = {
 	*
 	* @return {TokenizeToken}
 	*/
-	clone: function ()
+	clone()
 	{
 		var base = this;
 
@@ -137,7 +137,7 @@ TokenizeToken.prototype = {
 	* @return {TokenizeToken} The right half of the split token or
 	*                         empty clone if invalid splitAt lcoation
 	*/
-	splitAt: function (splitAt)
+	splitAt(splitAt)
 	{
 		var offsetLength;
 		var base         = this;
@@ -1689,19 +1689,19 @@ function bbcodeFormat(options)
 	base.toSource = toSource.bind(null, false);
 	base.fragmentToSource = toSource.bind(null, true);
 
-/**
+	/**
  * Gets a BBCode
  *
  * @param {string} name
  * @return {Object|null}
  * @since 2.0.0
  */
-base.get = function (name)
-{
-	return bbcodeHandlers[name] || null;
-};
+	base.get = function (name)
+	{
+		return bbcodeHandlers[name] || null;
+	};
 
-/**
+	/**
  * Adds a BBCode to the parser or updates an existing
  * BBCode if a BBCode with the specified name already exists.
  *
@@ -1710,25 +1710,25 @@ base.get = function (name)
  * @return {this}
  * @since 2.0.0
  */
-base.set = function (name, bbcode)
-{
-	if (name && bbcode)
+	base.set = function (name, bbcode)
 	{
-		// merge any existing command properties
-		bbcode = extend(bbcodeHandlers[name] || {}, bbcode);
-
-		bbcode.remove = function ()
+		if (name && bbcode)
 		{
-			delete bbcodeHandlers[name];
-		};
+		// merge any existing command properties
+			bbcode = extend(bbcodeHandlers[name] || {}, bbcode);
 
-		bbcodeHandlers[name] = bbcode;
-	}
+			bbcode.remove = function ()
+			{
+				delete bbcodeHandlers[name];
+			};
 
-	return this;
-};
+			bbcodeHandlers[name] = bbcode;
+		}
 
-/**
+		return this;
+	};
+
+	/**
  * Renames a BBCode
  *
  * This does not change the format or HTML handling, those must be
@@ -1739,32 +1739,32 @@ base.set = function (name, bbcode)
  * @return {this|false}
  * @since 2.0.0
  */
-base.rename = function (name, newName)
-{
-	if (name in bbcodeHandlers)
+	base.rename = function (name, newName)
 	{
-		bbcodeHandlers[newName] = bbcodeHandlers[name];
+		if (name in bbcodeHandlers)
+		{
+			bbcodeHandlers[newName] = bbcodeHandlers[name];
 
-		delete bbcodeHandlers[name];
-	}
+			delete bbcodeHandlers[name];
+		}
 
-	return this;
-};
+		return this;
+	};
 
-/**
+	/**
  * Removes a BBCode
  *
  * @param {string} name
  * @return {this}
  * @since 2.0.0
  */
-base.remove = function (name)
-{
-	if (name in bbcodeHandlers)
-		delete bbcodeHandlers[name];
+	base.remove = function (name)
+	{
+		if (name in bbcodeHandlers)
+			delete bbcodeHandlers[name];
 
-	return this;
-};
+		return this;
+	};
 };
 
 export default bbcodeFormat;

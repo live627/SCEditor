@@ -1,32 +1,35 @@
 import test from 'ava';
 import * as utils from '../src/lib/utils.js';
 
-test('isDigit()', function (assert) {
-	assert.false(utils.isDigit('abcd'));
-	assert.false(utils.isDigit('123a'));
-	assert.true(utils.isDigit('1'));
-	assert.true(utils.isDigit('1234567890'));   // true
-	assert.false(utils.isDigit('-23'));
-	assert.true(utils.isDigit(1234));
-	assert.false(utils.isDigit('123.4'));
-	assert.false(utils.isDigit(''));
-	assert.false(utils.isDigit(undefined));
-	assert.false(utils.isDigit(null));
-	assert.true(utils.isDigit('123'));
-	assert.false(utils.isDigit('-123'));
-	assert.true(utils.isDigit(123));
-	assert.false(utils.isDigit(-123));
+test('isDigit()',t =>
+{
+	t.false(utils.isDigit('abcd'));
+	t.false(utils.isDigit('123a'));
+	t.true(utils.isDigit('1'));
+	t.true(utils.isDigit('1234567890'));   // true
+	t.false(utils.isDigit('-23'));
+	t.true(utils.isDigit(1234));
+	t.false(utils.isDigit('123.4'));
+	t.false(utils.isDigit(''));
+	t.false(utils.isDigit(undefined));
+	t.false(utils.isDigit(null));
+	t.true(utils.isDigit('123'));
+	t.false(utils.isDigit('-123'));
+	t.true(utils.isDigit(123));
+	t.false(utils.isDigit(-123));
 });
 
-test('isEmptyObject()', function (assert) {
-	assert.true(utils.isEmptyObject({}));
-	assert.true(utils.isEmptyObject([]));
+test('isEmptyObject()',t =>
+{
+	t.true(utils.isEmptyObject({}));
+	t.true(utils.isEmptyObject([]));
 
-	assert.false(utils.isEmptyObject({ a: 'a' }));
-	assert.false(utils.isEmptyObject([1]));
+	t.false(utils.isEmptyObject({ a: 'a' }));
+	t.false(utils.isEmptyObject([1]));
 });
 
-test('extend()', function (assert) {
+test('extend()',t =>
+{
 	var target = {};
 	var child = {};
 	var childOverriden = {};
@@ -45,11 +48,11 @@ test('extend()', function (assert) {
 		prop: 'a'
 	});
 
-	assert.true(result === target);
-	assert.true(result.key === child);
-	assert.true(result.array === childArray);
+	t.true(result === target);
+	t.true(result.key === child);
+	t.true(result.array === childArray);
 
-	assert.deepEqual(result, {
+	t.deepEqual(result, {
 		key: child,
 		array: childArray,
 		prop: 'a',
@@ -57,7 +60,8 @@ test('extend()', function (assert) {
 	});
 });
 
-test('extend() - Deep', function (assert) {
+test('extend() - Deep',t =>
+{
 	var target = {};
 	var child = {};
 
@@ -79,10 +83,10 @@ test('extend() - Deep', function (assert) {
 		prop: 'a'
 	});
 
-	assert.true(result === target);
-	assert.false(result.child === child);
+	t.true(result === target);
+	t.false(result.child === child);
 
-	assert.deepEqual(result, {
+	t.deepEqual(result, {
 		child: {},
 		key: {
 			prop: 'a',
@@ -94,36 +98,40 @@ test('extend() - Deep', function (assert) {
 	});
 });
 
-test('arrayRemove()', function (assert) {
+test('arrayRemove()',t =>
+{
 	var array = [1, 2, 3, 3, 4, 5];
 
 	utils.arrayRemove(array, 1);
-	assert.is(array.length, 5);
+	t.is(array.length, 5);
 
 	utils.arrayRemove(array, 1);
-	assert.is(array.length, 5);
+	t.is(array.length, 5);
 
 	utils.arrayRemove(array, 3);
-	assert.is(array.length, 4);
-	assert.is(array.indexOf(3), 1);
+	t.is(array.length, 4);
+	t.is(array.indexOf(3), 1);
 });
 
-test('each() - Array', function (assert) {
+test('each() - Array',t =>
+{
 	var count = 0;
 	var validValues = ['idx0', 'idx1', 'idx4', 'idx5'];
 	var validKeys = [0, 1, 2, 3, 4];
 	var array = ['idx0', 'idx1', 'idx4', 'idx5'];
 
-	utils.each(array, function (index, value) {
+	utils.each(array, function (index, value)
+	{
 		count++;
-		assert.true(value === validValues.shift());
-		assert.true(index === validKeys.shift());
+		t.true(value === validValues.shift());
+		t.true(index === validKeys.shift());
 	});
 
-	assert.is(count, 4);
+	t.is(count, 4);
 });
 
-test('each() - Object', function (assert) {
+test('each() - Object',t =>
+{
 	var count = 0;
 	var validValues = ['idx0', 'idx1', 'idx4', 'idx5'];
 	var validKeys = ['0', '1', '4', '5'];
@@ -134,16 +142,18 @@ test('each() - Object', function (assert) {
 		5: 'idx5'
 	};
 
-	utils.each(object, function (key, value) {
+	utils.each(object, function (key, value)
+	{
 		count++;
-		assert.true(key === validKeys.shift());
-		assert.true(value === validValues.shift());
+		t.true(key === validKeys.shift());
+		t.true(value === validValues.shift());
 	});
 
-	assert.is(count, 4);
+	t.is(count, 4);
 });
 
-test('each() - Array like', function (assert) {
+test('each() - Array like',t =>
+{
 	var count = 0;
 	var validValues = ['idx0', 'idx1', undefined, undefined, 'idx4'];
 	var validKeys = [0, 1, 2, 3, 4];
@@ -155,73 +165,79 @@ test('each() - Array like', function (assert) {
 		5: 'idx5'
 	};
 
-	utils.each(arrayLike, function (index, value) {
+	utils.each(arrayLike, function (index, value)
+	{
 		count++;
-		assert.true(value === validValues.shift());
-		assert.true(index === validKeys.shift());
+		t.true(value === validValues.shift());
+		t.true(index === validKeys.shift());
 	});
 
-	assert.is(count, 5);
+	t.is(count, 5);
 });
 
-test('format()', assert => {
-	assert.is(utils.format('str'), 'str');
-	assert.is(utils.format('str { 0 }'), 'str { 0 }');
-	assert.is(utils.format('str {0}'), 'str {0}');
-	assert.is(utils.format('str { 0 }', 'hi'), 'str { 0 }');
-	assert.is(utils.format('str {0}', 'hi'), 'str hi');
-	assert.is(utils.format('str {0} {1}', 'hi', 'lo'), 'str hi lo');
-	assert.is(utils.format('str {0} {1}', 4.5, 5), 'str 4.5 5');
+test('format()', t =>
+{
+	t.is(utils.format('str'), 'str');
+	t.is(utils.format('str { 0 }'), 'str { 0 }');
+	t.is(utils.format('str {0}'), 'str {0}');
+	t.is(utils.format('str { 0 }', 'hi'), 'str { 0 }');
+	t.is(utils.format('str {0}', 'hi'), 'str hi');
+	t.is(utils.format('str {0} {1}', 'hi', 'lo'), 'str hi lo');
+	t.is(utils.format('str {0} {1}', 4.5, 5), 'str 4.5 5');
 });
 
-test('replaceVars()', assert => {
-	assert.is(utils.replaceVars('str'), 'str');
-	assert.is(utils.replaceVars('str', {}), 'str');
-	assert.is(utils.replaceVars('str { var0 }', {var0: 'hi'}), 'str hi');
-	assert.is(utils.replaceVars('str {var0}', {var1: 'hi'}), 'str {var0}');
-	assert.is(utils.replaceVars('str {var0} {var1}', {var0: 'hi',  var1:'lo'}), 'str hi lo');
-	assert.is(utils.replaceVars('str {var0} {var1}', {var0: 4.5, var1: 5}), 'str 4.5 5');
+test('replaceVars()', t =>
+{
+	t.is(utils.replaceVars('str'), 'str');
+	t.is(utils.replaceVars('str', {}), 'str');
+	t.is(utils.replaceVars('str { var0 }', {var0: 'hi'}), 'str hi');
+	t.is(utils.replaceVars('str {var0}', {var1: 'hi'}), 'str {var0}');
+	t.is(utils.replaceVars('str {var0} {var1}', {var0: 'hi',  var1: 'lo'}), 'str hi lo');
+	t.is(utils.replaceVars('str {var0} {var1}', {var0: 4.5, var1: 5}), 'str 4.5 5');
 });
 
-test('toHex()', assert => {
-	assert.is(utils.toHex('-1'), 'ffffffff');
-	assert.is(utils.toHex('0'), '0');
-	assert.is(utils.toHex('2'), '2');
-	assert.is(utils.toHex('20'), '14');
-	assert.is(utils.toHex('200'), 'c8');
-	assert.is(utils.toHex('201'), 'c9');
-	assert.is(utils.toHex('145000'), '23668');
-	assert.is(utils.toHex('90000000'), '55d4a80');
-	assert.is(utils.toHex('str'), '0');
+test('toHex()', t =>
+{
+	t.is(utils.toHex('-1'), 'ffffffff');
+	t.is(utils.toHex('0'), '0');
+	t.is(utils.toHex('2'), '2');
+	t.is(utils.toHex('20'), '14');
+	t.is(utils.toHex('200'), 'c8');
+	t.is(utils.toHex('201'), 'c9');
+	t.is(utils.toHex('145000'), '23668');
+	t.is(utils.toHex('90000000'), '55d4a80');
+	t.is(utils.toHex('str'), '0');
 });
 
-test('normaliseColour()', assert => {
-	assert.is(utils.normaliseColour('#000'), '#000000');
-	assert.is(utils.normaliseColour('rgb(0,0,0)'), '#000000');
-	assert.is(utils.normaliseColour('#03f'), '#0033ff');
-	assert.is(utils.normaliseColour('rgb(0, 51, 255)'), '#0033ff');
-	assert.is(utils.normaliseColour('rgb(77, 147, 188)'), '#4d93bc');
-	assert.is(utils.normaliseColour('rgb(255, 0, 0)'), '#ff0000');
-	assert.is(utils.normaliseColour('#8a5'), '#88aa55');
-	assert.is(utils.normaliseColour('red'), 'red');
+test('normaliseColour()', t =>
+{
+	t.is(utils.normaliseColour('#000'), '#000000');
+	t.is(utils.normaliseColour('rgb(0,0,0)'), '#000000');
+	t.is(utils.normaliseColour('#03f'), '#0033ff');
+	t.is(utils.normaliseColour('rgb(0, 51, 255)'), '#0033ff');
+	t.is(utils.normaliseColour('rgb(77, 147, 188)'), '#4d93bc');
+	t.is(utils.normaliseColour('rgb(255, 0, 0)'), '#ff0000');
+	t.is(utils.normaliseColour('#8a5'), '#88aa55');
+	t.is(utils.normaliseColour('red'), 'red');
 });
 
-test('stripQuotes()', assert => {
-	assert.is(utils.stripQuotes('"Name"'), 'Name');
-	assert.is(utils.stripQuotes(' "John" '), ' "John" ');
-	assert.is(utils.stripQuotes('"Name": "John"'), 'Name": "John');
-	assert.is(utils.stripQuotes('Name": "John"'), 'Name": "John"');
-	assert.is(utils.stripQuotes('"Name": "John'), '"Name": "John');
-	assert.is(utils.stripQuotes('\'Name\''), 'Name');
-	assert.is(utils.stripQuotes(' \'John\' '), ' \'John\' ');
-	assert.is(utils.stripQuotes('\'Name\': \'John\''), 'Name\': \'John');
-	assert.is(utils.stripQuotes('Name\': \'John\''), 'Name\': \'John\'');
-	assert.is(utils.stripQuotes('\'Name\': \'John'), '\'Name\': \'John');
-	assert.is(utils.stripQuotes('"Name\''), '"Name\'');
-	assert.is(utils.stripQuotes('\'John"'), '\'John"');
-	assert.is(utils.stripQuotes('\'Name": "John\''), 'Name": "John');
-	assert.is(utils.stripQuotes('Name": "John\''), 'Name": "John\'');
-	assert.is(utils.stripQuotes('\'Name": "John'), '\'Name": "John');
-	assert.is(utils.stripQuotes('Name": "John'), 'Name": "John');
-	assert.is(utils.stripQuotes('\\k\\\e\\y\\"\\\'\\s'), 'key"\'s');
+test('stripQuotes()', t =>
+{
+	t.is(utils.stripQuotes('"Name"'), 'Name');
+	t.is(utils.stripQuotes(' "John" '), ' "John" ');
+	t.is(utils.stripQuotes('"Name": "John"'), 'Name": "John');
+	t.is(utils.stripQuotes('Name": "John"'), 'Name": "John"');
+	t.is(utils.stripQuotes('"Name": "John'), '"Name": "John');
+	t.is(utils.stripQuotes('\'Name\''), 'Name');
+	t.is(utils.stripQuotes(' \'John\' '), ' \'John\' ');
+	t.is(utils.stripQuotes('\'Name\': \'John\''), 'Name\': \'John');
+	t.is(utils.stripQuotes('Name\': \'John\''), 'Name\': \'John\'');
+	t.is(utils.stripQuotes('\'Name\': \'John'), '\'Name\': \'John');
+	t.is(utils.stripQuotes('"Name\''), '"Name\'');
+	t.is(utils.stripQuotes('\'John"'), '\'John"');
+	t.is(utils.stripQuotes('\'Name": "John\''), 'Name": "John');
+	t.is(utils.stripQuotes('Name": "John\''), 'Name": "John\'');
+	t.is(utils.stripQuotes('\'Name": "John'), '\'Name": "John');
+	t.is(utils.stripQuotes('Name": "John'), 'Name": "John');
+	t.is(utils.stripQuotes('\\k\\\e\\y\\"\\\'\\s'), 'key"\'s');
 });

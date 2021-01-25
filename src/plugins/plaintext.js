@@ -1,12 +1,12 @@
 /**
-	* Options:
-	*
-	* pastetext.addButton - If to replace the plaintext button with a toggle
-	*                       button that enables and disables plain text mode.
-	*
-	* pastetext.enabled - If the plain text button should be enabled at start
-	*                     up. Only applies if addButton is enabled.
-	*/
+* Options:
+*
+* pastetext.addButton - If to replace the plaintext button with a toggle
+*                       button that enables and disables plain text mode.
+*
+* pastetext.enabled - If the plain text button should be enabled at start
+*                     up. Only applies if addButton is enabled.
+*/
 var plugin = function ()
 {
 	var plainTextEnabled = true;
@@ -32,21 +32,21 @@ var plugin = function ()
 				}
 			});
 		}
-	};
 
-	this.signalPasteRaw = function (data)
-	{
-		if (plainTextEnabled)
+		this.events.on('pasteraw', function (data)
 		{
-			if (data.html && !data.text)
+			if (plainTextEnabled)
 			{
-				var div = document.createElement('div');
-				div.innerHTML = data.html;
-				data.text = div.innerText;
-			}
+				if (data.html && !data.text)
+				{
+					var div = document.createElement('div');
+					div.innerHTML = data.html;
+					data.text = div.innerText;
+				}
 
-			data.html = null;
-		}
+				data.html = null;
+			}
+		});
 	};
 };
 

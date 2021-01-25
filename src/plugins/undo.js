@@ -8,17 +8,17 @@ var plugin = function ()
 	var undoLimit  = 50;
 	var redoStates = [];
 	var undoStates = [];
-	var ignoreNextValueChanged = false;
+	var ignoreNext = false;
 
 	/**
-		* Sets the editor to the specified state.
-		*
-		* @param  {Object} state
-		* @private
-		*/
+	* Sets the editor to the specified state.
+	*
+	* @param  {Object} state
+	* @private
+	*/
 	var applyState = function (state)
 	{
-		ignoreNextValueChanged = true;
+		ignoreNext = true;
 
 		previousValue = state.value;
 
@@ -31,18 +31,18 @@ var plugin = function ()
 		else
 			editor.getRangeHelper().restoreRange();
 
-		ignoreNextValueChanged = false;
+		ignoreNext = false;
 	};
 
 	/**
-		* Calculates the number of characters that have changed
-		* between two strings.
-		*
-		* @param {String} strA
-		* @param {String} strB
-		* @return {String}
-		* @private
-		*/
+	* Calculates the number of characters that have changed
+	* between two strings.
+	*
+	* @param {String} strA
+	* @param {String} strB
+	* @return {String}
+	* @private
+	*/
 	var simpleDiff = function (strA, strB)
 	{
 		var start, end, aLenDiff, bLenDiff,
@@ -141,24 +141,20 @@ var plugin = function ()
 	});
 
 	/**
-		* Handle the valueChanged signal.
-		*
-		* e.rawValue will either be the raw HTML from the WYSIWYG editor with
-		* the rangeHelper range markers inserted, or it will be the raw value
-		* of the source editor (BBCode or HTML depending on plugins).
-		* @return {void}
-		*/
-	editor.events.on('valuechanged', e =>
+	* Handle the valueChanged signal.
+	*
+	* rawValue will either be the raw HTML from the WYSIWYG editor with
+	* the rangeHelper range markers inserted, or it will be the raw value
+	* of the source editor (BBCode or HTML depending on plugins).
+	*/
+	editor.events.on('valuechanged', rawValue =>
 	{
-		var rawValue = e.detail.rawValue;
-
 		if (undoLimit > 0 && undoStates.length > undoLimit)
 			undoStates.shift();
 
 		// If the editor hasn't fully loaded yet,
 		// then the previous value won't be set.
-		if (ignoreNextValueChanged || !previousValue ||
-					previousValue === rawValue)
+		if (ignoreNext || !previousValue || previousValue === rawValue)
 			return;
 
 		// Value has changed so remove all redo states
@@ -167,8 +163,7 @@ var plugin = function ()
 
 		if (charChangedCount < 20)
 			return;
-			// ??
-		else if (charChangedCount < 50 && !/\s$/g.test(e.rawValue))
+		else if (charChangedCount < 50 && !/\s$/g.test(rawValue))
 			return;
 
 		undoStates.push({

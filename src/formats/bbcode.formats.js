@@ -91,7 +91,7 @@ var formats = {
 			'font-family': null
 		},
 		quoteType: QuoteType.never,
-		format: function (element, content)
+		format(element, content)
 		{
 			var font;
 
@@ -115,7 +115,7 @@ var formats = {
 		styles: {
 			'font-size': null
 		},
-		format: function (element, content)
+		format(element, content)
 		{
 			var	fontSize = attr(element, 'size'),
 				size     = 2;
@@ -168,7 +168,7 @@ var formats = {
 			color: null
 		},
 		quoteType: QuoteType.never,
-		format: function (elm, content)
+		format(elm, content)
 		{
 			var	color;
 
@@ -178,7 +178,7 @@ var formats = {
 			return '[color=' + normaliseColour(color) + ']' +
 					content + '[/color]';
 		},
-		html: function (token, attrs, content)
+		html(token, attrs, content)
 		{
 			return '<font color="' +
 					escapeEntities(normaliseColour(attrs.defaultattr), true) +
@@ -287,7 +287,7 @@ var formats = {
 		},
 		allowedChildren: ['#'],
 		quoteType: QuoteType.auto,
-		format: function (element)
+		format(element)
 		{
 			var
 				attribs = [],
@@ -306,7 +306,7 @@ var formats = {
 
 			return `[img ${attribs.join(' ')}]${attr(element, 'src')}[/img]`;
 		},
-		html: function (token, attrs, content)
+		html(token, attrs, content)
 		{
 			var
 				attribs = [`src="${uriScheme(content)}"`],
@@ -337,7 +337,7 @@ var formats = {
 			}
 		},
 		quoteType: QuoteType.never,
-		format: function (element, content)
+		format(element, content)
 		{
 			var url = attr(element, 'href');
 
@@ -349,7 +349,7 @@ var formats = {
 
 			return '[url=' + url + ']' + content + '[/url]';
 		},
-		html: function (token, attrs, content)
+		html(token, attrs, content)
 		{
 			attrs.defaultattr =
 					escapeEntities(attrs.defaultattr, true) || content;
@@ -363,7 +363,7 @@ var formats = {
 	// START_COMMAND: E-mail
 	email: {
 		quoteType: QuoteType.never,
-		html: function (token, attrs, content)
+		html(token, attrs, content)
 		{
 			return '<a href="mailto:' +
 					(escapeEntities(attrs.defaultattr, true) || content) +
@@ -379,7 +379,7 @@ var formats = {
 		},
 		isInline: false,
 		quoteType: QuoteType.never,
-		format: function (element, content)
+		format(element, content)
 		{
 			var authorAttr = 'data-author';
 			var	author = '';
@@ -411,7 +411,7 @@ var formats = {
 
 			return '[quote' + author + ']' + content + '[/quote]';
 		},
-		html: function (token, attrs, content)
+		html(token, attrs, content)
 		{
 			if (attrs.defaultattr)
 				content = '<cite>' + attrs.defaultattr +
@@ -511,7 +511,7 @@ var formats = {
 				'data-youtube-start': null
 			}
 		},
-		format: function (element, content)
+		format(element, content)
 		{
 			var id = attr(element, 'data-youtube-id');
 			var start = attr(element, 'data-youtube-start');
@@ -523,7 +523,7 @@ var formats = {
 				return id ? '[youtube]' + id + '[/youtube]' : content;
 
 		},
-		html: function (token, attrs, content)
+		html(token, attrs, content)
 		{
 			var id = content;
 			var start = 0;

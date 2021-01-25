@@ -1,31 +1,33 @@
 import test from 'ava';
 import browserEnv from 'browser-env';
 browserEnv();
-import bbcode from '../src/formats/bbcode.js';
+import BBCode from '../src/formats/bbcode.js';
 import QuoteType from '../src/formats/bbcode.quotetype.js';
 
 var IE_BR_STR = '<br />';
-var parser = new bbcode({});
+var parser = new BBCode({});
 let stripWhiteSpace = x => x.replace(/[\r\n\s\t]/g, '');
 
-test('Check properties', t => {
+test('Check properties', t =>
+{
 	t.true('fixInvalidChildren' in parser.opts);
 	t.true(parser.opts.fixInvalidChildren);
-	parser = new bbcode({
+	parser = new BBCode({
 		fixInvalidChildren: false
 	});
 	t.false(parser.opts.fixInvalidChildren);
-	parser = new bbcode({
+	parser = new BBCode({
 		eatDoughnut: false,
 		fixInvalidChildren: true
 	});
 	t.true('eatDoughnut' in parser.opts);
 	t.true(parser.opts.fixInvalidChildren);
-	parser = new bbcode({});
+	parser = new BBCode({});
 	// t.false('eatDoughnut' in parser.opts);
 });
 
-test('Fix invalid nesting', t => {
+test('Fix invalid nesting', t =>
+{
 	t.is(
 		stripWhiteSpace(parser.toSource('[b]test[code]test[/code]test[/b]')),
 		'[b]test[/b][code]test[/code][b]test[/b]',
@@ -74,34 +76,36 @@ test('Fix invalid nesting', t => {
 	);
 });
 
-test('Rename BBCode', t => {
-	bbcode.rename('b', 'testbold');
+test('Rename BBCode', t =>
+{
+	parser.rename('b', 'testbold');
 
 	t.truthy(
-		bbcode.get('testbold'),
+		parser.get('testbold'),
 		'Can get renamed BBCode'
 	);
 
 	t.falsy(
-		bbcode.get('b'),
+		parser.get('b'),
 		'Cannot get BBCode by old name'
 	);
 
-	t.is( 
+	t.is(
 		parser.toHtml('[testbold]test[/testbold]'),
 		'<div><strong>test</strong></div>\n',
 		'Will convert renamed BBCode'
 	);
 
-	bbcode.rename('testbold', 'b');
+	parser.rename('testbold', 'b');
 
 	t.falsy(
-		bbcode.get('testbold'),
+		parser.get('testbold'),
 		'Should not be able to get old BBCode name'
 	);
 });
 
-test('Self closing tag', t => {
+test('Self closing tag', t =>
+{
 	t.is(
 		parser.toSource('[hr]test'),
 		'[hr]\ntest',
@@ -110,7 +114,8 @@ test('Self closing tag', t => {
 });
 
 
-test('Tag closed by another tag', t => {
+test('Tag closed by another tag', t =>
+{
 	t.is(
 		parser.toSource('[list][*] test[*] test 2[/list]'),
 		'[list]\n[*] test[/*]\n[*] test 2[/*]\n[/list]\n',
@@ -119,7 +124,8 @@ test('Tag closed by another tag', t => {
 });
 
 
-test('BBCode closed outside block', t => {
+test('BBCode closed outside block', t =>
+{
 	t.is(
 		parser.toSource('[b]test[code]test[/b][/code]test[/b]'),
 		'[b]test[/b][code]test[/b][/code]\n[b]test[/b]',
@@ -145,8 +151,9 @@ test('BBCode closed outside block', t => {
 	);
 });
 
-test('BBCode closed outside block - No children fix', t => {
-	parser = new bbcode({
+test('BBCode closed outside block - No children fix', t =>
+{
+	parser = new BBCode({
 		fixInvalidChildren: false
 	});
 
@@ -173,12 +180,13 @@ test('BBCode closed outside block - No children fix', t => {
 		'[quote][b]something[/b][/quote]\n[b] [b]something[/b][/b]',
 		'Quote with tag closed outside'
 	);
-	parser = new bbcode({
+	parser = new BBCode({
 		fixInvalidChildren: true
 	});
 });
 
-test('Closing parent tag from child', t => {
+test('Closing parent tag from child', t =>
+{
 	t.is(
 		parser.toSource('[b][color]test[/b][/color]'),
 		'[b][color]test[/color][/b]',
@@ -211,7 +219,8 @@ test('Closing parent tag from child', t => {
 	);
 });
 
-test('Missing tags', t => {
+test('Missing tags', t =>
+{
 	t.is(
 		parser.toSource('[b][color][/b]'),
 		'[b][color][/b]',
@@ -225,7 +234,8 @@ test('Missing tags', t => {
 	);
 });
 
-test('Unknown tags', t => {
+test('Unknown tags', t =>
+{
 	t.is(
 		parser.toSource('[b][unknown][/b]'),
 		'[b][unknown][/b]',
@@ -257,7 +267,8 @@ test('Unknown tags', t => {
 	);
 });
 
-test('Do not strip start and end spaces', t => {
+test('Do not strip start and end spaces', t =>
+{
 	t.is(
 		parser.toHtml('\n\n[quote]test[/quote]\n\n\n\n'),
 		'<div>' + IE_BR_STR + '</div>\n' +
@@ -269,7 +280,8 @@ test('Do not strip start and end spaces', t => {
 	);
 });
 
-test('New Line Handling', t => {
+test('New Line Handling', t =>
+{
 	t.is(
 		parser.toHtml('[list][*]test\n[*]test2\nline\n[/list]'),
 
@@ -303,14 +315,15 @@ test('New Line Handling', t => {
 	);
 });
 
-test('Attributes QuoteType.auto', t => {
+test('Attributes QuoteType.auto', t =>
+{
 	// Remove the [quote] tag default quoteType so will use the default
 	// one specified by the parser
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: null
 	});
 
-	parser = new bbcode({
+	parser = new BBCode({
 		quoteType: QuoteType.auto
 	});
 
@@ -369,19 +382,20 @@ test('Attributes QuoteType.auto', t => {
 	);
 
 	// Reset [quote]'s default quoteType
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: QuoteType.never
 	});
 });
 
-test('Attributes QuoteType.never', t => {
+test('Attributes QuoteType.never', t =>
+{
 	// Remove the [quote] tag default quoteType so will use the default
 	// one specified by the parser
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: null
 	});
 
-	parser = new bbcode({
+	parser = new BBCode({
 		quoteType: QuoteType.never
 	});
 
@@ -440,19 +454,20 @@ test('Attributes QuoteType.never', t => {
 	);
 
 	// Reset [quote]'s default quoteType
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: QuoteType.never
 	});
 });
 
-test('Attributes QuoteType.always', t => {
+test('Attributes QuoteType.always', t =>
+{
 	// Remove the [quote] tag default quoteType so will use the default
 	// one specified by the parser
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: null
 	});
 
-	parser = new bbcode({
+	parser = new BBCode({
 		quoteType: QuoteType.always
 	});
 
@@ -512,20 +527,22 @@ test('Attributes QuoteType.always', t => {
 	);
 
 	// Reset [quote]'s default quoteType
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: QuoteType.never
 	});
 });
 
-test('Attributes QuoteType custom', t => {
+test('Attributes QuoteType custom', t =>
+{
 	// Remove the [quote] tag default quoteType so will use the default
 	// one specified by the parser
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: null
 	});
 
-	parser = new bbcode({
-		quoteType: function (str) {
+	parser = new BBCode({
+		quoteType: function (str)
+		{
 			return '\'' +
 				str.replace('\\', '\\\\').replace('\'', '\\\'') +
 				'\'';
@@ -588,55 +605,62 @@ test('Attributes QuoteType custom', t => {
 	);
 
 	// Reset [quote]'s default quoteType
-	bbcode.set('quote', {
+	parser.set('quote', {
 		quoteType: QuoteType.never
 	});
 });
 
 
-test('Bold', t => {
+test('Bold', t =>
+{
 	t.is(
 		parser.toHtml('[b]test[/b]'),
 		'<div><strong>test</strong></div>\n'
 	);
 });
 
-test('Italic', t => {
+test('Italic', t =>
+{
 	t.is(
 		parser.toHtml('[i]test[/i]'),
 		'<div><em>test</em></div>\n'
 	);
 });
 
-test('Underline', t => {
+test('Underline', t =>
+{
 	t.is(
 		parser.toHtml('[u]test[/u]'),
 		'<div><u>test</u></div>\n'
 	);
 });
 
-test('Strikethrough', t => {
+test('Strikethrough', t =>
+{
 	t.is(
 		parser.toHtml('[s]test[/s]'),
 		'<div><s>test</s></div>\n'
 	);
 });
 
-test('Subscript', t => {
+test('Subscript', t =>
+{
 	t.is(
 		parser.toHtml('[sub]test[/sub]'),
 		'<div><sub>test</sub></div>\n'
 	);
 });
 
-test('Superscript', t => {
+test('Superscript', t =>
+{
 	t.is(
 		parser.toHtml('[sup]test[/sup]'),
 		'<div><sup>test</sup></div>\n'
 	);
 });
 
-test('Font face', t => {
+test('Font face', t =>
+{
 	t.is(
 		parser.toHtml('[font=arial]test[/font]'),
 		'<div><font face="arial">test</font></div>\n',
@@ -656,7 +680,8 @@ test('Font face', t => {
 	);
 });
 
-test('Size', t => {
+test('Size', t =>
+{
 	t.is(
 		parser.toHtml('[size=4]test[/size]'),
 		'<div><font size="4">test</font></div>\n',
@@ -664,7 +689,8 @@ test('Size', t => {
 	);
 });
 
-test('Font colour', t => {
+test('Font colour', t =>
+{
 	t.is(
 		parser.toHtml('[color=#000]test[/color]'),
 		'<div><font color="#000000">test</font></div>\n',
@@ -678,7 +704,8 @@ test('Font colour', t => {
 	);
 });
 
-test('List', t => {
+test('List', t =>
+{
 	t.is(
 		parser.toHtml('[ul][li]test[/li][/ul]'),
 		'<ul><li>test' + IE_BR_STR + '</li></ul>',
@@ -698,7 +725,8 @@ test('List', t => {
 	);
 });
 
-test('Table', t => {
+test('Table', t =>
+{
 	t.is(
 		parser.toHtml('[table][tr][th]test[/th][/tr]' +
 			'[tr][td]data1[/td][/tr][/table]'),
@@ -708,7 +736,8 @@ test('Table', t => {
 	);
 });
 
-test('Horizontal rule', t => {
+test('Horizontal rule', t =>
+{
 	t.is(
 		parser.toHtml('[hr]'),
 		'<hr />',
@@ -716,7 +745,8 @@ test('Horizontal rule', t => {
 	);
 });
 
-test('Image', t => {
+test('Image', t =>
+{
 	t.is(
 		parser.toHtml('[img width=10]http://test.com/test.png[/img]'),
 		'<div><img src="http://test.com/test.png" width="10" /></div>\n',
@@ -745,7 +775,8 @@ test('Image', t => {
 	);
 });
 
-test('URL', t => {
+test('URL', t =>
+{
 	t.is(
 		parser.toHtml('[url=http://test.com/]test[/url]'),
 		'<div><a href="http://test.com/">test</a></div>\n',
@@ -773,7 +804,8 @@ test('URL', t => {
 	);
 });
 
-test('Email', t => {
+test('Email', t =>
+{
 	t.is(
 		parser.toHtml('[email=test@test.com]test[/email]'),
 		'<div><a href="mailto:test@test.com">test</a></div>\n',
@@ -787,7 +819,8 @@ test('Email', t => {
 	);
 });
 
-test('Quote', t => {
+test('Quote', t =>
+{
 	t.is(
 		parser.toHtml('[quote]Testing 1.2.3....[/quote]'),
 		'<blockquote>Testing 1.2.3....' + IE_BR_STR + '</blockquote>',
@@ -802,7 +835,8 @@ test('Quote', t => {
 	);
 });
 
-test('Code', t => {
+test('Code', t =>
+{
 	t.is(
 		parser.toHtml('[code]Testing 1.2.3....[/code]'),
 		'<code>Testing 1.2.3....' + IE_BR_STR + '</code>',
@@ -816,7 +850,8 @@ test('Code', t => {
 	);
 });
 
-test('Left', t => {
+test('Left', t =>
+{
 	t.is(
 		parser.toHtml('[left]Testing 1.2.3....[/left]'),
 		'<div align="left">Testing 1.2.3....' + IE_BR_STR + '</div>',
@@ -824,7 +859,8 @@ test('Left', t => {
 	);
 });
 
-test('Right', t => {
+test('Right', t =>
+{
 	t.is(
 		parser.toHtml('[right]Testing 1.2.3....[/right]'),
 		'<div align="right">Testing 1.2.3....' + IE_BR_STR + '</div>',
@@ -832,7 +868,8 @@ test('Right', t => {
 	);
 });
 
-test('Centre', t => {
+test('Centre', t =>
+{
 	t.is(
 		parser.toHtml('[center]Testing 1.2.3....[/center]'),
 		'<div align="center">Testing 1.2.3....' + IE_BR_STR + '</div>',
@@ -840,7 +877,8 @@ test('Centre', t => {
 	);
 });
 
-test('Justify', t => {
+test('Justify', t =>
+{
 	t.is(
 		parser.toHtml('[justify]Testing 1.2.3....[/justify]'),
 		'<div align="justify">Testing 1.2.3....' + IE_BR_STR + '</div>',
@@ -848,7 +886,8 @@ test('Justify', t => {
 	);
 });
 
-test('YouTube', t => {
+test('YouTube', t =>
+{
 	t.is(
 		parser.toHtml('[youtube]xyz[/youtube]'),
 		'<div><iframe ' +
@@ -860,7 +899,8 @@ test('YouTube', t => {
 
 
 
-test('[img]', t => {
+test('[img]', t =>
+{
 	t.is(
 		parser.toHtml('[img]fake.png" onerror="alert(' +
 			'String.fromCharCode(88,83,83))[/img]'),
@@ -910,7 +950,8 @@ test('[img]', t => {
 	);
 });
 
-test('[url]', t => {
+test('[url]', t =>
+{
 	t.is(
 		parser.toHtml(
 			'[url]fake.png" ' +
@@ -981,7 +1022,8 @@ test('[url]', t => {
 	);
 });
 
-test('[email]', t => {
+test('[email]', t =>
+{
 	t.is(
 		parser.toHtml(
 			'[email]' +
@@ -1006,7 +1048,8 @@ test('[email]', t => {
 	);
 });
 
-test('CSS injection', t => {
+test('CSS injection', t =>
+{
 	t.is(
 		parser.toHtml('[color=#ff0000;xss:expression(' +
 			'alert(String.fromCharCode(88,83,83)))]XSS[/color]'),
@@ -1024,7 +1067,8 @@ test('CSS injection', t => {
 	);
 });
 
-test('Break out of attribute', t => {
+test('Break out of attribute', t =>
+{
 	t.is(
 		parser.toHtml('[font=Impact"brokenout]XSS[/font]'),
 		'<div><font face="Impact&#34;brokenout">XSS</font></div>\n',
@@ -1032,7 +1076,8 @@ test('Break out of attribute', t => {
 	);
 });
 
-test('HTML injection', t => {
+test('HTML injection', t =>
+{
 	t.is(
 		parser.toHtml('<script>alert("Hello");</script>'),
 		'<div>&lt;script&gt;alert(&#34;Hello&#34;);&lt;/script&gt;</div>\n',

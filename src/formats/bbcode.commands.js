@@ -32,7 +32,7 @@ var commands = {
 		code: ['[justify]', '[/justify]']
 	},
 	font: {
-		code: function (caller)
+		code(caller)
 		{
 			var editor = this;
 
@@ -50,7 +50,7 @@ var commands = {
 		}
 	},
 	size: {
-		code: function (caller)
+		code(caller)
 		{
 			var editor = this;
 
@@ -68,7 +68,7 @@ var commands = {
 		}
 	},
 	color: {
-		code: function (caller)
+		code(caller)
 		{
 			var editor = this;
 
@@ -86,7 +86,7 @@ var commands = {
 		}
 	},
 	bulletlist: {
-		code: function (caller, selected)
+		code(caller, selected)
 		{
 			var content = '';
 
@@ -98,7 +98,7 @@ var commands = {
 		}
 	},
 	orderedlist: {
-		code: function (caller, selected)
+		code(caller, selected)
 		{
 			var content = '';
 
@@ -119,7 +119,7 @@ var commands = {
 		code: ['[code]', '[/code]']
 	},
 	image: {
-		code: function (caller, selected)
+		code(caller, selected)
 		{
 			var	editor  = this;
 
@@ -151,7 +151,7 @@ var commands = {
 		}
 	},
 	email: {
-		code: function (caller, selected)
+		code(caller, selected)
 		{
 			var	editor  = this;
 
@@ -170,7 +170,7 @@ var commands = {
 		}
 	},
 	link: {
-		code: function (caller, selected)
+		code(caller, selected)
 		{
 			var	editor  = this;
 
@@ -192,7 +192,7 @@ var commands = {
 		code: ['[quote]', '[/quote]']
 	},
 	youtube: {
-		code: function (caller)
+		code(caller)
 		{
 			var editor = this;
 

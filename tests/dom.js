@@ -2,112 +2,125 @@ import test from 'ava';
 import browserEnv from 'browser-env';
 import * as dom from '../src/lib/dom.js';
 
-let parsHTML = function (html) {
+let parsHTML = function (html)
+{
 	var container = document.createElement('div');
 	container.innerHTML = '<pre>' + html + '</pre>';
 
 	var pre = container.firstChild;
-	while (pre.firstChild) {
+	while (pre.firstChild)
 		container.appendChild(pre.firstChild);
-	}
+
 	container.removeChild(pre);
 
 	return container;
 };
-let parseHTMLFragment = function (html) {
-	var container = parsHTML(html);
-	var frag      = document.createDocumentFragment();
-
-	while (container.firstChild) {
-		frag.appendChild(container.firstChild);
-	}
-
-	return frag;
-};
 browserEnv();
 Object.defineProperties(window.HTMLElement.prototype, {
-  offsetLeft: {
-    get: function() { return parseFloat(window.getComputedStyle(this).marginLeft) || 0; }
-  },
-  offsetTop: {
-    get: function() { return parseFloat(window.getComputedStyle(this).marginTop) || 0; }
-  },
-  offsetHeight: {
-    get: function() { return parseFloat(window.getComputedStyle(this).height) || 0; }
-  },
-  offsetWidth: {
-    get: function() { return parseFloat(window.getComputedStyle(this).width) || 0; }
-  }
+	offsetLeft: {
+		get: function ()
+		{
+			return parseFloat(window.getComputedStyle(this).marginLeft) || 0;
+		}
+	},
+	offsetTop: {
+		get: function ()
+		{
+			return parseFloat(window.getComputedStyle(this).marginTop) || 0;
+		}
+	},
+	offsetHeight: {
+		get: function ()
+		{
+			return parseFloat(window.getComputedStyle(this).height) || 0;
+		}
+	},
+	offsetWidth: {
+		get: function ()
+		{
+			return parseFloat(window.getComputedStyle(this).width) || 0;
+		}
+	}
 });
-window.Element.prototype.getClientRects = function() {
-    var node = this;
-    while(node) {
-        if(node === document) {
-            break;
-        }
-        // don't know why but style is sometimes undefined
-        if (!node.style || node.style.display === 'none' || node.style.visibility === 'hidden') {
-            return [];
-        }
-        node = node.parentNode;
-    }
-    return [{width: this.offsetWidth, height: this.offsetHeight}];
+window.Element.prototype.getClientRects = function ()
+{
+	var node = this;
+	while (node)
+	{
+		if (node === document)
+			break;
+
+		// don't know why but style is sometimes undefined
+		if (!node.style || node.style.display === 'none' || node.style.visibility === 'hidden')
+			return [];
+
+		node = node.parentNode;
+	}
+	return [{width: this.offsetWidth, height: this.offsetHeight}];
 };
 var obj = {
 	startNode: null,
-	endNode: null,
-  };
-  global.document.createRange = () => Object.create({
-    setStart: () => {},
-    setEnd: () => {},
-    setStartBefore: node => obj.startNode = node,
-    setEndAfter: node => obj.endNode = node,
-    commonAncestorContainer: {
-      nodeName: 'BODY',
-      ownerDocument: document,
-    },
-    extractContents: () => {
-  var frag = document.createDocumentFragment();
-    var node = obj.startNode;
-    while(node) {
-  frag.appendChild(node);
-        node = node.nextSibling;
-        if(node === obj.endNode)
-            break;
-    }
-    return frag;
-    },
-  });
-
-test('createElement() - Simple', function (assert) {
-	var node = dom.createElement('div');
-	assert.truthy(node, 'Is defined');
-	assert.is(node.tagName.toLowerCase(), 'div', 'TagName');
+	endNode: null
+};
+global.document.createRange = () => Object.create({
+	setStart()
+	{},
+	setEnd()
+	{},
+	setStartBefore: node => obj.startNode = node,
+	setEndAfter: node => obj.endNode = node,
+	commonAncestorContainer: {
+		nodeName: 'BODY',
+		ownerDocument: document
+	},
+	extractContents()
+	{
+		var frag = document.createDocumentFragment();
+		var node = obj.startNode;
+		while (node)
+		{
+			frag.appendChild(node);
+			node = node.nextSibling;
+			if (node === obj.endNode)
+				break;
+		}
+		return frag;
+	}
 });
 
-test('createElement() - Attributes', function (assert) {
+test('createElement() - Simple',t =>
+{
+	var node = dom.createElement('div');
+	t.truthy(node, 'Is defined');
+	t.is(node.tagName.toLowerCase(), 'div', 'TagName');
+});
+
+test('createElement() - Attributes',t =>
+{
 	var node = dom.createElement('div', {
 		contentEditable: true,
 		'data-test': 'value'
 	});
 
-	assert.truthy(node, 'Is defined');
-	//~ assert.true(node.isContentEditable, 'Is contentEditable');
-	assert.true(node.hasAttribute('data-test'), 'Has attribute');
-	assert.is(node.getAttribute('data-test'), 'value', 'Attribute value');
+	t.truthy(node, 'Is defined');
+	//~ t.true(node.isContentEditable, 'Is contentEditable');
+	t.true(node.hasAttribute('data-test'), 'Has attribute');
+	t.is(node.getAttribute('data-test'), 'value', 'Attribute value');
 });
 
-test('createElement() - Style', function (assert) {
+test('createElement() - Style',t =>
+{
 	var node = dom.createElement('div', {
 		style: 'font-size: 100px; font-weight: bold'
 	});
 
-	assert.truthy(node, 'Is defined');
-	assert.is(node.style.fontSize, '100px', 'Font size');
-	assert.is(node.style.fontWeight, 'bold', 'Font weight');
+	t.truthy(node, 'Is defined');
+	t.is(node.style.fontSize, '100px', 'Font size');
+	t.is(node.style.fontWeight, 'bold', 'Font weight');
 });
 
-test('parents()', function (assert) {
+test('parents()',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 	var a = document.createElement('a');
@@ -115,33 +128,36 @@ test('parents()', function (assert) {
 	div.appendChild(p);
 	p.appendChild(a);
 
-	assert.deepEqual(dom.parents(a), [p, div], 'No selector');
-	assert.deepEqual(dom.parents(a, 'p'), [p], 'Simple selector');
-	assert.deepEqual(dom.parents(a, 'p,div,em'), [p, div], 'Complex selector');
+	t.deepEqual(dom.parents(a), [p, div], 'No selector');
+	t.deepEqual(dom.parents(a, 'p'), [p], 'Simple selector');
+	t.deepEqual(dom.parents(a, 'p,div,em'), [p, div], 'Complex selector');
 });
 
-test('parent()', function (assert) {
+test('parent()',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 
 	div.appendChild(p);
 
-	assert.falsy(dom.parent(p, 'p'), 'Paragraph');
-	assert.is(dom.parent(p, 'div'), div, 'Div');
+	t.falsy(dom.parent(p, 'p'), 'Paragraph');
+	t.is(dom.parent(p, 'div'), div, 'Div');
 });
 
-test('closest()', function (assert) {
+test('closest()',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 
 	div.appendChild(p);
 
-	assert.is(dom.closest(p, 'p'), p, 'Paragraph');
-	assert.is(dom.closest(p, 'div'), div, 'Div');
-	assert.falsy(dom.closest(p, 'input'), 'No match');
+	t.is(dom.closest(p, 'p'), p, 'Paragraph');
+	t.is(dom.closest(p, 'div'), div, 'Div');
+	t.falsy(dom.closest(p, 'input'), 'No match');
 });
 
-test('appendChild()', function (assert) {
+test('appendChild()',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 
@@ -149,20 +165,22 @@ test('appendChild()', function (assert) {
 
 	dom.remove(p);
 
-	assert.falsy(p.parentNode);
-	assert.falsy(div.firstChild);
+	t.falsy(p.parentNode);
+	t.falsy(div.firstChild);
 });
 
-test('appendChild() 2', function (assert) {
+test('appendChild() 2',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 
 	dom.appendChild(div, p);
 
-	assert.is(div.firstChild, p);
+	t.is(div.firstChild, p);
 });
 
-test('find()', function (assert) {
+test('find()',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 	var a = document.createElement('a');
@@ -173,46 +191,52 @@ test('find()', function (assert) {
 	div.appendChild(text);
 
 	var paragraphs = dom.find(div, 'p');
-	assert.is(paragraphs.length, 1, 'Select paragraphs');
+	t.is(paragraphs.length, 1, 'Select paragraphs');
 
 	var nodes = dom.find(div, '*');
-	assert.is(nodes.length, 2, 'Select all');
+	t.is(nodes.length, 2, 'Select all');
 });
 
-test('on()', function (assert) {
+test('on()',t =>
+{
 	var div = document.createElement('div');
 	var called = false;
 
-	dom.on(div, 'test', function () {
+	dom.on(div, 'test', function ()
+	{
 		called = true;
 	});
 
 	dom.trigger(div, 'test');
-	assert.true(called);
+	t.true(called);
 });
 
-test('on() - Selector', function (assert) {
+test('on() - Selector',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 	var called = false;
 
 	div.appendChild(p);
 
-	dom.on(div, 'test', 'p', function () {
+	dom.on(div, 'test', 'p', function ()
+	{
 		called = true;
 	});
 
 	dom.trigger(div, 'test');
-	assert.false(called, 'Not matching selector');
+	t.false(called, 'Not matching selector');
 
 	dom.trigger(p, 'test');
-	assert.true(called, 'Matching selector');
+	t.true(called, 'Matching selector');
 });
 
-test('off()', function (assert) {
+test('off()',t =>
+{
 	var div = document.createElement('div');
 	var called = false;
-	var fn = function () {
+	var fn = function ()
+	{
 		called = true;
 	};
 
@@ -220,14 +244,16 @@ test('off()', function (assert) {
 	dom.off(div, 'test', fn);
 
 	dom.trigger(div, 'test');
-	assert.false(called);
+	t.false(called);
 });
 
-test('off() - Selector', function (assert) {
+test('off() - Selector',t =>
+{
 	var div = document.createElement('div');
 	var p = document.createElement('p');
 	var called = false;
-	var fn = function () {
+	var fn = function ()
+	{
 		called = true;
 	};
 
@@ -237,149 +263,160 @@ test('off() - Selector', function (assert) {
 	dom.off(div, 'test', 'p', fn);
 
 	dom.trigger(div, 'test');
-	assert.false(called, 'Not matching selector');
+	t.false(called, 'Not matching selector');
 
 	dom.trigger(p, 'test');
-	assert.false(called, 'Matching selector');
+	t.false(called, 'Matching selector');
 });
 
-test('attr()', function (assert) {
+test('attr()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.attr(div, 'test', 'value');
-	assert.true(div.hasAttribute('test'), 'Add attribute');
+	t.true(div.hasAttribute('test'), 'Add attribute');
 
-	assert.is(dom.attr(div, 'test'), 'value', 'Get attribute');
+	t.is(dom.attr(div, 'test'), 'value', 'Get attribute');
 
 	dom.attr(div, 'test', 'new-value');
-	assert.is(div.getAttribute('test'), 'new-value', 'Add attribute');
+	t.is(div.getAttribute('test'), 'new-value', 'Add attribute');
 
 	dom.attr(div, 'test', null);
-	assert.false(div.hasAttribute('test'), 'Remove attribute');
+	t.false(div.hasAttribute('test'), 'Remove attribute');
 });
 
-test('removeAttr()', function (assert) {
+test('removeAttr()',t =>
+{
 	var div = document.createElement('div');
 
 	div.setAttribute('test', 'test');
 
-	assert.true(div.hasAttribute('test'));
+	t.true(div.hasAttribute('test'));
 	dom.removeAttr(div, 'test');
-	assert.false(div.hasAttribute('test'));
+	t.false(div.hasAttribute('test'));
 });
 
-test('hide()', function (assert) {
+test('hide()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.hide(div);
-	assert.is(div.style.display, 'none', 'Should hide node');
+	t.is(div.style.display, 'none', 'Should hide node');
 });
 
-test('show()', function (assert) {
+test('show()',t =>
+{
 	var div = document.createElement('div');
 
 	div.style.display = 'none';
 
 	dom.show(div);
-	assert.is(div.style.display, '', 'Should show node');
+	t.is(div.style.display, '', 'Should show node');
 });
 
-test('toggle()', function (assert) {
+test('toggle()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.toggle(div);
-	assert.is(div.style.display, 'none', 'Should hide node');
+	t.is(div.style.display, 'none', 'Should hide node');
 
 	dom.toggle(div);
-	assert.is(div.style.display, '', 'Should show node');
+	t.is(div.style.display, '', 'Should show node');
 });
 
-test('css()', function (assert) {
+test('css()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.css(div, 'width', 100);
-	assert.is(div.style.width, '100px', 'Convert numbers into pixels');
+	t.is(div.style.width, '100px', 'Convert numbers into pixels');
 
 	dom.css(div, { width: 32 });
-	assert.is(div.style.width, '32px', 'Set object');
+	t.is(div.style.width, '32px', 'Set object');
 
 	dom.css(div, 'width', '110px');
-	assert.is(div.style.width, '110px', 'Set pixels');
+	t.is(div.style.width, '110px', 'Set pixels');
 
 	dom.css(div, 'width', '10em');
-	assert.is(div.style.width, '10em', 'Set em');
+	t.is(div.style.width, '10em', 'Set em');
 
 	dom.css(div, 'width', '50%');
-	assert.is(div.style.width, '50%', 'Set percent');
+	t.is(div.style.width, '50%', 'Set percent');
 
-	assert.is(
+	t.is(
 		dom.css(window, 'width'),
 		null,
 		'Get computed value of window'
 	);
 });
 
-test('data()', function (assert) {
+test('data()',t =>
+{
 	var text = document.createTextNode('');
 	var div = document.createElement('div');
 	div.setAttribute('data-test', 'test');
 	div.setAttribute('data-another-test', 'test');
 	div.setAttribute('ignored', 'test');
 
-	assert.deepEqual(dom.data(div), {
+	t.deepEqual(dom.data(div), {
 		'another-test': 'test',
 		'test': 'test'
 	});
-	assert.is(dom.data(div, 'test'), 'test');
-	assert.is(dom.data(div, 'another-test'), 'test');
+	t.is(dom.data(div, 'test'), 'test');
+	t.is(dom.data(div, 'another-test'), 'test');
 
 	dom.data(div, 'test', 'new-value');
-	assert.is(dom.data(div, 'test'), 'new-value');
+	t.is(dom.data(div, 'test'), 'new-value');
 
 	dom.data(div, 'test', 1);
-	assert.is(dom.data(div, 'test'), '1');
+	t.is(dom.data(div, 'test'), '1');
 
 	dom.data(text, 'test', 'test');
-	assert.is(dom.data(text, 'test'), undefined);
+	t.is(dom.data(text, 'test'), undefined);
 });
 
-test('is()', function (assert) {
+test('is()',t =>
+{
 	var div = document.createElement('div');
 	div.className = 'test';
 
-	assert.true(dom.is(div, 'div'));
-	assert.true(dom.is(div, '.test'));
-	assert.false(dom.is());
-	assert.false(dom.is(null));
-	assert.false(dom.is(div, 'p'));
-	assert.false(dom.is(div, '.testing'));
+	t.true(dom.is(div, 'div'));
+	t.true(dom.is(div, '.test'));
+	t.false(dom.is());
+	t.false(dom.is(null));
+	t.false(dom.is(div, 'p'));
+	t.false(dom.is(div, '.testing'));
 });
 
-test('remove()', function (assert) {
+test('remove()',t =>
+{
 	var parent = document.createElement('div');
 	var child = document.createElement('div');
 
 	parent.appendChild(child);
 	dom.remove(child);
 
-	assert.falsy(child.parentNode);
+	t.falsy(child.parentNode);
 
 	// Make sure doesn't throw if has no parent
 	dom.remove(child);
 });
 
-test('contains()', function (assert) {
+test('contains()',t =>
+{
 	var parent = document.createElement('div');
 	var child = document.createElement('div');
 
 	parent.appendChild(child);
 
-	assert.true(dom.contains(parent, child));
-	assert.false(dom.contains(parent, parent));
-	assert.false(dom.contains(child, parent));
+	t.true(dom.contains(parent, child));
+	t.false(dom.contains(parent, parent));
+	t.false(dom.contains(child, parent));
 });
 
-test('insertBefore()', function (assert) {
+test('insertBefore()',t =>
+{
 	var parent = document.createElement('div');
 	var ref = document.createElement('div');
 	var first = document.createElement('div');
@@ -388,10 +425,11 @@ test('insertBefore()', function (assert) {
 
 	dom.insertBefore(first, ref);
 
-	assert.is(parent.firstChild, first);
+	t.is(parent.firstChild, first);
 });
 
-test('insertBefore() 2', function (assert) {
+test('insertBefore() 2',t =>
+{
 	var parent = document.createElement('div');
 	var first = document.createElement('div');
 	var last = document.createElement('div');
@@ -399,177 +437,198 @@ test('insertBefore() 2', function (assert) {
 	parent.appendChild(first);
 	parent.appendChild(last);
 
-	assert.is(dom.previousElementSibling(last), first);
-	assert.is(dom.previousElementSibling(last, 'div'), first);
-	assert.is(dom.previousElementSibling(last, 'p'), null);
-	assert.is(dom.previousElementSibling(first), null);
+	t.is(dom.previousElementSibling(last), first);
+	t.is(dom.previousElementSibling(last, 'div'), first);
+	t.is(dom.previousElementSibling(last, 'p'), null);
+	t.is(dom.previousElementSibling(first), null);
 });
 
-test('hasClass()', function (assert) {
+test('hasClass()',t =>
+{
 	var div = document.createElement('div');
 
 	div.className = 'test';
 
-	assert.is(dom.hasClass(div, 'another-test'), false);
-	assert.is(dom.hasClass(div, 'test'), true);
+	t.is(dom.hasClass(div, 'another-test'), false);
+	t.is(dom.hasClass(div, 'test'), true);
 });
 
-test('removeClass()', function (assert) {
+test('removeClass()',t =>
+{
 	var div = document.createElement('div');
 
 	div.className = 'test another-test';
 
 	dom.removeClass(div, 'another-test');
-	assert.is(div.className.trim(), 'test');
+	t.is(div.className.trim(), 'test');
 
 	dom.removeClass(div, 'test');
-	assert.is(div.className.trim(), '');
+	t.is(div.className.trim(), '');
 });
 
-test('addClass()', function (assert) {
+test('addClass()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.addClass(div, 'test');
-	assert.is(div.className.trim(), 'test');
+	t.is(div.className.trim(), 'test');
 
 	dom.addClass(div, 'another-test');
-	assert.is(div.className.trim(), 'test another-test');
+	t.is(div.className.trim(), 'test another-test');
 });
 
-test('toggleClass()', function (assert) {
+test('toggleClass()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.toggleClass(div, 'test');
-	assert.is(div.className.trim(), 'test', 'Add class');
+	t.is(div.className.trim(), 'test', 'Add class');
 
 	dom.toggleClass(div, 'test');
-	assert.is(div.className, '', 'Remove class');
+	t.is(div.className, '', 'Remove class');
 
 	dom.toggleClass(div, 'test', true);
 	dom.toggleClass(div, 'test', true);
-	assert.is(div.className.trim(), 'test', 'Add class via state');
+	t.is(div.className.trim(), 'test', 'Add class via state');
 
 	dom.toggleClass(div, 'test', false);
 	dom.toggleClass(div, 'test', false);
-	assert.is(div.className, '', 'Remove class via state');
+	t.is(div.className, '', 'Remove class via state');
 });
 
-test('width()', function (assert) {
+test('width()',t =>
+{
 	var div = document.createElement('div');
 	dom.width(div, 100);
-	assert.is(div.style.width, '100px', 'Number width');
+	t.is(div.style.width, '100px', 'Number width');
 
 	dom.width(div, '10em');
-	assert.is(div.style.width, '10em', 'Em width');
+	t.is(div.style.width, '10em', 'Em width');
 
 	dom.width(div, '100px');
-	assert.is(dom.width(div), 100, 'Get width');
+	t.is(dom.width(div), 100, 'Get width');
 });
 
-test('height()', function (assert) {
+test('height()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.height(div, 100);
-	assert.is(div.style.height, '100px', 'Number height');
+	t.is(div.style.height, '100px', 'Number height');
 
 	dom.height(div, '10em');
-	assert.is(div.style.height, '10em', 'Em height');
+	t.is(div.style.height, '10em', 'Em height');
 
 	dom.height(div, '100px');
-	assert.is(dom.height(div), 100, 'Get height');
+	t.is(dom.height(div), 100, 'Get height');
 });
 
-test('trigger()', function (assert) {
+test('trigger()',t =>
+{
 	var div = document.createElement('div');
 	var detail = {};
 
-	div.addEventListener('custom-event', function (e) {
-		assert.is(e.detail, detail);
+	div.addEventListener('custom-event', function (e)
+	{
+		t.is(e.detail, detail);
 	});
 
 	dom.trigger(div, 'custom-event', detail);
 });
 
-test('isVisible()', function (assert) {
+test('isVisible()',t =>
+{
 	var div = document.createElement('div');
 
 	dom.width(div, 100);
 	dom.hide(div);
-	assert.is(dom.isVisible(div), false, 'Should be false when hidden');
+	t.is(dom.isVisible(div), false, 'Should be false when hidden');
 
 	dom.show(div);
-	assert.is(dom.isVisible(div), true, 'Should be true when visible');
+	t.is(dom.isVisible(div), true, 'Should be true when visible');
 
 	dom.hide(div);
-	assert.is(dom.isVisible(div), false, 'Deattached should be false');
+	t.is(dom.isVisible(div), false, 'Deattached should be false');
 });
 
-test('traverse()', function (assert) {
+test('traverse()',t =>
+{
 	var result = '';
 	var node   = parsHTML(
 		'<code><b>1</b><b>2</b><b>3</b><span><b>4</b><b>5</b></span></code>'
 	);
 
-	dom.traverse(node, function (node) {
-		if (node.nodeType === 3) {
+	dom.traverse(node, function (node)
+	{
+		if (node.nodeType === 3)
+
 			result += node.nodeValue;
-		}
+
 	});
 
-	assert.is(result, '12345');
+	t.is(result, '12345');
 });
 
-test('traverse() - Innermost first', function (assert) {
+test('traverse() - Innermost first',t =>
+{
 	var result = '';
 	var node   = parsHTML(
 		'<code><span><b></b></span><span><b></b><b></b></span></code>'
 	);
 
-	dom.traverse(node, function (node) {
+	dom.traverse(node, function (node)
+	{
 		result += node.nodeName.toLowerCase() + ':';
 	}, true);
 
-	assert.is(result, 'b:span:b:b:span:code:');
+	t.is(result, 'b:span:b:b:span:code:');
 });
 
-test('traverse() - Siblings only', function (assert) {
+test('traverse() - Siblings only',t =>
+{
 	var result = '';
 	var node   = parsHTML(
 		'1<span>ignore</span>2<span>ignore</span>3'
 	);
 
-	dom.traverse(node, function (node) {
-		if (node.nodeType === 3) {
+	dom.traverse(node, function (node)
+	{
+		if (node.nodeType === 3)
+
 			result += node.nodeValue;
-		}
+
 	}, false, true);
 
-	assert.is(result, '123');
+	t.is(result, '123');
 });
 
-test('rTraverse()', function (assert) {
+test('rTraverse()',t =>
+{
 	var result = '';
 	var node   = parsHTML(
 		'<code><b>1</b><b>2</b><b>3</b><span><b>4</b><b>5</b></span></code>'
 	);
 
-	dom.rTraverse(node, function (node) {
-		if (node.nodeType === 3) {
+	dom.rTraverse(node, function (node)
+	{
+		if (node.nodeType === 3)
+
 			result += node.nodeValue;
-		}
+
 	});
 
-	assert.is(result, '54321');
+	t.is(result, '54321');
 });
 
-test('parseHTML()', function (assert) {
+test('parseHTML()',t =>
+{
 	var result = dom.parseHTML(
 		'<span>span<div style="font-weight: bold;">div</div>span</span>'
 	);
 
-	assert.is(result.nodeType, dom.DOCUMENT_FRAGMENT_NODE);
-	assert.is(result.childNodes.length, 1);
-	assert.deepEqual(
+	t.is(result.nodeType, dom.DOCUMENT_FRAGMENT_NODE);
+	t.is(result.childNodes.length, 1);
+	t.deepEqual(
 		result.firstChild,
 		parsHTML(
 			'<span>span<div style="font-weight: bold;">div</div>span</span>'
@@ -577,40 +636,46 @@ test('parseHTML()', function (assert) {
 	);
 });
 
-test('parseHTML() - Parse multiple', function (assert) {
+test('parseHTML() - Parse multiple',t =>
+{
 	var result = dom.parseHTML(
 		'<span>one</span><span>two</span><span>three</span>'
 	);
 
-	assert.is(result.nodeType, dom.DOCUMENT_FRAGMENT_NODE);
-	assert.is(result.childNodes.length, 3);
+	t.is(result.nodeType, dom.DOCUMENT_FRAGMENT_NODE);
+	t.is(result.childNodes.length, 3);
 });
 
-test('hasStyling()', function (assert) {
+test('hasStyling()',t =>
+{
 	var node = parsHTML('<pre></pre>').childNodes[0];
 
-	assert.true(dom.hasStyling(node));
+	t.true(dom.hasStyling(node));
 });
 
-test('hasStyling() - Non-styled div', function (assert) {
+test('hasStyling() - Non-styled div',t =>
+{
 	var node = parsHTML('<div></div>').childNodes[0];
 
-	assert.false(dom.hasStyling(node));
+	t.false(dom.hasStyling(node));
 });
 
-test('hasStyling() - Div with class', function (assert) {
+test('hasStyling() - Div with class',t =>
+{
 	var node = parsHTML('<div class="test"></div>').childNodes[0];
 
-	assert.true(dom.hasStyling(node));
+	t.true(dom.hasStyling(node));
 });
 
-test('hasStyling() - Div with style attribute', function (assert) {
+test('hasStyling() - Div with style attribute',t =>
+{
 	var node = parsHTML('<div style="color: red;"></div>').childNodes[0];
 
-	assert.true(dom.hasStyling(node));
+	t.true(dom.hasStyling(node));
 });
 
-test('convertElement()', function (assert) {
+test('convertElement()',t =>
+{
 	var node = parsHTML(
 		'<i style="font-weight: bold;">' +
 			'span' +
@@ -623,9 +688,9 @@ test('convertElement()', function (assert) {
 
 	var newNode = dom.convertElement(node.firstChild, 'em');
 
-	assert.is(newNode, node.firstChild);
+	t.is(newNode, node.firstChild);
 
-	assert.deepEqual(
+	t.deepEqual(
 		newNode,
 		parsHTML(
 			'<em style="font-weight: bold;">' +
@@ -639,16 +704,17 @@ test('convertElement()', function (assert) {
 	);
 });
 
-test('convertElement() - Invalid attribute name', function (assert) {
+test('convertElement() - Invalid attribute name',t =>
+{
 	var node = parsHTML(
 		'<i size"2"="" good="attr">test</i>'
 	);
 
 	var newNode = dom.convertElement(node.firstChild, 'em');
 
-	assert.is(newNode, node.firstChild);
+	t.is(newNode, node.firstChild);
 
-	assert.deepEqual(
+	t.deepEqual(
 		newNode,
 		parsHTML(
 			'<em good="attr">test</em>'
@@ -657,7 +723,7 @@ test('convertElement() - Invalid attribute name', function (assert) {
 });
 
 /*
-test('fixNesting() - With styling', function (assert) {
+test('fixNesting() - With styling',t => {
 	var node = parsHTML(
 		'<span style="font-weight: bold;">' +
 			'span' +
@@ -670,7 +736,7 @@ test('fixNesting() - With styling', function (assert) {
 
 	dom.fixNesting(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<span style="font-weight: bold;">' +
@@ -686,7 +752,7 @@ test('fixNesting() - With styling', function (assert) {
 	);
 });
 
-test('fixNesting() - Deeply nested', function (assert) {
+test('fixNesting() - Deeply nested',t => {
 	var node = parsHTML(
 		'<span>' +
 			'span' +
@@ -703,7 +769,7 @@ test('fixNesting() - Deeply nested', function (assert) {
 
 	dom.fixNesting(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<span>' +
@@ -725,7 +791,8 @@ test('fixNesting() - Deeply nested', function (assert) {
 	);
 });
 */
-test('fixNesting() - Nested list', function (assert) {
+test('fixNesting() - Nested list',t =>
+{
 	var node = parsHTML(
 		'<ul>' +
 			'<li>first</li>' +
@@ -736,7 +803,7 @@ test('fixNesting() - Nested list', function (assert) {
 
 	dom.fixNesting(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<ul>' +
@@ -749,7 +816,8 @@ test('fixNesting() - Nested list', function (assert) {
 	);
 });
 
-test('fixNesting() - Nested list, no previous item', function (assert) {
+test('fixNesting() - Nested list, no previous item',t =>
+{
 	var node = parsHTML(
 		'<ul>' +
 			'<ol><li>middle</li></ol>' +
@@ -759,7 +827,7 @@ test('fixNesting() - Nested list, no previous item', function (assert) {
 
 	dom.fixNesting(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<ul>' +
@@ -772,7 +840,8 @@ test('fixNesting() - Nested list, no previous item', function (assert) {
 	);
 });
 
-test('fixNesting() - Deeply nested list', function (assert) {
+test('fixNesting() - Deeply nested list',t =>
+{
 	var node = parsHTML(
 		'<ul>' +
 			'<li>one</li>' +
@@ -787,7 +856,7 @@ test('fixNesting() - Deeply nested list', function (assert) {
 
 	dom.fixNesting(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<ul>' +
@@ -805,7 +874,8 @@ test('fixNesting() - Deeply nested list', function (assert) {
 	);
 });
 
-test('removeWhiteSpace() - Preserve line breaks', function (assert) {
+test('removeWhiteSpace() - Preserve line breaks',t =>
+{
 	var node = parsHTML(
 		'<div style="white-space: pre-line">    ' +
 			'<span>  \n\ncontent\n\n  </span>\n\n  ' +
@@ -814,7 +884,7 @@ test('removeWhiteSpace() - Preserve line breaks', function (assert) {
 
 	dom.removeWhiteSpace(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<div style="white-space: pre-line">' +
@@ -824,7 +894,8 @@ test('removeWhiteSpace() - Preserve line breaks', function (assert) {
 	);
 });
 
-test('removeWhiteSpace() - Ignore marker spaces', function (assert) {
+test('removeWhiteSpace() - Ignore marker spaces',t =>
+{
 	var node = parsHTML(
 		'aa ' +
 			'<b>bb' +
@@ -840,7 +911,7 @@ test('removeWhiteSpace() - Ignore marker spaces', function (assert) {
 
 	dom.removeWhiteSpace(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'aa ' +
@@ -859,7 +930,8 @@ test('removeWhiteSpace() - Ignore marker spaces', function (assert) {
 
 test(
 	'removeWhiteSpace() - Siblings with start and end spaces',
-	function (assert) {
+	function (t)
+	{
 		var html = '<span>  test</span><span>  test  </span>';
 		var node = parsHTML(html);
 
@@ -870,7 +942,7 @@ test(
 
 		dom.removeWhiteSpace(node);
 
-		assert.is(
+		t.is(
 			node.innerHTML.toLowerCase(),
 			'<span>test</span><span> test</span>'
 		);
@@ -879,7 +951,8 @@ test(
 
 test(
 	'removeWhiteSpace() - Block then span with start spaces',
-	function (assert) {
+	function (t)
+	{
 		var html = '<div>test</div><span>  test  </span>';
 		var node = parsHTML(html);
 
@@ -890,7 +963,7 @@ test(
 
 		dom.removeWhiteSpace(node);
 
-		assert.is(
+		t.is(
 			node.innerHTML.toLowerCase(),
 			'<div>test</div><span>test</span>'
 		);
@@ -899,7 +972,8 @@ test(
 
 test(
 	'removeWhiteSpace() - Divs with start and end spaces',
-	function (assert) {
+	function (t)
+	{
 		var html = '<div>  test  </div><div>  test  </div>';
 		var node = parsHTML(html);
 
@@ -910,14 +984,15 @@ test(
 
 		dom.removeWhiteSpace(node);
 
-		assert.is(
+		t.is(
 			node.innerHTML.toLowerCase(),
 			'<div>test</div><div>test</div>'
 		);
 	}
 );
 
-test('removeWhiteSpace() - New line chars', function (assert) {
+test('removeWhiteSpace() - New line chars',t =>
+{
 	var html = '<span>\ntest\n\n</span><span>\n\ntest\n</span>';
 	var node = parsHTML(html);
 
@@ -928,14 +1003,15 @@ test('removeWhiteSpace() - New line chars', function (assert) {
 
 	dom.removeWhiteSpace(node);
 
-	assert.is(
+	t.is(
 		node.innerHTML.toLowerCase(),
 		'<span>test </span>' +
 		'<span>test</span>'
 	);
 });
 
-test('removeWhiteSpace() - With .sceditor-ignore siblings', function (assert) {
+test('removeWhiteSpace() - With .sceditor-ignore siblings',t =>
+{
 	var node = parsHTML(
 		'<span>test</span>' +
 		'<span class="sceditor-ignore">  test  </span>' +
@@ -944,7 +1020,7 @@ test('removeWhiteSpace() - With .sceditor-ignore siblings', function (assert) {
 
 	dom.removeWhiteSpace(node);
 
-	assert.is(
+	t.is(
 		node.innerHTML.toLowerCase(),
 		'<span>test</span>' +
 		'<span class="sceditor-ignore"> test </span>' +
@@ -952,7 +1028,8 @@ test('removeWhiteSpace() - With .sceditor-ignore siblings', function (assert) {
 	);
 });
 
-test('removeWhiteSpace() - Nested span space', function (assert) {
+test('removeWhiteSpace() - Nested span space',t =>
+{
 	var node = parsHTML(
 		'<div>' +
 			'<div>    <span>  \t\t\t\t </span>\t\t\t</div> ' +
@@ -962,26 +1039,28 @@ test('removeWhiteSpace() - Nested span space', function (assert) {
 
 	dom.removeWhiteSpace(node);
 
-	assert.is(
+	t.is(
 		node.innerHTML.toLowerCase(),
 		'<div><span></span> </div><div></div>'
 	);
 });
 
-test('removeWhiteSpace() - Pre tag', function (assert) {
+test('removeWhiteSpace() - Pre tag',t =>
+{
 	var node = parsHTML(
 		'<pre>    <span>  \t\tcontent\t\t </span>\t\t\t</pre>'
 	);
 
 	dom.removeWhiteSpace(node);
 
-	assert.is(
+	t.is(
 		node.innerHTML.toLowerCase(),
 		'<pre>    <span>  \t\tcontent\t\t </span>\t\t\t</pre>'
 	);
 });
 
-test('removeWhiteSpace() - Deeply nested siblings', function (assert) {
+test('removeWhiteSpace() - Deeply nested siblings',t =>
+{
 	var node = parsHTML(
 		'<span>' +
 			'<span>' +
@@ -1004,7 +1083,7 @@ test('removeWhiteSpace() - Deeply nested siblings', function (assert) {
 
 	dom.removeWhiteSpace(node);
 
-	assert.is(
+	t.is(
 		node.innerHTML.toLowerCase(),
 		'<span>' +
 			'<span>' +
@@ -1026,14 +1105,15 @@ test('removeWhiteSpace() - Deeply nested siblings', function (assert) {
 	);
 });
 
-test('removeWhiteSpace() - Text next to image', function (assert) {
+test('removeWhiteSpace() - Text next to image',t =>
+{
 	var node = parsHTML(
 		'<div>test  <img src="../../emoticons/smile.png">  test.</div>'
 	);
 
 	dom.removeWhiteSpace(node);
 
-	assert.deepEqual(
+	t.deepEqual(
 		node,
 		parsHTML(
 			'<div>test <img src="../../emoticons/smile.png"> test.</div>'
@@ -1041,20 +1121,23 @@ test('removeWhiteSpace() - Text next to image', function (assert) {
 	);
 });
 
-function isNode(o){
-  return (
-    typeof Node === "object" ? o instanceof Node : 
-    o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
-  );
-}
-function isElement(o){
-  return (
-    typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
-    o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
-);
-}
 /*
-test('extractContents()', function (assert) {
+function isNode(o)
+{
+	return (
+		typeof Node === 'object' ? o instanceof Node :
+			o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
+	);
+}
+function isElement(o)
+{
+	return (
+		typeof HTMLElement === 'object' ? o instanceof HTMLElement : //DOM2
+			o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
+	);
+}
+
+test('extractContents()',t => {
 	var node  = parsHTML(
 		'<div>' +
 			'<span>ignored</span>' +
@@ -1068,13 +1151,13 @@ test('extractContents()', function (assert) {
 	);
 	var start = dom.find(node, '#start')[0];
 	var end   = dom.find(node, '#end')[0];
-	assert.true(isElement(start));
-	assert.true(isElement(end));
+	t.true(isElement(start));
+	t.true(isElement(end));
 	var container = document.createElement('div');
 		container.appendChild(
 		dom.extractContents(start, end));
-	assert.true(container.innerHTML);
-	assert.is(
+	t.true(container.innerHTML);
+	t.is(
 		dom.extractContents(start, end),
 		parseHTMLFragment(
 			'<div id="start">' +
@@ -1085,7 +1168,7 @@ test('extractContents()', function (assert) {
 	);
 });
 
-test('extractContents() - End inside start', function (assert) {
+test('extractContents() - End inside start',t => {
 	var node  = parsHTML(
 		'<div>' +
 			'<span>ignored</span>' +
@@ -1100,9 +1183,9 @@ test('extractContents() - End inside start', function (assert) {
 	);
 	var start = dom.find(node, '#start')[0];
 	var end   = dom.find(node, '#end')[0];
-	assert.true(isElement(start));
-	assert.true(isElement(end));
-	assert.is(
+	t.true(isElement(start));
+	t.true(isElement(end));
+	t.is(
 		dom.extractContents(start, end),
 		parseHTMLFragment(
 			'<div id="start">' +
@@ -1113,7 +1196,7 @@ test('extractContents() - End inside start', function (assert) {
 	);
 });
 
-test('extractContents() - Start inside end', function (assert) {
+test('extractContents() - Start inside end',t => {
 	var node  = parsHTML(
 		'<div>' +
 			'<span>ignored</span>' +
@@ -1128,13 +1211,13 @@ test('extractContents() - Start inside end', function (assert) {
 	);
 	var start = dom.find(node, '#start')[0];
 	var end   = dom.find(node, '#end')[0];
-	assert.true(isElement(start));
-	assert.true(isElement(end));
-	assert.is(
+	t.true(isElement(start));
+	t.true(isElement(end));
+	t.is(
 		dom.extractContents(start, end).innerHTML.toLowerCase(),
 		'<div id="end"><span id="start">start</span><span>test</span></div>'
 	);
-	assert.is(
+	t.is(
 		node.innerHTML.toLowerCase(),
 		'<div>' +
 			'<span>ignored</span>' +
@@ -1147,93 +1230,99 @@ test('extractContents() - Start inside end', function (assert) {
 	);
 });
 */
-test('getStyle()', function (assert) {
+test('getStyle()',t =>
+{
 	var node = parsHTML(
 		'<div style="font-weight: bold; font-size: 10px;' +
 		'text-align: right;">test</div>'
 	).childNodes[0];
-	assert.is(
+	t.is(
 		dom.getStyle(node, 'font-weight'),
 		'bold',
 		'Normal CSS property'
 	);
-	assert.is(
+	t.is(
 		dom.getStyle(node, 'fontSize'),
 		'10px',
 		'Camel case CSS property'
 	);
-	assert.is(
+	t.is(
 		dom.getStyle(node, 'text-align'),
 		'right',
 		'Text-align'
 	);
-	assert.is(
+	t.is(
 		dom.getStyle(node, 'color'),
 		'',
 		'Undefined CSS property'
 	);
 });
 
-test('getStyle() - Normalise text-align', function (assert) {
+test('getStyle() - Normalise text-align',t =>
+{
 	var node = parsHTML(
 		'<div style="direction: rtl;text-align: right;">test</div>'
 	).childNodes[0];
 
 	// If direction is left-to-right and text-align is right,
 	// it shouldn't return anything.
-	assert.is(dom.getStyle(node, 'direction'), 'rtl');
-	assert.is(dom.getStyle(node, 'textAlign'), '');
+	t.is(dom.getStyle(node, 'direction'), 'rtl');
+	t.is(dom.getStyle(node, 'textAlign'), '');
 });
 
-test('getStyle() - No style attribute', function (assert) {
+test('getStyle() - No style attribute',t =>
+{
 	var node = parsHTML('<div>test</div>').childNodes[0];
 
-	assert.is(dom.getStyle(node, 'color'), '');
+	t.is(dom.getStyle(node, 'color'), '');
 });
 
-test('hasStyle()', function (assert) {
+test('hasStyle()',t =>
+{
 	var node = parsHTML(
 		'<div style="font-weight: bold;">test</div>'
 	).childNodes[0];
-	assert.is(node.style.cssText, 'font-weight: bold;');
-	assert.true(
+	t.is(node.style.cssText, 'font-weight: bold;');
+	t.true(
 		dom.hasStyle(node, 'font-weight'),
 		'Normal CSS property'
 	);
-	assert.true(
+	t.true(
 		dom.hasStyle(node, 'fontWeight'),
 		'Camel case CSS property'
 	);
-	assert.true(
+	t.true(
 		dom.hasStyle(node, 'font-weight', 'bold'),
 		'String value'
 	);
-	assert.true(
+	t.true(
 		dom.hasStyle(node, 'fontWeight', ['@', 'bold', '123']),
 		'Array of values'
 	);
 });
 
-test('hasStyle() - Invalid', function (assert) {
+test('hasStyle() - Invalid',t =>
+{
 	var node = parsHTML(
 		'<div style="font-weight: bold;">test</div>'
 	).childNodes[0];
-	assert.false(
+	t.false(
 		dom.hasStyle(node, 'font-weight', 'Bold'),
 		'Invalid string'
 	);
-	assert.false(
+	t.false(
 		dom.hasStyle(node, 'fontWeight', ['@', 'normal', '123']),
 		'Invalid array'
 	);
-	assert.false(
+	t.false(
 		dom.hasStyle(node, 'color'),
 		'Undefined property'
 	);
 });
 
-test('hasStyle() - No style attribute', function (assert) {
+test('hasStyle() - No style attribute',t =>
+{
 	var node = parsHTML('<div>test</div>').childNodes[0];
 
-	assert.false(dom.hasStyle(node, 'color'));
+	t.false(dom.hasStyle(node, 'color'));
 });
