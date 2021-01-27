@@ -500,49 +500,6 @@ var formats = {
 		format: '[justify]{0}[/justify]',
 		html: '<div align="justify">{0}</div>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: YouTube
-	youtube: {
-		allowsEmpty: true,
-		tags: {
-			iframe: {
-				'data-youtube-id': null,
-				'data-youtube-start': null
-			}
-		},
-		format(element, content)
-		{
-			var id = attr(element, 'data-youtube-id');
-			var start = attr(element, 'data-youtube-start');
-
-			if (start > 0)
-				return id ? '[youtube=' + start + ']' + id +
-						'[/youtube]' : content;
-			else
-				return id ? '[youtube]' + id + '[/youtube]' : content;
-
-		},
-		html(token, attrs, content)
-		{
-			var id = content;
-			var start = 0;
-
-			if (attrs.defaultattr)
-				start = escapeEntities(attrs.defaultattr);
-
-			return '<iframe ' +
-				'src="https://www.youtube.com/embed/' + id +
-				'?start=' + start +
-				'&wmode=opaque" ' +
-				'data-youtube-id="' + id + '" ' +
-				'data-youtube-start="' + start + '">' +
-				'</iframe>';
-		}
-	},
-	// END_COMMAND
-
-	// START_COMMAND: Rtl
 	rtl: {
 		styles: {
 			direction: ['rtl']

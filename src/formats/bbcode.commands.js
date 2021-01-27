@@ -191,21 +191,6 @@ var commands = {
 	quote: {
 		code: ['[quote]', '[/quote]']
 	},
-	youtube: {
-		code(caller)
-		{
-			var editor = this;
-
-			editor.command.get('youtube')._dropDown(
-				editor,
-				caller,
-				function (id)
-				{
-					editor.insertText('[youtube]' + id + '[/youtube]');
-				}
-			);
-		}
-	},
 	rtl: {
 		code: ['[rtl]', '[/rtl]']
 	},

@@ -20,7 +20,7 @@ export default {
 			['table'],
 			['code','quote'],
 			['horizontalrule','image','email','link','unlink'],
-			['youtube','date','time'],
+			['date','time'],
 			['ltr','rtl'],
 			['print','maximize','source']
 		]

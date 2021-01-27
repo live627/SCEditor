@@ -886,18 +886,6 @@ test('Justify', t =>
 	);
 });
 
-test('YouTube', t =>
-{
-	t.is(
-		parser.toHtml('[youtube]xyz[/youtube]'),
-		'<div><iframe ' +
-			'src="https://www.youtube.com/embed/xyz?start=0&wmode=opaque" ' +
-			'data-youtube-id="xyz" data-youtube-start="0"></iframe></div>\n',
-		'Normal'
-	);
-});
-
-
 
 test('[img]', t =>
 {

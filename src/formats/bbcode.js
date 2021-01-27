@@ -215,15 +215,13 @@ function BBCodeParser(options)
 			i = tokenTypes.length;
 			while (i--)
 			{
-				type = tokenTypes[i].type;
-
 				// Check if the string matches any of the tokens
 				if (!(matches = str.match(tokenTypes[i].regex)) ||
 					!matches[0])
 					continue;
 
 				// Add the match to the tokens list
-				tokens.push(tokenizeTag(type, matches[0]));
+				tokens.push(tokenizeTag(tokenTypes[i].type, matches[0]));
 
 				// Remove the match from the string
 				str = str.substr(matches[0].length);
@@ -1589,6 +1587,8 @@ function bbcodeFormat(options)
 
 		return toBBCode(element);
 	};
+
+	base.buildBbcodeCache = buildBbcodeCache;
 
 	/**
 	* Initializer
