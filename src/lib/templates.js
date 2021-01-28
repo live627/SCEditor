@@ -74,18 +74,7 @@ var _templates = {
 			'<input type="text" id="link" dir="ltr" placeholder="https://" /></div>' +
 		'<div><label for="des">{desc}</label> ' +
 			'<input type="text" id="des" /></div>' +
-		'<div><input type="button" class="button" value="{ins}" /></div>',
-
-	youtubeMenu:
-		'<div><label for="link">{label}</label> ' +
-			'<input type="text" id="link" dir="ltr" placeholder="https://" /></div>' +
-		'<div><input type="button" class="button" value="{insert}" />' +
-			'</div>',
-
-	youtube:
-		'<iframe ' +
-		'src="https://www.youtube.com/embed/{id}?start={time}&wmode=opaque" ' +
-		'data-youtube-id="{id}" data-youtube-start="{time}"></iframe>'
+		'<div><input type="button" class="button" value="{ins}" /></div>'
 };
 
 /**

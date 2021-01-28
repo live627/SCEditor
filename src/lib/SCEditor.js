@@ -428,7 +428,7 @@ export default function SCEditor(original, userOptions)
 		});
 
 		/*
-		 * This needs to be done right after they are created because,
+		* This needs to be done right after they are created because,
 		* for any reason, the user may not want the value to be tinkered
 		* by any filters.
 		*/
@@ -546,41 +546,48 @@ export default function SCEditor(original, userOptions)
 		});
 		options.icons = new Icons;
 
-		utils.each(options.toolbar, function (_, rowItems)
+		for (var rowItems of options.toolbar)
 		{
 			var row = dom.createElement('div', {
 				className: 'sceditor-row'
 			});
 
-			utils.each(rowItems, function (_, menuItems)
+			for (var menuItems of rowItems)
 			{
 				group = dom.createElement('div', {
 					className: 'sceditor-group'
 				});
 
-				utils.each(menuItems, function (_, commandName)
+				for (let commandName of menuItems)
 				{
-					var	button, shortcut,
-						command  = commands[commandName];
+					let
+						button, shortcut,
+						command = commands[commandName];
 
 					// The commandName must be valid
 					if (!command)
 						return;
 
-					shortcut = command.shortcut;
-					button   = _tmpl('toolbarButton', {
-						name: commandName,
-						dispName: base._(command.name ||
+					let attrs = {
+						className: 'sceditor-button',
+						'data-sceditor-command': commandName,
+						alt: base._(command.name ||
 								command.tooltip || commandName)
-					}, true).firstChild;
+					};
 
-					dom.insertBefore(options.icons.create(commandName),
-						button.firstChild);
+					if (command.tooltip)
+					{
+						attrs.title = base._(command.tooltip);
+
+						if (shortcut)
+							attrs.title += ` (${shortcut})`;
+					}
+					button = dom.createElement('a', attrs);
 
 					dom.on(button, 'click', function (e)
 					{
-						if (!dom.hasClass(button, 'disabled'))
-							handleCommand(button, command);
+						if (!dom.hasClass(this, 'disabled'))
+							handleCommand(this, command);
 
 						updateActiveButtons();
 						e.preventDefault();
@@ -590,46 +597,36 @@ export default function SCEditor(original, userOptions)
 					{
 						e.preventDefault();
 					});
-
-					if (command.tooltip)
-						dom.attr(button, 'title',
-							base._(command.tooltip) +
-								(shortcut ? ` (${shortcut})` : '')
-						);
+					dom.appendChild(button, options.icons.create(commandName));
 
 					if (shortcut)
 						base.addShortcut(shortcut, commandName);
 
-					if (command.state)
+					if (command.state || utils.isString(command.exec))
 						btnStateHandlers.push({
 							name: commandName,
-							state: command.state
-						});
-					// exec string commands can be passed to queryCommandState
-					else if (utils.isString(command.exec))
-						btnStateHandlers.push({
-							name: commandName,
-							state: command.exec
+							state: command.state || command.exec
 						});
 
 					dom.appendChild(group, button);
 					toolbarButtons[commandName] = button;
-				});
+				}
 
 				// Exclude empty groups
 				if (group.firstChild)
 					dom.appendChild(row, group);
-
-			});
+			}
 
 			// Exclude empty rows
 			if (row.firstChild)
 				dom.appendChild(toolbar, row);
-
-		});
+		}
 
 		// Append the toolbar to the toolbarContainer option if given
-		dom.appendChild(options.toolbarContainer || editorContainer, toolbar);
+		if (options.toolbarContainer)
+			dom.appendChild(options.toolbarContainer, toolbar);
+		else
+			dom.insertBefore(toolbar, wysiwygEditor);
 	};
 
 	/**
@@ -1601,6 +1598,7 @@ export default function SCEditor(original, userOptions)
 	*/
 	handleCommand = function (caller, cmd)
 	{
+		var isInSourceMode = base.isInSourceMode();
 		if (base.isInSourceMode() && cmd.code)
 		{
 			var code = cmd.code;
@@ -1617,7 +1615,7 @@ export default function SCEditor(original, userOptions)
 		}
 		if (cmd.exec.call)
 			cmd.exec.call(base, caller);
-		else
+		else if (!isInSourceMode)
 			base.execCommand(
 				cmd.exec,
 				cmd.hasOwnProperty('execParam') ? cmd.execParam : null

@@ -12,7 +12,7 @@
 		<script src="../dist/formats/bbcode.js"></script>
 		<script src="../dist/languages/en.min.js"></script>
 		<script src="../dist/plugins/resize.js"></script>
-		<script src="../dist/plugins/emoticons.js"></script>
+		<script src="../dist/plugins/emoticons.min.js"></script>
 		<script src="../dist/plugins/youtube.js"></script>
 
 		<style>
@@ -93,7 +93,7 @@ If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be
 				plugins: [resize, emoticons, youtube],
 				icons: famfamfam,
 				locale: en,
-				style: '../dist/default.min.css',
+				style: '../src/themes/content/default.css',
 				emoticonsRoot: '../'
 			});
 
@@ -101,6 +101,7 @@ If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be
 				var theme = '../dist/' + this.value + '.css';
 				document.getElementById('theme-style').href = theme;
 			};
+			var parser = sceditor.instance(document.getElementById('example'));
 		console.log(parser.toBBCode(
 			'[ul]' +
 				'[color=#444444]' +

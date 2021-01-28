@@ -124,13 +124,11 @@ export function each(obj, fn)
 	if (Array.isArray(obj) || 'length' in obj && isNumber(obj.length))
 		for (var i = 0; i < obj.length; i++)
 			fn(i, obj[i]);
-
 	else
 		Object.keys(obj).forEach(function (key)
 		{
 			fn(key, obj[key]);
 		});
-
 }
 
 /**
@@ -143,9 +141,7 @@ export function each(obj, fn)
  */
 export var format = (format, ...args) => format.replace(
 	/\{(\d+)\}/g,
-	(match, number) => !isUndefined(args[number])
-		? args[number]
-		: match
+	(match, number) => args[number] || match
 );
 
 /**
@@ -162,9 +158,7 @@ export var format = (format, ...args) => format.replace(
  */
 export var replaceVars = (format, vars) => format.replace(
 	/{\s*?([a-zA-Z0-9\-_\.]+)\s*?}/g,
-	(match, name) => !isUndefined(vars[name])
-		? vars[name]
-		: match
+	(match, name) => vars[name] || match
 );
 
 /**
@@ -176,7 +170,6 @@ export var replaceVars = (format, vars) => format.replace(
  * @return {string}
  * @function
  */
-//eslint-disable-next-line no-bitwise
 export const toHex = d => (d >>> 0).toString(16);
 
 /**
@@ -194,7 +187,6 @@ export var normaliseColour = x => x.replace(
 			match.charAt(3).repeat(2)
 ).replace(
 	/rgb\((\d{1,3}),\s*?(\d{1,3}),\s*?(\d{1,3})\)/i,
-	//eslint-disable-next-line no-bitwise
 	(match, r, g, b) => '#' + (r << 16 | g << 8 | b)
 		.toString(16)
 		.padStart(6, '0')

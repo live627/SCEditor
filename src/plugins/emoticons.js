@@ -179,7 +179,7 @@ var plugin = function (dom)
 		if (emoticons)
 		{
 			cache = emoticons.map(x => [x.code,
-				`<img src="${root + x.path}" ${EMOTICON_DATA_ATTR}="${x.code}" alt="${x.code}" title="${x.tooltip || x.code}" />'`,
+				`<img src="${root + x.path}" ${EMOTICON_DATA_ATTR}="${x.code}" alt="${x.code}" title="${x.tooltip || x.code}">`,
 				new RegExp(space + sceditor.regexEscape(x.code) + space)
 			]);
 			cache.sort((a, b) => a[0].length - b[0].length);

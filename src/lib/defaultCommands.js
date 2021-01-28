@@ -690,13 +690,11 @@ var defaultCmds = {
 		},
 		tooltip: 'Unlink'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Quote
 	quote: {
 		exec(caller, html, author)
 		{
-			var	before = '<blockquote>',
+			var
+				before = '<blockquote>',
 				end    = '</blockquote>';
 
 			// if there is HTML passed set end to null so any selected
@@ -706,8 +704,8 @@ var defaultCmds = {
 				author = (author ? '<cite>' + author + '</cite>' : '');
 				before = before + author + html + end;
 				end    = null;
-			// if not add a newline to the end of the inserted quote
 			}
+			// if not add a newline to the end of the inserted quote
 			else if (this.getRangeHelper().selectedHtml() === '')
 				end = (IE_BR_FIX ? '' : '<br />') + end;
 
@@ -739,9 +737,6 @@ var defaultCmds = {
 		},
 		tooltip: 'Insert current date'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Time
 	time: {
 		exec()
 		{
@@ -763,9 +758,6 @@ var defaultCmds = {
 		},
 		tooltip: 'Insert current time'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Ltr
 	ltr: {
 		state(editor, parents, firstBlock)
 		{
@@ -787,7 +779,6 @@ var defaultCmds = {
 
 				if (!node || dom.is(node, 'body'))
 					return;
-
 			}
 
 			var toggleValue = dom.css(node, 'direction') === 'ltr' ? '' : 'ltr';
@@ -795,9 +786,6 @@ var defaultCmds = {
 		},
 		tooltip: 'Left-to-Right'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Rtl
 	rtl: {
 		state(editor, parents, firstBlock)
 		{
@@ -819,7 +807,6 @@ var defaultCmds = {
 
 				if (!node || dom.is(node, 'body'))
 					return;
-
 			}
 
 			var toggleValue = dom.css(node, 'direction') === 'rtl' ? '' : 'rtl';
@@ -827,16 +814,10 @@ var defaultCmds = {
 		},
 		tooltip: 'Right-to-Left'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Print
 	print: {
 		exec: 'print',
 		tooltip: 'Print'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Maximize
 	maximize: {
 		state: editor => editor.maximize(),
 		exec()
@@ -846,9 +827,6 @@ var defaultCmds = {
 		tooltip: 'Maximize',
 		shortcut: 'Ctrl+Shift+M'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Source
 	source: {
 		state: editor => editor.isInSourceMode(),
 		exec()

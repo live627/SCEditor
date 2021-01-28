@@ -184,7 +184,7 @@ function BBCodeParser(options)
 	*/
 	base.tokenize = function (str)
 	{
-		var	matches, type, i;
+		var	matches, i;
 		var tokens = [];
 		// The token types in reverse order of precedence
 		// (they're looped in reverse)
@@ -263,7 +263,6 @@ function BBCodeParser(options)
 
 			if (matches[2] && (matches[2] = matches[2].trim()))
 				attrs = tokenizeAttrs(matches[2]);
-
 		}
 
 		if (type === TOKEN_CLOSE &&
@@ -278,7 +277,6 @@ function BBCodeParser(options)
 		if (!name || ((type === TOKEN_OPEN || type === TOKEN_CLOSE) &&
 			!bbcodeHandlers[name]))
 		{
-
 			type = TOKEN_CONTENT;
 			name = '#';
 		}
@@ -333,7 +331,6 @@ function BBCodeParser(options)
 			while ((matches = attrRegex.exec(attrs)))
 				ret[lower(matches[1])] =
 					escapeEntities(matches[3] || matches[4], false);
-
 		}
 
 		return ret;
@@ -386,7 +383,6 @@ function BBCodeParser(options)
 			if (arr[i].type === type && arr[i].name === name)
 				return true;
 
-
 		return false;
 	}
 
@@ -401,7 +397,8 @@ function BBCodeParser(options)
 	*/
 	function isChildAllowed(parent, child)
 	{
-		var	parentBBCode    = parent ? bbcodeHandlers[parent.name] : {},
+		var
+			parentBBCode    = parent ? bbcodeHandlers[parent.name] : {},
 			allowedChildren = parentBBCode.allowedChildren;
 
 		if (base.opts.fixInvalidChildren && allowedChildren)
@@ -421,7 +418,8 @@ function BBCodeParser(options)
 	*/
 	function parseTokens(toks)
 	{
-		var	token, bbcode, curTok, clone, i, next,
+		var
+			token, bbcode, curTok, clone, i, next,
 			cloned     = [],
 			output     = [],
 			openTags   = [],
@@ -429,10 +427,7 @@ function BBCodeParser(options)
 			* Returns the currently open tag or undefined
 			* @return {TokenizeToken}
 			*/
-			currentTag = function ()
-			{
-				return last(openTags);
-			},
+			currentTag = () => last(openTags),
 			/**
 			* Adds a tag to either the current tags children
 			* or to the output array.
@@ -445,20 +440,16 @@ function BBCodeParser(options)
 					currentTag().children.push(token);
 				else
 					output.push(token);
-
 			},
 			/**
 			* Checks if this tag closes the current tag
 			* @param  {string} name
 			* @return {Void}
 			*/
-			closesCurrentTag = function (name)
-			{
-				return currentTag() &&
+			closesCurrentTag = name => currentTag() &&
 					(bbcode = bbcodeHandlers[currentTag().name]) &&
 					bbcode.closedBy &&
 					bbcode.closedBy.indexOf(name) > -1;
-			};
 
 		while ((token = toks.shift()))
 		{
@@ -478,7 +469,6 @@ function BBCodeParser(options)
 			*/
 			// Ignore tags that can't be children
 			if (!isChildAllowed(currentTag(), token))
-
 				// exclude closing tags of current tag
 				if (token.type !== TOKEN_CLOSE || !currentTag() ||
 						token.name !== currentTag().name)
@@ -535,11 +525,9 @@ function BBCodeParser(options)
 					}
 					else if (hasTag(token.name, TOKEN_OPEN, openTags))
 					{
-
 						// Remove the tag from the open tags
 						while ((curTok = openTags.pop()))
 						{
-
 							// If it's the tag that is being closed then
 							// discard it and break the loop.
 							if (curTok.name === token.name)
@@ -614,7 +602,6 @@ function BBCodeParser(options)
 								base.opts.breakAfterBlock &&
 								bbcode.breakAfter !== false)
 								openTags.pop();
-
 						}
 
 					addTag(token);
@@ -691,12 +678,11 @@ function BBCodeParser(options)
 
 						if (parentBBCode.breakStart)
 							remove = true;
-
+					}
 					// Last child of parent so must be end line break
 					// (breakEndBlock, breakEnd)
 					// e.g. \n[/tag]
 					// remove last line break (breakEndBlock, breakEnd)
-					}
 					else if (!removedBreakEnd && !right)
 					{
 						if (parentBBCode.isInline === false &&
@@ -760,9 +746,11 @@ function BBCodeParser(options)
 				removedBreakBefore = false;
 			}
 			else if (token.type === TOKEN_OPEN)
-				normaliseNewLines(token.children, token,
-					onlyRemoveBreakAfter);
-
+				normaliseNewLines(
+					token.children,
+					token,
+					onlyRemoveBreakAfter
+				);
 		}
 	}
 
@@ -853,7 +841,6 @@ function BBCodeParser(options)
 					// children have now increased
 					return;
 				}
-
 			}
 
 			parents.push(token);
@@ -897,7 +884,6 @@ function BBCodeParser(options)
 				if (type === TOKEN_CONTENT &&
 					/\S|\u00A0/.test(children[j].val))
 					return false;
-
 			}
 
 			return true;
@@ -920,7 +906,6 @@ function BBCodeParser(options)
 			if (isTokenWhiteSpace(token.children) && bbcode &&
 				!bbcode.isSelfClosing && !bbcode.allowsEmpty)
 				tokens.splice.apply(tokens, [i, 1].concat(token.children));
-
 		}
 	}
 
@@ -944,7 +929,8 @@ function BBCodeParser(options)
 	*/
 	function convertToHTML(tokens, isRoot)
 	{
-		var	undef, token, bbcode, content, html, needsBlockWrap,
+		var
+			undef, token, bbcode, content, html, needsBlockWrap,
 			blockWrapOpen, isInline, lastChild,
 			ret = [];
 
@@ -1024,8 +1010,8 @@ function BBCodeParser(options)
 				ret.push('</div>\n');
 				blockWrapOpen = false;
 				continue;
-			// content
 			}
+			// content
 			else
 			{
 				needsBlockWrap = isRoot;
@@ -1512,7 +1498,8 @@ function bbcodeFormat(options)
 
 			traverse(node, function (node)
 			{
-				var	curTag       = '',
+				var
+					curTag       = '',
 					nodeType     = node.nodeType,
 					tag          = node.nodeName.toLowerCase(),
 					vChild       = validChildren[tag],
@@ -1532,7 +1519,6 @@ function bbcodeFormat(options)
 					// allows, otherwise set to what the parent allows
 					if (!isValidChild)
 						vChild = vChildren;
-
 				}
 
 				// 3 = text and 1 = element
@@ -1548,7 +1534,6 @@ function bbcodeFormat(options)
 							node.childNodes.length === 1 &&
 							/br/i.test(firstChild.nodeName)))
 							return;
-
 
 					// don't convert iframe contents
 					if (tag !== 'iframe')
@@ -1575,11 +1560,9 @@ function bbcodeFormat(options)
 					}
 					else
 						ret += curTag;
-
 				}
 				else
 					ret += node.nodeValue;
-
 			}, false, true);
 
 			return ret;
@@ -1690,37 +1673,32 @@ function bbcodeFormat(options)
 	base.fragmentToSource = toSource.bind(null, true);
 
 	/**
- * Gets a BBCode
- *
- * @param {string} name
- * @return {Object|null}
- * @since 2.0.0
- */
+	 * Gets a BBCode
+	 *
+	 * @param {string} name
+	 * @return {Object|null}
+	 * @since 2.0.0
+	 */
 	base.get = function (name)
 	{
 		return bbcodeHandlers[name] || null;
 	};
 
 	/**
- * Adds a BBCode to the parser or updates an existing
- * BBCode if a BBCode with the specified name already exists.
- *
- * @param {string} name
- * @param {Object} bbcode
- * @return {this}
- * @since 2.0.0
- */
+	 * Adds a BBCode to the parser or updates an existing
+	 * BBCode if a BBCode with the specified name already exists.
+	 *
+	 * @param {string} name
+	 * @param {Object} bbcode
+	 * @return {this}
+	 * @since 2.0.0
+	 */
 	base.set = function (name, bbcode)
 	{
 		if (name && bbcode)
 		{
-		// merge any existing command properties
+			// merge any existing command properties
 			bbcode = extend(bbcodeHandlers[name] || {}, bbcode);
-
-			bbcode.remove = function ()
-			{
-				delete bbcodeHandlers[name];
-			};
 
 			bbcodeHandlers[name] = bbcode;
 		}
@@ -1729,16 +1707,16 @@ function bbcodeFormat(options)
 	};
 
 	/**
- * Renames a BBCode
- *
- * This does not change the format or HTML handling, those must be
- * changed manually.
- *
- * @param  {string} name    [description]
- * @param  {string} newName [description]
- * @return {this|false}
- * @since 2.0.0
- */
+	 * Renames a BBCode
+	 *
+	 * This does not change the format or HTML handling, those must be
+	 * changed manually.
+	 *
+	 * @param  {string} name    [description]
+	 * @param  {string} newName [description]
+	 * @return {this|false}
+	 * @since 2.0.0
+	 */
 	base.rename = function (name, newName)
 	{
 		if (name in bbcodeHandlers)
@@ -1752,12 +1730,12 @@ function bbcodeFormat(options)
 	};
 
 	/**
- * Removes a BBCode
- *
- * @param {string} name
- * @return {this}
- * @since 2.0.0
- */
+	 * Removes a BBCode
+	 *
+	 * @param {string} name
+	 * @return {this}
+	 * @since 2.0.0
+	 */
 	base.remove = function (name)
 	{
 		if (name in bbcodeHandlers)

@@ -31,7 +31,7 @@ test('toSource', t =>
 	t.is(
 		parser.toSource('<div data-youtube-id="xyz" data-youtube-start="0"><iframe ' +
 			'src="https://www.youtube.com/embed/xyz?start=0&wmode=opaque"></iframe></div>'),
-		'[youtube]xyz[/youtube]\\n'
+		'[youtube]xyz[/youtube]\n'
 	);
 });
 

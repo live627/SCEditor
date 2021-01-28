@@ -420,9 +420,6 @@ var formats = {
 			return '<blockquote>' + content + '</blockquote>';
 		}
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Code
 	code: {
 		tags: {
 			code: null
@@ -432,9 +429,6 @@ var formats = {
 		format: '[code]{0}[/code]',
 		html: '<code>{0}</code>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Left
 	left: {
 		styles: {
 			'text-align': [
@@ -449,9 +443,6 @@ var formats = {
 		format: '[left]{0}[/left]',
 		html: '<div align="left">{0}</div>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Centre
 	center: {
 		styles: {
 			'text-align': [
@@ -466,9 +457,6 @@ var formats = {
 		format: '[center]{0}[/center]',
 		html: '<div align="center">{0}</div>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Right
 	right: {
 		styles: {
 			'text-align': [
@@ -483,9 +471,6 @@ var formats = {
 		format: '[right]{0}[/right]',
 		html: '<div align="right">{0}</div>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Justify
 	justify: {
 		styles: {
 			'text-align': [
@@ -508,9 +493,6 @@ var formats = {
 		format: '[rtl]{0}[/rtl]',
 		html: '<div style="direction: rtl">{0}</div>'
 	},
-	// END_COMMAND
-
-	// START_COMMAND: Ltr
 	ltr: {
 		styles: {
 			direction: ['ltr']
@@ -519,7 +501,6 @@ var formats = {
 		format: '[ltr]{0}[/ltr]',
 		html: '<div style="direction: ltr">{0}</div>'
 	}
-	// END_COMMAND
 };
 
 export default formats;
