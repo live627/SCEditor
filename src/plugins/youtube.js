@@ -56,7 +56,6 @@ var plugin = function ()
 				err = createElement('div', {
 					class: 'error'
 				}),
-				div1 = createElement('div'),
 				btn = createElement('button', {
 					class: 'button',
 					textContent: editor._('Insert')
@@ -98,7 +97,7 @@ var plugin = function ()
 					inp.className = 'invalid';
 				}
 			});
-			on(btn, 'click', function (e)
+			on(btn, 'click', function ()
 			{
 				var match = matchURL(inp.value);
 
@@ -107,7 +106,6 @@ var plugin = function ()
 
 				editor.popup.hide();
 				editor.focus();
-			//	e.preventDefault();
 			});
 
 			editor.popup.content(content);
