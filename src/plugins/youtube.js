@@ -6,6 +6,9 @@ var plugin = function ()
 		matchURL = x => x.match(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*?v=|\/))([a-zA-Z0-9\_-]+)(?:.*t=(?:(?:(\d+)h)?(\d+)m?(\d+)s|([0-9]+)))?/),
 		n = x => Number(x || 0),
 		getTime = x => ((n(x[2]) * 3600) + (n(x[3]) * 60) + n(x[4])) || n(x[5]),
+		f = Math.floor,
+		g = n => ('00' + n).slice(-2),
+		formatSeconds = s => `${f(s / 3600)}:${g(f(s / 60) % 60)}:${g(s % 60)}`,
 		getFormat = () => ({
 			allowsEmpty: true,
 			isInline: false,
@@ -35,51 +38,81 @@ var plugin = function ()
 		popup = function (editor, callback)
 		{
 			var
-				dom = sceditor.dom,
-				content = dom.createElement('div'),
-				div = dom.createElement('div'),
-				lbl = dom.createElement('label', {
-					for: 'link',
+				createElement = sceditor.dom.createElement,
+				appendChild = sceditor.dom.appendChild,
+				on = sceditor.dom.on,
+				content = createElement('div'),
+				tr = createElement('tr'),
+				tr1 = createElement('tr'),
+				table = createElement('table'),
+				td = createElement('td'),
+				td1 = createElement('td'),
+				lbl = createElement('label', {
 					textContent: editor._('Video URL:')
 				}),
-				inp = dom.createElement('input', {
-					type: 'url',
-					id: 'link'
+				inp = createElement('input', {
+					type: 'text'
 				}),
-				div1 = dom.createElement('div'),
-				btn = dom.createElement('input', {
-					type: 'button',
+				err = createElement('div', {
+					class: 'error'
+				}),
+				div1 = createElement('div'),
+				btn = createElement('button', {
 					class: 'button',
-					value: editor._('Insert')
+					textContent: editor._('Insert')
 				});
-			dom.appendChild(div,lbl);
-			dom.appendChild(div,inp);
-			dom.appendChild(content,div);
-			dom.appendChild(div1,btn);
-			dom.appendChild(content,div1);
-			inp.focus();
+			appendChild(content,lbl);
+			appendChild(lbl,inp);
+			appendChild(lbl,err);
+			appendChild(content,btn);
+			appendChild(tr,createElement('td', {
+				textContent: editor._('Video ID:')
+			}));
+			appendChild(tr,td);
+			appendChild(tr1,createElement('td', {
+				textContent: editor._('Timestamp:')
+			}));
+			appendChild(tr1,td1);
+			appendChild(table,tr);
+			appendChild(table,tr1);
+			appendChild(content,table);
 
-			dom.on(btn, 'click', function (e)
+			on(inp, 'input', function ()
 			{
-				var
-					match = matchURL(inp.value),
-					time = 0;
+				var match = matchURL(inp.value);
 
-				if (match[2])
-					for (var t of match[2].split(/[hms]/))
-						if (t !== '')
-							time = (time * 60) + Number(t);
+				if (match)
+				{
+					td.textContent = match[1];
+					td1.textContent = formatSeconds(getTime(match));
+					err.textContent = '';
+					err.className = 'error';
+					inp.className = ' ';
+				}
+				else
+				{
+					td.textContent = '';
+					td1.textContent = '';
+					err.textContent = editor._('You need to enter a YouTube video URL.');
+					err.className = 'error active';
+					inp.className = 'invalid';
+				}
+			});
+			on(btn, 'click', function (e)
+			{
+				var match = matchURL(inp.value);
 
-				if (match[1])
-					callback(match[1], time);
+				if (match)
+					callback(match[1], getTime(match));
 
 				editor.popup.hide();
 				editor.focus();
-				e.preventDefault();
+			//	e.preventDefault();
 			});
 
 			editor.popup.content(content);
 			editor.popup.show();
+			inp.focus();
 		};
 
 	var init = function ()
@@ -111,7 +144,7 @@ var plugin = function ()
 			editor.opts.format.set('youtube', getFormat());
 	};
 
-	return {matchURL, getTime, getFormat, init};
+	return {matchURL, getTime, formatSeconds, getFormat, init};
 };
 
 export default plugin;

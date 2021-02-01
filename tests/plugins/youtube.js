@@ -90,3 +90,32 @@ test('matchURL', t =>
 	t.is(120, youtube.getTime(youtube.matchURL(urls[27])));
 	t.is(0, youtube.getTime(youtube.matchURL(urls[30])));
 });
+
+test('getTime', t =>
+{
+	var match = x => x.match(/()(?:(?:(\d+)h)?(\d+)m?(\d+)s|([0-9]+))/);
+
+	t.is(0, youtube.getTime(match('0')));
+	t.is(0, youtube.getTime(match('00s')));
+	t.is(0, youtube.getTime(match('0s')));
+	t.is(1, youtube.getTime(match('01')));
+	t.is(1, youtube.getTime(match('01s')));
+	t.is(1, youtube.getTime(match('1s')));
+	t.is(599, youtube.getTime(match('9m59s')));
+	t.is(600, youtube.getTime(match('10m00s')));
+	t.is(3600, youtube.getTime(match('3600')));
+	t.is(360009, youtube.getTime(match('100h09s')));
+});
+
+test('formatSeconds', t =>
+{
+	t.is('0:00:00', youtube.formatSeconds(0));
+	t.is('0:00:01', youtube.formatSeconds(1));
+	t.is('0:09:59', youtube.formatSeconds(599));
+	t.is('0:10:00', youtube.formatSeconds(600));
+	t.is('0:16:00', youtube.formatSeconds(960));
+	t.is('1:00:00', youtube.formatSeconds(3600));
+	t.is('25:21:00', youtube.formatSeconds(91260));
+	t.is('100:00:09', youtube.formatSeconds(360009));
+	t.is('0:00:.2', youtube.formatSeconds(0.2));
+});

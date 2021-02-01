@@ -1,6 +1,6 @@
 #tooltip {
 	@include border-radius;
-	@include box-shadow(1px 2px 4px rgba(0,0,0,0.2));
+	@include drop-shadow(1px, 2px, 4px, 0.2);
 	background: #fff;
 	border: 1px solid #ccc;
 	color: #fff;
@@ -35,43 +35,66 @@
 
 #popup,
 #tooltip {
+	table {
+		margin: 5em 0 0;
+		text-align: initial;
+		width: 100%;
+
+		td:first-child {
+			font-weight: bold;
+			text-align: end;
+			width: 40%;
+		}
+	}
+
 	label {
-		color: #3c3c3c;
-		display: block;
+		display: flex;
+		flex-direction: column;
 		font-weight: bold;
-		padding: 4px 0;
+		margin: 6px  0 0;
 	}
 
 	input,
 	textarea {
-		border: 1px solid #ccc;
-		margin: 0 0 0.75em;
+		border: 1px solid #999;
+		font-size: 90%;
+		margin: 4px 0 0;
 		padding: 4px;
+
+		&:focus {
+			@include inner-shadow(0, 1px, 5px, 0.1);
+			border-color: #aaa;
+		}
+
+		&.invalid {
+			background: #fdd;
+			border-color: #900;
+		}
 	}
 
-	textarea {
-		padding: 6px;
-	}
+	.error {
+		background: #900;
+		border-radius: 0 0 5px 5px;
+		color: white;
+		font-size: 80%;
+		padding: 0;
 
-	input:focus,
-	textarea:focus {
-		@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.1));
-		border-color: #aaa;
+		&.active {
+			padding: 0.3em;
+		}
 	}
 
 	.button {
+		border: 1px solid #367;
 		@include rounded(2px);
-		background: #ececec;
-		border: solid 1px #ccc;
-		color: #444;
-		cursor: pointer;
-		font-weight: bold;
-		margin: 0.3em 0 0;
-		padding: 6px 12px;
-	}
+		margin: 6px 0 0;
+		padding:4px 15px;
+		background: #589;
+		color: #fff;
 
-	.button:hover {
-		@include box-shadow(0 1px 1px rgba(0,0,0,0.15));
-		background: #f3f3f3;
+		&:hover {
+			background: #367;
+			border-color: #034;
+		}
 	}
 }

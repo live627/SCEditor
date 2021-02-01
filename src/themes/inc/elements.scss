@@ -31,12 +31,7 @@
 }
 @mixin border-radius($topright: 0, $bottomright: 0, $bottomleft: 0, $topleft: 0) {
 	background-clip: padding;
-	background-clip: padding-box;
-	background-clip: padding-box;
-	border-bottom-left-radius: $bottomleft;
-	border-bottom-right-radius: $bottomright;
-	border-top-left-radius: $topleft;
-	border-top-right-radius: $topright;
+	border-radius: $topleft $topright $bottomleft $bottomright;
 }
 @mixin opacity($opacity: 0.5) {
 	$opperc: $opacity * 100;
@@ -67,12 +62,9 @@
 	user-select: $argument;
 }
 @mixin columns($colwidth: 250px, $colcount: 0, $colgap: 50px, $columnRuleColor: #EEE, $columnRuleStyle: solid, $columnRuleWidth: 1px) {
-	column-count: $colcount;
+	columns: $colcount $colwidth;
 	column-gap: $colgap;
-	column-rule-color: $columnRuleColor;
-	column-rule-style: $columnRuleStyle;
-	column-rule-width: $columnRuleWidth;
-	column-width: $colwidth;
+	column-rule-width: $columnRuleWidth $columnRuleStyle $columnRuleColor;
 }
 @mixin translate($x:0, $y:0) {
 	transform: translate($x, $y);

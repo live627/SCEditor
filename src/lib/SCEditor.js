@@ -530,6 +530,20 @@ export default function SCEditor(original, userOptions)
 		}
 	};
 
+	var stopEvent = e =>
+	{
+		e.preventDefault();
+	};
+
+	var handleClick = e =>
+	{
+		if (!dom.hasClass(this, 'disabled'))
+			handleCommand(this, commands[dom.attr(e.target, 'data-sceditor-command')]);
+
+		updateActiveButtons();
+		stopEvent(e);
+	};
+
 	/**
 	* Creates the toolbar and appends it to the container
 	* @private
@@ -583,21 +597,11 @@ export default function SCEditor(original, userOptions)
 							attrs.title += ` (${shortcut})`;
 					}
 					button = dom.createElement('a', attrs);
-
-					dom.on(button, 'click', function (e)
-					{
-						if (!dom.hasClass(this, 'disabled'))
-							handleCommand(this, command);
-
-						updateActiveButtons();
-						e.preventDefault();
-					});
-					// Prevent editor losing focus when button clicked
-					dom.on(button, 'mousedown', function (e)
-					{
-						e.preventDefault();
-					});
 					dom.appendChild(button, options.icons.create(commandName));
+					dom.on(button, 'click', handleClick);
+
+					// Prevent editor losing focus when button clicked
+					dom.on(button, 'mousedown', stopEvent);
 
 					if (shortcut)
 						base.addShortcut(shortcut, commandName);
