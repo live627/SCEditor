@@ -20,12 +20,6 @@
 	padding: 0;
 	position: relative;
 
-	*,
-	*::before,
-	*::after {
-		box-sizing: content-box;
-	}
-
 	iframe,
 	textarea {
 		background: #fff;
@@ -44,13 +38,6 @@
 		resize: none;
 		width: auto !important;
 	}
-}
-
-.sceditor-dropdown,
-.sceditor-dropdown div {
-	margin: 0;
-	padding: 0;
-	z-index: 3;
 }
 
 .sceditor-dnd-cover {
@@ -160,143 +147,71 @@ body.sceditor-maximize {
 	border: 1px solid #aaa;
 }
 
-
 .sceditor-toolbar {
 	@include rounded(3px 3px 0 0);
 	background: #f7f7f7;
 	border-bottom: 1px solid #c0c0c0;
-	flex-shrink: 0;
-	line-height: 0;
-	overflow: hidden;
-	padding: 3px 5px 2px;
-	text-align: left;
+	padding: 5px 3px;
 	user-select: none;
-}
 
-.sceditor-group {
-	@include rounded(3px);
-	background: #ddd;
-	border-bottom: 1px solid #aaa;
-	display: inline-block;
-	margin: 1px 5px 1px 0;
-	padding: 1px;
+	span {
+		display: inline-block;
+		margin: 0 2px;
+		position: relative;
+
+		&::before {
+			background: #ddd;
+			content: '';
+			height: 16px;
+			position: absolute;
+			top: 8px;
+			width: 1px;
+		}
+	}
+
+	a {
+		@include rounded(3px);
+		cursor: pointer;
+		display: inline-block;
+		height: 20px;
+		margin: 2px 1px;
+		padding: 3px 5px;
+		width: 16px;
+
+		svg {
+			display: inline-block;
+			fill: #111;
+			height: 16px;
+			margin: 2px 0;
+			pointer-events: none;
+			width: 16px;
+		}
+	}
 }
 
 .sceditor-container {
-	&.disabled .sceditor-button {
+	&.disabled .sceditor-button,
+	.sceditor-button.disabled {
+		opacity: 0.3;
 		pointer-events: none;
-
-		&:hover {
-			@include box-shadow(none);
-			background: inherit;
-			cursor: default;
-		}
+		cursor: default;
 
 		svg {
 			fill: #888;
 		}
-
-		div {
-			opacity: 0.3;
-		}
 	}
 
-	&:not(.disabled) .sceditor-button {
+	&:not(.disabled) .sceditor-button,
+	.sceditor-button:not(.disabled) {
 		&.active,
 		&:hover {
-			@include box-shadow(unquote('inset 1px 1px 0 rgba(0,0,0,0.3), inset -1px 0 rgba(0,0,0,0.3), inset 0 -1px 0 rgba(0,0,0,0.2)'));
 			background: #fff;
-		}
-
-		&:active {
-			@include box-shadow(unquote('inset 1px 1px 0 rgba(0,0,0,0.3), inset -1px 0 rgba(0,0,0,0.3), inset 0 -1px 0 rgba(0,0,0,0.2), inset 0 0 8px rgba(0,0,0,0.3)'));
-			background: #fff;
+			box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3), inset -1px 0 rgba(0,0,0,0.3), inset 0 -1px 0 rgba(0,0,0,0.2);
 		}
 	}
-}
-
-.sceditor-button {
-	@include rounded(3px);
-	cursor: pointer;
-	float: left;
-	height: 20px;
-	padding: 3px 5px;
-	width: 16px;
-
-	svg {
-		display: inline-block;
-		fill: #111;
-		height: 16px;
-		// IE & Edge inherit line height so reset it
-		line-height: 1;
-		margin: 2px 0;
-		pointer-events: none;
-		text-decoration: none;
-		width: 16px;
-	}
-
-	&.disabled svg {
-		fill: #888;
-	}
-
-	div {
-		color: transparent;
-		display: inline-block;
-		font-size: 0;
-		line-height: 0;
-		margin: 2px 0;
-		overflow: hidden;
-		padding: 0;
-	}
-
-	&.disabled div {
-		opacity: 0.3;
-	}
-}
-
-.text .sceditor-button,
-.text .sceditor-button div,
-.sceditor-button.text,
-.sceditor-button.text div,
-.text-icon .sceditor-button,
-.text-icon .sceditor-button div,
-.sceditor-button.text-icon,
-.sceditor-button.text-icon div {
-	color: inherit;
-	display: inline-block;
-	font-size: 1em;
-	line-height: 16px;
-	text-indent: 0;
-	width: auto;
-}
-
-.text-icon .sceditor-button.has-icon div,
-.sceditor-button.has-icon div,
-.text .sceditor-button div,
-.sceditor-button.text div {
-	background: none;
-	padding: 0 2px;
-}
-
-.text .sceditor-button svg,
-.sceditor-button.text svg {
-	display: none;
-}
-
-.text-icon .sceditor-button div,
-.sceditor-button.text-icon div {
-	padding: 0 2px 0 20px;
 }
 
 .rtl {
-	.sceditor-toolbar {
-		text-align: right;
-	}
-
-	.sceditor-button {
-		float: right;
-	}
-
 	.sceditor-grip {
 		left: 0;
 		right: auto;

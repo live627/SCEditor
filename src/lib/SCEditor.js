@@ -555,47 +555,40 @@ export default function SCEditor(original, userOptions)
 			Icons = options.icons;
 
 		toolbar = dom.createElement('div', {
-			className: 'sceditor-toolbar',
-			unselectable: 'on'
+			className: 'sceditor-toolbar'
 		});
 		options.icons = new Icons;
 
 		for (var rowItems of options.toolbar)
 		{
-			var row = dom.createElement('div', {
-				className: 'sceditor-row'
-			});
+			var row = dom.createElement('div');
 
 			for (var menuItems of rowItems)
 			{
-				group = dom.createElement('div', {
-					className: 'sceditor-group'
-				});
+				group = dom.createElement('span');
 
 				for (let commandName of menuItems)
 				{
 					let
-						button, shortcut,
+						button,
 						command = commands[commandName];
 
 					// The commandName must be valid
 					if (!command)
-						return;
+						continue;
 
-					let attrs = {
-						className: 'sceditor-button',
-						'data-sceditor-command': commandName,
-						alt: base._(command.name ||
-								command.tooltip || commandName)
-					};
+					let
+						shortcut = command.shortcut,
+						tooltip = command.tooltip,
+						attrs = {
+							className: 'sceditor-button',
+							'data-sceditor-command': commandName,
+							title: base._(tooltip || commandName)
+						};
 
-					if (command.tooltip)
-					{
-						attrs.title = base._(command.tooltip);
+					if (tooltip && shortcut)
+						attrs.title += ` (${shortcut})`;
 
-						if (shortcut)
-							attrs.title += ` (${shortcut})`;
-					}
 					button = dom.createElement('a', attrs);
 					dom.appendChild(button, options.icons.create(commandName));
 					dom.on(button, 'click', handleClick);
@@ -639,7 +632,8 @@ export default function SCEditor(original, userOptions)
 	*/
 	autofocus = function ()
 	{
-		var	range, txtPos,
+		var
+			range, txtPos,
 			node     = wysiwygBody.firstChild,
 			focusEnd = !!options.autofocusEnd;
 
@@ -1030,7 +1024,7 @@ export default function SCEditor(original, userOptions)
 			var types = clipboard.types;
 			var items = clipboard.items;
 
-			e.preventDefault();
+			stopEvent(e);
 
 			for (var i = 0; i < types.length; i++)
 			{
@@ -1866,7 +1860,7 @@ export default function SCEditor(original, userOptions)
 						rangeHelper.insertHTML('<br>');
 				}
 
-				e.preventDefault();
+				stopEvent(e);
 			}
 		}
 	};
@@ -2172,7 +2166,7 @@ export default function SCEditor(original, userOptions)
 			shortcutHandlers[shortcut].call(base) === false)
 		{
 			e.stopPropagation();
-			e.preventDefault();
+			stopEvent(e);
 		}
 	};
 
@@ -2252,7 +2246,7 @@ export default function SCEditor(original, userOptions)
 		// The backspace was pressed at the start of
 		// the container so clear the style
 		base.clearBlockFormatting(parent);
-		e.preventDefault();
+		stopEvent(e);
 	};
 
 	/**

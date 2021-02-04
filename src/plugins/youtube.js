@@ -38,9 +38,10 @@ var plugin = function ()
 		popup = function (editor, callback)
 		{
 			var
-				createElement = sceditor.dom.createElement,
-				appendChild = sceditor.dom.appendChild,
-				on = sceditor.dom.on,
+				dom = sceditor.dom,
+				createElement = dom.createElement,
+				appendChild = dom.appendChild,
+				on = dom.on,
 				content = createElement('div'),
 				tr = createElement('tr'),
 				tr1 = createElement('tr'),

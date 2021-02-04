@@ -24,11 +24,6 @@ var _templates = {
 			'</head>' +
 			'<body contenteditable="true" {spellcheck}><p></p></body>' +
 		'</html>',
-
-	toolbarButton: '<a class="sceditor-button sceditor-button-{name}" ' +
-		'data-sceditor-command="{name}" unselectable="on">' +
-		'<div unselectable="on">{dispName}</div></a>',
-
 	fontOpt: '<a class="sceditor-font-option" href="#" ' +
 		'data-font="{font}"><font face="{font}">{font}</font></a>',
 
