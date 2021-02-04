@@ -484,22 +484,6 @@ var formats = {
 		allowsEmpty: true,
 		format: '[justify]{0}[/justify]',
 		html: '<div align="justify">{0}</div>'
-	},
-	rtl: {
-		styles: {
-			direction: ['rtl']
-		},
-		isInline: false,
-		format: '[rtl]{0}[/rtl]',
-		html: '<div style="direction: rtl">{0}</div>'
-	},
-	ltr: {
-		styles: {
-			direction: ['ltr']
-		},
-		isInline: false,
-		format: '[ltr]{0}[/ltr]',
-		html: '<div style="direction: ltr">{0}</div>'
 	}
 };
 

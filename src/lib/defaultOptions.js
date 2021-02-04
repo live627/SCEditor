@@ -21,7 +21,6 @@ export default {
 			['code','quote'],
 			['horizontalrule','image','email','link','unlink'],
 			['date','time'],
-			['ltr','rtl'],
 			['print','maximize','source']
 		]
 	],

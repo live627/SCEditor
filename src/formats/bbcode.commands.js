@@ -190,12 +190,6 @@ var commands = {
 	},
 	quote: {
 		code: ['[quote]', '[/quote]']
-	},
-	rtl: {
-		code: ['[rtl]', '[/rtl]']
-	},
-	ltr: {
-		code: ['[ltr]', '[/ltr]']
 	}
 };
 

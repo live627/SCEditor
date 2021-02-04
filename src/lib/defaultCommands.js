@@ -758,62 +758,6 @@ var defaultCmds = {
 		},
 		tooltip: 'Insert current time'
 	},
-	ltr: {
-		state(editor, parents, firstBlock)
-		{
-			return firstBlock && firstBlock.style.direction === 'ltr';
-		},
-		exec()
-		{
-			var	editor = this,
-				rangeHelper = editor.getRangeHelper(),
-				node = rangeHelper.getFirstBlockParent();
-
-			editor.focus();
-
-			if (!node || dom.is(node, 'body'))
-			{
-				editor.execCommand('formatBlock', 'p');
-
-				node  = rangeHelper.getFirstBlockParent();
-
-				if (!node || dom.is(node, 'body'))
-					return;
-			}
-
-			var toggleValue = dom.css(node, 'direction') === 'ltr' ? '' : 'ltr';
-			dom.css(node, 'direction', toggleValue);
-		},
-		tooltip: 'Left-to-Right'
-	},
-	rtl: {
-		state(editor, parents, firstBlock)
-		{
-			return firstBlock && firstBlock.style.direction === 'rtl';
-		},
-		exec()
-		{
-			var	editor = this,
-				rangeHelper = editor.getRangeHelper(),
-				node = rangeHelper.getFirstBlockParent();
-
-			editor.focus();
-
-			if (!node || dom.is(node, 'body'))
-			{
-				editor.execCommand('formatBlock', 'p');
-
-				node = rangeHelper.getFirstBlockParent();
-
-				if (!node || dom.is(node, 'body'))
-					return;
-			}
-
-			var toggleValue = dom.css(node, 'direction') === 'rtl' ? '' : 'rtl';
-			dom.css(node, 'direction', toggleValue);
-		},
-		tooltip: 'Right-to-Left'
-	},
 	print: {
 		exec: 'print',
 		tooltip: 'Print'
