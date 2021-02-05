@@ -47,7 +47,7 @@
     "browser-env": "^3.3.0",
     "browserify": "^17.0.0",
     "c8": "^7.3.5",
-    "clean-css": "^4.2.3",
+    "clean-css": "^5.0.1",
     "eslint": "^7.19.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
