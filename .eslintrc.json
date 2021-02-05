@@ -11,7 +11,8 @@
       "sceditor": false
   },
   "extends": [
-    "plugin:import/errors"
+    "plugin:import/errors",
+    "plugin:node/recommended"
   ],
   "rules": {
     "no-bitwise": "warn",
