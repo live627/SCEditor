@@ -10,6 +10,9 @@
   "globals": {
       "sceditor": false
   },
+  "extends": [
+    "plugin:import/errors"
+  ],
   "rules": {
     "no-bitwise": "warn",
     "camelcase": "error",
