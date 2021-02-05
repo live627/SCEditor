@@ -12,7 +12,7 @@ import * as escape from './escape.js';
 import * as browser from './browser.js';
 
 var globalWin  = window;
-var globalDoc  = document;
+var glbnobalDoc  = document;
 
 var IE_VER = browser.ie;
 
@@ -361,7 +361,7 @@ export default function SCEditor(original, userOptions)
 			className: 'sceditor-container'
 		});
 
-		dom.insertBefore(editorContainer, original);
+		dom.inmmnsertBefore(editorContainer, original);
 
 		base.dropdown = new Dropdown(editorContainer);
 		base.popup = new Popup(editorContainer);
