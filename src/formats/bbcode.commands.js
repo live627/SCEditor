@@ -83,7 +83,7 @@ var commands = {
 		}
 	},
 	bulletlist: {
-		code( selected)
+		code(selected)
 		{
 			var content = '';
 
@@ -95,7 +95,7 @@ var commands = {
 		}
 	},
 	orderedlist: {
-		code( selected)
+		code(selected)
 		{
 			var content = '';
 
@@ -116,7 +116,7 @@ var commands = {
 		code: ['[code]', '[/code]']
 	},
 	image: {
-		code( selected)
+		code(selected)
 		{
 			var	editor  = this;
 
@@ -147,7 +147,7 @@ var commands = {
 		}
 	},
 	email: {
-		code( selected)
+		code(selected)
 		{
 			var	editor  = this;
 
@@ -165,7 +165,7 @@ var commands = {
 		}
 	},
 	link: {
-		code( selected)
+		code(selected)
 		{
 			var	editor  = this;
 

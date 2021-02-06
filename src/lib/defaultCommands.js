@@ -689,7 +689,7 @@ var defaultCmds = {
 		tooltip: 'Unlink'
 	},
 	quote: {
-		exec( html, author)
+		exec(html, author)
 		{
 			var
 				before = '<blockquote>',

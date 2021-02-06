@@ -116,6 +116,7 @@ test('uriScheme() - Invalid schmes',t =>
 		path.join('/') + '/';
 
 	var urls = [
+		// eslint-disable-next-line
 		'javascript:alert("XSS");',
 		'jav	ascript:alert(\'XSS\');',
 		'vbscript:msgbox("XSS")',

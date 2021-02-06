@@ -82,8 +82,8 @@ var plugin = function (dom)
 	 *
 	 * emoticons should be an object where the key is the emoticon
 	 * code and the value is the HTML to replace it with.
-	*
-	* Assumes that the keywords array is sorted shortest to longest
+	 *
+	 * Assumes that the keywords array is sorted shortest to longest
 	 *
 	 * @param {HTMLElement} root
 	 * @param {Array<string, string, RegExp>} emoticons
