@@ -69,7 +69,7 @@ let
 			var data = fs.readFileSync(`src/themes/icons/famfamfam/${sprite}`, 'base64');
 			spriteObj.push(`${sprite.slice(0, -4).toLowerCase()}: '${data}'`);
 		}
-		fs.writeFileSync('src/icons/famfamfam-icons.js', `export default\n{\n\t${spriteObj.join(',\n\t')}\n}\n`);
+		fs.writeFileSync('src/icons/famfamfam-icons.js', `export default\n{\n\t${spriteObj.join(',\n\t')};\n}\n`);
 
 		return cb();
 	},
