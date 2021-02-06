@@ -32,13 +32,12 @@ var commands = {
 		code: ['[justify]', '[/justify]']
 	},
 	font: {
-		code(caller)
+		code()
 		{
 			var editor = this;
 
 			editor.command.get('font')._dropDown(
 				editor,
-				caller,
 				function (fontName)
 				{
 					editor.insertText(
@@ -50,13 +49,12 @@ var commands = {
 		}
 	},
 	size: {
-		code(caller)
+		code()
 		{
 			var editor = this;
 
 			editor.command.get('size')._dropDown(
 				editor,
-				caller,
 				function (fontSize)
 				{
 					editor.insertText(
@@ -68,13 +66,12 @@ var commands = {
 		}
 	},
 	color: {
-		code(caller)
+		code()
 		{
 			var editor = this;
 
 			editor.command.get('color')._dropDown(
 				editor,
-				caller,
 				function (color)
 				{
 					editor.insertText(
@@ -86,7 +83,7 @@ var commands = {
 		}
 	},
 	bulletlist: {
-		code(caller, selected)
+		code( selected)
 		{
 			var content = '';
 
@@ -98,7 +95,7 @@ var commands = {
 		}
 	},
 	orderedlist: {
-		code(caller, selected)
+		code( selected)
 		{
 			var content = '';
 
@@ -119,13 +116,12 @@ var commands = {
 		code: ['[code]', '[/code]']
 	},
 	image: {
-		code(caller, selected)
+		code( selected)
 		{
 			var	editor  = this;
 
 			editor.command.get('image')._dropDown(
 				editor,
-				caller,
 				selected,
 				function (url, width, height, alt)
 				{
@@ -151,13 +147,12 @@ var commands = {
 		}
 	},
 	email: {
-		code(caller, selected)
+		code( selected)
 		{
 			var	editor  = this;
 
 			editor.command.get('email')._dropDown(
 				editor,
-				caller,
 				function (url, text)
 				{
 					editor.insertText(
@@ -170,13 +165,12 @@ var commands = {
 		}
 	},
 	link: {
-		code(caller, selected)
+		code( selected)
 		{
 			var	editor  = this;
 
 			editor.command.get('link')._dropDown(
 				editor,
-				caller,
 				function (url, text)
 				{
 					editor.insertText(

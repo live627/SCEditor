@@ -35,10 +35,9 @@ var plugin = function ()
 	/**
 		* Function for the exec and txtExec properties
 		*
-		* @param  {node} caller
 		* @private
 		*/
-	var	formatCmd = function (caller)
+	var	formatCmd = function ()
 	{
 		var
 			editor   = this,
@@ -66,7 +65,7 @@ var plugin = function ()
 		});
 
 		editor.dropdown.content(content);
-		editor.dropdown.show(caller);
+		editor.dropdown.show();
 	};
 
 	this.init = function ()

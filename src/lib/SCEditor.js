@@ -248,14 +248,6 @@ export default function SCEditor(original, userOptions)
 	var autoExpandThrottle;
 
 	/**
-	* Cache of the current toolbar buttons
-	*
-	* @type {Object}
-	* @private
-	*/
-	var toolbarButtons = {};
-
-	/**
 	* Last scroll position before maximizing so
 	* it can be restored when finished.
 	*
@@ -602,11 +594,11 @@ export default function SCEditor(original, userOptions)
 					if (command.state || utils.isString(command.exec))
 						btnStateHandlers.push({
 							name: commandName,
+							button: button,
 							state: command.state || command.exec
 						});
 
 					dom.appendChild(group, button);
-					toolbarButtons[commandName] = button;
 				}
 
 				// Exclude empty groups
@@ -1594,25 +1586,25 @@ export default function SCEditor(original, userOptions)
 	* Handles the passed command
 	* @private
 	*/
-	handleCommand = function (caller, cmd)
+	handleCommand = function (cmd)
 	{
 		var isInSourceMode = base.isInSourceMode();
-		if (base.isInSourceMode() && cmd.code)
+		if (isInSourceMode && cmd.code)
 		{
 			var code = cmd.code;
 			if (code.call)
-				code = cmd.code.call(
+				code = code.call(
 					base,
-					caller,
 					sourceEditor.value.substring(
 						sourceEditor.selectionStart,
 						sourceEditor.selectionEnd
 					)
 				);
-			base.sourceEditorInsertText.apply(base, code);
+			else
+				base.sourceEditorInsertText.apply(base, code);
 		}
 		if (cmd.exec.call)
-			cmd.exec.call(base, caller);
+			cmd.exec.call(base);
 		else if (!isInSourceMode)
 			base.execCommand(
 				cmd.exec,
@@ -1788,7 +1780,7 @@ export default function SCEditor(original, userOptions)
 		for (var j = 0; j < btnStateHandlers.length; j++)
 		{
 			var state      = 0;
-			var btn        = toolbarButtons[btnStateHandlers[j].name];
+			var btn        = btnStateHandlers[j].button;
 			var stateFn    = btnStateHandlers[j].state;
 
 			if (utils.isFunction(stateFn))
@@ -2183,7 +2175,7 @@ export default function SCEditor(original, userOptions)
 		if (utils.isString(cmd))
 			shortcutHandlers[shortcut] = function ()
 			{
-				handleCommand(toolbarButtons[cmd], commands[cmd]);
+				handleCommand(commands[cmd]);
 
 				return false;
 			};

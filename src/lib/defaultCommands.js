@@ -154,7 +154,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Font
 	font: {
-		_dropDown(editor, caller, callback)
+		_dropDown(editor,  callback)
 		{
 			var	content = dom.createElement('div');
 
@@ -173,13 +173,13 @@ var defaultCmds = {
 				}, true));
 			});
 
-			createDropDown(editor, caller, 'font-picker', content);
+			createDropDown(editor,  'font-picker', content);
 		},
-		exec(caller)
+		exec()
 		{
 			var editor = this;
 
-			defaultCmds.font._dropDown(editor, caller, function (fontName)
+			defaultCmds.font._dropDown(editor,  function (fontName)
 			{
 				editor.execCommand('fontname', fontName);
 			});
@@ -189,7 +189,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Size
 	size: {
-		_dropDown(editor, caller, callback)
+		_dropDown(editor,  callback)
 		{
 			var	content = dom.createElement('div');
 
@@ -206,13 +206,13 @@ var defaultCmds = {
 					size: i
 				}, true));
 
-			createDropDown(editor, caller, 'fontsize-picker', content);
+			createDropDown(editor,  'fontsize-picker', content);
 		},
-		exec(caller)
+		exec()
 		{
 			var editor = this;
 
-			defaultCmds.size._dropDown(editor, caller, function (fontSize)
+			defaultCmds.size._dropDown(editor,  function (fontSize)
 			{
 				editor.execCommand('fontsize', fontSize);
 			});
@@ -222,7 +222,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Colour
 	color: {
-		_dropDown(editor, caller, callback)
+		_dropDown(editor,  callback)
 		{
 			var	content = dom.createElement('div'),
 				html    = '',
@@ -257,13 +257,13 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			createDropDown(editor, caller, 'color-picker', content);
+			createDropDown(editor,  'color-picker', content);
 		},
-		exec(caller)
+		exec()
 		{
 			var editor = this;
 
-			defaultCmds.color._dropDown(editor, caller, function (color)
+			defaultCmds.color._dropDown(editor,  function (color)
 			{
 				editor.execCommand('forecolor', color);
 			});
@@ -304,7 +304,7 @@ var defaultCmds = {
 	// END_COMMAND
 	// START_COMMAND: Paste Text
 	pastetext: {
-		exec(caller)
+		exec()
 		{
 			var	val,
 				content = dom.createElement('div'),
@@ -329,7 +329,7 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			createDropDown(editor, caller, 'pastetext', content);
+			createDropDown(editor,  'pastetext', content);
 		},
 		tooltip: 'Paste Text'
 	},
@@ -427,7 +427,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Table
 	table: {
-		exec(caller)
+		exec()
 		{
 			var	editor  = this,
 				content = dom.createElement('div');
@@ -463,7 +463,7 @@ var defaultCmds = {
 				}
 			});
 
-			createDropDown(editor, caller, 'inserttable', content);
+			createDropDown(editor,  'inserttable', content);
 		},
 		tooltip: 'Insert a table'
 	},
@@ -491,7 +491,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Image
 	image: {
-		_dropDown(editor, caller, selected, cb)
+		_dropDown(editor,  selected, cb)
 		{
 			var	content = dom.createElement('div');
 
@@ -522,15 +522,14 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			createDropDown(editor, caller, 'insertimage', content);
+			createDropDown(editor,  'insertimage', content);
 		},
-		exec(caller)
+		exec()
 		{
 			var	editor  = this;
 
 			defaultCmds.image._dropDown(
 				editor,
-				caller,
 				'',
 				function (url, width, height, alt)
 				{
@@ -557,7 +556,7 @@ var defaultCmds = {
 
 	// START_COMMAND: E-mail
 	email: {
-		_dropDown(editor, caller, cb)
+		_dropDown(editor,  cb)
 		{
 			var	content = dom.createElement('div');
 
@@ -579,15 +578,14 @@ var defaultCmds = {
 				e.preventDefault();
 			});
 
-			createDropDown(editor, caller, 'insertemail', content);
+			createDropDown(editor,  'insertemail', content);
 		},
-		exec(caller)
+		exec()
 		{
 			var	editor  = this;
 
 			defaultCmds.email._dropDown(
 				editor,
-				caller,
 				function (email, text)
 				{
 					// needed for IE to reset the last range
@@ -611,7 +609,7 @@ var defaultCmds = {
 
 	// START_COMMAND: Link
 	link: {
-		_dropDown(editor, caller, cb)
+		_dropDown(editor,  cb)
 		{
 			var content = dom.createElement('div');
 
@@ -642,13 +640,13 @@ var defaultCmds = {
 
 			}, dom.EVENT_CAPTURE);
 
-			createDropDown(editor, caller, 'insertlink', content);
+			createDropDown(editor,  'insertlink', content);
 		},
-		exec(caller)
+		exec()
 		{
 			var editor = this;
 
-			defaultCmds.link._dropDown(editor, caller, function (url, text)
+			defaultCmds.link._dropDown(editor,  function (url, text)
 			{
 				// needed for IE to restore the last range
 				editor.focus();
@@ -691,7 +689,7 @@ var defaultCmds = {
 		tooltip: 'Unlink'
 	},
 	quote: {
-		exec(caller, html, author)
+		exec( html, author)
 		{
 			var
 				before = '<blockquote>',
