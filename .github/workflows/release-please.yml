@@ -2,6 +2,9 @@ on:
   push:
     branches:
       - master
+
+env:
+  FORCE_COLOR: 1
 name: release-please
 jobs:
   release-please:
