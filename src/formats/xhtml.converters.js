@@ -7,6 +7,7 @@ var convertElement = dom.convertElement;
 /**
  * Tag conveters, a converter is applied to all
  * tags that match the criteria.
+ *
  * @type {Array}
  * @name jQuery.sceditor.plugins.xhtml.converters
  * @since v1.4.1

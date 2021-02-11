@@ -55,7 +55,7 @@ export var ios = /iPhone|iPod|iPad| wosbrowser\//i.test(USER_AGENT);
  *
  * @function
  * @name isWysiwygSupported
- * @return {boolean}
+ * @returns {boolean}
  */
 export var isWysiwygSupported = (function ()
 {

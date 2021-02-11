@@ -10,6 +10,8 @@ var IE_BR_FIX = IE_VER && IE_VER < 11;
  * Fixes a bug in FF where it sometimes wraps
  * new lines in their own list item.
  * See issue #359
+ *
+ * @param editor
  */
 var fixFirefoxListBug = function (editor)
 {
@@ -56,9 +58,9 @@ var createDropDown = function (editor, menuItem, name, content)
 
 /**
  * Map of all the commands for SCEditor
- * @type {Object}
+ *
+ * @type {object}
  * @name commands
- * @memberOf jQuery.sceditor
  */
 var defaultCmds = {
 	// START_COMMAND: Bold
@@ -621,6 +623,9 @@ var defaultCmds = {
 
 			var linkInput = dom.find(content, '#link')[0];
 
+			/**
+			 * @param e
+			 */
 			function insertUrl(e)
 			{
 				if (linkInput.value)

@@ -33,28 +33,30 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Array containing the output, used as it's faster
-	* than string concatenation in slow browsers.
-	* @type {Array}
-	* @private
-	*/
+	 * Array containing the output, used as it's faster
+	 * than string concatenation in slow browsers.
+	 *
+	 * @type {Array}
+	 * @private
+	 */
 	var outputStringBuilder = [];
 
 	/**
-	* Current indention level
-	* @type {number}
-	* @private
-	*/
+	 * Current indention level
+	 *
+	 * @type {number}
+	 * @private
+	 */
 	var currentIndent = 0;
 
 	// TODO: use escape.entities
 	/**
-	* Escapes XHTML entities
-	*
-	* @param  {string} str
-	* @return {string}
-	* @private
-	*/
+	 * Escapes XHTML entities
+	 *
+	 * @param  {string} str
+	 * @returns {string}
+	 * @private
+	 */
 	function escapeEntities(str)
 	{
 		var entities = {
@@ -72,10 +74,10 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* @param  {string} str
-	* @return {string}
-	* @private
-	*/
+	 * @param  {string} str
+	 * @returns {string}
+	 * @private
+	 */
 	function trim(str)
 	{
 		return str
@@ -85,17 +87,17 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Serializes a node to XHTML
-	*
-	* @param  {Node} node            Node to serialize
-	* @param  {boolean} onlyChildren If to only serialize the nodes
-	*                                children and not the node
-	*                                itself
-	* @return {string}               The serialized node
-	* @name serialize
-	* @memberOf jQuery.sceditor.XHTMLSerializer.prototype
-	* @since v1.4.1
-	*/
+	 * Serializes a node to XHTML
+	 *
+	 * @param  {Node} node            Node to serialize
+	 * @param  {boolean} onlyChildren If to only serialize the nodes
+	 *                                children and not the node
+	 *                                itself
+	 * @returns {string}               The serialized node
+	 * @name serialize
+	 * @memberOf jQuery.sceditor.XHTMLSerializer.prototype
+	 * @since v1.4.1
+	 */
 	base.serialize = function (node, onlyChildren)
 	{
 		outputStringBuilder = [];
@@ -117,12 +119,13 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Serializes a node to the outputStringBuilder
-	*
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Serializes a node to the outputStringBuilder
+	 *
+	 * @param  {Node} node
+	 * @param parentIsPre
+	 * @returns {void}
+	 * @private
+	 */
 	function serializeNode(node, parentIsPre)
 	{
 		switch (node.nodeType)
@@ -167,11 +170,12 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Handles doc node
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Handles doc node
+	 *
+	 * @param  {Node} node
+	 * @returns {void}
+	 * @private
+	 */
 	function handleDoc(node)
 	{
 		var	child = node.firstChild;
@@ -184,11 +188,13 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Handles element nodes
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Handles element nodes
+	 *
+	 * @param  {Node} node
+	 * @param parentIsPre
+	 * @returns {void}
+	 * @private
+	 */
 	function handleElement(node, parentIsPre)
 	{
 		var	child, attr, attrValue,
@@ -240,33 +246,37 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Handles CDATA nodes
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Handles CDATA nodes
+	 *
+	 * @param  {Node} node
+	 * @returns {void}
+	 * @private
+	 */
 	function handleCdata(node)
 	{
 		output('<![CDATA[' + escapeEntities(node.nodeValue) + ']]>');
 	};
 
 	/**
-	* Handles comment nodes
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Handles comment nodes
+	 *
+	 * @param  {Node} node
+	 * @returns {void}
+	 * @private
+	 */
 	function handleComment(node)
 	{
 		output('<!-- ' + escapeEntities(node.nodeValue) + ' -->');
 	};
 
 	/**
-	* Handles text nodes
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Handles text nodes
+	 *
+	 * @param  {Node} node
+	 * @param parentIsPre
+	 * @returns {void}
+	 * @private
+	 */
 	function handleText(node, parentIsPre)
 	{
 		var text = node.nodeValue;
@@ -280,14 +290,15 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Adds a string to the outputStringBuilder.
-	*
-	* The string will be indented unless indent is set to boolean false.
-	* @param  {string} str
-	* @param  {boolean} indent
-	* @return {void}
-	* @private
-	*/
+	 * Adds a string to the outputStringBuilder.
+	 *
+	 * The string will be indented unless indent is set to boolean false.
+	 *
+	 * @param  {string} str
+	 * @param  {boolean} indent
+	 * @returns {void}
+	 * @private
+	 */
 	function output(str, indent)
 	{
 		var i = currentIndent;
@@ -307,11 +318,12 @@ var XHTMLSerializer = function ()
 	};
 
 	/**
-	* Checks if should indent the node or not
-	* @param  {Node} node
-	* @return {boolean}
-	* @private
-	*/
+	 * Checks if should indent the node or not
+	 *
+	 * @param  {Node} node
+	 * @returns {boolean}
+	 * @private
+	 */
 	function canIndent(node)
 	{
 		var prev = node.previousSibling;
@@ -329,6 +341,7 @@ var XHTMLSerializer = function ()
 
 /**
  * SCEditor XHTML plugin
+ *
  * @class xhtml
  * @name jQuery.sceditor.plugins.xhtml
  * @since v1.4.1
@@ -338,23 +351,26 @@ function xhtmlFormat()
 	var base = this;
 
 	/**
-	* Tag converters cache
-	* @type {Object}
-	* @private
-	*/
+	 * Tag converters cache
+	 *
+	 * @type {object}
+	 * @private
+	 */
 	var tagConvertersCache = {};
 
 	/**
-	* Attributes filter cache
-	* @type {Object}
-	* @private
-	*/
+	 * Attributes filter cache
+	 *
+	 * @type {object}
+	 * @private
+	 */
 	var attrsCache = {};
 
 	/**
-	* Init
-	* @return {void}
-	*/
+	 * Init
+	 *
+	 * @returns {void}
+	 */
 	base.init = function ()
 	{
 		if (!isEmptyObject(converters || {}))
@@ -377,15 +393,15 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Converts the WYSIWYG content to XHTML
-	*
-	* @param  {boolean} isFragment
-	* @param  {string} html
-	* @param  {Document} context
-	* @param  {HTMLElement} [parent]
-	* @return {string}
-	* @memberOf jQuery.sceditor.plugins.xhtml.prototype
-	*/
+	 * Converts the WYSIWYG content to XHTML
+	 *
+	 * @param  {boolean} isFragment
+	 * @param  {string} html
+	 * @param  {Document} context
+	 * @param  {HTMLElement} [parent]
+	 * @returns {string}
+	 * @memberOf jQuery.sceditor.plugins.xhtml.prototype
+	 */
 	function toSource(isFragment, html, context)
 	{
 		var xhtml,
@@ -414,12 +430,14 @@ function xhtmlFormat()
 	base.fragmentToSource = toSource.bind(null, true);;
 
 	/**
-	* Runs all converters for the specified tagName
-	* against the DOM node.
-	* @param  {string} tagName
-	* @return {Node} node
-	* @private
-	*/
+	 * Runs all converters for the specified tagName
+	 * against the DOM node.
+	 *
+	 * @param  {string} tagName
+	 * @param node
+	 * @returns {Node} node
+	 * @private
+	 */
 	function convertNode(tagName, node)
 	{
 		if (!tagConvertersCache[tagName])
@@ -447,11 +465,12 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Converts any tags/attributes to their XHTML equivalents
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Converts any tags/attributes to their XHTML equivalents
+	 *
+	 * @param  {Node} node
+	 * @returns {void}
+	 * @private
+	 */
 	function convertTags(node)
 	{
 		dom.traverse(node, function (node)
@@ -464,12 +483,13 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Tests if a node is empty and can be removed.
-	*
-	* @param  {Node} node
-	* @return {boolean}
-	* @private
-	*/
+	 * Tests if a node is empty and can be removed.
+	 *
+	 * @param  {Node} node
+	 * @param excludeBr
+	 * @returns {boolean}
+	 * @private
+	 */
 	function isEmpty(node, excludeBr)
 	{
 		var	rect,
@@ -512,14 +532,14 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Removes any tags that are not white listed or if no
-	* tags are white listed it will remove any tags that
-	* are black listed.
-	*
-	* @param  {Node} rootNode
-	* @return {void}
-	* @private
-	*/
+	 * Removes any tags that are not white listed or if no
+	 * tags are white listed it will remove any tags that
+	 * are black listed.
+	 *
+	 * @param  {Node} rootNode
+	 * @returns {void}
+	 * @private
+	 */
 	function removeTags(rootNode)
 	{
 		dom.traverse(rootNode, function (node)
@@ -603,13 +623,13 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Merges two sets of attribute filters into one
-	*
-	* @param  {Object} filtersA
-	* @param  {Object} filtersB
-	* @return {Object}
-	* @private
-	*/
+	 * Merges two sets of attribute filters into one
+	 *
+	 * @param  {object} filtersA
+	 * @param  {object} filtersB
+	 * @returns {object}
+	 * @private
+	 */
 	function mergeAttribsFilters(filtersA, filtersB)
 	{
 		var ret = {};
@@ -633,12 +653,12 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Wraps adjacent inline child nodes of root
-	* in paragraphs.
-	*
-	* @param {Node} root
-	* @private
-	*/
+	 * Wraps adjacent inline child nodes of root
+	 * in paragraphs.
+	 *
+	 * @param {Node} root
+	 * @private
+	 */
 	function wrapInlines(root)
 	{
 		// Strip empty text nodes so they don't get wrapped.
@@ -669,13 +689,14 @@ function xhtmlFormat()
 	};
 
 	/**
-	* Removes any attributes that are not white listed or
-	* if no attributes are white listed it will remove
-	* any attributes that are black listed.
-	* @param  {Node} node
-	* @return {void}
-	* @private
-	*/
+	 * Removes any attributes that are not white listed or
+	 * if no attributes are white listed it will remove
+	 * any attributes that are black listed.
+	 *
+	 * @param  {Node} node
+	 * @returns {void}
+	 * @private
+	 */
 	function removeAttribs(node)
 	{
 		var	tagName, attr, attrName, attrsLength, validValues, remove,
@@ -743,7 +764,8 @@ function xhtmlFormat()
  *
  * Leave empty or null to allow all attributes. (the disallow
  * list will be used to filter them instead)
- * @type {Object}
+ *
+ * @type {object}
  * @name jQuery.sceditor.plugins.xhtml.allowedAttribs
  * @since v1.4.1
  */
@@ -753,7 +775,8 @@ xhtmlFormat.allowedAttribs = {};
  * Attributes that are not allowed.
  *
  * Only used if allowed attributes is null or empty.
- * @type {Object}
+ *
+ * @type {object}
  * @name jQuery.sceditor.plugins.xhtml.disallowedAttribs
  * @since v1.4.1
  */
@@ -763,6 +786,7 @@ xhtmlFormat.disallowedAttribs = {};
  * Array containing all the allowed tags.
  *
  * If null or empty all tags will be allowed.
+ *
  * @type {Array}
  * @name jQuery.sceditor.plugins.xhtml.allowedTags
  * @since v1.4.1
@@ -773,6 +797,7 @@ xhtmlFormat.allowedTags = [];
  * Array containing all the disallowed tags.
  *
  * Only used if allowed tags is null or empty.
+ *
  * @type {Array}
  * @name jQuery.sceditor.plugins.xhtml.disallowedTags
  * @since v1.4.1

@@ -1,7 +1,7 @@
 /**
-* @author martec
-* @license [MIT](http://www.opensource.org/licenses/mit-license.php)
-*/
+ * @author martec
+ * @license [MIT](http://www.opensource.org/licenses/mit-license.php)
+ */
 export default {
 	'Bold': 'Negrito',
 	'Italic': 'Itálico',

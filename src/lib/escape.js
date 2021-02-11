@@ -13,7 +13,7 @@ var VALID_SCHEME_REGEX =
  * Escapes a string so it's safe to use in regex
  *
  * @param {string} str
- * @return {string}
+ * @returns {string}
  */
 export function regex(str)
 {
@@ -28,7 +28,7 @@ export function regex(str)
  *
  * @param {string} str
  * @param {boolean} [noQuotes=true]
- * @return {string}
+ * @returns {string}
  * @since 1.4.1
  */
 export function entities(str, noQuotes)
@@ -82,7 +82,7 @@ export function entities(str, noQuotes)
  * that use the escape.entities() method.
  *
  * @param  {string} url
- * @return {string}
+ * @returns {string}
  * @since 1.4.5
  */
 export function uriScheme(url)

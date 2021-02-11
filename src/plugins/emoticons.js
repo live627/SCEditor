@@ -10,7 +10,7 @@ var plugin = function (dom)
 	 *
 	 * @param {HTMLElement} node
 	 * @param {rangeHelper} rangeHelper
-	 * @return {void}
+	 * @returns {void}
 	 */
 	var checkWS = function (node, rangeHelper)
 	{
@@ -88,7 +88,7 @@ var plugin = function (dom)
 	 * @param {HTMLElement} root
 	 * @param {Array<string, string, RegExp>} emoticons
 	 * @param {boolean} emoticonsCompat
-	 * @return {void}
+	 * @returns {void}
 	 */
 	var replace = function (root, emoticons, emoticonsCompat = false)
 	{

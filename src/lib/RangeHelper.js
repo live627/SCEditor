@@ -13,9 +13,10 @@ var IE_BR_FIX = IE_VER && IE_VER < 11;
  *
  * @param  {Node}  node
  * @param  {number}  offset
+ * @param range
  * @param  {boolean} isLeft
  * @param  {number}  length
- * @return {Object}
+ * @returns {object}
  * @private
  */
 var outerText = function (range, isLeft, length)
@@ -79,6 +80,8 @@ var outerText = function (range, isLeft, length)
 /**
  * Range helper
  *
+ * @param win
+ * @param d
  * @class RangeHelper
  * @name RangeHelper
  */
@@ -91,20 +94,19 @@ export default function RangeHelper(win, d)
 		base         = this;
 
 	/**
-	* Inserts HTML into the current range replacing any selected
-	* text.
-	*
-	* If endHTML is specified the selected contents will be put between
-	* html and endHTML. If there is nothing selected html and endHTML are
-	* just concatenate together.
-	*
-	* @param {string} html
-	* @param {string} [endHTML]
-	* @return False on fail
-	* @function
-	* @name insertHTML
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Inserts HTML into the current range replacing any selected
+	 * text.
+	 *
+	 * If endHTML is specified the selected contents will be put between
+	 * html and endHTML. If there is nothing selected html and endHTML are
+	 * just concatenate together.
+	 *
+	 * @param {string} html
+	 * @param {string} [endHTML]
+	 * @returns False on fail
+	 * @function
+	 * @name insertHTML
+	 */
 	base.insertHTML = function (html, endHTML)
 	{
 		var	node, div,
@@ -127,16 +129,16 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Prepares HTML to be inserted by adding a zero width space
-	* if the last child is empty and adding the range start/end
-	* markers to the last child.
-	*
-	* @param  {Node|string} node
-	* @param  {Node|string} [endNode]
-	* @param  {boolean} [returnHtml]
-	* @return {Node|string}
-	* @private
-	*/
+	 * Prepares HTML to be inserted by adding a zero width space
+	 * if the last child is empty and adding the range start/end
+	 * markers to the last child.
+	 *
+	 * @param  {Node|string} node
+	 * @param  {Node|string} [endNode]
+	 * @param  {boolean} [returnHtml]
+	 * @returns {Node|string}
+	 * @private
+	 */
 	_prepareInput = function (node, endNode, returnHtml)
 	{
 		var lastChild,
@@ -196,21 +198,20 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* The same as insertHTML except with DOM nodes instead
-	*
-	* <strong>Warning:</strong> the nodes must belong to the
-	* document they are being inserted into. Some browsers
-	* will throw exceptions if they don't.
-	*
-	* Returns boolean false on fail
-	*
-	* @param {Node} node
-	* @param {Node} endNode
-	* @return {false|undefined}
-	* @function
-	* @name insertNode
-	* @memberOf RangeHelper.prototype
-	*/
+	 * The same as insertHTML except with DOM nodes instead
+	 *
+	 * <strong>Warning:</strong> the nodes must belong to the
+	 * document they are being inserted into. Some browsers
+	 * will throw exceptions if they don't.
+	 *
+	 * Returns boolean false on fail
+	 *
+	 * @param {Node} node
+	 * @param {Node} endNode
+	 * @returns {false|undefined}
+	 * @function
+	 * @name insertNode
+	 */
 	base.insertNode = function (node, endNode)
 	{
 		var	input  = _prepareInput(node, endNode),
@@ -235,13 +236,12 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Clones the selected Range
-	*
-	* @return {Range}
-	* @function
-	* @name cloneSelected
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Clones the selected Range
+	 *
+	 * @returns {Range}
+	 * @function
+	 * @name cloneSelected
+	 */
 	base.cloneSelected = function ()
 	{
 		var range = base.selectedRange();
@@ -252,13 +252,12 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets the selected Range
-	*
-	* @return {Range}
-	* @function
-	* @name selectedRange
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the selected Range
+	 *
+	 * @returns {Range}
+	 * @function
+	 * @name selectedRange
+	 */
 	base.selectedRange = function ()
 	{
 		var	range, firstChild,
@@ -290,14 +289,13 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets if there is currently a selection
-	*
-	* @return {boolean}
-	* @function
-	* @name hasSelection
-	* @since 1.4.4
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets if there is currently a selection
+	 *
+	 * @returns {boolean}
+	 * @function
+	 * @name hasSelection
+	 * @since 1.4.4
+	 */
 	base.hasSelection = function ()
 	{
 		var	sel = win.getSelection();
@@ -306,13 +304,12 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets the currently selected HTML
-	*
-	* @return {string}
-	* @function
-	* @name selectedHtml
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the currently selected HTML
+	 *
+	 * @returns {string}
+	 * @function
+	 * @name selectedHtml
+	 */
 	base.selectedHtml = function ()
 	{
 		var	div,
@@ -330,13 +327,12 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets the parent node of the selected contents in the range
-	*
-	* @return {HTMLElement}
-	* @function
-	* @name parentNode
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the parent node of the selected contents in the range
+	 *
+	 * @returns {HTMLElement}
+	 * @function
+	 * @name parentNode
+	 */
 	base.parentNode = function ()
 	{
 		var range = base.selectedRange();
@@ -347,25 +343,24 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets the first block level parent of the selected
-	* contents of the range.
-	*
-	* @return {HTMLElement}
-	* @function
-	* @name getFirstBlockParent
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the first block level parent of the selected
+	 * contents of the range.
+	 *
+	 * @returns {HTMLElement}
+	 * @function
+	 * @name getFirstBlockParent
+	 */
 	/**
-	* Gets the first block level parent of the selected
-	* contents of the range.
-	*
-	* @param {Node} [n] The element to get the first block level parent from
-	* @return {HTMLElement}
-	* @function
-	* @name getFirstBlockParent^2
-	* @since 1.4.1
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the first block level parent of the selected
+	 * contents of the range.
+	 *
+	 * @param {Node} [n] The element to get the first block level parent from
+	 * @param node
+	 * @returns {HTMLElement}
+	 * @function
+	 * @name getFirstBlockParent^2
+	 * @since 1.4.1
+	 */
 	base.getFirstBlockParent = function (node)
 	{
 		var func = function (elm)
@@ -382,14 +377,13 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Inserts a node at either the start or end of the current selection
-	*
-	* @param {Bool} start
-	* @param {Node} node
-	* @function
-	* @name insertNodeAt
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Inserts a node at either the start or end of the current selection
+	 *
+	 * @param {Bool} start
+	 * @param {Node} node
+	 * @function
+	 * @name insertNodeAt
+	 */
 	base.insertNodeAt = function (start, node)
 	{
 		var	currentRange = base.selectedRange(),
@@ -407,12 +401,12 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Creates a marker node
-	*
-	* @param {string} id
-	* @return {HTMLSpanElement}
-	* @private
-	*/
+	 * Creates a marker node
+	 *
+	 * @param {string} id
+	 * @returns {HTMLSpanElement}
+	 * @private
+	 */
 	_createMarker = function (id)
 	{
 		base.removeMarker(id);
@@ -429,14 +423,13 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Inserts start/end markers for the current selection
-	* which can be used by restoreRange to re-select the
-	* range.
-	*
-	* @memberOf RangeHelper.prototype
-	* @function
-	* @name insertMarkers
-	*/
+	 * Inserts start/end markers for the current selection
+	 * which can be used by restoreRange to re-select the
+	 * range.
+	 *
+	 * @function
+	 * @name insertMarkers
+	 */
 	base.insertMarkers = function ()
 	{
 		var	currentRange = base.selectedRange();
@@ -456,27 +449,25 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets the marker with the specified ID
-	*
-	* @param {string} id
-	* @return {Node}
-	* @function
-	* @name getMarker
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the marker with the specified ID
+	 *
+	 * @param {string} id
+	 * @returns {Node}
+	 * @function
+	 * @name getMarker
+	 */
 	base.getMarker = function (id)
 	{
 		return doc.getElementById(id);
 	};
 
 	/**
-	* Removes the marker with the specified ID
-	*
-	* @param {string} id
-	* @function
-	* @name removeMarker
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Removes the marker with the specified ID
+	 *
+	 * @param {string} id
+	 * @function
+	 * @name removeMarker
+	 */
 	base.removeMarker = function (id)
 	{
 		var marker = base.getMarker(id);
@@ -487,12 +478,11 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Removes the start/end markers
-	*
-	* @function
-	* @name removeMarkers
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Removes the start/end markers
+	 *
+	 * @function
+	 * @name removeMarkers
+	 */
 	base.removeMarkers = function ()
 	{
 		base.removeMarker(startMarker);
@@ -500,25 +490,23 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Saves the current range location. Alias of insertMarkers()
-	*
-	* @function
-	* @name saveRage
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Saves the current range location. Alias of insertMarkers()
+	 *
+	 * @function
+	 * @name saveRage
+	 */
 	base.saveRange = function ()
 	{
 		base.insertMarkers();
 	};
 
 	/**
-	* Select the specified range
-	*
-	* @param {Range} range
-	* @function
-	* @name selectRange
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Select the specified range
+	 *
+	 * @param {Range} range
+	 * @function
+	 * @name selectRange
+	 */
 	base.selectRange = function (range)
 	{
 		var lastChild;
@@ -558,12 +546,11 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Restores the last range saved by saveRange() or insertMarkers()
-	*
-	* @function
-	* @name restoreRange
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Restores the last range saved by saveRange() or insertMarkers()
+	 *
+	 * @function
+	 * @name restoreRange
+	 */
 	base.restoreRange = function ()
 	{
 		var	isCollapsed,
@@ -588,15 +575,14 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Selects the text left and right of the current selection
-	*
-	* @param {number} left
-	* @param {number} right
-	* @since 1.4.3
-	* @function
-	* @name selectOuterText
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Selects the text left and right of the current selection
+	 *
+	 * @param {number} left
+	 * @param {number} right
+	 * @since 1.4.3
+	 * @function
+	 * @name selectOuterText
+	 */
 	base.selectOuterText = function (left, right)
 	{
 		var start, end,
@@ -617,16 +603,15 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Gets the text left or right of the current selection
-	*
-	* @param {boolean} before
-	* @param {number} length
-	* @return {string}
-	* @since 1.4.3
-	* @function
-	* @name selectOuterText
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Gets the text left or right of the current selection
+	 *
+	 * @param {boolean} before
+	 * @param {number} length
+	 * @returns {string}
+	 * @since 1.4.3
+	 * @function
+	 * @name selectOuterText
+	 */
 	base.getOuterText = function (before, length)
 	{
 		var	range = base.cloneSelected();
@@ -640,24 +625,23 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Replaces keywords with values based on the current caret position
-	*
-	* Assumes that the keywords array is sorted shortest to longest
-	*
-	* @param {Array<string, string, RegExp>}   keywords
-	* @param {boolean} includeAfter      If to include the text after the
-	*                                    current caret position or just
-	*                                    text before
-	* @param {boolean} requireWhitespace If the key must be surrounded
-	*                                    by whitespace
-	* @param {string}  keypressChar      If this is being called from
-	*                                    a keypress event, this should be
-	*                                    set to the pressed character
-	* @return {boolean}
-	* @function
-	* @name replaceKeyword
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Replaces keywords with values based on the current caret position
+	 *
+	 * Assumes that the keywords array is sorted shortest to longest
+	 *
+	 * @param {Array<string, string, RegExp>}   keywords
+	 * @param {boolean} includeAfter      If to include the text after the
+	 *                                    current caret position or just
+	 *                                    text before
+	 * @param {boolean} requireWhitespace If the key must be surrounded
+	 *                                    by whitespace
+	 * @param {string}  keypressChar      If this is being called from
+	 *                                    a keypress event, this should be
+	 *                                    set to the pressed character
+	 * @returns {boolean}
+	 * @function
+	 * @name replaceKeyword
+	 */
 	// eslint-disable-next-line max-params
 	base.replaceKeyword = function (
 		keywords,
@@ -734,18 +718,17 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Compares two ranges.
-	*
-	* If rangeB is undefined it will be set to
-	* the current selected range
-	*
-	* @param  {Range} rngA
-	* @param  {Range} [rngB]
-	* @return {boolean}
-	* @function
-	* @name compare
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Compares two ranges.
+	 *
+	 * If rangeB is undefined it will be set to
+	 * the current selected range
+	 *
+	 * @param  {Range} rngA
+	 * @param  {Range} [rngB]
+	 * @returns {boolean}
+	 * @function
+	 * @name compare
+	 */
 	base.compare = function (rngA, rngB)
 	{
 		if (!rngB)
@@ -759,13 +742,12 @@ export default function RangeHelper(win, d)
 	};
 
 	/**
-	* Removes any current selection
-	*
-	* @since 1.4.6
-	* @function
-	* @name clear
-	* @memberOf RangeHelper.prototype
-	*/
+	 * Removes any current selection
+	 *
+	 * @since 1.4.6
+	 * @function
+	 * @name clear
+	 */
 	base.clear = function ()
 	{
 		var sel = win.getSelection();

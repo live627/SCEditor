@@ -9,6 +9,7 @@ globals:
 extends:
   - 'plugin:import/errors'
   - 'plugin:node/recommended'
+  - 'plugin:jsdoc/recommended'
 rules:
   no-bitwise: warn
   camelcase: error
@@ -119,3 +120,6 @@ rules:
   space-before-blocks:
     - error
     - always
+  jsdoc/require-param-description: 0
+  jsdoc/require-property-description: 0
+  jsdoc/require-returns-description: 0

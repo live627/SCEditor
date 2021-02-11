@@ -2,7 +2,8 @@ var plugin = function ()
 {
 	/**
 		* Default tags
-		* @type {Object}
+	 *
+		* @type {object}
 		* @private
 		*/
 	var tags = {

@@ -54,224 +54,227 @@ function wrapInlines(body, doc)
  * SCEditor - A lightweight WYSIWYG editor
  *
  * @param {HTMLTextAreaElement} original The textarea to be converted
- * @param {Object} userOptions
+ * @param {object} userOptions
  * @class SCEditor
  * @name SCEditor
  */
 export default function SCEditor(original, userOptions)
 {
 	/**
-	* Alias of this
-	*
-	* @private
-	*/
+	 * Alias of this
+	 *
+	 * @private
+	 */
 	var base = this;
 
 	/**
-	* Editor format like BBCode or HTML
-	*/
+	 * Editor format like BBCode or HTML
+	 */
 	var format;
 
 	/**
-	* The div which contains the editor and toolbar
-	*
-	* @type {HTMLDivElement}
-	* @private
-	*/
+	 * The div which contains the editor and toolbar
+	 *
+	 * @type {HTMLDivElement}
+	 * @private
+	 */
 	var editorContainer;
 
 	/**
-	* Map of events handlers bound to this instance.
-	*
-	* @type {Object}
-	* @private
-	*/
+	 * Map of events handlers bound to this instance.
+	 *
+	 * @type {object}
+	 * @private
+	 */
 	var eventHandlers = {};
 
 	/**
-	* The editors toolbar
-	*
-	* @type {HTMLDivElement}
-	* @private
-	*/
+	 * The editors toolbar
+	 *
+	 * @type {HTMLDivElement}
+	 * @private
+	 */
 	var toolbar;
 
 	/**
-	* The editors iframe which should be in design mode
-	*
-	* @type {HTMLIFrameElement}
-	* @private
-	*/
+	 * The editors iframe which should be in design mode
+	 *
+	 * @type {HTMLIFrameElement}
+	 * @private
+	 */
 	var wysiwygEditor;
 
 	/**
-	* The editors window
-	*
-	* @type {Window}
-	* @private
-	*/
+	 * The editors window
+	 *
+	 * @type {Window}
+	 * @private
+	 */
 	var wysiwygWindow;
 
 	/**
-	* The WYSIWYG editors body element
-	*
-	* @type {HTMLBodyElement}
-	* @private
-	*/
+	 * The WYSIWYG editors body element
+	 *
+	 * @type {HTMLBodyElement}
+	 * @private
+	 */
 	var wysiwygBody;
 
 	/**
-	* The WYSIWYG editors document
-	*
-	* @type {Document}
-	* @private
-	*/
+	 * The WYSIWYG editors document
+	 *
+	 * @type {Document}
+	 * @private
+	 */
 	var wysiwygDocument;
 
 	/**
-	* The editors textarea for viewing source
-	*
-	* @type {HTMLTextAreaElement}
-	* @private
-	*/
+	 * The editors textarea for viewing source
+	 *
+	 * @type {HTMLTextAreaElement}
+	 * @private
+	 */
 	var sourceEditor;
 
 	/**
-	* If the user is currently composing text via IME
-	* @type {boolean}
-	*/
+	 * If the user is currently composing text via IME
+	 *
+	 * @type {boolean}
+	 */
 	var isComposing;
 
 	/**
-	* Timer for valueChanged key handler
-	* @type {number}
-	*/
+	 * Timer for valueChanged key handler
+	 *
+	 * @type {number}
+	 */
 	var valueChangedKeyUpTimer;
 
 	/**
-	* The editors rangeHelper instance
-	*
-	* @type {RangeHelper}
-	* @private
-	*/
+	 * The editors rangeHelper instance
+	 *
+	 * @type {RangeHelper}
+	 * @private
+	 */
 	var rangeHelper;
 
 	/**
-	* An array of button state handlers
-	*
-	* @type {Array.<Object>}
-	* @private
-	*/
+	 * An array of button state handlers
+	 *
+	 * @type {Array.<object>}
+	 * @private
+	 */
 	var btnStateHandlers = [];
 
 	/**
-	* Plugin manager instance
-	*
-	* @type {PluginManager}
-	* @private
-	*/
+	 * Plugin manager instance
+	 *
+	 * @type {PluginManager}
+	 * @private
+	 */
 	var pluginManager;
 
 	/**
-	* The current node containing the selection/caret
-	*
-	* @type {Node}
-	* @private
-	*/
+	 * The current node containing the selection/caret
+	 *
+	 * @type {Node}
+	 * @private
+	 */
 	var currentNode;
 
 	/**
-	* The first block level parent of the current node
-	*
-	* @type {node}
-	* @private
-	*/
+	 * The first block level parent of the current node
+	 *
+	 * @type {node}
+	 * @private
+	 */
 	var currentBlockNode;
 
 	/**
-	* The current node selection/caret
-	*
-	* @type {Object}
-	* @private
-	*/
+	 * The current node selection/caret
+	 *
+	 * @type {object}
+	 * @private
+	 */
 	var currentSelection;
 
 	/**
-	* Used to make sure only 1 selection changed
-	* check is called every 100ms.
-	*
-	* Helps improve performance as it is checked a lot.
-	*
-	* @type {boolean}
-	* @private
-	*/
+	 * Used to make sure only 1 selection changed
+	 * check is called every 100ms.
+	 *
+	 * Helps improve performance as it is checked a lot.
+	 *
+	 * @type {boolean}
+	 * @private
+	 */
 	var isSelectionCheckPending;
 
 	/**
-	* If content is required (equivalent to the HTML5 required attribute)
-	*
-	* @type {boolean}
-	* @private
-	*/
+	 * If content is required (equivalent to the HTML5 required attribute)
+	 *
+	 * @type {boolean}
+	 * @private
+	 */
 	var isRequired;
 
 	/**
-	* The inline CSS style element. Will be undefined
-	* until css() is called for the first time.
-	*
-	* @type {HTMLStyleElement}
-	* @private
-	*/
+	 * The inline CSS style element. Will be undefined
+	 * until css() is called for the first time.
+	 *
+	 * @type {HTMLStyleElement}
+	 * @private
+	 */
 	var inlineCss;
 
 	/**
-	* Object containing a list of shortcut handlers
-	*
-	* @type {Object}
-	* @private
-	*/
+	 * Object containing a list of shortcut handlers
+	 *
+	 * @type {object}
+	 * @private
+	 */
 	var shortcutHandlers = {};
 
 	/**
-	* The min and max heights that autoExpand should stay within
-	*
-	* @type {Object}
-	* @private
-	*/
+	 * The min and max heights that autoExpand should stay within
+	 *
+	 * @type {object}
+	 * @private
+	 */
 	var autoExpandBounds;
 
 	/**
-	* Timeout for the autoExpand function to throttle calls
-	*
-	* @private
-	*/
+	 * Timeout for the autoExpand function to throttle calls
+	 *
+	 * @private
+	 */
 	var autoExpandThrottle;
 
 	/**
-	* Last scroll position before maximizing so
-	* it can be restored when finished.
-	*
-	* @type {number}
-	* @private
-	*/
+	 * Last scroll position before maximizing so
+	 * it can be restored when finished.
+	 *
+	 * @type {number}
+	 * @private
+	 */
 	var maximizeScrollPosition;
 
 	/**
-	* Stores the contents while a paste is taking place.
-	*
-	* Needed to support browsers that lack clipboard API support.
-	*
-	* @type {?DocumentFragment}
-	* @private
-	*/
+	 * Stores the contents while a paste is taking place.
+	 *
+	 * Needed to support browsers that lack clipboard API support.
+	 *
+	 * @type {?DocumentFragment}
+	 * @private
+	 */
 	var pasteContentFragment;
 
 	var lastVal;
 
 	/**
-	* Private functions
-	* @private
-	*/
+	 * Private functions
+	 *
+	 * @private
+	 */
 	var
 		init,
 		handleCommand,
@@ -296,45 +299,44 @@ export default function SCEditor(original, userOptions)
 		autoExpand;
 
 	/**
-	* Options for this editor instance
-	* @name opts
-	* @memberOf SCEditor.prototype
-	*/
+	 * Options for this editor instance
+	 *
+	 * @name opts
+	 */
 	var options = Object.assign(defaultOptions, userOptions);
 
 	/**
-	* The editors locale
-	*
-	* @private
-	*/
+	 * The editors locale
+	 *
+	 * @private
+	 */
 	var locale = options.locale || {};
 
 	/**
-	* All the commands supported by the editor
-	* @name commands
-	* @memberOf SCEditor.prototype
-	*/
+	 * All the commands supported by the editor
+	 *
+	 * @name commands
+	 */
 	var commands = userOptions.commands || defaultCommands;
 
 	/**
-	* All the events supported by the editor
-	*
-	* The supported events are:
-	*
-	* * keyup
-	* * keydown
-	* * Keypress
-	* * blur
-	* * focus
-	* * nodechanged - When the current node containing
-	* 		the selection changes in WYSIWYG mode
-	* * contextmenu
-	* * selectionchanged
-	* * valuechanged
-	*
-	* @name events
-	* @memberOf SCEditor.prototype
-	*/
+	 * All the events supported by the editor
+	 *
+	 * The supported events are:
+	 *
+	 * * keyup
+	 * * keydown
+	 * * Keypress
+	 * * blur
+	 * * focus
+	 * * nodechanged - When the current node containing
+	 * 		the selection changes in WYSIWYG mode
+	 * * contextmenu
+	 * * selectionchanged
+	 * * valuechanged
+	 *
+	 * @name events
+	 */
 	var events = createNanoEvents();
 
 	base.commands = commands;
@@ -342,9 +344,10 @@ export default function SCEditor(original, userOptions)
 	base.events = events;
 
 	/**
-	* Creates the editor iframe and textarea
-	* @private
-	*/
+	 * Creates the editor iframe and textarea
+	 *
+	 * @private
+	 */
 	init = function ()
 	{
 		original._sceditor = base;
@@ -408,9 +411,10 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Creates the editor iframe and textarea
-	* @private
-	*/
+	 * Creates the editor iframe and textarea
+	 *
+	 * @private
+	 */
 	initEditor = function ()
 	{
 		sourceEditor  = dom.createElement('textarea');
@@ -478,9 +482,10 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Initialises events
-	* @private
-	*/
+	 * Initialises events
+	 *
+	 * @private
+	 */
 	initEvents = function ()
 	{
 		var compositionEvents = 'compositionstart compositionend';
@@ -537,9 +542,10 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Creates the toolbar and appends it to the container
-	* @private
-	*/
+	 * Creates the toolbar and appends it to the container
+	 *
+	 * @private
+	 */
 	initToolBar = function ()
 	{
 		var
@@ -619,9 +625,10 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Autofocus the editor
-	* @private
-	*/
+	 * Autofocus the editor
+	 *
+	 * @private
+	 */
 	autofocus = function ()
 	{
 		var
@@ -688,25 +695,23 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets if the editor is read only
-	*
-	* @since 3.0.0
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name isReadOnly
-	* @return {boolean}
-	*/
+	 * Gets if the editor is read only
+	 *
+	 * @since 3.0.0
+	 * @function
+	 * @name isReadOnly
+	 * @returns {boolean}
+	 */
 	base.isReadOnly = () => !sourceEditor.readonly;
 
 	/**
-	* Sets if the editor is read only
-	*
-	* @param {boolean} readOnly
-	* @since 1.3.5
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name readOnly
-	*/
+	 * Sets if the editor is read only
+	 *
+	 * @param {boolean} readOnly
+	 * @since 1.3.5
+	 * @function
+	 * @name readOnly
+	 */
 	base.readOnly = function (readOnly)
 	{
 		wysiwygBody.contentEditable = !readOnly;
@@ -715,38 +720,35 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the width of the editor in pixels
-	*
-	* @since 1.3.5
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name width
-	* @return {number}
-	*/
+	 * Gets the width of the editor in pixels
+	 *
+	 * @since 1.3.5
+	 * @function
+	 * @name width
+	 * @returns {number}
+	 */
 	/**
-	* Sets the width of the editor
-	*
-	* @param {number} width Width in pixels
-	* @since 1.3.5
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name width^2
-	* @return {this}
-	*/
+	 * Sets the width of the editor
+	 *
+	 * @param {number} width Width in pixels
+	 * @since 1.3.5
+	 * @function
+	 * @name width^2
+	 * @returns {this}
+	 */
 	/**
-	* Sets the width of the editor
-	*
-	* The saveWidth specifies if to save the width. The stored width can be
-	* used for things like restoring from maximized state.
-	*
-	* @param {number}     width            Width in pixels
-	* @param {boolean}	[saveWidth=true] If to store the width
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name width^3
-	* @return {this}
-	*/
+	 * Sets the width of the editor
+	 *
+	 * The saveWidth specifies if to save the width. The stored width can be
+	 * used for things like restoring from maximized state.
+	 *
+	 * @param {number}     width            Width in pixels
+	 * @param {boolean}	[saveWidth=true] If to store the width
+	 * @since 1.4.1
+	 * @function
+	 * @name width^3
+	 * @returns {this}
+	 */
 	base.width = function (width, saveWidth)
 	{
 		if (!width && width !== 0)
@@ -758,46 +760,43 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Returns an object with the properties width and height
-	* which are the width and height of the editor in px.
-	*
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name dimensions
-	* @return {object}
-	*/
+	 * Returns an object with the properties width and height
+	 * which are the width and height of the editor in px.
+	 *
+	 * @since 1.4.1
+	 * @function
+	 * @name dimensions
+	 * @returns {object}
+	 */
 	/**
-	* <p>Sets the width and/or height of the editor.</p>
-	*
-	* <p>If width or height is not numeric it is ignored.</p>
-	*
-	* @param {number}	width	Width in px
-	* @param {number}	height	Height in px
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name dimensions^2
-	* @return {this}
-	*/
+	 * <p>Sets the width and/or height of the editor.</p>
+	 *
+	 * <p>If width or height is not numeric it is ignored.</p>
+	 *
+	 * @param {number}	width	Width in px
+	 * @param {number}	height	Height in px
+	 * @since 1.4.1
+	 * @function
+	 * @name dimensions^2
+	 * @returns {this}
+	 */
 	/**
-	* <p>Sets the width and/or height of the editor.</p>
-	*
-	* <p>If width or height is not numeric it is ignored.</p>
-	*
-	* <p>The save argument specifies if to save the new sizes.
-	* The saved sizes can be used for things like restoring from
-	* maximized state. This should normally be left as true.</p>
-	*
-	* @param {number}		width		Width in px
-	* @param {number}		height		Height in px
-	* @param {boolean}	[save=true]	If to store the new sizes
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name dimensions^3
-	* @return {this}
-	*/
+	 * <p>Sets the width and/or height of the editor.</p>
+	 *
+	 * <p>If width or height is not numeric it is ignored.</p>
+	 *
+	 * <p>The save argument specifies if to save the new sizes.
+	 * The saved sizes can be used for things like restoring from
+	 * maximized state. This should normally be left as true.</p>
+	 *
+	 * @param {number}		width		Width in px
+	 * @param {number}		height		Height in px
+	 * @param {boolean}	[save=true]	If to store the new sizes
+	 * @since 1.4.1
+	 * @function
+	 * @name dimensions^3
+	 * @returns {this}
+	 */
 	base.dimensions = function (width, height, save)
 	{
 		// set undefined width/height to boolean false
@@ -827,40 +826,37 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the height of the editor in px
-	*
-	* @since 1.3.5
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name height
-	* @return {number}
-	*/
+	 * Gets the height of the editor in px
+	 *
+	 * @since 1.3.5
+	 * @function
+	 * @name height
+	 * @returns {number}
+	 */
 	/**
-	* Sets the height of the editor
-	*
-	* @param {number} height Height in px
-	* @since 1.3.5
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name height^2
-	* @return {this}
-	*/
+	 * Sets the height of the editor
+	 *
+	 * @param {number} height Height in px
+	 * @since 1.3.5
+	 * @function
+	 * @name height^2
+	 * @returns {this}
+	 */
 	/**
-	* Sets the height of the editor
-	*
-	* The saveHeight specifies if to save the height.
-	*
-	* The stored height can be used for things like
-	* restoring from maximized state.
-	*
-	* @param {number} height Height in px
-	* @param {boolean} [saveHeight=true] If to store the height
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name height^3
-	* @return {this}
-	*/
+	 * Sets the height of the editor
+	 *
+	 * The saveHeight specifies if to save the height.
+	 *
+	 * The stored height can be used for things like
+	 * restoring from maximized state.
+	 *
+	 * @param {number} height Height in px
+	 * @param {boolean} [saveHeight=true] If to store the height
+	 * @since 1.4.1
+	 * @function
+	 * @name height^3
+	 * @returns {this}
+	 */
 	base.height = function (height, saveHeight)
 	{
 		if (!height && height !== 0)
@@ -872,24 +868,22 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets if the editor is maximised or not
-	*
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name maximize
-	* @return {boolean}
-	*/
+	 * Gets if the editor is maximised or not
+	 *
+	 * @since 1.4.1
+	 * @function
+	 * @name maximize
+	 * @returns {boolean}
+	 */
 	/**
-	* Sets if the editor is maximised or not
-	*
-	* @param {boolean} maximize If to maximise the editor
-	* @since 1.4.1
-	* @function
-	* @memberOf SCEditor.prototype
-	* @name maximize^2
-	* @return {this}
-	*/
+	 * Sets if the editor is maximised or not
+	 *
+	 * @param {boolean} maximize If to maximise the editor
+	 * @since 1.4.1
+	 * @function
+	 * @name maximize^2
+	 * @returns {this}
+	 */
 	base.maximize = function (maximize)
 	{
 		var maximizeSize = 'sceditor-maximize';
@@ -923,12 +917,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Expands or shrinks the editors height to the height of it's content
-	*
-	* @function
-	* @name expandToContent
-	* @memberOf SCEditor.prototype
-	*/
+	 * Expands or shrinks the editors height to the height of it's content
+	 *
+	 * @function
+	 * @name expandToContent
+	 */
 	base.expandToContent = function ()
 	{
 		if (base.maximize())
@@ -951,15 +944,14 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Destroys the editor, removing all elements and
-	* event handlers.
-	*
-	* Leaves only the original textarea.
-	*
-	* @function
-	* @name destroy
-	* @memberOf SCEditor.prototype
-	*/
+	 * Destroys the editor, removing all elements and
+	 * event handlers.
+	 *
+	 * Leaves only the original textarea.
+	 *
+	 * @function
+	 * @name destroy
+	 */
 	base.destroy = function ()
 	{
 		// Don't destroy if the editor has already been destroyed
@@ -987,9 +979,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Handles the WYSIWYG editors paste event
-	* @private
-	*/
+	 * Handles the WYSIWYG editors paste event
+	 *
+	 * @param e
+	 * @private
+	 */
 	handlePasteEvt = function (e)
 	{
 		var isIeOrEdge = IE_VER || browser.edge;
@@ -1064,10 +1058,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the pasted data, filters it and then inserts it.
-	* @param {Object} data
-	* @private
-	*/
+	 * Gets the pasted data, filters it and then inserts it.
+	 *
+	 * @param {object} data
+	 * @private
+	 */
 	handlePasteData = function (data)
 	{
 		var pasteArea = dom.createElement('div', {}, wysiwygDocument);
@@ -1104,22 +1099,21 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Inserts HTML into WYSIWYG editor.
-	*
-	* If endHtml is specified,  any selected text will be placed
-	* between html and endHtml. If there is no selected text html
-	* and endHtml will just be concatenate together.
-	*
-	* @param {string} html
-	* @param {string} [endHtml=null]
-	* @param {boolean} [overrideCodeBlocking=false] If to insert the html
-	*                                               into code tags, by
-	*                                               default code tags only
-	*                                               support text.
-	* @function
-	* @name wysiwygEditorInsertHtml
-	* @memberOf SCEditor.prototype
-	*/
+	 * Inserts HTML into WYSIWYG editor.
+	 *
+	 * If endHtml is specified,  any selected text will be placed
+	 * between html and endHtml. If there is no selected text html
+	 * and endHtml will just be concatenate together.
+	 *
+	 * @param {string} html
+	 * @param {string} [endHtml=null]
+	 * @param {boolean} [overrideCodeBlocking=false] If to insert the html
+	 *                                               into code tags, by
+	 *                                               default code tags only
+	 *                                               support text.
+	 * @function
+	 * @name wysiwygEditorInsertHtml
+	 */
 	base.wysiwygEditorInsertHtml = function (
 		html, endHtml, overrideCodeBlocking
 	)
@@ -1163,15 +1157,14 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Like wysiwygEditorInsertHtml except it will convert any HTML
-	* into text before inserting it.
-	*
-	* @param {string} text
-	* @param {string} [endText=null]
-	* @function
-	* @name wysiwygEditorInsertText
-	* @memberOf SCEditor.prototype
-	*/
+	 * Like wysiwygEditorInsertHtml except it will convert any HTML
+	 * into text before inserting it.
+	 *
+	 * @param {string} text
+	 * @param {string} [endText=null]
+	 * @function
+	 * @name wysiwygEditorInsertText
+	 */
 	base.wysiwygEditorInsertText = function (text, endText)
 	{
 		base.wysiwygEditorInsertHtml(
@@ -1180,20 +1173,19 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Inserts text into the WYSIWYG or source editor depending on which
-	* mode the editor is in.
-	*
-	* If endText is specified any selected text will be placed between
-	* text and endText. If no text is selected text and endText will
-	* just be concatenate together.
-	*
-	* @param {string} text
-	* @param {string} [endText=null]
-	* @since 1.3.5
-	* @function
-	* @name insertText
-	* @memberOf SCEditor.prototype
-	*/
+	 * Inserts text into the WYSIWYG or source editor depending on which
+	 * mode the editor is in.
+	 *
+	 * If endText is specified any selected text will be placed between
+	 * text and endText. If no text is selected text and endText will
+	 * just be concatenate together.
+	 *
+	 * @param {string} text
+	 * @param {string} [endText=null]
+	 * @since 1.3.5
+	 * @function
+	 * @name insertText
+	 */
 	base.insertText = function (text, endText)
 	{
 		if (base.isInSourceMode())
@@ -1205,29 +1197,28 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Like wysiwygEditorInsertHtml but inserts text into the
-	* source mode editor instead.
-	*
-	* If endText is specified any selected text will be placed between
-	* text and endText. If no text is selected text and endText will
-	* just be concatenate together.
-	*
-	* The cursor will be placed after the text param. If endText is
-	* specified the cursor will be placed before endText, so passing:<br />
-	*
-	* '[b]', '[/b]'
-	*
-	* Would cause the cursor to be placed:<br />
-	*
-	* [b]Selected text|[/b]
-	*
-	* @param {string} text
-	* @param {string} [endText=null]
-	* @since 1.4.0
-	* @function
-	* @name sourceEditorInsertText
-	* @memberOf SCEditor.prototype
-	*/
+	 * Like wysiwygEditorInsertHtml but inserts text into the
+	 * source mode editor instead.
+	 *
+	 * If endText is specified any selected text will be placed between
+	 * text and endText. If no text is selected text and endText will
+	 * just be concatenate together.
+	 *
+	 * The cursor will be placed after the text param. If endText is
+	 * specified the cursor will be placed before endText, so passing:<br />
+	 *
+	 * '[b]', '[/b]'
+	 *
+	 * Would cause the cursor to be placed:<br />
+	 *
+	 * [b]Selected text|[/b]
+	 *
+	 * @param {string} text
+	 * @param {string} [endText=null]
+	 * @since 1.4.0
+	 * @function
+	 * @name sourceEditorInsertText
+	 */
 	base.sourceEditorInsertText = function (text, endText)
 	{
 		var scrollTop, currentValue,
@@ -1256,26 +1247,24 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the current instance of the rangeHelper class
-	* for the editor.
-	*
-	* @return {RangeHelper}
-	* @function
-	* @name getRangeHelper
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the current instance of the rangeHelper class
+	 * for the editor.
+	 *
+	 * @returns {RangeHelper}
+	 * @function
+	 * @name getRangeHelper
+	 */
 	base.getRangeHelper = () => rangeHelper;
 
 	/**
-	* Gets or sets the source editor caret position.
-	*
-	* @param {Object} [position]
-	* @return {this}
-	* @function
-	* @since 1.4.5
-	* @name sourceEditorCaret
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets or sets the source editor caret position.
+	 *
+	 * @param {object} [position]
+	 * @returns {this}
+	 * @function
+	 * @since 1.4.5
+	 * @name sourceEditorCaret
+	 */
 	base.sourceEditorCaret = function (position)
 	{
 		sourceEditor.focus();
@@ -1295,29 +1284,28 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Inserts HTML/BBCode into the editor
-	*
-	* If end is supplied any selected text will be placed between
-	* start and end. If there is no selected text start and end
-	* will be concatenated together.
-	*
-	* If the filter param is set to true, the HTML/BBCode will be
-	* passed through any plugin filters. If using the BBCode plugin
-	* this will convert any BBCode into HTML.
-	*
-	* If the allowMixed param is set to true, HTML any will not be
-	* escaped
-	*
-	* @param {string} start
-	* @param {string} [end=null]
-	* @param {boolean} [filter=true]
-	* @param {boolean} [allowMixed=false]
-	* @return {this}
-	* @since 1.4.3
-	* @function
-	* @name insert
-	* @memberOf SCEditor.prototype
-	*/
+	 * Inserts HTML/BBCode into the editor
+	 *
+	 * If end is supplied any selected text will be placed between
+	 * start and end. If there is no selected text start and end
+	 * will be concatenated together.
+	 *
+	 * If the filter param is set to true, the HTML/BBCode will be
+	 * passed through any plugin filters. If using the BBCode plugin
+	 * this will convert any BBCode into HTML.
+	 *
+	 * If the allowMixed param is set to true, HTML any will not be
+	 * escaped
+	 *
+	 * @param {string} start
+	 * @param {string} [end=null]
+	 * @param {boolean} [filter=true]
+	 * @param {boolean} [allowMixed=false]
+	 * @returns {this}
+	 * @since 1.4.3
+	 * @function
+	 * @name insert
+	 */
 	base.insert = function (start, end, filter, allowMixed)
 	{
 		if (base.isInSourceMode())
@@ -1353,18 +1341,17 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the WYSIWYG editors HTML value.
-	*
-	* If using a plugin that filters the Ht Ml like the BBCode plugin
-	* it will return the result of the filtering (BBCode) unless the
-	* filter param is set to false.
-	*
-	* @param {boolean} [filter=true]
-	* @return {string}
-	* @function
-	* @name getWysiwygEditorValue
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the WYSIWYG editors HTML value.
+	 *
+	 * If using a plugin that filters the Ht Ml like the BBCode plugin
+	 * it will return the result of the filtering (BBCode) unless the
+	 * filter param is set to false.
+	 *
+	 * @param {boolean} [filter=true]
+	 * @returns {string}
+	 * @function
+	 * @name getWysiwygEditorValue
+	 */
 	base.getWysiwygEditorValue = function (filter)
 	{
 		var	html;
@@ -1390,73 +1377,68 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the entire editor's container.
-	*
-	* @return {HTMLElement}
-	* @function
-	* @since 3.0.0
-	* @name getEditorContainer
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the entire editor's container.
+	 *
+	 * @returns {HTMLElement}
+	 * @function
+	 * @since 3.0.0
+	 * @name getEditorContainer
+	 */
 	base.getEditorContainer = () => editorContainer;
 
 	/**
-	* Gets the WYSIWYG editor's iFrame Body.
-	*
-	* @return {HTMLElement}
-	* @function
-	* @since 1.4.3
-	* @name getBody
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the WYSIWYG editor's iFrame Body.
+	 *
+	 * @returns {HTMLElement}
+	 * @function
+	 * @since 1.4.3
+	 * @name getBody
+	 */
 	base.getBody = () => wysiwygBody;
 
 	/**
-	* Gets the WYSIWYG editors container area (whole iFrame).
-	*
-	* @return {HTMLElement}
-	* @function
-	* @since 1.4.3
-	* @name getContentAreaContainer
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the WYSIWYG editors container area (whole iFrame).
+	 *
+	 * @returns {HTMLElement}
+	 * @function
+	 * @since 1.4.3
+	 * @name getContentAreaContainer
+	 */
 	base.getContentAreaContainer = () => wysiwygEditor;
 
 	/**
-	* Gets the value of the editor.
-	*
-	* If the editor is in WYSIWYG mode it will return the filtered
-	* HTML from it (converted to BBCode if using the BBCode plugin).
-	* It it's in Source Mode it will return the unfiltered contents
-	* of the source editor (if using the BBCode plugin this will be
-	* BBCode again).
-	*
-	* @since 1.3.5
-	* @return {string}
-	* @function
-	* @name val
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the value of the editor.
+	 *
+	 * If the editor is in WYSIWYG mode it will return the filtered
+	 * HTML from it (converted to BBCode if using the BBCode plugin).
+	 * It it's in Source Mode it will return the unfiltered contents
+	 * of the source editor (if using the BBCode plugin this will be
+	 * BBCode again).
+	 *
+	 * @since 1.3.5
+	 * @returns {string}
+	 * @function
+	 * @name val
+	 */
 	base.getValue = () => base.isInSourceMode() ?
 		sourceEditor.value :
 		base.getWysiwygEditorValue();
 
 	/**
-	* Gets the text editor value
-	*
-	* If using a plugin that filters the text like the BBCode plugin
-	* it will return the result of the filtering which is BBCode to
-	* HTML so it will return HTML. If filter is set to false it will
-	* just return the contents of the source editor (BBCode).
-	*
-	* @private
-	* @param {boolean} [filter=true]
-	* @return {string}
-	* @function
-	* @since 1.4.0
-	* @name getSourceEditorValue
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the text editor value
+	 *
+	 * If using a plugin that filters the text like the BBCode plugin
+	 * it will return the result of the filtering which is BBCode to
+	 * HTML so it will return HTML. If filter is set to false it will
+	 * just return the contents of the source editor (BBCode).
+	 *
+	 * @private
+	 * @param {boolean} [filter=true]
+	 * @returns {string}
+	 * @function
+	 * @since 1.4.0
+	 * @name getSourceEditorValue
+	 */
 	base.getSourceEditorValue = function (filter)
 	{
 		var val = sourceEditor.value;
@@ -1468,27 +1450,25 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Sets the WYSIWYG HTML editor value. Should only be the HTML
-	* contained within the body tags
-	*
-	* @param {string} value
-	* @function
-	* @name setValue
-	* @memberOf SCEditor.prototype
-	*/
+	 * Sets the WYSIWYG HTML editor value. Should only be the HTML
+	 * contained within the body tags
+	 *
+	 * @param {string} value
+	 * @function
+	 * @name setValue
+	 */
 	base.setValue = value => base.isInSourceMode() ?
 		base.setSourceEditorValue(value) :
 		base.setWysiwygEditorValue(value);
 
 	/**
-	* Sets the WYSIWYG HTML editor value. Should only be the HTML
-	* contained within the body tags
-	*
-	* @param {string} value
-	* @function
-	* @name setWysiwygEditorValue
-	* @memberOf SCEditor.prototype
-	*/
+	 * Sets the WYSIWYG HTML editor value. Should only be the HTML
+	 * contained within the body tags
+	 *
+	 * @param {string} value
+	 * @function
+	 * @name setWysiwygEditorValue
+	 */
 	base.setWysiwygEditorValue = function (value)
 	{
 		if (!value)
@@ -1503,13 +1483,12 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Sets the text editor value
-	*
-	* @param {string} value
-	* @function
-	* @name setSourceEditorValue
-	* @memberOf SCEditor.prototype
-	*/
+	 * Sets the text editor value
+	 *
+	 * @param {string} value
+	 * @function
+	 * @name setSourceEditorValue
+	 */
 	base.setSourceEditorValue = function (value)
 	{
 		sourceEditor.value = value;
@@ -1518,40 +1497,37 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Updates the textarea that the editor is replacing
-	* with the value currently inside the editor.
-	*
-	* @function
-	* @name updateOriginal
-	* @since 1.4.0
-	* @memberOf SCEditor.prototype
-	*/
+	 * Updates the textarea that the editor is replacing
+	 * with the value currently inside the editor.
+	 *
+	 * @function
+	 * @name updateOriginal
+	 * @since 1.4.0
+	 */
 	base.updateOriginal = function ()
 	{
 		original.value = base.getValue();
 	};
 
 	/**
-	* If the editor is in source code mode
-	*
-	* @return {boolean}
-	* @function
-	* @name isInSourceMode
-	* @memberOf SCEditor.prototype
-	*/
+	 * If the editor is in source code mode
+	 *
+	 * @returns {boolean}
+	 * @function
+	 * @name isInSourceMode
+	 */
 	base.isInSourceMode = function ()
 	{
 		return dom.hasClass(editorContainer, 'sourceMode');
 	};
 
 	/**
-	* Switches between the WYSIWYG and source modes
-	*
-	* @function
-	* @name toggleSourceMode
-	* @since 1.4.0
-	* @memberOf SCEditor.prototype
-	*/
+	 * Switches between the WYSIWYG and source modes
+	 *
+	 * @function
+	 * @name toggleSourceMode
+	 * @since 1.4.0
+	 */
 	base.toggleSourceMode = function ()
 	{
 		var isInSourceMode = base.isInSourceMode();
@@ -1583,9 +1559,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Handles the passed command
-	* @private
-	*/
+	 * Handles the passed command
+	 *
+	 * @param cmd
+	 * @private
+	 */
 	handleCommand = function (cmd)
 	{
 		var isInSourceMode = base.isInSourceMode();
@@ -1613,14 +1591,13 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Executes a command on the WYSIWYG editor
-	*
-	* @param {string} command
-	* @param {String|Boolean} [param]
-	* @function
-	* @name execCommand
-	* @memberOf SCEditor.prototype
-	*/
+	 * Executes a command on the WYSIWYG editor
+	 *
+	 * @param {string} command
+	 * @param {string | boolean} [param]
+	 * @function
+	 * @name execCommand
+	 */
 	base.execCommand = function (command, param)
 	{
 		var	executed    = false,
@@ -1649,15 +1626,19 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Checks if the current selection has changed and triggers
-	* the selectionchanged event if it has.
-	*
-	* In browsers other than IE, it will check at most once every 100ms.
-	* This is because only IE has a selection changed event.
-	* @private
-	*/
+	 * Checks if the current selection has changed and triggers
+	 * the selectionchanged event if it has.
+	 *
+	 * In browsers other than IE, it will check at most once every 100ms.
+	 * This is because only IE has a selection changed event.
+	 *
+	 * @private
+	 */
 	checkSelectionChanged = function ()
 	{
+		/**
+		 *
+		 */
 		function check()
 		{
 			// Don't create new selection if there isn't one (like after
@@ -1712,10 +1693,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Checks if the current node has changed and triggers
-	* the nodechanged event if it has
-	* @private
-	*/
+	 * Checks if the current node has changed and triggers
+	 * the nodechanged event if it has
+	 *
+	 * @private
+	 */
 	checkNodeChanged = function ()
 	{
 		// check if node has changed
@@ -1734,36 +1716,35 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the current node that contains the selection/caret in
-	* WYSIWYG mode.
-	*
-	* Will be null in sourceMode or if there is no selection.
-	*
-	* @return {?Node}
-	* @function
-	* @name currentNode
-	* @memberOf SCEditor.prototype
-	*/
+	 * Gets the current node that contains the selection/caret in
+	 * WYSIWYG mode.
+	 *
+	 * Will be null in sourceMode or if there is no selection.
+	 *
+	 * @returns {?Node}
+	 * @function
+	 * @name currentNode
+	 */
 	base.currentNode = () => currentNode;
 
 	/**
-	* Gets the first block level node that contains the
-	* selection/caret in WYSIWYG mode.
-	*
-	* Will be null in sourceMode or if there is no selection.
-	*
-	* @return {?Node}
-	* @function
-	* @name currentBlockNode
-	* @memberOf SCEditor.prototype
-	* @since 1.4.4
-	*/
+	 * Gets the first block level node that contains the
+	 * selection/caret in WYSIWYG mode.
+	 *
+	 * Will be null in sourceMode or if there is no selection.
+	 *
+	 * @returns {?Node}
+	 * @function
+	 * @name currentBlockNode
+	 * @since 1.4.4
+	 */
 	base.currentBlockNode = () => currentBlockNode;
 
 	/**
-	* Updates if buttons are active or not
-	* @private
-	*/
+	 * Updates if buttons are active or not
+	 *
+	 * @private
+	 */
 	updateActiveButtons = function ()
 	{
 		var firstBlock, parent;
@@ -1804,10 +1785,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Handles any key press in the WYSIWYG editor
-	*
-	* @private
-	*/
+	 * Handles any key press in the WYSIWYG editor
+	 *
+	 * @param e
+	 * @private
+	 */
 	handleKeyPress = function (e)
 	{
 		// FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=501496
@@ -1858,14 +1840,15 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Makes sure that if there is a code or quote tag at the
-	* end of the editor, that there is a new line after it.
-	*
-	* If there wasn't a new line at the end you wouldn't be able
-	* to enter any text after a code/quote tag
-	* @return {void}
-	* @private
-	*/
+	 * Makes sure that if there is a code or quote tag at the
+	 * end of the editor, that there is a new line after it.
+	 *
+	 * If there wasn't a new line at the end you wouldn't be able
+	 * to enter any text after a code/quote tag
+	 *
+	 * @returns {void}
+	 * @private
+	 */
 	appendNewLine = function ()
 	{
 		// Check all nodes in reverse until either add a new line
@@ -1896,28 +1879,26 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Translates the string into the locale language.
-	*
-	* Replaces any {0}, {1}, {2}, ect. with the params provided.
-	*
-	* @param {string} str
-	* @param {...String} args
-	* @return {string}
-	* @function
-	* @name _
-	* @memberOf SCEditor.prototype
-	*/
+	 * Translates the string into the locale language.
+	 *
+	 * Replaces any {0}, {1}, {2}, ect. with the params provided.
+	 *
+	 * @param {string} str
+	 * @param {...string} args
+	 * @returns {string}
+	 * @function
+	 * @name _
+	 */
 	base._ = (str, ...args) => utils.format(locale[str] || str, ...args);
 
 	/**
-	* Blurs the editors input area
-	*
-	* @return {this}
-	* @function
-	* @name blur
-	* @memberOf SCEditor.prototype
-	* @since 1.3.6
-	*/
+	 * Blurs the editors input area
+	 *
+	 * @returns {this}
+	 * @function
+	 * @name blur
+	 * @since 1.3.6
+	 */
 	base.blur = function ()
 	{
 		if (!base.isInSourceMode())
@@ -1929,13 +1910,12 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Focuses the editors input area
-	*
-	* @return {this}
-	* @function
-	* @name focus
-	* @memberOf SCEditor.prototype
-	*/
+	 * Focuses the editors input area
+	 *
+	 * @returns {this}
+	 * @function
+	 * @name focus
+	 */
 	base.focus = function ()
 	{
 		if (!base.isInSourceMode())
@@ -1980,24 +1960,22 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the current WYSIWYG editors inline CSS
-	*
-	* @return {string}
-	* @function
-	* @name css
-	* @memberOf SCEditor.prototype
-	* @since 1.4.3
-	*/
+	 * Gets the current WYSIWYG editors inline CSS
+	 *
+	 * @returns {string}
+	 * @function
+	 * @name css
+	 * @since 1.4.3
+	 */
 	/**
-	* Sets inline CSS for the WYSIWYG editor
-	*
-	* @param {string} css
-	* @return {this}
-	* @function
-	* @name css^2
-	* @memberOf SCEditor.prototype
-	* @since 1.4.3
-	*/
+	 * Sets inline CSS for the WYSIWYG editor
+	 *
+	 * @param {string} css
+	 * @returns {this}
+	 * @function
+	 * @name css^2
+	 * @since 1.4.3
+	 */
 	base.css = function (css)
 	{
 		if (!inlineCss)
@@ -2022,9 +2000,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Handles the keydown event, used for shortcuts
-	* @private
-	*/
+	 * Handles the keydown event, used for shortcuts
+	 *
+	 * @param e
+	 * @private
+	 */
 	handleKeyDown = function (e)
 	{
 		var	shortcut   = [],
@@ -2163,11 +2143,12 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Adds a shortcut handler to the editor
-	* @param  {string}          shortcut
-	* @param  {String|Function} cmd
-	* @return {sceditor}
-	*/
+	 * Adds a shortcut handler to the editor
+	 *
+	 * @param  {string}          shortcut
+	 * @param  {string | Function} cmd
+	 * @returns {sceditor}
+	 */
 	base.addShortcut = function (shortcut, cmd)
 	{
 		shortcut = shortcut.toLowerCase();
@@ -2186,10 +2167,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Removes a shortcut handler
-	* @param  {string} shortcut
-	* @return {sceditor}
-	*/
+	 * Removes a shortcut handler
+	 *
+	 * @param  {string} shortcut
+	 * @returns {sceditor}
+	 */
 	base.removeShortcut = function (shortcut)
 	{
 		delete shortcutHandlers[shortcut.toLowerCase()];
@@ -2198,11 +2180,13 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Handles the backspace key press
-	*
-	* Will remove block styling like quotes/code ect if at the start.
-	* @private
-	*/
+	 * Handles the backspace key press
+	 *
+	 * Will remove block styling like quotes/code ect if at the start.
+	 *
+	 * @param e
+	 * @private
+	 */
 	handleBackSpace = function (e)
 	{
 		var	node, offset, range, parent;
@@ -2242,9 +2226,10 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Gets the first styled block node that contains the cursor
-	* @return {HTMLElement}
-	*/
+	 * Gets the first styled block node that contains the cursor
+	 *
+	 * @returns {HTMLElement}
+	 */
 	currentStyledBlockNode = function ()
 	{
 		var block = currentBlockNode;
@@ -2257,13 +2242,14 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Clears the formatting of the passed block element.
-	*
-	* If block is false, if will clear the styling of the first
-	* block level element that contains the cursor.
-	* @param  {HTMLElement} block
-	* @since 1.4.4
-	*/
+	 * Clears the formatting of the passed block element.
+	 *
+	 * If block is false, if will clear the styling of the first
+	 * block level element that contains the cursor.
+	 *
+	 * @param  {HTMLElement} block
+	 * @since 1.4.4
+	 */
 	base.clearBlockFormatting = function (block)
 	{
 		block = block || currentStyledBlockNode();
@@ -2285,17 +2271,17 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Triggers the valueChanged signal if there is
-	* a plugin that handles it.
-	*
-	* If rangeHelper.saveRange() has already been
-	* called, then saveRange should be set to false
-	* to prevent the range being saved twice.
-	*
-	* @since 1.4.5
-	* @param {boolean} saveRange If to call rangeHelper.saveRange().
-	* @private
-	*/
+	 * Triggers the valueChanged signal if there is
+	 * a plugin that handles it.
+	 *
+	 * If rangeHelper.saveRange() has already been
+	 * called, then saveRange should be set to false
+	 * to prevent the range being saved twice.
+	 *
+	 * @since 1.4.5
+	 * @param {boolean} saveRange If to call rangeHelper.saveRange().
+	 * @private
+	 */
 	triggerValueChanged = function (saveRange)
 	{
 		if (!eventHandlers.valuechanged)
@@ -2340,9 +2326,10 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Should be called whenever there is a blur event
-	* @private
-	*/
+	 * Should be called whenever there is a blur event
+	 *
+	 * @private
+	 */
 	valueChangedBlur = function ()
 	{
 		if (valueChangedKeyUpTimer)
@@ -2350,10 +2337,11 @@ export default function SCEditor(original, userOptions)
 	};
 
 	/**
-	* Should be called whenever there is a keypress event
-	* @param  {Event} e The keypress event
-	* @private
-	*/
+	 * Should be called whenever there is a keypress event
+	 *
+	 * @param  {Event} e The keypress event
+	 * @private
+	 */
 	valueChangedKeyUp = function (e)
 	{
 		var which         = e.which,
@@ -2421,39 +2409,39 @@ export default function SCEditor(original, userOptions)
 	base.command =
 	{
 		/**
-		* Gets a command
-		*
-		* @param {string} name
-		* @return {Object|null}
-		* @since v1.3.5
-		*/
+		 * Gets a command
+		 *
+		 * @param {string} name
+		 * @returns {object | null}
+		 * @since v1.3.5
+		 */
 		get(name)
 		{
 			return defaultCommands[name] || null;
 		},
 
 		/**
-		* <p>Adds a command to the editor or updates an existing
-		* command if a command with the specified name already exists.</p>
-		*
-		* <p>Once a command is add it can be included in the toolbar by
-		* adding it's name to the toolbar option in the constructor. It
-		* can also be executed manually by calling
-		* {@link sceditor.execCommand}</p>
-		*
-		* @example
-		* SCEditor.command.set("hello",
-		* {
-		*     exec() {
-		*         alert("Hello World!");
-		*     }
-		* });
-		*
-		* @param {string} name
-		* @param {Object} cmd
-		* @return {this|false} Returns false if name or cmd is false
-		* @since v1.3.5
-		*/
+		 * <p>Adds a command to the editor or updates an existing
+		 * command if a command with the specified name already exists.</p>
+		 *
+		 * <p>Once a command is add it can be included in the toolbar by
+		 * adding it's name to the toolbar option in the constructor. It
+		 * can also be executed manually by calling
+		 * {@link sceditor.execCommand}</p>
+		 *
+		 * @example
+		 * SCEditor.command.set("hello",
+		 * {
+		 *     exec() {
+		 *         alert("Hello World!");
+		 *     }
+		 * });
+		 *
+		 * @param {string} name
+		 * @param {object} cmd
+		 * @returns {this|false} Returns false if name or cmd is false
+		 * @since v1.3.5
+		 */
 		set(name, cmd)
 		{
 			if (!name || !cmd)
@@ -2467,12 +2455,12 @@ export default function SCEditor(original, userOptions)
 		},
 
 		/**
-		* Removes a command
-		*
-		* @param {string} name
-		* @return {this}
-		* @since v1.3.5
-		*/
+		 * Removes a command
+		 *
+		 * @param {string} name
+		 * @returns {this}
+		 * @since v1.3.5
+		 */
 		remove(name)
 		{
 			if (defaultCommands[name])

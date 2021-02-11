@@ -1,10 +1,11 @@
 var plugin = function ()
 {
 	/**
-	* Place holder GIF shown while image is loading.
-	* @type {string}
-	* @private
-	*/
+	 * Place holder GIF shown while image is loading.
+	 *
+	 * @type {string}
+	 * @private
+	 */
 	var loadingGif = 'data:image/gif;base64,R0lGODlhlgBkAPABAH19ffb29iH5BAAK' +
 		'AAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQA' +
 		'AACwAAAAAlgBkAAAC1YyPqcvtD6OctNqLs968+w+G4kiW5omm6sq27gvH8kzX9o3n+s' +
@@ -29,13 +30,17 @@ var plugin = function ()
 		'rb3N3e39DR4uPk5ebn6Onq6+zt7u/g4fLz9PX29/j5+vv8/f31QAADs=';
 
 	/**
-	* Basic check for browser support
-	* @type {boolean}
-	* @private
-	*/
+	 * Basic check for browser support
+	 *
+	 * @type {boolean}
+	 * @private
+	 */
 	var isSupported = typeof window.FileReader !== 'undefined';
 	var base64DataUri = /data:[^;]+;base64,/i;
 
+	/**
+	 * @param url
+	 */
 	function base64DataUriToBlob(url)
 	{
 		// 5 is length of "data:" prefix
@@ -67,12 +72,18 @@ var plugin = function ()
 	var cover;
 	var placeholderId = 0;
 
+	/**
+	 *
+	 */
 	function hideCover()
 	{
 		cover.style.display = 'none';
 		container.className = container.className.replace(/(^| )dnd( |$)/g, '');
 	}
 
+	/**
+	 *
+	 */
 	function showCover()
 	{
 		if (cover.style.display === 'none')
@@ -82,6 +93,9 @@ var plugin = function ()
 		}
 	}
 
+	/**
+	 * @param file
+	 */
 	function isAllowed(file)
 	{
 		// FF sets type to application/x-moz-file until it has been dropped
@@ -92,6 +106,9 @@ var plugin = function ()
 		return opts.isAllowed ? opts.isAllowed(file) : true;
 	};
 
+	/**
+	 * @param toReplace
+	 */
 	function createHolder(toReplace)
 	{
 		var placeholder = document.createElement('img');
@@ -99,6 +116,9 @@ var plugin = function ()
 		placeholder.className = 'sceditor-ignore';
 		placeholder.id = 'sce-dragdrop-' + placeholderId++;
 
+		/**
+		 * @param html
+		 */
 		function replace(html)
 		{
 			var node = editor
@@ -132,6 +152,9 @@ var plugin = function ()
 		};
 	}
 
+	/**
+	 * @param e
+	 */
 	function handleDragOver(e)
 	{
 		var dt    = e.dataTransfer;
@@ -147,6 +170,9 @@ var plugin = function ()
 		e.preventDefault();
 	}
 
+	/**
+	 * @param e
+	 */
 	function handleDrop(e)
 	{
 		var dt    = e.dataTransfer;

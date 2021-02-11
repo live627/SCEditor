@@ -2,7 +2,8 @@ import * as utils from './utils.js';
 
 /**
  * Cache of camelCase CSS property names
- * @type {Object<string, string>}
+ *
+ * @type {object<string, string>}
  */
 var cssPropertyNameCache = {};
 
@@ -41,6 +42,9 @@ export var DOCUMENT_NODE = 9;
  */
 export var DOCUMENT_FRAGMENT_NODE = 11;
 
+/**
+ * @param value
+ */
 function toFloat(value)
 {
 	value = parseFloat(value);
@@ -55,7 +59,7 @@ function toFloat(value)
  * is specified.
  *
  * @param {!string} tag
- * @param {!Object<string, string>} [attributes]
+ * @param {!object<string, string>} [attributes]
  * @param {!Document} [context]
  * @returns {!HTMLElement}
  */
@@ -189,7 +193,7 @@ export var EVENT_BUBBLE = false;
  * @param {!Node} node
  * @param {string} events
  * @param {string} [selector]
- * @param {function(Object)} fn
+ * @param {function(object)} fn
  * @param {boolean} [capture=false]
  * @see off()
  */
@@ -235,7 +239,7 @@ export function on(node, events, selector, fn, capture)
  * @param {!Node} node
  * @param {string} events
  * @param {string} [selector]
- * @param {function(Object)} fn
+ * @param {function(object)} fn
  * @param {boolean} [capture=false]
  * @see on()
  */
@@ -335,9 +339,9 @@ export function toggle(node)
  * hyphenated like CSS properties.
  *
  * @param {!HTMLElement} node
- * @param {!Object|string} rule
+ * @param {!object | string} rule
  * @param {string|number} [value]
- * @return {string|number|undefined}
+ * @returns {string|number|undefined}
  */
 export function css(node, rule, value)
 {
@@ -370,7 +374,7 @@ export function css(node, rule, value)
  * @param {Node} node
  * @param {string} [key]
  * @param {string} [value]
- * @return {Object|undefined}
+ * @returns {object | undefined}
  */
 export function data(node, key, value)
 {
@@ -574,7 +578,7 @@ export function height(node, value)
  *
  * @param {HTMLElement} node
  * @param {string} eventName
- * @param {Object} [data]
+ * @param {object} [data]
  */
 export function trigger(node, eventName, data)
 {
@@ -599,6 +603,7 @@ export function trigger(node, eventName, data)
  * Returns if a node is visible.
  *
  * @param {HTMLElement}
+ * @param node
  * @returns {boolean}
  */
 export function isVisible(node)
@@ -629,7 +634,7 @@ function camelCase(string)
  * If the function returns false the loop will be exited.
  *
  * @param  {HTMLElement} node
- * @param  {function} func           Callback which is called with every
+ * @param  {Function} func           Callback which is called with every
  *                                   child node as the first argument.
  * @param  {boolean} innermostFirst  If the innermost node should be passed
  *                                   to the function before it's parents.
@@ -660,6 +665,11 @@ export function traverse(node, func, innermostFirst, siblingsOnly, reverse)
 
 /**
  * Like traverse but loops in reverse
+ *
+ * @param node
+ * @param func
+ * @param innermostFirst
+ * @param siblingsOnly
  * @see traverse
  */
 export function rTraverse(node, func, innermostFirst, siblingsOnly)
@@ -673,7 +683,7 @@ export function rTraverse(node, func, innermostFirst, siblingsOnly)
  * @param {string} html
  * @param {Document} [context]
  * @since 1.4.4
- * @return {DocumentFragment}
+ * @returns {DocumentFragment}
  */
 export function parseHTML(html, context)
 {
@@ -697,7 +707,8 @@ export function parseHTML(html, context)
  * if it has a class, style attribute or data.
  *
  * @param  {HTMLElement} elm
- * @return {boolean}
+ * @param node
+ * @returns {boolean}
  * @since 1.4.4
  */
 export function hasStyling(node)
@@ -713,7 +724,7 @@ export function hasStyling(node)
  *
  * @param  {HTMLElement} element
  * @param  {string}      toTagName
- * @return {HTMLElement}
+ * @returns {HTMLElement}
  * @since 1.4.4
  */
 export function convertElement(element, toTagName)
@@ -753,7 +764,7 @@ export var blockLevelList = '|body|hr|p|div|h1|h2|h3|h4|h5|h6|address|pre|' +
  * List of elements that do not allow children separated by bars (|)
  *
  * @param {Node} node
- * @return {boolean}
+ * @returns {boolean}
  * @since  1.4.5
  */
 export function canHaveChildren(node)
@@ -777,7 +788,7 @@ export function canHaveChildren(node)
  *
  * @param {HTMLElement} elm
  * @param {boolean} [includeCodeAsBlock=false]
- * @return {boolean}
+ * @returns {boolean}
  */
 export function isInline(elm, includeCodeAsBlock)
 {
@@ -867,7 +878,7 @@ export function fixNesting(node)
  *
  * @param {!HTMLElement} node1
  * @param {!HTMLElement} node2
- * @return {?HTMLElement}
+ * @returns {?HTMLElement}
  */
 export function findCommonAncestor(node1, node2)
 {
@@ -879,6 +890,7 @@ export function findCommonAncestor(node1, node2)
 
 /**
  * @param {?Node}
+ * @param node
  * @param {boolean} [previous=false]
  * @returns {?Node}
  */
@@ -986,7 +998,7 @@ export function removeWhiteSpace(root)
  *
  * @param {HTMLElement} startNode	The node to start extracting at
  * @param {HTMLElement} endNode		The node to stop extracting at
- * @return {DocumentFragment}
+ * @returns {DocumentFragment}
  */
 export function extractContents(startNode, endNode)
 {
@@ -1002,7 +1014,7 @@ export function extractContents(startNode, endNode)
  * Gets the offset position of an element
  *
  * @param  {HTMLElement} node
- * @return {Object} An object with left and top properties
+ * @returns {object} An object with left and top properties
  */
 export function getOffset(node)
 {
@@ -1027,7 +1039,7 @@ export function getOffset(node)
  *
  * @param  {HTMLElement} elm
  * @param  {string} property
- * @return {string}
+ * @returns {string}
  */
 export function getStyle(elm, property)
 {
@@ -1069,8 +1081,8 @@ export function getStyle(elm, property)
  *
  * @param  {HTMLElement} elm
  * @param  {string} property
- * @param  {string|array} [values]
- * @return {boolean}
+ * @param  {string | Array} [values]
+ * @returns {boolean}
  */
 export function hasStyle(elm, property, values)
 {

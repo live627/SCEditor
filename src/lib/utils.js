@@ -39,7 +39,7 @@ export var isDigit = x => /^\d+$/.test(x);
 /**
  * Returns true if an object has no keys
  *
- * @param {!Object} obj
+ * @param {!object} obj
  * @returns {boolean}
  */
 export function isEmptyObject(obj)
@@ -53,9 +53,10 @@ export function isEmptyObject(obj)
  * If the first argument is boolean and set to true
  * it will extend child arrays and objects recursively.
  *
- * @param {!Object|boolean} targetArg
- * @param {...Object} source
- * @return {Object}
+ * @param {!object | boolean} targetArg
+ * @param {...object} source
+ * @param sourceArg
+ * @returns {object}
  */
 export function extend(targetArg, sourceArg)
 {
@@ -116,7 +117,7 @@ export function arrayRemove(arr, item)
 /**
  * Iterates over an array or object
  *
- * @param {!Object|Array} obj
+ * @param {!object | Array} obj
  * @param {function(*, *)} fn
  */
 export function each(obj, fn)
@@ -135,8 +136,9 @@ export function each(obj, fn)
  * Replaces any {0}, {1}, {2}, ect. with the params provided.
  *
  * @param {string} str
- * @param {...String} args
- * @return {string}
+ * @param format
+ * @param {...string} args
+ * @returns {string}
  * @function
  */
 export var format = (format, ...args) => format.replace(
@@ -152,8 +154,8 @@ export var format = (format, ...args) => format.replace(
  * it will be left intact.
  *
  * @param  {string} format
- * @param  {Object} vars
- * @return {string}
+ * @param  {object} vars
+ * @returns {string}
  * @function
  */
 export var replaceVars = (format, vars) => format.replace(
@@ -167,7 +169,7 @@ export var replaceVars = (format, vars) => format.replace(
  * Will return 0 if number is not a valid number.
  *
  * @param  {any} d
- * @return {string}
+ * @returns {string}
  * @function
  */
 export const toHex = d => (d >>> 0).toString(16);
@@ -176,7 +178,8 @@ export const toHex = d => (d >>> 0).toString(16);
  * Normalises a CSS colour to hex #xxxxxx format
  *
  * @param  {string} colorStr
- * @return {string}
+ * @param x
+ * @returns {string}
  * @private
  */
 export var normaliseColour = x => x.replace(
@@ -195,7 +198,8 @@ export var normaliseColour = x => x.replace(
 /**
  * Removes any leading or trailing quotes ('")
  *
- * @return string
+ * @param str
+ * @returns string
  */
 export var stripQuotes = str=> str
 	.replace(/\\(.)/g, '$1')

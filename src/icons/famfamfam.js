@@ -1,5 +1,8 @@
 import icons from './famfamfam-icons.js';
 
+/**
+ *
+ */
 export default function ()
 {
 	var colorPath;

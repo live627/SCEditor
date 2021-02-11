@@ -11,11 +11,11 @@ var plugin = function ()
 	var ignoreNext = false;
 
 	/**
-	* Sets the editor to the specified state.
-	*
-	* @param  {Object} state
-	* @private
-	*/
+	 * Sets the editor to the specified state.
+	 *
+	 * @param  {object} state
+	 * @private
+	 */
 	var applyState = function (state)
 	{
 		ignoreNext = true;
@@ -35,14 +35,14 @@ var plugin = function ()
 	};
 
 	/**
-	* Calculates the number of characters that have changed
-	* between two strings.
-	*
-	* @param {String} strA
-	* @param {String} strB
-	* @return {String}
-	* @private
-	*/
+	 * Calculates the number of characters that have changed
+	 * between two strings.
+	 *
+	 * @param {string} strA
+	 * @param {string} strB
+	 * @returns {string}
+	 * @private
+	 */
 	var simpleDiff = function (strA, strB)
 	{
 		var start, end, aLenDiff, bLenDiff,
@@ -141,12 +141,12 @@ var plugin = function ()
 	});
 
 	/**
-	* Handle the valueChanged signal.
-	*
-	* rawValue will either be the raw HTML from the WYSIWYG editor with
-	* the rangeHelper range markers inserted, or it will be the raw value
-	* of the source editor (BBCode or HTML depending on plugins).
-	*/
+	 * Handle the valueChanged signal.
+	 *
+	 * rawValue will either be the raw HTML from the WYSIWYG editor with
+	 * the rangeHelper range markers inserted, or it will be the raw value
+	 * of the source editor (BBCode or HTML depending on plugins).
+	 */
 	editor.events.on('valuechanged', rawValue =>
 	{
 		if (undoLimit > 0 && undoStates.length > undoLimit)

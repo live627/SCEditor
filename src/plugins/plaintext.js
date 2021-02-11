@@ -1,12 +1,12 @@
 /**
-* Options:
-*
-* pastetext.addButton - If to replace the plaintext button with a toggle
-*                       button that enables and disables plain text mode.
-*
-* pastetext.enabled - If the plain text button should be enabled at start
-*                     up. Only applies if addButton is enabled.
-*/
+ * Options:
+ *
+ * pastetext.addButton - If to replace the plaintext button with a toggle
+ *                       button that enables and disables plain text mode.
+ *
+ * pastetext.enabled - If the plain text button should be enabled at start
+ *                     up. Only applies if addButton is enabled.
+ */
 var plugin = function ()
 {
 	var plainTextEnabled = true;

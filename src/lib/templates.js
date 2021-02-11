@@ -3,7 +3,8 @@ import { replaceVars } from '../lib/utils.js';
 
 /**
  * HTML templates used by the editor and default commands
- * @type {Object}
+ *
+ * @type {object}
  * @private
  */
 var _templates = {
@@ -79,7 +80,7 @@ var _templates = {
  * containing the parsed template.
  *
  * @param {string} name
- * @param {Object} [params]
+ * @param {object} [params]
  * @param {boolean} [createHtml]
  * @returns {string|DocumentFragment}
  * @private

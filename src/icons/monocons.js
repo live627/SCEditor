@@ -1,3 +1,7 @@
+/**
+ * @param n
+ * @param v
+ */
 function getNode(n, v)
 {
 	n = document.createElementNS('http://www.w3.org/2000/svg', n);

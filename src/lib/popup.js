@@ -1,3 +1,6 @@
+/**
+ * @param editorContainer
+ */
 export default function (editorContainer)
 {
 	var

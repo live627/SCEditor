@@ -1,5 +1,7 @@
 /**
  * Plugin Manager class
+ *
+ * @param thisObj
  * @class PluginManager
  * @name PluginManager
  */
@@ -7,34 +9,34 @@ export default function PluginManager(thisObj)
 {
 	var
 		/**
-		* Array of all currently registered plugins
-		*
-		* @type {Array}
-		* @private
-		*/
+		 * Array of all currently registered plugins
+		 *
+		 * @type {Array}
+		 * @private
+		 */
 		registeredPlugins = [],
 
 		/**
-		* Checks if the plugin exists in plugins
-		*
-		* @param  {string} plugin
-		* @return {boolean}
-		* @function
-		* @name exists
-		* @memberOf PluginManager.prototype
-		*/
+		 * Checks if the plugin exists in plugins
+		 *
+		 * @param  {string} plugin
+		 * @returns {boolean}
+		 * @function
+		 * @name exists
+		 * @memberOf PluginManager.prototype
+		 */
 		exists = plugin => typeof plugin === 'function' &&
 					typeof plugin.prototype === 'object',
 
 		/**
-		* Checks if the passed plugin is currently registered.
-		*
-		* @param  {string} plugin
-		* @return {boolean}
-		* @function
-		* @name isRegistered
-		* @memberOf PluginManager.prototype
-		*/
+		 * Checks if the passed plugin is currently registered.
+		 *
+		 * @param  {string} plugin
+		 * @returns {boolean}
+		 * @function
+		 * @name isRegistered
+		 * @memberOf PluginManager.prototype
+		 */
 		isRegistered = plugin =>
 		{
 			if (exists(plugin))
@@ -50,14 +52,14 @@ export default function PluginManager(thisObj)
 		},
 
 		/**
-		* Registers a plugin to receive signals
-		*
-		* @param  {string} plugin
-		* @return {boolean}
-		* @function
-		* @name register
-		* @memberOf PluginManager.prototype
-		*/
+		 * Registers a plugin to receive signals
+		 *
+		 * @param  {string} plugin
+		 * @returns {boolean}
+		 * @function
+		 * @name register
+		 * @memberOf PluginManager.prototype
+		 */
 		register = plugin =>
 		{
 			if (!exists(plugin) || isRegistered(plugin))
@@ -74,14 +76,14 @@ export default function PluginManager(thisObj)
 		},
 
 		/**
-		* Deregisters a plugin.
-		*
-		* @param  {string} plugin
-		* @return {boolean}
-		* @function
-		* @name deregister
-		* @memberOf PluginManager.prototype
-		*/
+		 * Deregisters a plugin.
+		 *
+		 * @param  {string} plugin
+		 * @returns {boolean}
+		 * @function
+		 * @name deregister
+		 * @memberOf PluginManager.prototype
+		 */
 		deregister = plugin =>
 		{
 			var	removedPlugin,
@@ -105,14 +107,14 @@ export default function PluginManager(thisObj)
 		},
 
 		/**
-		* Clears all plugins and removes the owner reference.
-		*
-		* Calling any functions on this object after calling
-		* destroy will cause a JS error.
-		*
-		* @name destroy
-		* @memberOf PluginManager.prototype
-		*/
+		 * Clears all plugins and removes the owner reference.
+		 *
+		 * Calling any functions on this object after calling
+		 * destroy will cause a JS error.
+		 *
+		 * @name destroy
+		 * @memberOf PluginManager.prototype
+		 */
 		destroy = () =>
 		{
 			var i = registeredPlugins.length;

@@ -21,8 +21,9 @@ var EMOTICON_DATA_ATTR = 'data-sceditor-emoticon';
  * Removes the first and last divs from the HTML.
  *
  * This is needed for pasting
+ *
  * @param  {string} html
- * @return {string}
+ * @returns {string}
  * @private
  */
 function removeFirstLastDiv(html)
@@ -89,9 +90,9 @@ var TOKEN_CLOSE = 'close';
  *                       should be one of tokenType
  * @param  {string} name The name of this token
  * @param  {string} val The originally matched string
- * @param  {array} attrs Any attributes. Only set on
+ * @param  {Array} attrs Any attributes. Only set on
  *                       TOKEN_TYPE_OPEN tokens
- * @param  {array} children Any children of this token
+ * @param  {Array} children Any children of this token
  * @param  {TokenizeToken} closing This tokens closing tag.
  *                                 Only set on TOKEN_TYPE_OPEN tokens
  * @class {TokenizeToken}
@@ -113,10 +114,10 @@ function TokenizeToken(type, name, val, attrs, children, closing)
 
 TokenizeToken.prototype = {
 	/**
-	* Clones this token
-	*
-	* @return {TokenizeToken}
-	*/
+	 * Clones this token
+	 *
+	 * @returns {TokenizeToken}
+	 */
 	clone()
 	{
 		var base = this;
@@ -131,12 +132,12 @@ TokenizeToken.prototype = {
 		);
 	},
 	/**
-	* Splits this token at the specified child
-	*
-	* @param  {TokenizeToken} splitAt The child to split at
-	* @return {TokenizeToken} The right half of the split token or
-	*                         empty clone if invalid splitAt lcoation
-	*/
+	 * Splits this token at the specified child
+	 *
+	 * @param  {TokenizeToken} splitAt The child to split at
+	 * @returns {TokenizeToken} The right half of the split token or
+	 *                         empty clone if invalid splitAt lcoation
+	 */
 	splitAt(splitAt)
 	{
 		var offsetLength;
@@ -159,7 +160,7 @@ TokenizeToken.prototype = {
 /**
  * SCEditor BBCode parser class
  *
- * @param {Object} options
+ * @param {object} options
  * @class BBCodeParser
  * @name BBCodeParser
  * @since v1.4.0
@@ -170,18 +171,18 @@ function BBCodeParser(options)
 	base.opts = options;
 
 	/**
-	* Takes a BBCode string and splits it into open,
-	* content and close tags.
-	*
-	* It does no checking to verify a tag has a matching open
-	* or closing tag or if the tag is valid child of any tag
-	* before it. For that the tokens should be passed to the
-	* parse function.
-	*
-	* @param {string} str
-	* @return {array}
-	* @memberOf BBCodeParser.prototype
-	*/
+	 * Takes a BBCode string and splits it into open,
+	 * content and close tags.
+	 *
+	 * It does no checking to verify a tag has a matching open
+	 * or closing tag or if the tag is valid child of any tag
+	 * before it. For that the tokens should be passed to the
+	 * parse function.
+	 *
+	 * @param {string} str
+	 * @returns {Array}
+	 * @memberOf BBCodeParser.prototype
+	 */
 	base.tokenize = function (str)
 	{
 		var	matches, i;
@@ -242,13 +243,13 @@ function BBCodeParser(options)
 	};
 
 	/**
-	* Extracts the name an params from a tag
-	*
-	* @param {string} type
-	* @param {string} val
-	* @return {Object}
-	* @private
-	*/
+	 * Extracts the name an params from a tag
+	 *
+	 * @param {string} type
+	 * @param {string} val
+	 * @returns {object}
+	 * @private
+	 */
 	function tokenizeTag(type, val)
 	{
 		var matches, attrs, name,
@@ -285,13 +286,13 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Extracts the individual attributes from a string containing
-	* all the attributes.
-	*
-	* @param {string} attrs
-	* @return {Object} Assoc array of attributes
-	* @private
-	*/
+	 * Extracts the individual attributes from a string containing
+	 * all the attributes.
+	 *
+	 * @param {string} attrs
+	 * @returns {object} Assoc array of attributes
+	 * @private
+	 */
 	function tokenizeAttrs(attrs)
 	{
 		var	matches,
@@ -337,15 +338,15 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Parses a string into an array of BBCodes
-	*
-	* @param  {string}  str
-	* @param  {boolean} preserveNewLines If to preserve all new lines, not
-	*                                    strip any based on the passed
-	*                                    formatting options
-	* @return {array}                    Array of BBCode objects
-	* @memberOf BBCodeParser.prototype
-	*/
+	 * Parses a string into an array of BBCodes
+	 *
+	 * @param  {string}  str
+	 * @param  {boolean} preserveNewLines If to preserve all new lines, not
+	 *                                    strip any based on the passed
+	 *                                    formatting options
+	 * @returns {Array}                    Array of BBCode objects
+	 * @memberOf BBCodeParser.prototype
+	 */
 	base.parse = function (str, preserveNewLines)
 	{
 		var ret  = parseTokens(base.tokenize(str));
@@ -363,18 +364,18 @@ function BBCodeParser(options)
 	};
 
 	/**
-	* Checks if an array of TokenizeToken's contains the
-	* specified token.
-	*
-	* Checks the tokens name and type match another tokens
-	* name and type in the array.
-	*
-	* @param  {string}    name
-	* @param  {string} type
-	* @param  {array}     arr
-	* @return {Boolean}
-	* @private
-	*/
+	 * Checks if an array of TokenizeToken's contains the
+	 * specified token.
+	 *
+	 * Checks the tokens name and type match another tokens
+	 * name and type in the array.
+	 *
+	 * @param  {string}    name
+	 * @param  {string} type
+	 * @param  {Array}     arr
+	 * @returns {boolean}
+	 * @private
+	 */
 	function hasTag(name, type, arr)
 	{
 		var i = arr.length;
@@ -387,14 +388,14 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Checks if the child tag is allowed as one
-	* of the parent tags children.
-	*
-	* @param  {TokenizeToken}  parent
-	* @param  {TokenizeToken}  child
-	* @return {Boolean}
-	* @private
-	*/
+	 * Checks if the child tag is allowed as one
+	 * of the parent tags children.
+	 *
+	 * @param  {TokenizeToken}  parent
+	 * @param  {TokenizeToken}  child
+	 * @returns {boolean}
+	 * @private
+	 */
 	function isChildAllowed(parent, child)
 	{
 		var
@@ -409,13 +410,13 @@ function BBCodeParser(options)
 
 	// TODO: Tidy this parseTokens() function up a bit.
 	/**
-	* Parses an array of tokens created by tokenize()
-	*
-	* @param  {array} toks
-	* @return {array} Parsed tokens
-	* @see tokenize()
-	* @private
-	*/
+	 * Parses an array of tokens created by tokenize()
+	 *
+	 * @param  {Array} toks
+	 * @returns {Array} Parsed tokens
+	 * @see tokenize()
+	 * @private
+	 */
 	function parseTokens(toks)
 	{
 		var
@@ -424,16 +425,18 @@ function BBCodeParser(options)
 			output     = [],
 			openTags   = [],
 			/**
-			* Returns the currently open tag or undefined
-			* @return {TokenizeToken}
-			*/
+			 * Returns the currently open tag or undefined
+			 *
+			 * @returns {TokenizeToken}
+			 */
 			currentTag = () => last(openTags),
 			/**
-			* Adds a tag to either the current tags children
-			* or to the output array.
-			* @param {TokenizeToken} token
-			* @private
-			*/
+			 * Adds a tag to either the current tags children
+			 * or to the output array.
+			 *
+			 * @param {TokenizeToken} token
+			 * @private
+			 */
 			addTag = function (token)
 			{
 				if (currentTag())
@@ -442,10 +445,11 @@ function BBCodeParser(options)
 					output.push(token);
 			},
 			/**
-			* Checks if this tag closes the current tag
-			* @param  {string} name
-			* @return {Void}
-			*/
+			 * Checks if this tag closes the current tag
+			 *
+			 * @param  {string} name
+			 * @returns {Void}
+			 */
 			closesCurrentTag = name => currentTag() &&
 					(bbcode = bbcodeHandlers[currentTag().name]) &&
 					bbcode.closedBy &&
@@ -617,31 +621,31 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Normalise all new lines
-	*
-	* Removes any formatting new lines from the BBCode
-	* leaving only content ones. I.e. for a list:
-	*
-	* [list]
-	* [*] list item one
-	* with a line break
-	* [*] list item two
-	* [/list]
-	*
-	* would become
-	*
-	* [list] [*] list item one
-	* with a line break [*] list item two [/list]
-	*
-	* Which makes it easier to convert to HTML or add
-	* the formatting new lines back in when converting
-	* back to BBCode
-	*
-	* @param  {array} children
-	* @param  {TokenizeToken} parent
-	* @param  {boolean} onlyRemoveBreakAfter
-	* @return {void}
-	*/
+	 * Normalise all new lines
+	 *
+	 * Removes any formatting new lines from the BBCode
+	 * leaving only content ones. I.e. for a list:
+	 *
+	 * [list]
+	 * [*] list item one
+	 * with a line break
+	 * [*] list item two
+	 * [/list]
+	 *
+	 * would become
+	 *
+	 * [list] [*] list item one
+	 * with a line break [*] list item two [/list]
+	 *
+	 * Which makes it easier to convert to HTML or add
+	 * the formatting new lines back in when converting
+	 * back to BBCode
+	 *
+	 * @param  {Array} children
+	 * @param  {TokenizeToken} parent
+	 * @param  {boolean} onlyRemoveBreakAfter
+	 * @returns {void}
+	 */
 	function normaliseNewLines(children, parent, onlyRemoveBreakAfter)
 	{
 		var	token, left, right, parentBBCode, bbcode,
@@ -755,23 +759,23 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Fixes any invalid nesting.
-	*
-	* If it is a block level element inside 1 or more inline elements
-	* then those inline elements will be split at the point where the
-	* block level is and the block level element placed between the split
-	* parts. i.e.
-	*     [inline]A[blocklevel]B[/blocklevel]C[/inline]
-	* Will become:
-	*     [inline]A[/inline][blocklevel]B[/blocklevel][inline]C[/inline]
-	*
-	* @param {array} children
-	* @param {array} [parents] Null if there is no parents
-	* @param {boolea} [insideInline] If inside an inline element
-	* @param {array} [rootArr] Root array if there is one
-	* @return {array}
-	* @private
-	*/
+	 * Fixes any invalid nesting.
+	 *
+	 * If it is a block level element inside 1 or more inline elements
+	 * then those inline elements will be split at the point where the
+	 * block level is and the block level element placed between the split
+	 * parts. i.e.
+	 *     [inline]A[blocklevel]B[/blocklevel]C[/inline]
+	 * Will become:
+	 *     [inline]A[/inline][blocklevel]B[/blocklevel][inline]C[/inline]
+	 *
+	 * @param {Array} children
+	 * @param {Array} [parents] Null if there is no parents
+	 * @param {boolea} [insideInline] If inside an inline element
+	 * @param {Array} [rootArr] Root array if there is one
+	 * @returns {Array}
+	 * @private
+	 */
 	function fixNesting(children, parents, insideInline, rootArr)
 	{
 		var	token, i, parent, parentIndex, parentParentChildren, right;
@@ -857,19 +861,21 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Removes any empty BBCodes which are not allowed to be empty.
-	*
-	* @param {array} tokens
-	* @private
-	*/
+	 * Removes any empty BBCodes which are not allowed to be empty.
+	 *
+	 * @param {Array} tokens
+	 * @private
+	 */
 	function removeEmpty(tokens)
 	{
 		var	token, bbcode;
 
 		/**
-		* Checks if all children are whitespace or not
-		* @private
-		*/
+		 * Checks if all children are whitespace or not
+		 *
+		 * @param children
+		 * @private
+		 */
 		var isTokenWhiteSpace = function (children)
 		{
 			var j = children.length;
@@ -910,23 +916,25 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Converts a BBCode string to HTML
-	*
-	* @param {string} str
-	* @param {boolean}   preserveNewLines If to preserve all new lines, not
-	*                                  strip any based on the passed
-	*                                  formatting options
-	* @return {string}
-	* @memberOf BBCodeParser.prototype
-	*/
+	 * Converts a BBCode string to HTML
+	 *
+	 * @param {string} str
+	 * @param {boolean}   preserveNewLines If to preserve all new lines, not
+	 *                                  strip any based on the passed
+	 *                                  formatting options
+	 * @returns {string}
+	 * @memberOf BBCodeParser.prototype
+	 */
 	base.toHTML = function (str, preserveNewLines)
 	{
 		return convertToHTML(base.parse(str, preserveNewLines), true);
 	};
 
 	/**
-	* @private
-	*/
+	 * @param tokens
+	 * @param isRoot
+	 * @private
+	 */
 	function convertToHTML(tokens, isRoot)
 	{
 		var
@@ -1039,32 +1047,32 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Takes a BBCode string, parses it then converts it back to BBCode.
-	*
-	* This will auto fix the BBCode and format it with the specified
-	* options.
-	*
-	* @param {string} str
-	* @param {boolean} preserveNewLines If to preserve all new lines, not
-	*                                strip any based on the passed
-	*                                formatting options
-	* @return {string}
-	* @memberOf BBCodeParser.prototype
-	*/
+	 * Takes a BBCode string, parses it then converts it back to BBCode.
+	 *
+	 * This will auto fix the BBCode and format it with the specified
+	 * options.
+	 *
+	 * @param {string} str
+	 * @param {boolean} preserveNewLines If to preserve all new lines, not
+	 *                                strip any based on the passed
+	 *                                formatting options
+	 * @returns {string}
+	 * @memberOf BBCodeParser.prototype
+	 */
 	base.toBBCode = function (str, preserveNewLines)
 	{
 		return convertToBBCode(base.parse(str, preserveNewLines));
 	};
 
 	/**
-	* Converts parsed tokens back into BBCode with the
-	* formatting specified in the options and with any
-	* fixes specified.
-	*
-	* @param  {array} toks Array of parsed tokens from base.parse()
-	* @return {string}
-	* @private
-	*/
+	 * Converts parsed tokens back into BBCode with the
+	 * formatting specified in the options and with any
+	 * fixes specified.
+	 *
+	 * @param  {Array} toks Array of parsed tokens from base.parse()
+	 * @returns {string}
+	 * @private
+	 */
 	function convertToBBCode(toks)
 	{
 		var	token, attr, bbcode, isBlock, isSelfClosing, quoteType,
@@ -1177,14 +1185,14 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Quotes an attribute
-	*
-	* @param {string} str
-	* @param {QuoteType} quoteType
-	* @param {string} name
-	* @return {string}
-	* @private
-	*/
+	 * Quotes an attribute
+	 *
+	 * @param {string} str
+	 * @param {QuoteType} quoteType
+	 * @param {string} name
+	 * @returns {string}
+	 * @private
+	 */
 	function quote(str, quoteType, name)
 	{
 		var	needsQuotes = /\s|=/.test(str);
@@ -1200,12 +1208,12 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Returns the last element of an array or null
-	*
-	* @param {array} arr
-	* @return {Object} Last element
-	* @private
-	*/
+	 * Returns the last element of an array or null
+	 *
+	 * @param {Array} arr
+	 * @returns {object} Last element
+	 * @private
+	 */
 	function last(arr)
 	{
 		if (arr.length)
@@ -1215,12 +1223,12 @@ function BBCodeParser(options)
 	}
 
 	/**
-	* Converts a string to lowercase.
-	*
-	* @param {string} str
-	* @return {string} Lowercase version of str
-	* @private
-	*/
+	 * Converts a string to lowercase.
+	 *
+	 * @param {string} str
+	 * @returns {string} Lowercase version of str
+	 * @private
+	 */
 	function lower(str)
 	{
 		return str.toLowerCase();
@@ -1229,6 +1237,8 @@ function BBCodeParser(options)
 
 /**
  * SCEditor BBCode format
+ *
+ * @param options
  * @since 2.0.0
  */
 function bbcodeFormat(options)
@@ -1237,23 +1247,26 @@ function bbcodeFormat(options)
 	base.opts = extend(bbcodeDefaults, options);
 
 	/**
-	* cache of all the tags pointing to their bbcodes to enable
-	* faster lookup of which bbcode a tag should have
-	* @private
-	*/
+	 * cache of all the tags pointing to their bbcodes to enable
+	 * faster lookup of which bbcode a tag should have
+	 *
+	 * @private
+	 */
 	var tagsToBBCodes = {};
 
 	/**
-	* Same as tagsToBBCodes but instead of HTML tags it's styles
-	* @private
-	*/
+	 * Same as tagsToBBCodes but instead of HTML tags it's styles
+	 *
+	 * @private
+	 */
 	var stylesToBBCodes = {};
 
 	/**
-	* Allowed children of specific HTML tags. Empty array if no
-	* children other than text nodes are allowed
-	* @private
-	*/
+	 * Allowed children of specific HTML tags. Empty array if no
+	 * children other than text nodes are allowed
+	 *
+	 * @private
+	 */
 	var validChildren = {
 		ul: ['li', 'ol', 'ul'],
 		ol: ['li', 'ol', 'ul'],
@@ -1263,10 +1276,10 @@ function bbcodeFormat(options)
 	};
 
 	/**
-	* Populates tagsToBBCodes and stylesToBBCodes to enable faster lookups
-	*
-	* @private
-	*/
+	 * Populates tagsToBBCodes and stylesToBBCodes to enable faster lookups
+	 *
+	 * @private
+	 */
 	function buildBbcodeCache()
 	{
 		each(bbcodeHandlers, function (bbcode)
@@ -1306,15 +1319,15 @@ function bbcodeFormat(options)
 	};
 
 	/**
-	* Checks if any bbcode styles match the elements styles
-	*
-	* @param {!HTMLElement} element
-	* @param {string} content
-	* @param {boolean} [blockLevel=false]
-	* @return {string} Content with any matching
-	*                bbcode tags wrapped around it.
-	* @private
-	*/
+	 * Checks if any bbcode styles match the elements styles
+	 *
+	 * @param {!HTMLElement} element
+	 * @param {string} content
+	 * @param {boolean} [blockLevel=false]
+	 * @returns {string} Content with any matching
+	 *                bbcode tags wrapped around it.
+	 * @private
+	 */
 	function handleStyles(element, content, blockLevel)
 	{
 		var	styleValue, format;
@@ -1354,13 +1367,13 @@ function bbcodeFormat(options)
 	}
 
 	/**
-	* Handles adding newlines after block level elements
-	*
-	* @param {HTMLElement} element The element to convert
-	* @param {string} content  The tags text content
-	* @return {string}
-	* @private
-	*/
+	 * Handles adding newlines after block level elements
+	 *
+	 * @param {HTMLElement} element The element to convert
+	 * @param {string} content  The tags text content
+	 * @returns {string}
+	 * @private
+	 */
 	function handleBlockNewlines(element, content)
 	{
 		var	tag = element.nodeName.toLowerCase();
@@ -1417,15 +1430,15 @@ function bbcodeFormat(options)
 	}
 
 	/**
-	* Handles a HTML tag and finds any matching bbcodes
-	*
-	* @param {HTMLElement} element The element to convert
-	* @param {string} content  The Tags text content
-	* @param {boolean} [blockLevel=false] If to convert block level tags
-	* @return {string} Content with any matching bbcode tags
-	*                  wrapped around it.
-	* @private
-	*/
+	 * Handles a HTML tag and finds any matching bbcodes
+	 *
+	 * @param {HTMLElement} element The element to convert
+	 * @param {string} content  The Tags text content
+	 * @param {boolean} [blockLevel=false] If to convert block level tags
+	 * @returns {string} Content with any matching bbcode tags
+	 *                  wrapped around it.
+	 * @private
+	 */
 	function handleTags(element, content, blockLevel)
 	{
 		blockLevel = !!blockLevel;
@@ -1482,14 +1495,14 @@ function bbcodeFormat(options)
 	}
 
 	/**
-	* Converts a HTML dom element to BBCode starting from
-	* the innermost element and working backwards
-	*
-	* @private
-	* @param {HTMLElement}	element
-	* @return {string} BBCode
-	* @memberOf SCEditor.plugins.bbcode.prototype
-	*/
+	 * Converts a HTML dom element to BBCode starting from
+	 * the innermost element and working backwards
+	 *
+	 * @private
+	 * @param {HTMLElement}	element
+	 * @returns {string} BBCode
+	 * @memberOf SCEditor.plugins.bbcode.prototype
+	 */
 	function elementToBbcode(element)
 	{
 		var toBBCode = function (node, vChildren)
@@ -1574,9 +1587,10 @@ function bbcodeFormat(options)
 	base.buildBbcodeCache = buildBbcodeCache;
 
 	/**
-	* Initializer
-	* @private
-	*/
+	 * Initializer
+	 *
+	 * @private
+	 */
 	base.init = function ()
 	{
 		base.elementToBbcode = elementToBbcode;
@@ -1592,12 +1606,12 @@ function bbcodeFormat(options)
 	};
 
 	/**
-	* Converts BBCode into HTML
-	*
-	* @param {boolean} asFragment
-	* @param {string} source
-	* @param {boolean} [legacyAsFragment] Used by fromBBCode() method
-	*/
+	 * Converts BBCode into HTML
+	 *
+	 * @param {boolean} asFragment
+	 * @param {string} source
+	 * @param {boolean} [legacyAsFragment] Used by fromBBCode() method
+	 */
 	function toHtml(asFragment, source, legacyAsFragment)
 	{
 		var	parser = new BBCodeParser(base.opts);
@@ -1610,15 +1624,15 @@ function bbcodeFormat(options)
 	}
 
 	/**
-	* Converts HTML into BBCode
-	*
-	* @param {boolean} asFragment
-	* @param {string}	html
-	* @param {!Document} [context]
-	* @param {!HTMLElement} [parent]
-	* @return {string}
-	* @private
-	*/
+	 * Converts HTML into BBCode
+	 *
+	 * @param {boolean} asFragment
+	 * @param {string}	html
+	 * @param {!Document} [context]
+	 * @param {!HTMLElement} [parent]
+	 * @returns {string}
+	 * @private
+	 */
 	function toSource(asFragment, html, context, parent)
 	{
 		context = context || document;
@@ -1676,7 +1690,7 @@ function bbcodeFormat(options)
 	 * Gets a BBCode
 	 *
 	 * @param {string} name
-	 * @return {Object|null}
+	 * @returns {object | null}
 	 * @since 2.0.0
 	 */
 	base.get = function (name)
@@ -1689,8 +1703,8 @@ function bbcodeFormat(options)
 	 * BBCode if a BBCode with the specified name already exists.
 	 *
 	 * @param {string} name
-	 * @param {Object} bbcode
-	 * @return {this}
+	 * @param {object} bbcode
+	 * @returns {this}
 	 * @since 2.0.0
 	 */
 	base.set = function (name, bbcode)
@@ -1714,7 +1728,7 @@ function bbcodeFormat(options)
 	 *
 	 * @param  {string} name    [description]
 	 * @param  {string} newName [description]
-	 * @return {this|false}
+	 * @returns {this|false}
 	 * @since 2.0.0
 	 */
 	base.rename = function (name, newName)
@@ -1733,7 +1747,7 @@ function bbcodeFormat(options)
 	 * Removes a BBCode
 	 *
 	 * @param {string} name
-	 * @return {this}
+	 * @returns {this}
 	 * @since 2.0.0
 	 */
 	base.remove = function (name)
