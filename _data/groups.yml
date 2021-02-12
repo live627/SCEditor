@@ -1,6 +1,8 @@
 func:
-    name: Function Database
-    counter: functions
-hooks:
-    name: Integration Hooks
-    counter: hooks
+    name: API
+docs:
+    name: Documentation
+formats:
+    name: Formats
+plugins:
+    name: Plugins
