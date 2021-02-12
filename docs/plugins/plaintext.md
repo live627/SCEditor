@@ -3,12 +3,12 @@ group: plugins
 title: Plaintext
 excerpt: Adds option to remove formatting when pasting.
 ---
-# Plaintext plugin <a id="plaintext"></a>
+# Plaintext plugin
 
 Removes all formatting when pasting content in the editor.
 
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable this plugin add `plaintext` to the `plugins` option. e.g.
 

@@ -43,7 +43,7 @@ where `[name]` is the name used with `sceditor.command.set()`. See [Theming](/do
 Once you've created a command you can add it to the editor toolbar via the [toolbar option](/documentation/options/#toolbar).
 
 
-## Structure of a command object: <a id="command-structure"></a>
+## Structure of a command object:
 
 ```js
 {
@@ -55,7 +55,7 @@ Once you've created a command you can add it to the editor toolbar via the [tool
 ```
 
 
-## exec <a id="exec"></a>
+## exec
 
 **exec** *String or function*
 
@@ -82,16 +82,16 @@ exec: 'bold'
 ```
 
 
-## errorMessage <a id="errorMessage"></a>
+## errorMessage
 
 **errorMessage** *String*
 
 Error message to show if the `exec` fails when calling the browsers native `execCommand()`. Only applies if `exec` is a string.
 
 
-## shortcut <a id="shortcut"></a>
+## shortcut
 
-## state <a id="state"></a>
+## state
 
 **state** *String or function*
 
@@ -106,7 +106,7 @@ parent node as arguments. It should return `-1`, `0` or `1` where:
 - `1` is active (shows as pressed)
 
 
-## txtExec <a id="txtExec"></a>
+## txtExec
 
 **txtExec** *String or array*
 
@@ -132,7 +132,7 @@ txtExec: ['[b]', '[/b]']
 ```
 
 
-## tooltip <a id="tooltip"></a>
+## tooltip
 
 **tooltip** *String*
 

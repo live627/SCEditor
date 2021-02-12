@@ -15,7 +15,7 @@ If using custom `storageKey` it will need to be passed as the first argument to
     storageKey option or override the load and save handlers.
 </div>
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable this plugin add `autosave` to the `plugins` option. e.g.
 

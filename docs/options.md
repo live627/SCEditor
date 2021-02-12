@@ -3,7 +3,7 @@ group: docs
 title: Options
 ---
 
-## Specifying options <a id="specifying"></a>
+## Specifying options
 
 All options should be passed via the constructor.
 
@@ -22,7 +22,7 @@ sceditor.create(textarea, {
 ```
 
 
-## toolbar <a id="toolbar"></a>
+## toolbar
 
 **toolbar** *String* Defaults to a list of all the built in commands
 
@@ -70,28 +70,28 @@ The default commands bundled with the editor are:
  * **source**
 
 
-## toolbarExclude <a id="toolbarexclude"></a>
+## toolbarExclude
 
 **toolbarExclude** *String* Defaults to `null`
 
 Comma separated list of commands to exclude from the toolbar. Leave as `null` to not exclude any.
 
 
-## style <a id="style"></a>
+## style
 
 **style** *String*
 
 URL of the stylesheet to used to style the <abbr title="What You See Is What You Get">WYSIWYG</abbr> editors content.
 
 
-## fonts <a id="fonts"></a>
+## fonts
 
 **fonts** *String* Defaults to `"Arial,Arial Black,Comic Sans MS,Courier New,Georgia,Impact,Sans-serif,Serif,Times New Roman,Trebuchet MS,Verdana"`
 
 A comma separated list of fonts to use with the font selector.
 
 
-## colors <a id="colors"></a>
+## colors
 
 **colors** *String* Defaults to `null`
 
@@ -119,35 +119,35 @@ Would produce:
 </div>
 
 
-## locale <a id="locale"></a>
+## locale
 
 **locale** *String* Defaults to `"en"`
 
 The locale to use, e.g.: `en`, `en-US`, `fr`, etc.
 
 
-## charset <a id="charset"></a>
+## charset
 
 **charset** *String* Defaults to `"utf-8"`
 
 The charset to use for the <abbr title="What You See Is What You Get">WYSIWYG</abbr> content.
 
 
-## startInSourceMode <a id="startInSourceMode"></a>
+## startInSourceMode
 
 **startInSourceMode** *Bool* Defaults to `false`
 
 If to start the editor in source mode. Set to `true` to start in source mode.
 
 
-## emoticonsEnabled <a id="emoticonsEnabled"></a>
+## emoticonsEnabled
 
 **emoticonsEnabled** *Bool* Defaults to `true`
 
 If emoticons should be enabled. Set to `false` to disable emoticons.
 
 
-## emoticonsCompat <a id="emoticonsCompat"></a>
+## emoticonsCompat
 
 **emoticonsCompat** *Bool* Defaults to `false`
 
@@ -156,14 +156,14 @@ Enables or disables emoticons compatibility mode.
 When this is enabled, emoticons must be surrounded by whitespace or <abbr title="End Of Line">EOL</abbr> characters. For example, if you have an emoticon with the code `:/`, in compatibility mode it will not replace the `:/` in `http://`.
 
 
-## emoticonsRoot <a id="emoticonsRoot"></a>
+## emoticonsRoot
 
 **emoticonsRoot** *String* Defaults to an empty string
 
 Root URL of all emoticons. This string will be prepended to all emoticon URLs.
 
 
-## emoticons <a id="emoticons"></a>
+## emoticons
 
 **emoticons** *Object*
 
@@ -191,7 +191,7 @@ Object in the following format:
 ```
 
 
-## icons <a id="icons"></a>
+## icons
 
 **icons** *String* Defaults to `null`
 
@@ -200,7 +200,7 @@ Icon set to use with the editor. If this is null no icon set will be used and ic
 The bundled icon sets are [monocons](https://github.com/samclarke/monocons) (use `monocons` as the option value) and [material design icons](https://materialdesignicons.com/) (use `material` as the option value).
 
 
-## width <a id="width"></a>
+## width
 
 **width** *String or int* Defaults to `null`
 
@@ -209,7 +209,7 @@ Initial width of the editor. Can be either an int which will be treated as the p
 If set to null the width will be set to the width of the textarea it is replacing.
 
 
-## height <a id="height"></a>
+## height
 
 **height** *String or int* Defaults to `null`
 
@@ -218,56 +218,56 @@ Initial height of the editor. Can be either an int which will be treated as the 
 If set to null the height will be set to the height of the textarea it is replacing.
 
 
-## resizeEnabled <a id="resizeEnabled"></a>
+## resizeEnabled
 
 **resizeEnabled** *Bool* Defaults to `true`
 
 If to allow the editor to be resized. If set to true, a small grip will be added to the bottom right-hand corner (bottom left-hand corner in LTR mode) of the editor which allows it to be resized.
 
 
-## resizeMinWidth <a id="resizeMinWidth"></a>
+## resizeMinWidth
 
 **resizeEnabled** *int* Defaults to `null`
 
 Minimum width that the editor can be resized to. Set to null for half textarea width or -1 for unlimited.
 
 
-## resizeMinHeight <a id="resizeMinHeight"></a>
+## resizeMinHeight
 
 **resizeMinHeight** *int* Defaults to `null`
 
 Minimum height that the editor can be resized. Set to null for half textarea height or -1 for unlimited
 
 
-## resizeMaxHeight <a id="resizeMaxHeight"></a>
+## resizeMaxHeight
 
 **resizeMaxHeight** *int* Defaults to `null`
 
 Maximum height the editor can be resized to. Set to null for double textarea height or -1 for unlimited
 
 
-## resizeMaxWidth <a id="resizeMaxWidth"></a>
+## resizeMaxWidth
 
 **resizeMaxWidth** *int* Defaults to `null`
 
 Maximum width the editor can be resized to. Set to null for double textarea width or -1 for unlimited
 
 
-## resizeHeight <a id="resizeHeight"></a>
+## resizeHeight
 
 **resizeHeight** *bool* Defaults to `true`
 
 If to enable resizing the editors height.
 
 
-## resizeWidth <a id="resizeHeight"></a>
+## resizeWidth
 
 **resizeWidth** *bool* Defaults to `true`
 
 If to enable resizing the editors width.
 
 
-## dateFormat <a id="dateFormat"></a>
+## dateFormat
 
 **dateFormat** *String* Defaults to `"year-month-day"`
 
@@ -276,14 +276,14 @@ Date format to used by the date command. This option will be overridden if the c
 The words year, month and day will be replaced with the users current year, month and day.
 
 
-## toolbarContainer <a id="toolbarContainer"></a>
+## toolbarContainer
 
 **toolbarContainer** *HTMLElement* Defaults to `null`
 
 HTML node that to contain the toolbar into. Defaults to adding the toolbar above the iframe.
 
 
-## enablePasteFiltering <a id="enablePasteFiltering"></a>
+## enablePasteFiltering
 
 **enablePasteFiltering** *bool* Defaults to `false`
 
@@ -292,14 +292,14 @@ If to enable paste filtering. When text is pasted it will be filtered through an
 With the BBCode plugin this will cause any HTML without a valid BBCode to be stripped.
 
 
-## readOnly <a id="readOnly"></a>
+## readOnly
 
 **readOnly** *bool* Defaults to `false`
 
 If the editor is read only.
 
 
-## rtl <a id="rtl"></a>
+## rtl
 
 **rtl** *bool* Defaults to `false`
 
@@ -308,49 +308,49 @@ If to set the editor to right-to-left mode.
 This can be changed at runtime with the `rtl(bool)` method.
 
 
-## autofocus <a id="autofocus"></a>
+## autofocus
 
 **autofocus** *bool* Defaults to `false`
 
 If to auto focus the editor on page load.
 
 
-## autofocusEnd <a id="autofocusEnd"></a>
+## autofocusEnd
 
 **autofocusEnd** *bool* Defaults to `true`
 
 If the cursor should be placed at the end when auto focusing or at the beginning.
 
 
-## autoExpand <a id="autoExpand"></a>
+## autoExpand
 
 **autoExpand** *bool* Defaults to `false`
 
 If to auto expand the editor to fit the content
 
 
-## autoUpdate <a id="autoUpdate"></a>
+## autoUpdate
 
 **autoUpdate** *bool* Defaults to `false`
 
 If true, the original textbox will be updated with the editors current value when the editor loses focus.
 
 
-## runWithoutWysiwygSupport <a id="runWithoutWysiwygSupport"></a>
+## runWithoutWysiwygSupport
 
 **runWithoutWysiwygSupport** *bool* Defaults to `false`
 
 If to run the source editor when there is no browser <abbr title="What You See Is What You Get">WYSIWYG</abbr> support. Only really applies to mobile OS's as all modern desktop browsers support <abbr title="What You See Is What You Get">WYSIWYG</abbr> editing.
 
 
-## id <a id="id"></a>
+## id
 
 **id** *String* Defaults to `null`
 
 ID to assign the editor.
 
 
-## plugins <a id="plugins"></a>
+## plugins
 
 **plugins** *String* Defaults to an empty string
 
@@ -359,7 +359,7 @@ A commas separated list of plugins. e.g. `"plugin1,plugin2"`
 See plugins documentation for list of default plugins.
 
 
-## spellcheck <a id="spellcheck"></a>
+## spellcheck
 
 **spellcheck** *Boolean* Defaults to `true`
 
@@ -367,21 +367,21 @@ If to enable the browsers built in spell checker. This option is only really use
 
 
 
-## disableBlockRemove <a id="disableBlockRemove"></a>
+## disableBlockRemove
 
 **disableBlockRemove** *Boolean* Defaults to `false`
 
 By default the editor will remove block level elements when the cursor is placed at the start of them and backspace is pressed. This option allows that behaviour to be disabled.
 
 
-## parserOptions <a id="parserOptions"></a>
+## parserOptions
 
 **parserOptions** *Object* Defaults to an empty object
 
 If to trim the whitespace from the start and end of BBCode. By default the whitespace will be left.
 
 
-## bbcodeTrim <a id="bbcodeTrim"></a>
+## bbcodeTrim
 
 **bbcodeTrim** *Boolean* Defaults to `false`
 
@@ -413,7 +413,7 @@ will become:
 ```
 
 
-## dropDownCss <a id="dropDownCss"></a>
+## dropDownCss
 
 **dropDownCss** *Object* Defaults to an empty object
 

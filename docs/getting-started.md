@@ -3,7 +3,7 @@ group: docs
 title: Getting started
 ---
 
-## Include the <abbr title="JavaScript">JS</abbr> &amp; <abbr title="Cascading Style Sheet">CSS</abbr>: <a id="include"></a>
+## Include the <abbr title="JavaScript">JS</abbr> &amp; <abbr title="Cascading Style Sheet">CSS</abbr>:
 
 ```html
 <!-- Include the default theme -->
@@ -20,9 +20,9 @@ title: Getting started
 For a complete list of files, see the [Files](/documentation/files/) documentation page.
 
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
-### BBCode <a id="bbcode"></a>
+### BBCode
 
 To enable the BBCode plugin just add `bbcode` to the `format` option. e.g.
 
@@ -36,7 +36,7 @@ sceditor.create(textarea, {
 </script>
 ```
 
-### XHTML <a id="xhtml"></a>
+### XHTML
 
 To enable the XHTML plugin just add `xhtml` to the `format` option. e.g.
 

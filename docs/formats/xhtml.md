@@ -12,7 +12,7 @@ This format will convert the output of SCEditor into valid XHTML.
 </div>
 
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable the XHTML format, set the `format` option to `xhtml`. e.g.
 
@@ -27,12 +27,12 @@ sceditor.create(textarea, {
 ```
 
 
-## Options <a id="options"></a>
+## Options
 
 All of the options below should be set before creating an instance of the editor. If they are set after they will not take effect until source mode is toggled.
 
 
-## converters <a id="converters"></a>
+## converters
 
 `sceditor.formats.xhtml.converters` *Array*
 
@@ -93,7 +93,7 @@ sceditor.formats.xhtml.converters.push({
 The above will match any tag with the attibute `border` and convert the `border` attribute into `border-size` CSS.
 
 
-## allowedAttribs <a id="allowedAttribs"></a>
+## allowedAttribs
 
 `sceditor.formats.xhtml.allowedAttribs` *Object*
 
@@ -134,7 +134,7 @@ sceditor.formats.xhtml.disallowedAttribs = {
 Acts as a blacklist of disallowed tags. If null or empty then all tags will be allowed.
 
 
-## disallowedAttribs <a id="disallowedAttribs"></a>
+## disallowedAttribs
 
 `sceditor.formats.xhtml.disallowedAttribs` *Object*
 
@@ -147,7 +147,7 @@ Acts as a blacklist of disallowed attributes. If null or empty then all attribut
 The format of `disallowedAttribs` is the same as `allowedAttribs` above except instead of allowing attributes, this will blacklist them.
 
 
-## allowedTags <a id="allowedTags"></a>
+## allowedTags
 
 `sceditor.formats.xhtml.allowedTags` *Array* 
 
@@ -158,7 +158,7 @@ sceditor.formats.xhtml.allowedTags = ['a', 'strong', 'p', 'span', 'div'];
 ```
 
 
-## disallowedTags <a id="disallowedTags"></a>
+## disallowedTags
 
 `sceditor.formats.xhtml.disallowedTags` *Array*
 

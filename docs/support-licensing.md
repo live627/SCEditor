@@ -3,12 +3,12 @@ group: docs
 title: Support & Licensing
 ---
 
-## Support <a id="support"></a>
+## Support
 
 If you have any questions or comments about SCEditor, you can contact me directly at `sam [at] sceditor.com`.
 
 
-## Licensing <a id="licensing"></a>
+## Licensing
 
 SCEditor is licensed under the MIT license:
 
@@ -36,7 +36,7 @@ SCEditor is licensed under the MIT license:
 </div>
 
 
-## FAQ <a id="faq"></a>
+## FAQ
 
 
 ### I've found a bug!

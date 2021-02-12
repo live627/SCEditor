@@ -7,7 +7,7 @@ Adds file drag and drop support to SCEditor.
 
 An example of it in use uploading images to imgur is [available here](/posts/drag-drop-upload-demo/).
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable this plugin add `dragdrop` to the `plugins` option and
 specify the dragdrop options. e.g.

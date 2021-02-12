@@ -8,7 +8,7 @@ By default if a browser doesn't support <abbr title="What You See Is What You Ge
 You can set the editor to run in source mode if there is no <abbr title="What You See Is What You Get">WYSIWYG</abbr> support by setting the [runWithoutWysiwygSupport](/documentation/options/#runWithoutWysiwygSupport) to `true` editors in the constructor.
 
 
-## Desktop <a id="desktop"></a>
+## Desktop
 
  * Chrome & Chromium
  * Safari
@@ -17,7 +17,7 @@ You can set the editor to run in source mode if there is no <abbr title="What Yo
  * Opera
 
 
-## Mobile <a id="mobile"></a>
+## Mobile
 
  * Chrome
  * Firefox

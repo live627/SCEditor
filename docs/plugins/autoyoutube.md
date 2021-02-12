@@ -5,7 +5,7 @@ excerpt: Automatically converts pasted YouTube links into video embeds.
 ---
 Automatically converts YouTube links pasted into the editor into video embeds.
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable this plugin add `autoyoutube` to the `plugins` option. e.g.
 

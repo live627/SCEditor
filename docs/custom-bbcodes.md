@@ -3,7 +3,7 @@ group: docs
 title: Custom BBCodes
 ---
 
-## Creating/Updating a BBCode <a id="adding"></a>
+## Creating/Updating a BBCode
 
 To add a new BBCode, use the `sceditor.formats.bbcode.set()` function.
 
@@ -19,7 +19,7 @@ To add a new BBCode, use the `sceditor.formats.bbcode.set()` function.
   The BBCode object. See below for more information
 
 
-## Structure of a BBCode object <a id="bbcode-structure"></a>
+## Structure of a BBCode object
 
 ```js
 {
@@ -54,7 +54,7 @@ To add a new BBCode, use the `sceditor.formats.bbcode.set()` function.
 }
 ```
 
-## styles <a id="styles"></a>
+## styles
 
 **styles** *object* Defaults to `null`
 
@@ -94,7 +94,7 @@ format: function(element, content) {
 </div>
 
 
-## tags <a id="tags"></a>
+## tags
 
 **tags** *object* Defaults to `null`
 
@@ -130,28 +130,28 @@ To match all occurrences of a tag with an attribute with a specific value do:
 This will match any tag that is an instance of `<tag-name>` and has the attribute `attribute-name` with the value `value1` or `value2`.
 
 
-## isSelfClosing <a id="isSelfClosing"></a>
+## isSelfClosing
 
 **isSelfClosing** *Bool* Defaults to `false`
 
 If this BBCode is a self closing tag (has no closing tag i.e. `[hr]`).
 
 
-## isInline <a id="isInline"></a>
+## isInline
 
 **isInline** *Bool* Defaults to `true`
 
 If this BBCode is an inline or block level BBCode.
 
 
-## isHtmlInline <a id="isHtmlInline"></a>
+## isHtmlInline
 
 **isHtmlInline** *Bool or undefined* Defaults to `undefined`
 
 If this output HTML for this BBCode is inline or not. Only needs to be set if it differs from the BBCodes `isInline` value. If undefined this is ignored and `isInline` is used.
 
 
-## allowedChildren <a id="allowedChildren"></a>
+## allowedChildren
 
 **allowedChildren** *Array or null* Defaults to `null`
 
@@ -164,35 +164,35 @@ To only allow bold and italic as children:
 `allowedChildren: ['b', 'i']`
 
 
-## allowsEmpty <a id="allowsEmpty"></a>
+## allowsEmpty
 
 **allowsEmpty** *Bool* Defaults to `false`
 
 If this tag is allowed to be empty (have no children or content).
 
 
-## excludeClosing <a id="excludeClosing"></a>
+## excludeClosing
 
 **excludeClosing** *Bool* Defaults to `false`
 
 If to not add a closing tag. Mostly so that `[*]` can be used without `[/*]`.
 
 
-## skipLastLineBreak <a id="skipLastLineBreak"></a>
+## skipLastLineBreak
 
 **skipLastLineBreak** *Bool* Defaults to `false`
 
 Block level tags have an extra `<br />` added to the end of them in all browsers except IE. If this is set to true the extra line break will not be added.
 
 
-## breakBefore <a id="breakBefore"></a>
+## breakBefore
 
 **breakBefore** *Bool* Defaults to `false`
 
 If to insert a new line before the start tag.
 
 
-## breakStart <a id="breakStart"></a>
+## breakStart
 
 **breakStart** *Bool* Defaults to `false`
 
@@ -203,7 +203,7 @@ If to insert a new line after the start tag.
 </span>
 
 
-## breakEnd <a id="breakEnd"></a>
+## breakEnd
 
 **breakEnd** *Bool* Defaults to `false`
 
@@ -214,13 +214,13 @@ If to insert a new line before the end tag.
 </span>
 
 
-## breakAfter <a id="breakAfter"></a>
+## breakAfter
 **breakAfter** *Bool* Defaults to `false`
 
 If to insert a new line after the end tag.
 
 
-## format <a id="format"></a>
+## format
 
 **format** *String or function*
 
@@ -245,7 +245,7 @@ function(element, content) {
 ```
 
 
-## html <a id="html"></a>
+## html
 
 **html** *String or function*
 

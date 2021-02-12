@@ -6,7 +6,7 @@ excerpt: BBCode format for SCEditor
 This format will convert the output of SCEditor to BBCode. To add custom BBCodes see the [Custom BBCodes page](/documentation/custom-bbcodes/).
 
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable the BBCode format, set the `format` option to `bbcode`. e.g.
 
@@ -21,12 +21,12 @@ sceditor.create(textarea, {
 ```
 
 
-## Custom BBCodes <a id="custom-bbcodes"></a>
+## Custom BBCodes
 
 To create custom BBCodes see the [Custom BBCodes page](/documentation/custom-bbcodes/).
 
 
-## Parser Options <a id="parser-options"></a>
+## Parser Options
 
 To set parser options, use the [parserOptions option](/documentation/options/#parserOptions) when creating the editor.
 
@@ -138,7 +138,7 @@ Should be one of the following values:
 
 
 
-## Added methods <a id="methods"></a>
+## Added methods
 
 When the BBCode plugin is enabled, it will add the methods `toBBCode()` and `fromBBCode()` to the editor instance.
 

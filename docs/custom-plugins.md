@@ -3,7 +3,7 @@ group: docs
 title: Custom Plugins
 ---
 
-## Creating a Plugin <a id="creating"></a>
+## Creating a Plugin
 
 Plugins *must* be added as a property of the `sceditor.plugins.*` object.
 
@@ -19,7 +19,7 @@ sceditor.plugins.myplugin = function() {
 To then enable the plugin in the editor, add `myplugin` to the [plugins option](/documentation/options/#plugins) when creating the editor.
 
 
-## Handling Signals <a id="handling-signals"></a>
+## Handling Signals
 
 To create a signal handler, just create a function with the name of the signal and it will automatically be called whenever that signal is raised.
 
@@ -38,19 +38,19 @@ sceditor.plugins.myplugin = function() {
 All signals will have `this` set to the editor instance that the plugin applies to.
 
 
-## init <a id="init"></a>
+## init
 
 Called when the plugin is registered to the editor.
 
 
-## destroy <a id="destroy"></a>
+## destroy
 
 Called when `destroy()` is called on the editor or the plugin is removed from the editor.
 
 This signal should be used to unbind any DOM events and to do any clean up so that any memory used can be freed by the browser.
 
 
-## signalKeydownEvent <a id="signalKeydownEvent"></a>
+## signalKeydownEvent
 
 **Parameters:**
 
@@ -62,7 +62,7 @@ Called whenever the `keydown` event is triggered in either the WYSIWYG or Source
 Use `this.sourceMode()` to check which mode the editor is in.
 
 
-## signalKeyupEvent <a id="signalKeyupEvent"></a>
+## signalKeyupEvent
 
 **Parameters:**
 
@@ -74,7 +74,7 @@ Called whenever the `keyup` event is triggered in either the WYSIWYG or Source M
 Use `this.sourceMode()` to check which mode the editor is in.
 
 
-## signalKeypressEvent <a id="signalKeypressEvent"></a>
+## signalKeypressEvent
 
 **Parameters:**
 
@@ -86,7 +86,7 @@ Called whenever the `keypress` event is triggered in either the WYSIWYG or Sourc
 Use `this.sourceMode()` to check which mode the editor is in.
 
 
-## signalFocusEvent <a id="signalFocusEvent"></a>
+## signalFocusEvent
 
 **Parameters:**
 
@@ -98,7 +98,7 @@ Called whenever the `focus` event is triggered in either the WYSIWYG or Source M
 Use `this.sourceMode()` to check which mode the editor is in.
 
 
-## signalBlurEvent <a id="signalBlurEvent"></a>
+## signalBlurEvent
 
 **Parameters:**
 
@@ -110,7 +110,7 @@ Called whenever the `blur` event is triggered in either the WYSIWYG or Source Mo
 Use `this.sourceMode()` to check which mode the editor is in.
 
 
-## signalContextmenuEvent <a id="signalContextmenuEvent"></a>
+## signalContextmenuEvent
 
 **Parameters:**
 
@@ -122,7 +122,7 @@ Called whenever the `contextmenu` event is triggered in either the WYSIWYG or So
 Use `this.sourceMode()` to check which mode the editor is in.
 
 
-## signalSelectionchangedEvent <a id="signalSelectionchangedEvent"></a>
+## signalSelectionchangedEvent
 
 **Parameters:**
 

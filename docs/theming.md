@@ -2,7 +2,7 @@
 group: docs
 title: Theming
 ---
-## HTML Structure <a id="html-structure"></a>
+## HTML Structure
 
 Outline of SCEditors HTML structure.
 
@@ -42,7 +42,7 @@ Outline of SCEditors HTML structure.
 ```
 
 
-## CSS Structure <a id="css-structure"></a>
+## CSS Structure
 
 <span class="notice info">
 	The contents of the <abbr title="What You See Is What You Get">WYSIWYG</abbr> iframe is styled via an external stylesheet which can be passed via the [style option](/documentation/options/#style) in the editors constructor.
@@ -114,7 +114,7 @@ Outline of SCEditors HTML structure.
 </div>
 
 
-## Theme Structure <a id="theme-structure"></a>
+## Theme Structure
 
 All the default themes in LESS CSS format and are located in the `src/themes/` directory.
 

@@ -6,7 +6,7 @@ excerpt: Enables undo/redo functionality in SCEditor
 This plugin adds undo / redo support to SCEditor.
 
 
-## Initialise <a id="initialise"></a>
+## Initialise
 
 To enable the undo plugin add `undo` to the `plugins` option. e.g.
 
