@@ -1,4 +1,5 @@
 ---
+group: plugins
 title: AutoYoutube
 excerpt: Automatically converts pasted YouTube links into video embeds.
 ---

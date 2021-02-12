@@ -1,4 +1,5 @@
 ---
+group: docs
 title: Custom BBCodes
 ---
 

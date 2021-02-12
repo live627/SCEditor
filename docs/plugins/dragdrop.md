@@ -1,4 +1,5 @@
 ---
+group: plugins
 title: DragDrop
 excerpt: Adds file drag and drop support to SCEditor
 ---

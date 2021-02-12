@@ -1,4 +1,5 @@
 ---
+group: plugins
 title: Undo
 excerpt: Enables undo/redo functionality in SCEditor
 ---

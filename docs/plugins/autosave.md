@@ -1,4 +1,5 @@
 ---
+group: plugins
 title: AutoSave
 excerpt: Automatically saves the editors contents to localStorage.
 ---

@@ -1,4 +1,5 @@
 ---
+group: formats
 title: XHTML
 excerpt: XHTML format for SCEditor
 ---

@@ -1,4 +1,5 @@
 ---
+group: formats
 title: BBCode
 excerpt: BBCode format for SCEditor
 ---

@@ -1,4 +1,5 @@
 ---
+group: plugins
 title: Plaintext
 excerpt: Adds option to remove formatting when pasting.
 ---
