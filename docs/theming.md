@@ -48,7 +48,9 @@ Outline of SCEditors HTML structure.
 
 ## CSS Structure <a id="css-structure"></a>
 
-<span class="Label Label--info">Note:</span> The contents of the <abbr title="What You See Is What You Get">WYSIWYG</abbr> iframe is styled via an external stylesheet which can be passed via the [style option](/documentation/options/#style) in the editors constructor.
+<span class="notice info">
+	The contents of the <abbr title="What You See Is What You Get">WYSIWYG</abbr> iframe is styled via an external stylesheet which can be passed via the [style option](/documentation/options/#style) in the editors constructor.
+</span>
 
 <div class="well">
 	<ul>

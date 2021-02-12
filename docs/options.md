@@ -127,20 +127,6 @@ Would produce:
 
 The locale to use, e.g.: `en`, `en-US`, `fr`, etc.
 
-<span class="Label Label--important">Important</span> The language file must be included after the editors main JS file but before the editor is created. e.g.
-
-```html
-<script src="../minified/jquery.sceditor.min.js"></script>
-<script src="../languages/nl.js"></script>
-
-<!-- Create the editor after including the translation -->
-<script>
-sceditor.create(
-    ...
-);
-</script>
-```
-
 
 ## charset <a id="charset"></a>
 
@@ -403,6 +389,7 @@ If to trim the whitespace from the start and end of BBCode. By default the white
 
 <span class="Label Label--important">Important</span> This only applies if using
 the editor in BBCode mode.
+</span>
 
 Trims white space from the start and end of editors value.
 

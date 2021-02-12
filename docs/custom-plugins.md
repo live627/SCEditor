@@ -53,13 +53,6 @@ Called when `destroy()` is called on the editor or the plugin is removed from th
 This signal should be used to unbind any DOM events and to do any clean up so that any memory used can be freed by the browser.
 
 
-## signalReady <a id="signalReady"></a>
-
-Called after the editor is created.
-
-<span class="Label Label--important">Important:</span> This can be called before the page fully loaded.
-
-
 ## signalKeydownEvent <a id="signalKeydownEvent"></a>
 
 **Parameters:**
@@ -141,4 +134,6 @@ Use `this.sourceMode()` to check which mode the editor is in.
 
 Called whenever the selection has changed in the WYSIWYG editor.
 
-<span class="Label Label--important">Important:</span> This event does not occur when in source mode.
+<span  class="notice info">
+	This event does not occur when in source mode.
+</span>

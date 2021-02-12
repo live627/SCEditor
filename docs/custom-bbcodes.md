@@ -10,7 +10,9 @@ title: Custom BBCodes
 
 To add a new BBCode, use the `sceditor.formats.bbcode.set()` function.
 
-<span class="Label Label--warning">Warning:</span> This function will update any existing BBCode with the same name.
+<div class="notice info">
+	This function will update any existing BBCode with the same name.
+</div>
 
 `sceditor.formats.bbcode.set()` takes two arguments, `name` and `bbcode`.
 
@@ -77,8 +79,7 @@ To match all occurrences of a style regardless of value do:
 
 The `null` value means that the value of the CSS property doesn't matter all that matters is the node has the property `style-name`.
 
-<div class="Callout Callout--warning">
-	<h3 class="Callout__header">Warning</h3>
+<div class="notice warning">
 	<p>Currently it's not possible to target both styles and tags at the same time
   via the <code>styles</code> and <code>tags</code> properties.</p>
 	<p>To target a tags that have specific styles, target the tag using the <code>tags</code> property and then in the format method check if the node has the desired styles. If it does handle it otherwise just return the contents.</p>
@@ -200,7 +201,9 @@ If to insert a new line before the start tag.
 
 If to insert a new line after the start tag.
 
-<span class="Label Label--info">Note:</span> This does not apply to self closing tags.
+<span class="notice info">
+	This does not apply to self closing tags.
+</span>
 
 
 ## breakEnd <a id="breakEnd"></a>
@@ -209,7 +212,9 @@ If to insert a new line after the start tag.
 
 If to insert a new line before the end tag.
 
-<span class="Label Label--info">Note:</span> This does not apply to self closing tags.
+<span class="notice info">
+	This does not apply to self closing tags.
+</span>
 
 
 ## breakAfter <a id="breakAfter"></a>

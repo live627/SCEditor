@@ -4,12 +4,9 @@ title: XHTML
 excerpt: XHTML format for SCEditor
 ---
 
-# XHTML Format <a id="xhtml"></a>
-
 This format will convert the output of SCEditor into valid XHTML.
 
-<div class="Callout Callout--warning">
-	<h3 class="Callout__header">Warning!</h3>
+<div class="notice warning">
 	<p>Never trust the output from this format. Like all client side code the output can be altered or forged by attackers to produce XSS attacks.</p>
 	<p>Always make sure to filter user input server side through a library like <a href="http://htmlpurifier.org/">htmlpurifier (PHP)</a> or  <a href="https://www.owasp.org/index.php/OWASP_Java_HTML_Sanitizer">OWASP Java HTML Sanitizer</a> to prevent XSS attacks.</p>
 </div>
@@ -141,7 +138,9 @@ Acts as a blacklist of disallowed tags. If null or empty then all tags will be a
 
 `sceditor.formats.xhtml.disallowedAttribs` *Object*
 
-<span class="Label Label--important">Important:</span> This will only be used if allowedAttribs is empty.
+<span  class="notice info">
+	This will only be used if allowedAttribs is empty.
+</span>
 
 Acts as a blacklist of disallowed attributes. If null or empty then all attributes will be allowed.
 
@@ -163,7 +162,9 @@ sceditor.formats.xhtml.allowedTags = ['a', 'strong', 'p', 'span', 'div'];
 
 `sceditor.formats.xhtml.disallowedTags` *Array*
 
-<span class="Label Label--important">Important:</span> This will only be used if allowedTags is empty.
+<span  class="notice info">
+	This will only be used if allowedTags is empty.
+</span>
 
 Acts as a blacklist of disallowed tags. If null or empty then all tags will be allowed.
 

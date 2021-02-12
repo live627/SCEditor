@@ -9,7 +9,9 @@ title: Custom Commands
 
 To add/update a command use the `sceditor.command.set()` function.
 
-<span class="Label Label--warning">Warning:</span> This function will update any existing command with the same name.
+<div class="notice info">
+	This function will update any existing command with the same name.
+</div>
 
 The `sceditor.command.set()` function takes two arguments, `name` and `cmd`.
 

@@ -13,10 +13,9 @@ or when the method `sceditor.plugins.autosave.clear()` is manually called.
 If using custom `storageKey` it will need to be passed as the first argument to
 `clear()` if manually clearing the auto saved data.
 
-<div class="Callout Callout--warning">
-	<h3 class="Callout__header">Warning!</h3>
-	<p>If using multiple instances of the editor on a page, always specify the
-    storageKey option or override the load and save handlers.</p>
+<div class="notice warning">
+	If using multiple instances of the editor on a page, always specify the
+    storageKey option or override the load and save handlers.
 </div>
 
 ## Initialise <a id="initialise"></a>
