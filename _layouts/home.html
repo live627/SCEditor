@@ -6,9 +6,9 @@
             </dt>{% for p in site.pages | sort: 'title' %}{% if g[0] == p.group %}
             <dd>
                 <a href="{{ site.baseurl }}{{ p.url }}">
-                    {{ p.title }}{{ p.excerpt }}{% endif %}
-            </dd>{% endif %}{% endfor %}{%
-                </a>{% if p.excerpt %} — { endfor %}
+                    {{ p.title }}
+            </dd>{% endif %}{% endfor %}{% endfor %}
+                </a>{% if p.excerpt %} — {{ p.excerpt }}{% endif %}
         </dl>
     </article>
 {% include foot.html %}
