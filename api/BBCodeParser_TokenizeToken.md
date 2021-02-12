@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class\: TokenizeToken
-title: Class\: TokenizeToken
+navtitle: TokenizeToken
+title: TokenizeToken
 ---
 * auto-gen TOC:
 {:toc}# Class: TokenizeToken

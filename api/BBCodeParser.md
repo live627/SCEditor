@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class\: BBCodeParser
-title: Class\: BBCodeParser
+navtitle: BBCodeParser
+title: BBCodeParser
 ---
 * auto-gen TOC:
 {:toc}# Class: BBCodeParser

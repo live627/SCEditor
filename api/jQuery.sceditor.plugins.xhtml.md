@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class\: xhtml
-title: Class\: xhtml
+navtitle: xhtml
+title: xhtml
 ---
 * auto-gen TOC:
 {:toc}# Class: xhtml
