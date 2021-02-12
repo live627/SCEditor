@@ -5,7 +5,7 @@ navtitle: Class\: PluginManager
 title: Class\: PluginManager
 ---
 * auto-gen TOC:
-{:toc}# PluginManager
+{:toc}# Class: PluginManager
 
 ## PluginManager
 

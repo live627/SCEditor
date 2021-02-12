@@ -5,7 +5,7 @@ navtitle: Class\: SCEditor
 title: Class\: SCEditor
 ---
 * auto-gen TOC:
-{:toc}# SCEditor
+{:toc}# Class: SCEditor
 
 ## SCEditor
 

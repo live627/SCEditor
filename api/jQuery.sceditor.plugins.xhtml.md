@@ -5,7 +5,7 @@ navtitle: Class\: xhtml
 title: Class\: xhtml
 ---
 * auto-gen TOC:
-{:toc}# xhtml
+{:toc}# Class: xhtml
 
 ## xhtml
 

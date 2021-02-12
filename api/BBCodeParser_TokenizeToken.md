@@ -5,7 +5,7 @@ navtitle: Class\: TokenizeToken
 title: Class\: TokenizeToken
 ---
 * auto-gen TOC:
-{:toc}# TokenizeToken
+{:toc}# Class: TokenizeToken
 
 ## [BBCodeParser](BBCodeParser.md)#TokenizeToken
 

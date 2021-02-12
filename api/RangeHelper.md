@@ -5,7 +5,7 @@ navtitle: Class\: RangeHelper
 title: Class\: RangeHelper
 ---
 * auto-gen TOC:
-{:toc}# RangeHelper
+{:toc}# Class: RangeHelper
 
 ## RangeHelper
 
