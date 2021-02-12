@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class: RangeHelper
-title: Class: RangeHelper
+navtitle: Class\: RangeHelper
+title: Class\: RangeHelper
 ---
 * auto-gen TOC:
 {:toc}# Class: RangeHelper

@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class: XHTMLSerializer
-title: Class: XHTMLSerializer
+navtitle: Class\: XHTMLSerializer
+title: Class\: XHTMLSerializer
 ---
 * auto-gen TOC:
 {:toc}# Class: XHTMLSerializer

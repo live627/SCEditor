@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class: PluginManager
-title: Class: PluginManager
+navtitle: Class\: PluginManager
+title: Class\: PluginManager
 ---
 * auto-gen TOC:
 {:toc}# Class: PluginManager

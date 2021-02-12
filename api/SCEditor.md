@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Class: SCEditor
-title: Class: SCEditor
+navtitle: Class\: SCEditor
+title: Class\: SCEditor
 ---
 * auto-gen TOC:
 {:toc}# Class: SCEditor

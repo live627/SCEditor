@@ -1,8 +1,8 @@
 ---
 layout: default
 group: func
-navtitle: Module: dom
-title: Module: dom
+navtitle: Module\: dom
+title: Module\: dom
 ---
 * auto-gen TOC:
 {:toc}# Module: dom

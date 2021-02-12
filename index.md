@@ -1,4 +1,4 @@
 ---
 layout: home
-title: Unofficial SMF API Documentation
+title: SCEditor Documentation
 ---
