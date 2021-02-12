@@ -3,9 +3,6 @@ group: docs
 title: Getting started
 ---
 
-# Quick Start <a id="quick-start"></a>
-
-
 ## Include the <abbr title="JavaScript">JS</abbr> &amp; <abbr title="Cascading Style Sheet">CSS</abbr>: <a id="include"></a>
 
 ```html

@@ -3,9 +3,6 @@ group: docs
 title: Custom BBCodes
 ---
 
-# Custom BBCodes <a id="custom-bbcodes"></a>
-
-
 ## Creating/Updating a BBCode <a id="adding"></a>
 
 To add a new BBCode, use the `sceditor.formats.bbcode.set()` function.

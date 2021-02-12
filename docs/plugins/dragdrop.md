@@ -3,14 +3,13 @@ group: plugins
 title: DragDrop
 excerpt: Adds file drag and drop support to SCEditor
 ---
-# DragDrop plugin <a id="dragdrop"></a>
-
 Adds file drag and drop support to SCEditor.
+
 An example of it in use uploading images to imgur is [available here](/posts/drag-drop-upload-demo/).
 
 ## Initialise <a id="initialise"></a>
 
-To enable the plaintext plugin add `dragdrop` to the `plugins` option and
+To enable this plugin add `dragdrop` to the `plugins` option and
 specify the dragdrop options. e.g.
 
 ```html

@@ -10,7 +10,7 @@ Removes all formatting when pasting content in the editor.
 
 ## Initialise <a id="initialise"></a>
 
-To enable the plaintext plugin add `plaintext` to the `plugins` option. e.g.
+To enable this plugin add `plaintext` to the `plugins` option. e.g.
 
 ```html
 <script>

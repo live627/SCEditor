@@ -3,9 +3,6 @@ group: plugins
 title: Undo
 excerpt: Enables undo/redo functionality in SCEditor
 ---
-
-# Undo Plugin <a id="undo"></a>
-
 This plugin adds undo / redo support to SCEditor.
 
 

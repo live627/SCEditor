@@ -3,9 +3,6 @@ group: plugins
 title: AutoSave
 excerpt: Automatically saves the editors contents to localStorage.
 ---
-
-# AutoSave plugin <a id="autosave"></a>
-
 Automatically saves the editors contents (for 1 day by default) to localStorage.
 
 It will remove auto saved content when a form containing the editor is submitted
@@ -20,7 +17,7 @@ If using custom `storageKey` it will need to be passed as the first argument to
 
 ## Initialise <a id="initialise"></a>
 
-To enable the plaintext plugin add `autosave` to the `plugins` option. e.g.
+To enable this plugin add `autosave` to the `plugins` option. e.g.
 
 ```html
 <script>

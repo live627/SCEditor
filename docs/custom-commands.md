@@ -3,8 +3,6 @@ group: docs
 title: Custom Commands
 ---
 
-# Custom Commands <a id="custom-commands"></a>
-
 ## Creating/Updating a Custom Command<a id="creating-command"></a>
 
 To add/update a command use the `sceditor.command.set()` function.

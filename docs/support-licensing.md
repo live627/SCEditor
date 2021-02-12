@@ -3,9 +3,6 @@ group: docs
 title: Support & Licensing
 ---
 
-# Support/Licensing
-
-
 ## Support <a id="support"></a>
 
 If you have any questions or comments about SCEditor, you can contact me directly at `sam [at] sceditor.com`.

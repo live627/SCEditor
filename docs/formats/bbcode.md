@@ -3,9 +3,6 @@ group: formats
 title: BBCode
 excerpt: BBCode format for SCEditor
 ---
-
-# BBCode Format <a id="bbcode"></a>
-
 This format will convert the output of SCEditor to BBCode. To add custom BBCodes see the [Custom BBCodes page](/documentation/custom-bbcodes/).
 
 

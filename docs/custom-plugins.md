@@ -3,9 +3,6 @@ group: docs
 title: Custom Plugins
 ---
 
-# Custom Plugins <a id="custom-plugins"></a>
-
-
 ## Creating a Plugin <a id="creating"></a>
 
 Plugins *must* be added as a property of the `sceditor.plugins.*` object.

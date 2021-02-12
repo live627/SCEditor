@@ -3,8 +3,6 @@ group: docs
 title: Options
 ---
 
-# Options
-
 ## Specifying options <a id="specifying"></a>
 
 All options should be passed via the constructor.

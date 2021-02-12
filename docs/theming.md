@@ -2,10 +2,6 @@
 group: docs
 title: Theming
 ---
-
-# Theming
-
-
 ## HTML Structure <a id="html-structure"></a>
 
 Outline of SCEditors HTML structure.
