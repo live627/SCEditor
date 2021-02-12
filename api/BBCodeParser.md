@@ -5,7 +5,7 @@ navtitle: Class\: BBCodeParser
 title: Class\: BBCodeParser
 ---
 * auto-gen TOC:
-{:toc}# Class: BBCodeParser
+{:toc}# BBCodeParser
 
 ## BBCodeParser
 

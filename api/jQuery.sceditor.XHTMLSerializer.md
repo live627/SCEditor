@@ -5,7 +5,7 @@ navtitle: Class\: XHTMLSerializer
 title: Class\: XHTMLSerializer
 ---
 * auto-gen TOC:
-{:toc}# Class: XHTMLSerializer
+{:toc}# XHTMLSerializer
 
 ## XHTMLSerializer
 
