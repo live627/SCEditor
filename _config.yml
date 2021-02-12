@@ -1,3 +1,4 @@
 name: SCEditor Documentation
 baseurl: /SCEditor
 highlighter: rouge
+permalink: /:path/:name
