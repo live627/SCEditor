@@ -85,25 +85,21 @@ var commands = {
 	bulletlist: {
 		code(selected)
 		{
-			var content = '';
-
-			for (const line of selected.split(/\r?\n/))
-				content += (content ? '\n' : '') +
-							'[li]' + line + '[/li]';
-
-			this.insertText('[ul]\n' + content + '\n[/ul]');
+			this.insertText(
+				'[ul]\n[li]' +
+				selected.split(/\r?\n/).join('[/li]\n[li]') +
+				'[/li]\n[/ul]'
+			);
 		}
 	},
 	orderedlist: {
 		code(selected)
 		{
-			var content = '';
-
-			for (const line of selected.split(/\r?\n/))
-				content += (content ? '\n' : '') +
-							'[li]' + line + '[/li]';
-
-			this.insertText('[ol]\n' + content + '\n[/ol]');
+			this.insertText(
+				'[ol]\n[li]' +
+				selected.split(/\r?\n/).join('[/li]\n[li]') +
+				'[/li]\n[/ol]'
+			);
 		}
 	},
 	table: {
