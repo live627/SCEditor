@@ -1,7 +1,6 @@
 on:
-  - pull_request
+  - pull_request_target
 name: Dependabot Auto Merge
-
 jobs:
   automerge:
     runs-on: ubuntu-latest
