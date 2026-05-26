@@ -2323,7 +2323,6 @@
 			return content;
 		}
 
-
 		/**
 		 * Handles a HTML tag and finds any matching BBCodes
 		 *
