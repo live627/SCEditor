@@ -61,8 +61,8 @@
     "rollup": "^3.29.5",
     "rollup-plugin-terser": "^7.0.2",
     "sinon": "^10.0.0",
-    "stylelint": "^15.6.0",
-    "stylelint-config-sass-guidelines": "^10.0.0",
+    "stylelint": "^17.16.0",
+    "stylelint-config-sass-guidelines": "^13.0.0",
     "vinyl-map": "^1.0.2"
   },
   "dependencies": {}
